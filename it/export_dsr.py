@@ -169,7 +169,7 @@ def export_dsr_details(request):
 
 	get_month 		= monthrange(int(format_year),int(int_month))[1]	
 	stat_dt_format 	= '2025-03-01' #str(format_year)+'-'+str(int_month)+'-01'
-	end_dt_format 	= '2025-04-30' #str(format_year)+'-'+str(int_month)+'-'+str(get_month)
+	end_dt_format 	= '2025-03-31' #str(format_year)+'-'+str(int_month)+'-'+str(get_month)
 	#print '-----',stat_dt_format,'----',end_dt_format
 	#client_details 	= ['Cargill','Litasco','Litasco_Dubai','Navig8','Phillips 66','Shell','Shell NWE','Stena Bulk','Stena Bulk Veg Oil','Teekay','Ultranav','Union Maritime']
 	ship_type 		= '0'
