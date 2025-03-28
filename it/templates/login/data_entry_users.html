@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<div class="row">
+	 <div class="col-lg-12">
+    	<h1 class="page-header">Create Users Login</h1>
+ 	</div>
+</div>
+ <div class="row">
+	<div class="col-lg-12">
+ 		 <div class="panel-body">
+			<div class="row">
+				<div class="col-lg-6">
+					<form id = "user_entry_form" onsubmit="return false;">
+					 <!--DIV USED TO DISPLAY Success MESSAGES-->
+                        <div id ="success" class="alert alert-success alert-dismissable" style = "display : none">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            User Credential entered successfully
+                        </div>
+                        <!--DIV USED TO DISPLAY ERROR MESSAGES-->
+                        <div id="danger" class="alert alert-danger alert-dismissable" style = "display : none">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <div id = "danger_msg">
+                                Something went wrong..
+                            </div>
+                        </div>
+                        <div id="pass_not_match" class="alert alert-danger alert-dismissable" style = "display : none">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <div id = "danger_msg">
+                                Password does not match.
+                            </div>
+                        </div>
+						<div class="form-group">
+                            <label>Client type</label>
+							  	<select id="client_type" class="form-control" name = "client_type">
+							        <option value="0">Select User type</option>
+									<option value = '1'>Client</option>
+                                    <option value = '2'>Pool</option>
+                                    <option value = '3'>Voyage Manager</option>
+                                    <option value = '4'>Ship</option>
+                                    <option value = '5'>Charterer</option>
+                                    <option value = '6'>Receiver</option>
+
+								</select>
+						</div>
+
+                        <div id="data_contain" class = "form-group">
+                        <!-- data from javascript -->
+                        </div>
+
+						<div class = "form-group" id="user_div">
+							<label>Username</label>
+								<input type="text" class="form-control" name="user_name" id="user_name" placeholder="Enter User Name">
+						</div>
+                        <div class = "form-group" id="pass_div">
+                            <label>Password</label>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
+                            <div style="font-size:10px; font-color:grey;">(password must contain an alphabet and number with atleast 8 characters)</div>
+                        </div>
+                        <div class = "form-group" id="renter_div">
+                                <label>Confirm Password</label>
+                                    <input type="password" class="form-control" name="password" id="reenter_pass" placeholder="Reenter password">
+                                    <div id="error_msg" style="font-size:10px; font-color:Red; display:none;">(Password does not match)</div>
+                        </div>
+		 				<div class = "form-group">
+                                <label>Email</label>
+                                    <input type="text" class="form-control" name="email" id="email" placeholder="Enter email">
+
+                        </div>
+
+					</form>
+
+					<button id = "submit" onclick="save()" class="btn btn-default">Submit</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function save(){
+
+    var client_type=null;
+    var type=$('#client_type').val();
+    if(type==1)
+            {
+                client_type=null;
+                client_type='client'
+            }
+            else if(type==2)
+            {
+                client_type=null;
+                client_type='pool'
+            }
+            else if(type==3)
+            {
+                client_type=null;
+                client_type='voyage_manager'
+            }
+            else if(type==4)
+            {
+                client_type=null;
+                client_type='ship'
+            }
+            else if(type==5)
+            {
+                client_type=null;
+                client_type='charterer'
+            }
+            else if(type==6)
+            {
+                client_type=null;
+                client_type='receiver'
+            }
+    if(type==0){
+        alert('Please select Client Type');
+    }
+    else{
+        var user_type=client_type;
+        alert(user_type);
+        //var obj_data=$('#data').val();
+        //alert(obj_data);
+        var username=$('#user_name').val();
+        var password=$('#password').val();
+        var email=$('#email').val();
+        $.ajax({
+            type:'POST',
+            url:'/it/user_entry',
+            data:{
+                user_type:user_type,
+                //obj_id:obj_data,
+                username:username,
+                password:password,
+                email:email,
+                csrfmiddlewaretoken: csrftoken
+            },
+
+            success:function(json_data){
+                $('#user_entry_form')[0].reset();
+                $('#success').css("display","");
+                $('#error').css("display","none");
+                //alert('ho gya');
+            },
+            error: function(err){
+              // $('#success').css("display","none");
+              //   $('#error').css("display","");
+              console.log(JSON.stringify(err,null,4));
+
+            }
+        });
+    }
+}
+
+$(document).on('change','#client_type',function(){
+
+    var client_type=$(this).val();    
+    $.ajax({
+        url:'/hb/usertype_selecthandler',
+        data:{client_type:JSON.stringify(client_type)},
+        type:'get',
+        dataType:'json',
+        success:function(obj_data){
+            type=obj_data['type'];
+            list=obj_data['list'];
+            $('#data').empty();
+            var client_type=null;
+            if(type==1)
+            {
+                client_type=null;
+                client_type='Client'
+            }
+            else if(type==2)
+            {
+                client_type=null;
+                client_type='Pool Name'
+            }
+            else if(type==3)
+            {
+                client_type=null;
+                client_type='Voyage Manager'
+            }
+            else if(type==4)
+            {
+                client_type=null;
+                client_type='Ship'
+            }
+            else if(type==5)
+            {
+                client_type=null;
+                client_type='Charterer'
+            }
+            else if(type==6)
+            {
+                client_type=null;
+                client_type='Receiver'
+            }
+
+            $('#data_contain').empty();
+            $('#data_contain').append('<label>'+client_type+'</label>');
+            $('#data_contain').append('<select id="data" class="form-control" name = "ship" id = "ship"></select>');
+
+            for(var i=0;i<list.length;i++){
+                $('#data').append(
+                    '<option value='+list[i][0]+'>'
+                      +list[i][1] +'</option>'
+                            );
+            }
+        },
+
+        error: function(err){
+
+            console.log(JSON.stringify(err,null,4));
+        },
+    });
+});
+
+
+
+$(document).on('click','#voyage_manager',function(){
+
+        $('#success').css("display","none");
+});
+
+$(document).on('change', '#reenter_pass', function(){
+
+    var original_pass = $('#password').val();
+
+    if (original_pass == $('#reenter_pass').val()){
+        // $('#pass_match').css("display", "");
+        $('#renter_div').removeClass("has-error");
+        $('#renter_div').addClass("has-success");
+
+          $('#error_msg').css("display","none");
+    }
+    else{
+        $('#renter_div').removeClass("has-success");
+        $('#renter_div').addClass("has-error");
+        $('#error_msg').css("display","");
+    }
+});
+
+
+$(document).on('change', '#password', function(){
+
+ var password=$(this).val();
+
+ if(password.length<8 || !(password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) || !(password.match(/([0-9])/)) )
+    $("#pass_div").addClass("has-error");
+ else
+    $("#pass_div").removeClass("has-error");
+
+
+});
+
+
+</script>
+{% endblock %}

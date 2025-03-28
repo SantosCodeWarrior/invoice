@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
+<!-- <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">   -->
+<style type="text/css">
+.form-group input[type="checkbox"] {
+display: none;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span {
+	width: 20px;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span:first-child {
+	display: none;
+}
+.form-group input[type="checkbox"] + .btn-group > label span:last-child {
+	display: inline-block;   
+}
+
+.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+	display: inline-block;
+}
+.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+	display: none;   
+}
+</style>
+
+
+
+
+<div class="container">
+  <div class="col-md-5">
+  	<h3>Edit Invoice Details</h3>
+    <div class="box">
+	    	<div class="input-group">
+		      <span class="input-group-addon" style="width:40%">Invoice No </span>			     
+		      <input id="invoice_no" type="text" class="form-control col-md-7" readonly="readonly">
+		    </div>
+
+		    <div class="input-group">
+		      <span class="input-group-addon" style="width:40%">Voyage No </span>			     
+		      <input id="voyage_no" type="text" class="form-control col-md-7">
+		    </div>
+
+	    	<table id="invoice_tracker" class="table table-condensed table-striped">
+			<thead>
+				<tr>
+					<th><font color="black">S.No</font></th>        			
+        			<th><font color="black">Ship Name</font></th>        			       	
+				</tr>
+			</thead>
+			<tbody id="invoice_det"></tbody>	
+			</table>   
+
+
+
+
+           <!--  <div class="input-group">
+		      <span class="input-group-addon" style="width:40%">Ship Name </span>			     
+		      <input id="ship_name" type="text" class="form-control col-md-7">
+		    </div> -->
+		    
+		    
+		    <div class="input-group">
+		      <span class="input-group-addon" style="width:40%">Received Date </span>			     
+		      <input id="received_date" type="text" class="form-control col-md-7">
+		    </div>
+		    
+		    <div class="input-group">
+		      <span class="input-group-addon" style="width:40%">Received <b>(USD)</b> </span>			     
+		      <input id="received_usd" type="text" class="form-control col-md-7">
+		    </div>
+
+		    <div class="input-group">
+		      <span class="input-group-addon" style="width:40%">Remark </span>			     
+		      <input id="remark" type="text" class="form-control col-md-7" value="Paid">
+		    </div>
+
+		    <div class="form-group">
+	            <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary" autocomplete="off" />
+	            <div class="btn-group">
+	                <label for="fancy-checkbox-primary" class="btn btn-primary">
+	                    <span class="glyphicon glyphicon-ok"></span>
+	                    <span> </span>
+	                </label>
+	                <label for="fancy-checkbox-primary" class="btn btn-default active">
+	                    Cancel Invoice
+	                </label>
+	            </div>
+        	</div>
+	    </div>
+	</div>
+	<div class="form-group">
+        <button class="btn btn-warning col-md-10" id="payment">Submit</button>
+        <button class="btn btn-danger" id="check_paid_unpaid">Paid/Unpaid</button>
+	</div>
+</div>	
+
+<script type="text/javascript">
+function parseURLParams(url) {
+    var queryStart = url.indexOf("?") + 1,
+    queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+    query = url.slice(queryStart, queryEnd - 1),
+    pairs = query.replace(/\+/g, " ").split("&"),
+    parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") {
+        return;
+    }
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=");
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+        if (!parms.hasOwnProperty(n)) {
+            parms[n] = [];
+        }
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
+}
+</script>
+
+<script type="text/javascript">
+function SetDate()
+{
+  var date = new Date();
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+  if (month < 10) month = "0" + month;
+  if (day < 10) day = "0" + day;
+  var today = year + "-" + month + "-" + day;
+  document.getElementById('received_date').value = today;
+}
+
+ $(function(){
+    $("#received_date").datepicker({maxDate: new Date()});
+  });
+
+</script>
+
+
+<script type="text/javascript">
+	var curr_url   = window.location.href
+    var invoice_no = parseURLParams(curr_url)['invoice_no'];
+
+    $(document).ready(function(){
+     SetDate();
+    	$.ajax({
+	        url      : '/it/getting_invoice_id/',
+	        type     : 'GET',
+	        dataType : 'JSON',
+	        data:{
+	          'invoice_no' : JSON.stringify(invoice_no),	                  
+	        },
+	        success: function(obj){	
+	        	console.log(obj);
+	        	//alert(obj['total_amount']);
+	       		// $('#ship_name').val(obj['invoice_array'][0]['ship_name']);
+	       		$('#voyage_no').val(obj['invoice_array'][0]['voyage_no']);	  
+	       		$('#invoice_no').val(obj['invoice_array'][0]['invoice_no']);
+	       		//$('#received_usd').val(obj['invoice_array'][0]['price']);
+	       		$('#received_date').val(obj['invoice_array'][0]['rec_date']);
+	       		$('#received_usd').val(obj['total_amount']);	
+	       		
+	       		for(var i=0;i<obj['invoice_array'].length;i++){
+	       			$('#invoice_det').append('<tr><td>'+(i+1)+'</td><td>'+obj['invoice_array'][i]['ship_name']+'</td></tr>')
+	       		}
+	        },
+	        error: function(err){
+	          alert(JSON.stringify(err,null,4))
+	        }
+	      });
+    })
+</script>
+
+<script type="text/javascript">
+	$('#payment').click(function(){
+	if($('#fancy-checkbox-primary').is(":checked"))
+	  {
+	  	select_view = 1;	  	
+	  }
+	  else{
+	  	select_view = 0;	  	
+	  }
+	  	
+	var invoiceID 	= invoice_no;    	
+	var cancel 		= select_view;
+	var rec_date    = $("#received_date").val();
+	var amount      = $('#received_usd').val();
+	var status      = $('#remark').val();
+	var voy_no 		= $('#voyage_no').val();   		
+	//console.log(invoiceID,cancel,rec_date,amount,status);
+
+	$.ajax({
+		url: '/it/payment_invoice/',
+		type: 'GET',
+		dataType: 'JSON',
+		data:{				
+			'invoice_no'	: JSON.stringify(invoiceID),
+			'cancel'		: JSON.stringify(cancel),
+			'rec_date' 		: JSON.stringify(rec_date),
+			'amount' 		: JSON.stringify(amount),
+			'status' 		: JSON.stringify(status),
+			'voy_no' 		: JSON.stringify(voy_no),
+		},
+		success: function(obj){				
+   		if(obj=="done")
+			{
+		      var btn = "button";
+		      swal({
+		        title : "<b>Invoice successfully updated.</b>",
+		        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+		        html  : true,
+		        showConfirmButton: false
+		      });
+		      $(document).on('click', "#btnA", function(){
+		        //window.location.href=window.location.href;
+		      });
+		    } 
+        },
+        error: function(err){
+          alert(JSON.stringify(err,null,4))
+        }
+	})
+})
+
+
+$('#check_paid_unpaid').click(function(){
+	var check     	= 'checked';
+	var invoice_num = invoice_no;
+
+	$.ajax({
+		url: '/it/check_uncheck_invoice/',
+		type: 'GET',
+		dataType: 'JSON',
+		data:{				
+			'check' : check,
+			'invoice_num' : JSON.stringify(invoice_num),
+		},
+		success: function(obj){	
+       		if(obj=="done")
+		        {
+			      var btn = "button";
+			      swal({
+			        title : "<b>Invoice cancelled.</b>",
+			        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+			        html  : true,
+			        showConfirmButton: false
+			      });
+			      $(document).on('click', "#btnA", function(){
+			        //window.location.href=window.location.href;
+			      });
+			    } 
+        },
+        error: function(err){
+          alert(JSON.stringify(err,null,4))
+        }
+	})
+})
+
+$(document).ready(function(){
+	SetDate();
+})
+</script>
+
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+{% endblock %}

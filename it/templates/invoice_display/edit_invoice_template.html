@@ -1,0 +1,1417 @@
+{% extends "base.html" %}
+{% block content %}
+
+<html>
+<head>
+  <script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+  <link rel='stylesheet' type='text/css' href='/static/1/css/style.css' />
+  <link rel='stylesheet' type='text/css' href='/static/1/css/print.css' media="print"/>
+  <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.min.js'></script>
+  <script type='text/javascript' src='/static/1/js/example.js'></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+</head>
+<body>
+
+  <div id="page-wrap">
+    <center>
+      <h4><u>INVOICE</u></h4>
+      <button class="btn btn-success" style="width:100px;cursor:pointer;margin-top: -44px;float: right;margin-right: 225px;;font-size: 12px" id="btn_show_client">For Shell</button>
+      <button id="export_invoice" class="btn btn-primary btn-md center-block" style="width:100px;cursor:pointer;margin-top: -44px;float: right;margin-right: 119px;font-size: 12px;">Export</button>
+      <a id="get_url" target="_blank"><button id="btn_single_data" class="btn btn-info btn-md center-block" style="width:100px;cursor:pointer;margin-top: -44px;float: right;font-size: 12px">Modify</button></a>
+    </center>
+    <!--  <textarea id="header">INVOICE</textarea> -->
+  <!--   <div id="identity">
+           {% ifnotequal ship_array 0 %}
+            <textarea id="address" style="border:solid 1px grey;width: 799px;height: 110px" placeholder="Enter Address">{{ship_array.0.address}}</textarea>
+         
+            {% endifnotequal %}
+    </div>
+ -->
+    <!--  <div>
+    <label style="float:right;"><i>Change INR/USD for this invoice</i></label> <br>
+    <select class="form-control col-md-3" style="float:right;margin-right:-188px" id="currency_list">
+       <option value="0">Select Currency Type</option>
+      <option value="INR">INR</option>
+      <option value="USD">USD</option>
+    </select>
+    </div> -->
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
+
+<script>
+  $(function(){
+    //$("#invoice_date").datepicker();
+  });
+</script>
+
+
+
+<div style="display: none;">
+{% ifnotequal ship_array 0 %}
+  <div id="proj_name">{{ship_array.0.proj_name}}</div>
+  <div id="clientname">{{ship_array.0.client_name}}</div>
+{% endifnotequal %}
+</div>
+
+<div style="display: none;">
+{% ifnotequal customer_no 0 %}
+  <div id="customer_no">{{customer_no}}</div>
+{% endifnotequal %}
+</div>
+
+<div style="display: none;">
+{% ifnotequal ship_array 0 %}
+  <div id="currency">{{ship_array.0.currency}}</div>
+{% endifnotequal %}
+</div>
+
+<div style="float:right;display: none">
+<select class="form-control" id="currency_change">
+  <option value="{{invoice_currency_type}}">{{invoice_currency_type}}</option>
+  {% if invoice_currency_type == 'USD' %}
+    <option value="INR">INR</option>
+  {% elif invoice_currency_type == 'INR' %}
+    <option value="USD">USD</option>
+  {% endif %}
+</select>
+
+</div>
+
+<div style="float: right;display: none;"><input type="checkbox" name="" id="change_dollar"><i style="font-size: 12px">&nbsp;For SGD</i></div>
+
+<br><br>
+<div class="row">
+      <div class="col-sm-12">
+        <center>
+        <button id="update_invoice" class="btn btn-primary btn-md center-block" style="width:100px;cursor:pointer;margin-top: -92px;">Submit</button>
+        <button id="no_change" class="btn btn-danger btn-md center-block" style="width:100px;cursor:pointer;margin-top: -92px;">No Change</button> 
+        <a href="/it/manual_entry/?invoice_no={{ship_array.0.invoice_no}}&id={{ship_array.0.invoiceID}}" target="_blank"><button id="manual_edit" class="btn btn-success btn-md center-block" style="width:100px;cursor:pointer;display: none;margin-top: -92px;">Edit</button></a>    
+        </center>         
+      </div>
+    </div>
+
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+<div style="float:right;display:none"><b>{{invoice_nos}}</b></div>
+
+  <script src="/static/js/jquery.tabletojson.min.js"></script>
+<!-- 
+  <div style="clear:both"></div>
+  <div id="price_tag" style="display: none"></div>
+    <div id="customer">
+        <table id="meta" style="display:''">
+            <tr>
+              <td class="meta-head" style="white-space: nowrap;">Customer GTIN No.</td>
+              {% ifnotequal ship_array 0 %}
+              <td><input type="text" name="" value="{{ship_array.0.customer_no}}" id="edit_customer_gtin_no" style="text-align: right;"></td>
+               {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head" style="white-space: nowrap;">Client (Billing days)</td>
+              {% ifnotequal ship_array 0 %}
+             <td>
+               <select id="get_client_name" style="text-align: left;font-size: 12px" class="form-control">
+                 <option value="0"></option>
+                 {% for x in client_list %}
+                  <option value="{{x}}">{{x}}</option>
+                  {% endfor %}
+               </select>
+             </td>
+             
+               {% endifnotequal %}
+            </tr>
+
+          
+
+            <tr>
+              <td class="meta-head">Invoice #</td>
+              {% ifnotequal ship_array 0 %}
+             
+              <td><input type="text" value="{{ship_array.0.invoice_no}}" id="edit_invoice_no" style="text-align: right;"></td>
+               {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Voyage Manager</td>
+              {% ifnotequal ship_array 0 %}
+              <td><input type="text" name="" value="{{ship_array.0.vm_name}}" id="edit_vm_name" style="text-align: right;"></td>
+               {% endifnotequal %}
+            </tr>
+
+
+            <tr>
+              <td class="meta-head">Invoice Date</td>
+              {% ifnotequal ship_array 0 %}
+              <td><input type="date" id="invoice_date" value="{{ship_array.0.invoice_date|date:'Y-m-d'}}" style="text-align: right;"></td>
+              {% endifnotequal %}
+            </tr>
+            <tr>
+              <td class="meta-head">Amount Due</td>
+              {% ifnotequal total_amount 0 %}
+                <td class="total-value" style="white-space: nowrap"><div id="subtotal">{{currency_tag}} {{total_amount|floatformat:"1"}}</div></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Cancel Invoice</td>
+              {% ifnotequal ship_array 0 %}
+                <td class="total-value" style="white-space: nowrap"><input type="checkbox" name="cancel" id="cancel_invoice" {{ship_array.0.box_checked}}></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Unpaid</td>
+              {% ifnotequal ship_array 0 %}
+                <td class="total-value" style="white-space: nowrap"><input type="checkbox" name="unpaid" id="unpaid" {{ship_array.0.amt_checked}}></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Account Tab</td>             
+                <td class="total-value" style="white-space: nowrap">
+                <select id="get_account_name" style="text-align: left;font-size: 12px" class="form-control">
+                 <option value="0"></option>
+                 {% for x in account_l_array %}
+                  <option value="{{x}}">{{x}}</option>
+                  {% endfor %}
+               </select>
+               </td>
+            </tr>
+
+            <tr>
+            	<td class="meta-head" style="font-size: 14px">Invoice Period:</td>
+            	<td><input type="text" name="" id="get_period"></td>
+              <div id="get_last_months" style="display: none">{{ship_array.0.gt_last_name}}</div>
+            </tr>
+
+            <tr>
+              <td class="meta-head" style="font-size: 13px"><i></i></td>
+              <td><input type="text" id="get_page_setting" value="Please see Page 1"></td>
+            </tr>
+
+            <tr style="display: ">
+              <td class="meta-head" style="font-size: 13px;font-weight: bold;">Template</td>
+              <td>
+                <select class="form-control" id="calling_for_template" style="font-size:13px">
+                   <option value="0"></option>
+                  <option value="AED">AED</option>
+                  <option value="SGD">SGD</option>
+                  <option value="APP">CHM</option>
+                </select>
+              </td>
+            </tr>
+
+            
+            <tr>
+            	<td class="meta-head" style="font-size: 13px"><i>Font Size</i></td>
+            	<td><input type="number" name="" id="get_font_setting"></td>
+            </tr>
+
+            <tr>
+              <td class="meta-head" style="font-size: 13px"><i>Add Row</i></td>
+              <td><input type="number" name="" id="get_border_setting" value='5'></td>
+            </tr>
+
+            <tr>
+              <td class="meta-head" style="font-size: 13px"><i>Layout</i></td>
+              <td>
+                <select class="form-control" id="calling_for_layout" style="font-size:13px">
+                  <option value="0">Default</option>
+                  <option value="asize">Perfect</option>
+                  <option value="afour">A4</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="meta-head" style="font-size: 13px"><i>Nature Type</i></td>
+              <td><input type="text" name="" id="get_nature_type" value="{{ship_array.0.nature_types}}"></td>
+            </tr>
+
+            <tr>
+              <td class="meta-head" style="font-size: 13px"><i>Billing Type</i></td>
+              <td>
+                <select class="form-control" id="for_billing_type" style="font-size:13px">
+                  <option value="0">Default</option>
+                  <option value="flat">Flat</option>
+                  <option value="prorated">Prorated</option>
+                </select>
+              </td>
+            </tr>
+            
+            
+
+        </table>
+
+
+        {% ifnotequal tag_show 0 %}
+        <table id="meta" style="display:{{tag_show}};float:left">
+          {% endifnotequal %}
+            <tr>
+              <td class="meta-head">Voyage Manager</td>
+              {% ifnotequal ship_array 0 %}
+              <td><div id="ship_name">{{ship_array.0.vm_name}}</div></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Vessel Name</td>
+               {% ifnotequal ship_array 0 %}
+              <td><div id="ship_name">{{ship_array.0.ship_name}}</div></td>
+               {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Voyage No</td>
+               {% ifnotequal ship_array 0 %}
+              <td><div id="edit_voyage_no">{{ship_array.0.voyage_no}}</div></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Disch.Port</td>
+               {% ifnotequal ship_array 0 %}
+              <td><div id="disch_port">{{ship_array.0.disch_port}}</div></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Disch.Date</td>
+              {% ifnotequal ship_array 0 %}
+              <td><div id="disch_date">{{ship_array.0.disch_date|date:"d-M-y"}}</div></td>
+               {% endifnotequal %}
+            </tr>
+
+           
+
+
+            <tr>
+              <td class="meta-head">Due Date</td>
+              <td id="calc_due_date">{{c.due_date|date:"d-M-Y"}}</td>
+            </tr>
+
+            {% if ship_array.0.client_name == 'Stena Weco' %}
+            <tr style="display: {{hidden}}">
+              <td class="meta-head">Price Type</td>
+              <td>
+              <select class="form-control" id="price_select">
+             
+               <option value="{{select_price}}">{{price_typex}}</option>
+              {% for i in weco_array %}
+                  <option value="{{i.price}}">{{i.price_type}}</option>
+                {% endfor %}
+                  </select>
+              </td>
+            </tr>
+            {% elif ship_array.0.client_name == 'stena bulk' %}
+              <tr style="display: {{hidden}}">
+              <td class="meta-head">Price Type</td>
+              <td>
+              <select class="form-control" id="price_select">
+              <option value="{{select_price}}">{{price_typex}}</option>
+              {% for i in stena_array %}
+                  <option value="{{i.price}}">{{i.price_type}}</option>
+                {% endfor %}
+                  </select>
+              </td>
+            </tr>
+            {% elif ship_array.0.client_name == 'Ultranav' %}
+              <tr style="display: {{hidden}}">
+              <td class="meta-head">Price Type</td>
+              <td>
+              <select class="form-control" id="price_select">
+                <option value="{{select_price}}">{{price_typex}}</option>
+                {% for u in ultra_array %}
+                <option value="{{u.price}}">{{u.price_type}}</option>
+                {% endfor %}
+              </select>
+              </td>
+            </tr>            
+            {% else%}
+            {% endif %}
+
+            <tr>
+              <td class="meta-head">Bank Name</td>
+              <td>
+              	<select class="form-control" id="bank_details">
+				<option value="0"></option> 
+				<option value="SBI">SBI</option>  
+				<option value="HDFC">HDFC</option>  
+				</select>
+				</td>
+            </tr>
+          </table>
+    </div> -->
+
+
+<div class="row">
+    <div class="col-sm-12">
+    <table style="display:block;font-size: 9px;   white-space: nowrap;   margin-left: -170px;">
+    <thead>
+    <tr>
+      <th colspan="10"> 
+      {% ifnotequal ship_array 0 %}
+      <textarea id="address" style="border:solid 1px grey;width: 1025px;height: 110px;font-size: 12px" placeholder="Enter Address">{{ship_array.0.address}}</textarea>           
+      {% endifnotequal %}</th>
+    </tr>
+  </thead>
+  <tbody  style="border: 1px solid white">
+    <tr>
+      <td style="border: 1px solid grey;">Customer GTIN No.</td>
+      {% ifnotequal ship_array 0 %}
+      <td style="border: 0px solid white;"><input type="text" name="" value="{{ship_array.0.customer_no}}" id="edit_customer_gtin_no" style="text-align: right;"></td>
+      {% endifnotequal %}
+      <td style="border: 1px solid grey;">Client (Billing days)</td>
+      {% ifnotequal ship_array 0 %}
+      <td style="border: 1px solid grey;">
+      <select id="get_client_name" style="text-align: left;font-size: 12px;height: 26px;border: 1px solid grey;" class="form-control">
+      <option value="0"></option>
+      {% for x in client_list %}
+      <option value="{{x}}">{{x}}</option>
+      {% endfor %}
+      </select>
+      </td>
+      {% endifnotequal %}
+      <td style="border: 1px solid grey;">Invoice #</td>
+      {% ifnotequal ship_array 0 %}        
+      <td style="border: 1px solid grey;"><input type="text" value="{{ship_array.0.invoice_no}}" id="edit_invoice_no" style="text-align: right;"></td>
+      {% endifnotequal %}
+      <td style="border: 1px solid grey;">Voyage Manager</td>
+      {% ifnotequal ship_array 0 %}
+      <td style="border: 1px solid grey;"><input type="text" name="" value="{{ship_array.0.vm_name}}" id="edit_vm_name" style="text-align: right;"></td>
+      {% endifnotequal %}
+      <td style="border: 1px solid grey;">Invoice Date</td>
+      {% ifnotequal ship_array 0 %}
+      <td style="border: 1px solid grey;"><input type="date" id="invoice_date" value="{{ship_array.0.invoice_date|date:'Y-m-d'}}" style="text-align: right;"></td>
+      {% endifnotequal %}
+    </tr>
+    <tr>
+      <td style="border: 1px solid grey;">Amount Due</td>
+      {% ifnotequal total_amount 0 %}
+      <td class="total-value" style="white-space: nowrap;border: 1px solid grey;"><div id="subtotal">{{currency_tag}} {{total_amount|floatformat:"1"}}</div></td>
+      {% endifnotequal %}
+
+      <td style="border: 1px solid grey;">Cancel Invoice</td>
+      {% ifnotequal ship_array 0 %}
+      <td class="total-value" style="white-space: nowrap;border: 1px solid grey;"><input type="checkbox" name="cancel" id="cancel_invoice" {{ship_array.0.box_checked}}></td>
+      {% endifnotequal %}
+
+      <td style="border: 1px solid grey;">Unpaid</td>
+      {% ifnotequal ship_array 0 %}
+      <td class="total-value" style="white-space: nowrap;border: 1px solid grey;"><input type="checkbox" name="unpaid" id="unpaid" {{ship_array.0.amt_checked}}></td>
+      {% endifnotequal %}
+
+      <td style="border: 1px solid grey;">Account Tab</td>
+      <td class="total-value" style="white-space: nowrap;border: 1px solid grey">
+        <select id="get_account_name" style="text-align: left;font-size: 12px;height: 26px;border: 1px solid grey;" class="form-control">
+         <option value="0"></option>
+         {% for x in account_l_array %}
+          <option value="{{x}}">{{x}}</option>
+          {% endfor %}
+       </select>
+       </td>
+      <td style="border: 1px solid grey;"></td>
+      <td style="border: 1px solid grey;"></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid grey;">Invoice Period</td>
+      <td style="border: 1px solid grey;"><input type="text" name="" id="get_period"></td>
+      <div id="get_last_months" style="display: none">{{ship_array.0.gt_last_name}}</div>
+      <td class="meta-head" style="font-size: 9px;border: 1px solid grey;"><i></i></td>
+      <td style="border: 1px solid grey;"><input type="text" id="get_page_setting" value="Please see Page 1"></td>
+      <td style="border: 1px solid grey;">Template</td>
+      <td style="border: 1px solid grey;">
+      <select class="form-control" id="calling_for_template" style="font-size:9px;height: 26px;border: 1px solid grey;">
+           <option value="0"></option>
+          <option value="AED">AED</option>
+          <option value="SGD">SGD</option>
+          <option value="APP">CHM</option>
+        </select>
+      </td>
+
+      <td style="border: 1px solid grey;">Font Size</td>
+      <td style="border: 1px solid grey;"><input type="number" name="" id="get_font_setting"></td>
+      <td style="border: 1px solid grey;">Add Row</td>
+      <td style="border: 1px solid grey;"><input type="number" name="" id="get_border_setting" value='5'></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid grey;">Layout</td>
+       <td style="border: 1px solid grey;">
+          <select class="form-control" id="calling_for_layout" style="font-size:9px;height: 26px;">
+            <option value="0">Default</option>
+            <option value="asize">Perfect</option>
+            <option value="afour">A4</option>
+          </select>
+        </td>
+      <td style="border: 1px solid grey;">Nature Type</td>
+      <td style="border: 1px solid grey;"><input type="text" name="" id="get_nature_type" value="{{ship_array.0.nature_types}}"></td>
+      <td style="border: 1px solid grey;">Billing Type</td>
+      <td style="border: 1px solid grey;">
+        <select class="form-control" id="for_billing_type" style="font-size:9px;height: 26px;">
+          <option value="0">Default</option>
+          <option value="flat">Flat</option>
+          <option value="prorated">Prorated</option>
+        </select>
+      </td>
+
+      <td style="border: 1px solid grey;">Voyage Manager</td>
+      {% ifnotequal ship_array 0 %}
+      <td style="border: 1px solid grey;"><div id="ship_name">{{ship_array.0.vm_name}}</div></td>
+      {% endifnotequal %}
+      <td style="border: 1px solid grey;">Vessel Name</td>
+      {% ifnotequal ship_array 0 %}
+      <td style="border: 1px solid grey;"><div id="ship_name">{{ship_array.0.ship_name}}</div></td>
+      {% endifnotequal %}
+
+    </tr>
+    <tr>
+      <td  style="border: 1px solid grey;">Voyage No</td>
+      {% ifnotequal ship_array 0 %}
+      <td  style="border: 1px solid grey;"><div id="edit_voyage_no">{{ship_array.0.voyage_no}}</div></td>
+      {% endifnotequal %}
+      <td  style="border: 1px solid grey;">Disch.Port</td>
+      {% ifnotequal ship_array 0 %}
+      <td  style="border: 1px solid grey;"><div id="disch_port">{{ship_array.0.disch_port}}</div></td>
+      {% endifnotequal %}
+
+      <td  style="border: 1px solid grey;">Disch.Date</td>
+      {% ifnotequal ship_array 0 %}
+      <td  style="border: 1px solid grey;"><div id="disch_date">{{ship_array.0.disch_date|date:"d-M-y"}}</div></td>
+      {% endifnotequal %}
+    
+      <td  style="border: 1px solid grey;">Due Date</td>
+      <td id="calc_due_date"  style="border: 1px solid grey;">{{c.due_date|date:"d-M-Y"}}</td>
+      
+      {% if ship_array.0.client_name == 'Stena Weco' %}
+      
+        <td class="meta-head"  style="border: 1px solid grey;">Price Type</td>
+        <td  style="border: 1px solid grey;">
+        <select class="form-control" id="price_select" style="font-size: 9px;height: 26px;">        
+         <option value="{{select_price}}">{{price_typex}}</option>
+        {% for i in weco_array %}
+            <option value="{{i.price}}">{{i.price_type}}</option>
+          {% endfor %}
+            </select>
+        </td>
+     
+      {% elif ship_array.0.client_name == 'stena bulk' %}
+        
+        <td class="meta-head"  style="border: 1px solid grey;">Price Type</td>
+        <td  style="border: 1px solid grey;">
+        <select class="form-control" id="price_select"  style="font-size: 9px;height: 26px;">
+        <option value="{{select_price}}">{{price_typex}}</option>
+        {% for i in stena_array %}
+            <option value="{{i.price}}">{{i.price_type}}</option>
+          {% endfor %}
+            </select>
+        </td>
+    
+      {% elif ship_array.0.client_name == 'Ultranav' %}
+       
+        <td class="meta-head"  style="border: 1px solid grey;">Price Type</td>
+        <td  style="border: 1px solid grey;">
+        <select class="form-control" id="price_select"  style="font-size: 9px;height: 26px;">
+          <option value="{{select_price}}">{{price_typex}}</option>
+          {% for u in ultra_array %}
+          <option value="{{u.price}}">{{u.price_type}}</option>
+          {% endfor %}
+        </select>
+        </td>
+      </tr>            
+      {% else%}
+      {% endif %}
+
+     <!--  <td>Bank Name</td> -->
+     <!-- <td>
+        <select class="form-control" id="bank_details"  style="font-size: 9px;">
+        <option value="0"></option> 
+        <option value="SBI">SBI</option>  
+        <option value="HDFC">HDFC</option>  
+        </select>
+        </td> -->
+     <!--  <td></td>
+      <td></td>
+      <td></td>
+      <td></td> -->
+    </tr>
+  </tbody>
+  </table>
+</div>
+</div>
+
+
+
+    <script type="text/javascript">
+      var div = ('{{price_typex}}');
+      $('#price_tag').html(div);
+      $('#price_tagx').html(div);
+
+      $('#get_page_setting').click(function(){
+        input = $('#get_page_setting');
+        input.attr('type', 'date');
+        //$(this).html('<input type="date" id="get_page_setting">');
+      })
+
+    </script>
+    <div style="font-size: 19px;color:green;font-weight: bold">{% if status == 'Cancel' %}{% else %}{{status|default_if_none:""}}{% endif %}</div>
+
+    <div><b><font color="red">{{ship_array.0.logo}}</font></b></div>
+    <table id="items" class="invoice_details">
+      <thead>
+          <th>S.No</th>
+          <th>Details</th>
+          <th>Ship Name</th>
+          <th>Price</th><!-- Unit Cost -->
+          <th>Quantity</th>
+          {% ifnotequal ship_array 0 %}
+          <th style="display:{{ship_array.0.hide}}">Currency Conversion</th><!-- Rate -->
+          {% endifnotequal %}
+          <th>Amount</th>
+          <th style="display: none">Invoice No</th>
+          <th style="display: none">Voyage No</th>
+          <th style="display: none">Proj Name</th>
+          <th style="display: none">VM Name</th>
+          <th style="display: none">Monthwise</th>
+          <th style="display: none">Vessel Type</th>
+          <th style="display: none">client_name</th>
+          <th style="display: none">url</th>
+          <th style="display: none">InvoiceID</th>
+          <th style="display: none">currency</th>
+          <th style="display:{{ship_array.0.show_row}}">Passages</th>
+      </thead>
+
+      {% ifnotequal ship_array 0 %}
+      {% for x in ship_array %}
+      <tr class="item-row">
+          <td class="item-name" id="{{x.ship_name}}" title="Remove this row"><div class="delete-wpr"><textarea class="s_no_text" id="s_nos">{{forloop.counter}}</textarea><a class="delete" href="javascript:;" title="Remove row">X</a></div></td>
+          <td class="headings"><textarea style="white-space: nowrap;">{{x.heading}}</textarea></td>
+          <td class="description"><textarea>{{x.ship_name}}</textarea></td>
+          <td class="Costs"><textarea class="cost">{{x.invoice_price}}</textarea></td>
+          <td><textarea class="qty">{{x.qty}}</textarea></td>
+          <td style="display:{{x.hide}}"><textarea class="rate">{{x.invoice_rate}}</textarea></td>
+          <td><span class="price">{{x.total_amount|floatformat:"1"}}</span></td>
+          <td style="display: none">{{x.invoice_no}}</td>
+          <td style="display: none">{{x.voyage_no}}</td>
+          <td style="display: none">{{x.proj_name}}</td>
+          <td style="display: none">{{x.vm_name}}</td>
+          <td style="display: none">{{x.month_wise}}</td>
+          <td style="display: none">{{x.vessel_type}}</td>
+          <td style="display: none" id="client_namex">{{x.client_name}}</td>
+          <td style="display: none">{{x.url}}</td>
+          <td style="display: none" class="loop" id="{{x.invoiceID}}"><textarea class="inID">{{x.invoiceID}}</textarea></td>
+          <td style="display: none" class="currencyx">{{x.currency}}</td>
+          <td style="display: none" class="billing_flag">{{ship_array.0.billing_flag}}</td>
+          <td style="display:{{x.show_row}};white-space: nowrap;">{{x.voyage_nos}}</td>
+        {% endfor %}
+        {% endifnotequal %}
+      </tr>
+
+      <tr id="hiderow">
+        <td colspan="5"><a id="addrow" href="javascript:;" title="Add a row"><button class="btn btn-info" id="add_row" value="25">Add</button></a></td>
+      </tr>
+    </table>      
+
+    
+    <p></p>
+    
+
+    <div id="terms">
+      <h5>Remarks</h5>
+      {% ifnotequal ship_array 0 %}
+      <textarea id="invoice_remark" style="background-color: #ffff99;" value="Paid">{{ship_array.0.remark_det}}</textarea>
+    {% endifnotequal %}
+   </div>
+
+
+   <!-- Edit for Bank -->
+    <div class="editable" contenteditable="true" id="bank_details" style="font-size: 12px;display: none;">
+      <b>HDFC Bank</b><br>
+      <b>32, Arhat Bazar, Dehradun - 248001, Uttarakhand, INDIA</b><br>
+      <b>SWIFT Code: <b>HDFCINBB</b><br>
+      <b>Account Name: <b>Blue Water Trade Winds Pvt Ltd</b></b><br>
+      <b>Account Number: <b>02252560001213</b></b>                    
+    </div>
+  </div>
+</body>
+</html>
+
+<div id="get_value" style="display: none;"></div>
+
+<script type="text/javascript">
+
+$('#get_month_handler').html("{{get_period}}");
+
+
+
+
+
+$('#price_select').change(function(){
+  var price = $('#price_select').val(); 
+  $('.cost').val(price);
+  var qty= $('.qty').val();
+  fresh_amt = price*qty; 
+
+ $('.price').text(fresh_amt);
+})
+
+try{
+$('#price_select').val('{{select_price}}');
+}catch(ex){
+ //alert('{{select_price}}')
+}
+
+function parseURLParams(url) {
+    var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") {
+      return;
+    }
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=");
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+        if (!parms.hasOwnProperty(n)) {
+            parms[n] = [];
+        }
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
+  }
+
+
+  var tt      = document.getElementById('invoice_date').value;//new Date
+  var client  = $('#client').text();
+  var date    = new Date(tt);
+  var newdate = new Date(date);
+  var curr_ul      = window.location.href
+  var client_name   = parseURLParams(curr_ul)['client_name']
+
+  //alert(client)
+  if(client_name=="Shell"){
+    newdate.setDate(newdate.getDate() + 60);
+  }
+  else{
+    newdate.setDate(newdate.getDate() + 30);
+  }
+
+  var dd = newdate.getDate();
+  var mm = ("0" + (newdate.getMonth() + 1)).slice(-2)
+  var y  = newdate.getFullYear();
+  if(dd<10){
+    dt = "0"+dd;
+  }else{
+    dt = dd;
+  }
+
+
+  var someFormattedDate = y + '-' + mm + '-' + dt;
+  $('#calc_due_date').text(someFormattedDate);
+
+  var todaysDate = new Date();
+
+function convertDate(date) {
+  var yyyy    = date.getFullYear().toString();
+  var mm      = (date.getMonth()+1).toString();
+  var dd      = date.getDate().toString();
+  var mmChars = mm.split('');
+  var ddChars = dd.split('');
+  return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+}
+
+ var ddate = (convertDate(todaysDate));
+ //var in_date = '{{ship_array.0.invoice_date}}';
+ //alert(in_date);
+ //alert('ddd');
+ //var ate     = (convertDate(in_date));
+// $('#invoice_date').val(ate);
+ //$('#invoice_date').css('text-align','right');
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var curr_url      = window.location.href
+    var invoice_no    = parseURLParams(curr_url)['invoice_no']
+    var id            = parseURLParams(curr_url)['id']
+    var client_name   = parseURLParams(curr_url)['client_name']
+    var vessel_type   = parseURLParams(curr_url)['vessel_type']
+    var pwd           = parseURLParams(curr_url)['pwd']
+   
+
+
+    if(pwd==undefined){
+    }else{
+      
+      var person = prompt("Enter Password", "");
+      if (person != '123456') {
+        alert('Invalid Password');
+        window.close();
+      }      
+    }
+
+    $('#get_client_name').val('{{ship_array.0.billing_flag}}')
+
+    $.ajax({
+    url: '/it/edit_invoice_details/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{
+      'invoice_no'     : JSON.stringify(invoice_no),
+      'id'             : JSON.stringify(id),
+      'client_name'    : client_name,
+      'vessel_type'    : JSON.stringify(vessel_type),        
+    },
+    success : function(obj){    
+      
+      //$('#get_client_name').val(obj['billing_flag'])
+    },
+    error : function(err){
+      console.log(JSON.stringify(err));
+    }
+  });
+})
+
+
+$('#get_account_name').val('{{account_lis}}')
+
+$('.item-name').click(function(){
+  proj_name     = "{{ship_array.0.proj_name}}"
+  client_name   = "{{ship_array.0.client_name}}"
+  currency_type = "{{currency_tag}}" 
+
+
+  var invoiceID = $('.loop').attr('id');
+  var del       = $(this).attr('id');  
+  var result = confirm("Want to Remove?");
+    if (result==true)
+    {
+        var result2 = confirm("Want to Remove?");
+        if (result2==true)
+        {
+          var curr_url      = window.location.href
+          var invoice_no    = parseURLParams(curr_url)['invoice_no']
+          $.ajax({
+            url: '/it/delete_invoice_template/',
+            dataType: 'JSON',
+            type: 'GET',
+            data:{
+              'invoice_no'     : JSON.stringify(invoice_no),
+              'delete_invoice' : del,
+              'invoiceID'      : invoiceID,
+              'proj_name'      : proj_name,
+              'client_name'    : client_name,
+              'currency_type'  : currency_type,
+            },
+            success : function(obj){ 
+            console.log(obj);            
+              if(obj['msg']=='done'){
+                var btn = "button";
+                swal({
+                  title : "<b><font color='red'><u>"+del+"</u></font> vessel deleted and kept records.</b>",
+                  text  : '<button type="' + btn + '" id="btnA" >OK</button>',
+                  html  : true,
+                  type  : "info",
+                  showConfirmButton: false
+                });
+
+                $(document).on('click', "#btnA", function(){
+                  window.location.href=window.location.href;
+                });
+              }
+              else if(obj['msg']=='no'){
+                var btn = "button";
+                swal({
+                  title : "<b>Invoice already generated on <font color='green'>"+obj['gen_invoice_date']+"</font> that deleted on <font color='red'>"+(obj['deleted_date'])+"</font> and kept records </b>",
+                  text  : '<button type="' + btn + '" id="btnA" >OK</button>',
+                  html  : true,
+                  type  : "info",
+                  showConfirmButton: false
+                });              
+
+                $(document).on('click', "#btnA", function(){
+                  window.location.href=window.location.href;
+                  window.close();
+                });
+              }
+
+            },
+            error : function(err){
+             console.log(JSON.stringify(err));
+            }
+          });
+        }
+      }
+    })
+
+
+var _invoice_no     = $('#edit_invoice_no').val();
+if(_invoice_no==''){
+  alert('Invoice No changed');
+  location.href = "/it/inr_tracker";   
+}
+
+ $('#add_row').click(function() {
+    var value = $(this).val();  
+    $("#get_value").val(value);
+  });
+
+
+if('{{ship_array.0.proj_name}}'=='CHM'){
+  $('#manual_edit').css('display','');
+}else{
+  $('#manual_edit').css('display','none');
+}
+
+
+
+
+$('#update_invoice').click(function(){
+  var get_value_for_checking = $("#get_value").val();
+  var rowCount = $('#items tr').length;
+
+   if($('#change_dollar').is(":checked"))
+    {
+      change_dollar=1;
+    }
+    else
+    {
+      change_dollar=0;
+    }
+
+
+
+
+
+  $('#loader').css('display','');
+  var curr_url            = window.location.href
+  var invoice_no          = parseURLParams(curr_url)['invoice_no']
+  var address             = $('#address').val();
+  var proj_name           = $('#proj_name').html();
+  var client_name         = $('#clientname').html();
+  var customer_no         = $('#customer_no').html();
+  var invoice_date        = $('#invoice_date').val();
+  var edate               = document.getElementById("invoice_date").value;
+  var edit_vm_name        = $('#edit_vm_name').val();
+  var qty                 = $('.qty').val();
+  var calc_rate           = $('.rate').val();
+  var calc_price          = $('.cost').val();
+  var net_price           = $('.price').html();
+
+  //var get_qtyx            = $('.qtyx').html();
+
+
+  var total_amoounts      = $('#subtotal').html();
+  var total_amount_number = Number(total_amoounts.replace(/[^0-9\.-]+/g,""));
+  var remarks             = $('#invoice_remark').val();
+  var edit_invoice_no     = $('#edit_invoice_no').val();
+  var price_typex         = $('#price_select').val();
+  var div                 = $('#price_tag').html();
+  var curr_change         = $('#currency_change').val();
+  var flag_client         = $('#get_client_name').val();
+  var sutot               = $('#subtotal').html();
+  var slit 				  = sutot.split(' ');
+  get_price 			  = slit[1];
+
+  var myDate  = new Date(edate);
+  var d       = myDate.getDate();
+  var m       = myDate.getMonth();
+  m += 1;
+  var y = myDate.getFullYear();
+  if(d<10)
+  {
+    dd='0'+d;
+  }else{
+    dd = d;
+  }
+
+
+  if(m<10)
+  {
+    mm='0'+m;
+  }
+  else{
+    mm= m;
+  }
+  var newdate=(y+ "-" + mm + "-" + dd);
+  var date_format_invoice_date = newdate;
+
+
+  if($('#cancel_invoice').is(":checked"))
+  {
+    cancel_invoice=1;
+    //alert(cancel_invoice);
+  }
+  else
+  {
+    cancel_invoice=0;
+    //alert(cancel_invoice);
+  }
+
+  if($('#unpaid').is(":checked"))
+  {
+    unpaid=1;
+    //alert(unpaid);
+  }
+  else
+  {
+    unpaid=0;
+    //alert(unpaid);
+  }
+
+
+  var change_type = $('#currency_list').val();
+  var curren      = $('#currency').html();
+  // var items    = $('.invoice_details').tableToJSON();
+  var customer_ns = $('#edit_customer_gtin_no').val();
+  items           = get_table_values();
+  var id          = parseURLParams(curr_url)['id']
+  var client_name = parseURLParams(curr_url)['client_name']
+
+  var price_typex = $('#price_select').val();
+  var div         = $('#price_tag').html();
+
+ /* if(flag_client==0){
+    var result = confirm("Want to Remove?");
+    if (result==true)
+    {
+        var result2 = confirm("Want to Remove?");
+        if (result2==true)
+        {
+  }*/
+
+  var font_set      = $('#get_font_setting').val();
+  var add_rw        = $('#get_border_setting').val();
+  var g_period      = $('#get_period').val();
+  var acc_name      = $('#get_account_name').val();
+  var get_page      = $('#get_page_setting').val();
+  var layout        = $('#calling_for_layout').val();
+  var ntype         = $('#get_nature_type').val();
+
+//console.log(qty)
+
+
+  $.ajax({
+    url: '/it/update_invoice_template/',
+    dataType: 'JSON',
+    type: 'POST',
+    data:{
+
+      'invoice_no'      : JSON.stringify(invoice_no),
+      'invoice_details' : JSON.stringify(items),
+      'address'         : address,
+      'cancel_invoice'  : cancel_invoice,
+      'proj_name'       : proj_name,
+      'client_name'     : client_name,
+      'customer_no'     : customer_no,
+      'invoice_date'    : date_format_invoice_date,
+      'currency'        : curren,
+      'edit_vm_name'    : edit_vm_name,
+      'modify_qty'      : JSON.stringify(qty),
+      'modify_rate'     : JSON.stringify(calc_rate),
+      'modify_price'    : JSON.stringify(calc_price),
+      'total_amount'    : total_amount_number,//'{{total_amount}}',
+      'unpaid'          : unpaid,
+      'customer_no'     : customer_ns,
+      'remarks'         : remarks,
+      'edit_invoice_no' : edit_invoice_no,
+      'id'              : JSON.stringify(id),
+      'url_client_name' : JSON.stringify(client_name),
+      'price_type'      : price_typex,
+      //'curr_change'     : JSON.stringify(curr_change),
+      'for_checking'    : get_value_for_checking,
+      'rowCount'        : rowCount,
+      'change_dollar'   : JSON.stringify(change_dollar),
+      'flag_client'     : JSON.stringify(flag_client),
+      'get_price'       : JSON.stringify(get_price),
+      'net_price'       : JSON.stringify(net_price),
+      'font_set'  		  : JSON.stringify(font_set),
+      'add_rw'  		    : JSON.stringify(add_rw),
+      //'get_qtyx'        : JSON.stringify(get_qtyx),
+      'get_period'		  : JSON.stringify(g_period),
+      'acc_name'        : JSON.stringify(acc_name),
+      'get_page'        : JSON.stringify(get_page),
+      'flag'            : 'on',
+      'layout'          : JSON.stringify(layout),
+      'ntype'           : JSON.stringify(ntype),
+
+
+      
+    },
+
+    success : function(obj){
+
+
+
+     $('#loader').css('display','none');
+     //swal('Success','Invoice updated successfully','success')
+     //console.log(obj)
+    if(obj['msg']=='cancel'){
+      var btn = "button";
+
+        swal({
+          title : "<b>Invoice cancelled.</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "warning",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          window.location.href=window.location.href;
+        });
+      }
+
+    else if(obj['msg']=='change'){
+      var btn = "button";
+        swal({
+          title : "<b>Invoice changed.</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          window.location.href=window.location.href;
+        });
+      }
+      else if(obj['msg']=='pending'){
+      var btn = "button";
+        swal({
+          title : "<b>Done.</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "success",
+          showConfirmButton: false
+        });
+
+        $(document).on('click', "#btnA", function(){
+          window.location.href=window.location.href;
+        
+          if(proj_name=='BOSS' && curren=='USD'){
+           location.href = "/it/boss_tracker";   
+          } else if(proj_name=='CHM' && curren=='USD'){
+           location.href = "/it/chm_tracker";   
+          }else if(proj_name=='CHM' && curren=='INR' || proj_name=='BOSS' && curren=='INR' ){
+           location.href = "/it/inr_tracker";   
+          }      
+        });
+      }
+
+      else if(obj['msg']=='both'){
+      var btn = "button";
+        swal({
+          title : "<b>Invoice cancelled.</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          window.location.href=window.location.href;
+        });
+      }
+    else{
+      var btn = "button";
+        swal({
+          title : "<b>Invoice updated successfully</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "success",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          window.location.href=window.location.href;
+        })
+      }
+    },
+    error : function(err){
+     console.log(JSON.stringify(err));
+    }
+  });
+
+})
+
+
+
+if("{{ship_array.0.proj_name}}"=='BOSS' && "{{ship_array.0.client_name}}"=='MM Solution'){
+  var qx   = $('.qty').val();
+  var cx   = $('.cost').val();
+  var monthx = $("#get_last_months").html();
+  if(qx<monthx){
+    $('#for_billing_type').val('prorated')
+    calcsx   = cx*qx/parseInt(monthx);
+    $('.price').html(calcsx.toFixed(1));
+    $('#subtotal').html("USD "+calcsx.toFixed(1))
+  }
+}
+
+$('#for_billing_type').change(function(){
+  var bty   = $(this).val();
+  var month = $("#get_last_months").html();
+  var c     = $('.cost').val();
+  var q     = $('.qty').val();
+  if(bty=='flat'){
+    if(q==month){
+      calcs   = c;
+      $('.price').html(calcs.toFixed(1));
+    }
+    calcs   = c;
+    $('.price').html(calcs.toFixed(1));
+  }
+  
+  if(bty=='prorated'){
+    if(q<month){
+      calcs   = c*q/parseInt(month);
+      $('.price').html(calcs.toFixed(1));
+    }
+  }    
+})
+
+// function get_table_values(){
+//     details  = []
+//     desc     = []
+//     $(".s_no_text").each(function(){
+//       details.push({
+//         'sno':$(this).val(),
+//         'headings':$(this).parent().parent().next().children().val(),
+//         'Description':$(this).parent().parent().next().children().val(),
+//         'unit_cost':$(this).parent().parent().next().next().children().val(),
+//         'qty':$(this).parent().parent().next().next().next().children().val(),
+//         'total_cost':$(this).parent().parent().next().next().next().next().children().val(),
+//         'invoiceID' :$(this).parent().parent().next().next().next().next().next().next().next().next().next().next().next().next().next().next().children().val(),
+//       });
+//     });
+//     return details
+// }
+
+function get_table_values(){
+    details  = []
+    desc     = []
+    $(".s_no_text").each(function(){
+      details.push({
+        'sno':$(this).val(),
+        'headings':$(this).parent().parent().next().children().val(),
+        'Description':$(this).parent().parent().next().next().children().val(),
+        'unit_cost':$(this).parent().parent().next().next().next().children().val(),
+        'qty':$(this).parent().parent().next().next().next().next().children().val(),
+        'total_cost':$(this).parent().parent().next().next().next().next().next().children().val(),
+        'invoiceID' :$(this).parent().parent().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().children().val(),
+      });
+    });
+    return details
+  }
+
+var pj_nm   = "{{ship_array.0.proj_name}}"
+var cl_nm   = "{{ship_array.0.client_name}}"
+var cur_typ = "{{currency_tag}}" 
+
+  $('#no_change').click(function(){
+    window.close();
+    var btn = "button";
+        swal({
+          title : "<b>Wait</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){          
+          if(pj_nm=='BOSS' && cur_typ=='USD'){
+           location.href = "/it/boss_tracker";   
+          } else if(pj_nm=='CHM' && cur_typ=='USD'){
+           location.href = "/it/chm_tracker";   
+          }else if(pj_nm=='CHM' && cur_typ=='INR' || pj_nm=='BOSS' && cur_typ=='INR' ){
+           location.href = "/it/inr_tracker";   
+          }  
+         // location.href = "/it/boss_chm_tracker";
+        })     
+  })
+  
+  /* $('#'+calling_pdf).blur(function(){
+      var call = $(this).attr('id');
+  })*/
+
+  var check_invoice_no = $('#edit_invoice_no').val();  
+  if(check_invoice_no==''){    
+    window.close();
+      if(pj_nm=='BOSS' && cur_typ=='USD'){
+        location.href = "/it/boss_tracker";   
+        alert('d');
+      } else if(pj_nm=='CHM' && cur_typ=='USD'){
+        location.href = "/it/chm_tracker";   
+        alert('e');
+      } else if(pj_nm=='CHM' && cur_typ=='INR' || pj_nm=='BOSS' && cur_typ=='INR' ){
+      location.href = "/it/inr_tracker";   
+      alert('f');
+    }      
+  }
+
+
+$('#export_invoice').click(function(){
+    var curr_url      = window.location.href
+    var invoice_no    = parseURLParams(curr_url)['invoice_no']
+    var id            = parseURLParams(curr_url)['id']
+    var client_name   = parseURLParams(curr_url)['client_name']
+    var vessel_type   = parseURLParams(curr_url)['vessel_type']
+    
+    $.ajax({
+    url: '/it/export_invoice_template/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{
+      'invoice_no'      : JSON.stringify(invoice_no),
+    },
+
+    success : function(obj){
+      location.href = "/it/other_export_download/";
+    },
+
+    error : function(err){
+     console.log(JSON.stringify(err));
+    }
+  });
+})
+   
+
+  if(client_name=='TANGEDCO' || client_name=='Poompuhar Shipping Corporation Limited'){
+    $('#export_invoice').css('display','') 
+  }else{
+    $('#export_invoice').css('display','') 
+  }
+
+
+  if(pj_nm=='CHM'){
+    $('#export_invoice').css('display','none') 
+  }
+
+  //   $.ajax({
+  //   url: '/it/other_export_download/',
+  //   dataType: 'JSON',
+  //   type: 'GET',
+  //   data:{
+  //     'invoice_no'      : JSON.stringify(invoice_no),
+  //   },
+  //   success : function(obj){
+  //   },
+  //   error : function(err){
+  //    console.log(JSON.stringify(err));
+  //   }
+  // });
+
+// $('#address').change(function(){
+//   var yourString = $(this).val();
+//   var et = yourString.replace(",", "\r\n");
+//   $('#address').val(et)
+//   console.log(et)
+// })
+
+if(client_name=='Litasco_Dubai'){
+  $('#update_invoice').css('display','none');
+  alert('Please select the Template highlighted in red. After selecting the Template, kindly select AED.');
+  $('#calling_for_template').focus(); 
+  $('#calling_for_template').css('border-color','red');
+}
+
+
+/*if (client_name=='HELLENIQ ENERGY HOLDINGS S.A.'){
+  $('#update_invoice').css('display','none')
+}else{
+  $('#update_invoice').css('display','')
+}
+*/
+ $(document).on('change','#get_account_name',function(){ 
+    var acc_names     = $(this).val();
+    var curr_url      = window.location.href
+    var invoice_no    = parseURLParams(curr_url)['invoice_no']
+    var id            = parseURLParams(curr_url)['id']
+    var client_name   = parseURLParams(curr_url)['client_name']
+    var vessel_type   = parseURLParams(curr_url)['vessel_type']
+
+
+    $.ajax({
+    url: '/it/update_address_template/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{
+      'invoice_no'    : JSON.stringify(invoice_no),     
+      'acc_name'      : JSON.stringify(acc_names),
+      'id'            : JSON.stringify(id),
+    },
+
+    success : function(obj){
+      if(obj=='' || obj==null){
+        alert('Address डालें वर्ना Invoice सबमिट नहीं होने दूंगा');
+        $('#update_invoice').css('display','none');
+        $('#address').val('');
+        $('#address').css('background-color','red');
+        return 0;
+      }  else{    
+        $('#address').val(obj);
+        $('#update_invoice').css('display','');
+        $('#address').css('background-color','white');
+      }
+
+
+    },
+    error : function(err){
+     console.log(JSON.stringify(err));
+    }
+  });
+ });
+
+
+ $('#address').change(function(){
+   $('#address').css('background-color','white');
+   $('#update_invoice').css('display','');
+ })
+
+
+ $('#calling_for_template').change(function(){
+  var curr_url      = window.location.href
+  var invoice_no    = parseURLParams(curr_url)['invoice_no'];
+  var t             = $(this).val();
+  location.href = "/it/other_invoice_type/?invoice_no="+invoice_no+"&types="+t;   
+ })
+
+//alert(client_name)
+
+if(client_name=='Shell'){
+  $('#btn_show_client').css('display','');
+  $('#btn_single_data').css('display','none');
+}
+
+if(client_name=='Oldendorff'){
+  $('#btn_show_client').css('display','none');
+  $('#btn_single_data').css('display','');
+}
+
+else{
+  $('#btn_show_client').css('display','none');
+  $('#btn_single_data').css('display','none');
+}
+ 
+
+ $('#get_url').click(function(){
+  var curr_url      = window.location.href
+  var invoice_no    = parseURLParams(curr_url)['invoice_no'];
+  ///it/single_data/?invoices={{invoice_nos}}
+  
+
+  var anchor = document.createElement('a');
+  anchor.href = '/it/single_data/?invoices='+invoice_no;;
+  anchor.target="_blank";
+  anchor.click();
+
+ })
+
+</script>
+
+{% endblock %}

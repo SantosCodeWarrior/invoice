@@ -1,0 +1,1761 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<style type="text/css">
+  .handsontable td {
+    font-size: 11px;
+  }
+
+  .handsontable table thead th{       
+    font-size:12px;
+  }
+
+scrollbar-color: white; /*
+</style>
+
+<div class="container" style="margin-left: 14px;">
+  <div class="col-md-12">
+    <h8 style="margin-left: 14px;font-size: 25px">Entry Reconciliation</h8> <a href="/it/reconciliation/"><button class="btn btn-primary" style="font-size: 9px;height: 25px;margin-top: -1px;margin-left: 12px;float: right;">View Reconciliation (USD)</button></a><br>&nbsp;
+    <p>&nbsp;</p>
+    <div class="row">
+      <div class="col-md-12">
+        <div style="overflow-x: scroll;overflow-y: scroll;width: 120%;height: 400px">
+          <div class = 'handsontable col-md-12' data-original  id = "payment_advice_list"></div> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>&nbsp;</p>
+  <div class="col-md-12">
+    <button class="btn btn-success" style = "margin-left: 14px;cursor: pointer;font-size: 10px;" id = "tab_type"  data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading">SUBMIT</button>
+  </div>
+</div>
+        
+
+<script type="text/javascript">
+  function get_rob(){
+  proj_l     = [];
+  client_l   = [];
+  currency_l = [];
+
+  proj_l.push('BOSS','CHM');
+
+  $("#payment_advice_list").empty()
+  container = document.getElementById('payment_advice_list');
+  rob = [];
+  rob = { 
+    'client_name'         : '',
+    'value_date'          : '',
+    'date'                : '', 
+    'inward_no'           : '',
+    'fcy_amount'          : 0,
+    'currency_type'       : '',
+    //'market_rate'         : 0, 
+    'rate'                : 0,
+    'amount_inr'          : 0,
+    'net_inward_amt_ref'  : 0,
+    'total_amount'        : 0,
+    
+    'bank_deduction'      : 0,
+    'tds_usd'             : 0,
+    'service1'            : '',
+    'invoice_no1'         : '',
+    'amount1'             : 0,
+
+    'service2'            : '',
+    'invoice_no2'         : '',
+    'amount2'             : 0,
+
+    'service3'            : '',
+    'invoice_no3'         : '',
+    'amount3'             : 0,
+
+    'service4'            : '',
+    'invoice_no4'         : '',
+    'amount4'             : 0,
+
+    'service5'            : '',
+    'invoice_no5'         : '',
+    'amount5'             : 0,
+
+    'service6'            : '',
+    'invoice_no6'         : '',
+    'amount6'             : 0,
+
+    'service7'            : '',
+    'invoice_no7'         : '',
+    'amount7'             : 0,
+
+    'service8'            : '',
+    'invoice_no8'         : '',
+    'amount8'             : 0,
+
+    'service9'            : '',
+    'invoice_no9'         : '',
+    'amount9'             : 0,
+
+    'service10'           : '',
+    'invoice_no10'        : '',
+    'amount10'            : 0,
+
+    'service11'           : '',
+    'invoice_no11'        : '',
+    'amount11'            : 0,
+
+    'service12'           : '',
+    'invoice_no12'        : '',
+    'amount12'            : 0,
+
+    'service13'           : '',
+    'invoice_no13'        : '',
+    'amount13'            : 0,
+
+    'service14'           : '',
+    'invoice_no14'        : '',
+    'amount14'            : 0,
+
+    'service15'           : '',
+    'invoice_no15'        : '',
+    'amount15'            : 0,
+
+    'service16'           : '',
+    'invoice_no16'        : '',
+    'amount16'            : 0,
+
+    'service17'           : '',
+    'invoice_no17'        : '',
+    'amount17'            : 0,
+
+    'service18'           : '',
+    'invoice_no18'        : '',
+    'amount18'            : 0,
+
+    'service19'           : '',
+    'invoice_no19'        : '',
+    'amount19'            : 0,
+
+    'service20'           : '',
+    'invoice_no20'        : '',
+    'amount20'            : 0,
+
+    'service21'           : '',
+    'invoice_no21'        : '',
+    'amount21'            : 0,
+
+    'service22'           : '',
+    'invoice_no22'        : '',
+    'amount22'            : 0,
+
+    'service23'           : '',
+    'invoice_no23'        : '',
+    'amount23'            : 0,
+
+    'service24'           : '',
+    'invoice_no24'        : '',
+    'amount24'            : 0,
+
+    'service25'           : '',
+    'invoice_no25'        : '',
+    'amount25'            : 0,
+
+    'service26'           : '',
+    'invoice_no26'        : '',
+    'amount26'            : 0,
+
+    'service27'           : '',
+    'invoice_no27'        : '',
+    'amount27'            : 0,
+
+    'service28'           : '',
+    'invoice_no28'        : '',
+    'amount28'            : 0,
+
+    'service29'           : '',
+    'invoice_no29'        : '',
+    'amount29'            : 0,
+
+    'service30'           : '',
+    'invoice_no30'        : '',
+    'amount30'            : 0,
+    'remarks'             : '',
+  };
+
+
+  colHeaders = ['Client Name (Dropdown)','Value Date','Remit. Date (Credit Date)','Inward/PID No','Inward Amount','Currency Type','Rate','Amount INR','Net Inward Amount Ref','Bank Deduction','TDS (USD)','Total Amount','Service1','Invoice No1','Amount1','Service2','Invoice No2','Amount2','Service3','Invoice No3','Amount3','Service4','Invoice No4','Amount4','Service5','Invoice No5','Amount5','Service6','Invoice No6','Amount6','Service7','Invoice No7','Amount7','Service8','Invoice No8','Amount8','Service9','Invoice No9','Amount9','Service10','Invoice No10','Amount10','Service11','Invoice No11','Amount11','Service12','Invoice No12','Amount12','Service13','Invoice No13','Amount13','Service14','Invoice No14','Amount14','Service15','Invoice No15','Amount15','Service16','Invoice No16','Amount16','Service17','Invoice No17','Amount17','Service18','Invoice No18','Amount18','Service19','Invoice No19','Amount19','Service20','Invoice No20','Amount20','Service21','Invoice No21','Amount21','Service22','Invoice No22','Amount22','Service23','Invoice No23','Amount23','Service24','Invoice No24','Amount24','Service25','Invoice No25','Amount25','Service26','Invoice No26','Amount26','Service27','Invoice No27','Amount27','Service28','Invoice No28','Amount28','Service29','Invoice No29','Amount29','Service30','Invoice No30','Amount30','Remarks']
+  columns    = 
+  [
+    {data : 'client_name',type:'dropdown',strict: false,source: client_l},
+    {data : 'value_date',type:'date'},
+    {data : 'date',type:'date'},
+    {data : 'inward_no', type: 'text'},
+    {data : 'fcy_amount'},
+    {data : 'currency_type',type:'dropdown',strict: false,source: currency_l},
+    //{data : 'market_rate'  , type:'text'},
+    {data : 'rate', type:'text'},
+    {data : 'amount_inr', type:'text',renderer: tot_rate_amount},
+    {data : 'net_inward_amt_ref' , type:'text',renderer: tot_amt_ref},
+    {data : 'bank_deduction', type:'text'},
+    {data : 'tds_usd', type:'text'},
+    {data : 'total_amount' , type:'numeric',renderer: get_total_amount},
+  
+    {data : 'service1',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no1', type:'text'},
+    {data : 'amount1', type:'text',renderer: grender1},
+    {data : 'service2' ,type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no2', type:'text'},
+    {data : 'amount2', type:'text',renderer: grender2},
+    {data : 'service3',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no3' , type:'text'},
+    {data : 'amount3'  , type:'text',renderer: grender3},
+    {data : 'service4',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no4', type:'text'},
+    {data : 'amount4' , type:'text',renderer: grender4},
+    {data : 'service5',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no5', type:'text'},
+    {data : 'amount5' , type:'text',renderer: grender5},
+    {data : 'service6',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no6' , type:'text'},
+    {data : 'amount6' , type:'text',renderer: grender6},
+    {data : 'service7',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no7' , type:'text'},
+    {data : 'amount7' , type:'text',renderer: grender7},
+    {data : 'service8' ,type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no8', type:'text'},
+    {data : 'amount8'  , type:'text',renderer: grender8},
+    {data : 'service9',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no9' , type:'text'},
+    {data : 'amount9', type:'text',renderer: grender9},
+    {data : 'service10',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no10' , type:'text'},
+    {data : 'amount10', type:'text',renderer: grender10},
+    {data : 'service11',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no11'  , type:'text'},
+    {data : 'amount11' , type:'text',renderer: grender11},
+    {data : 'service12',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no12' ,type:'text'},
+    {data : 'amount12' , type:'text',renderer: grender12},
+    {data : 'service13',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no13',type:'text'},
+    {data : 'amount13' , type:'text',renderer: grender13},
+    {data : 'service14',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no14',type:'text'},
+    {data : 'amount14', type:'text',renderer: grender14},
+    {data : 'service15',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no15' ,type:'text'},
+    {data : 'amount15' , type:'text',renderer: grender15},
+
+    {data : 'service16',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no16' ,type:'text'},
+    {data : 'amount16' , type:'text',renderer: grender16},
+
+    {data : 'service17',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no17' ,type:'text'},
+    {data : 'amount17' , type:'text',renderer: grender17},
+
+    {data : 'service18',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no18' ,type:'text'},
+    {data : 'amount18' , type:'text',renderer: grender18},
+
+    {data : 'service19',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no19' ,type:'text'},
+    {data : 'amount19' , type:'text',renderer: grender19},
+
+    {data : 'service20',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no20' ,type:'text'},
+    {data : 'amount20' , type:'text',renderer: grender20},    
+
+    {data : 'service21',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no21' ,type:'text'},
+    {data : 'amount21' , type:'text',renderer: grender21},
+
+    {data : 'service22',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no22' ,type:'text'},
+    {data : 'amount22' , type:'text',renderer: grender22},
+
+    {data : 'service23',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no23' ,type:'text'},
+    {data : 'amount23' , type:'text',renderer: grender23},
+
+    {data : 'service24',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no24' ,type:'text'},
+    {data : 'amount24' , type:'text',renderer: grender24},
+
+    {data : 'service25',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no25' ,type:'text'},
+    {data : 'amount25' , type:'text',renderer: grender25},
+
+    {data : 'service26',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no26' ,type:'text'},
+    {data : 'amount26' , type:'text',renderer: grender26},
+
+    {data : 'service27',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no27' ,type:'text'},
+    {data : 'amount27' , type:'text',renderer: grender27},
+
+    {data : 'service28',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no28' ,type:'text'},
+    {data : 'amount28' , type:'text',renderer: grender28},
+
+    {data : 'service29',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no29' ,type:'text'},
+    {data : 'amount29' , type:'text',renderer: grender29},
+
+    {data : 'service30',type:'dropdown',strict: false,source: proj_l},
+    {data : 'invoice_no30' ,type:'text'},
+    {data : 'amount30' , type:'text',renderer: grender30},
+
+    {data : 'remarks'}
+
+
+
+  ]
+
+  VA_table6  = new Handsontable(container,{
+    data                : rob,
+    colHeaders          : colHeaders,    
+    columns             : columns,
+    //minSpareRows        : 3,
+    rowHeaders          : true,      
+    contextMenu         : true,
+    columnSorting       : true,  
+    colWidths           : [310,180,150, 100, 100,100,100,150,190,150,120,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,190],
+    //manualColumnResize  : true,
+
+  });
+
+}
+
+
+
+
+$.ajax({
+  url : "/it/get_currency_list",
+  type : "get",
+
+  dataType : "json",
+  data : {
+
+  },
+  success : function(obj_data){
+    for(var i=0;i<obj_data.length;i++)
+    {
+      currency_l.push(obj_data[i]['currency'])
+    }
+
+    for(var t=0;t<obj_data.length;t++)
+    {
+      $('#currency_details').append('<tr style="font-size:11px"><td><center>'+obj_data[t]['id']+'</center></td><td><center><input type="text" value='+obj_data[t]['currency']+'></center></td></tr>')
+    }
+
+    
+  },
+  error : function(err){
+    console.log(JSON.stringify(err,null,4));
+  }
+});
+
+
+$.ajax({
+  url : "/it/get_client_list",
+  type : "get",
+
+  dataType : "json",
+  data : {
+
+  },
+  success : function(obj_data){
+    for(var i=0;i<obj_data.length;i++)
+    {
+      client_l.push(obj_data[i]['client'])
+    }
+    
+  },
+  error : function(err){
+    console.log(JSON.stringify(err,null,4));
+  }
+});
+
+
+$('#tab_type').click(function(){
+  datas      = VA_table6.getData();
+  $.ajax({
+    url : "/it/inserting_remittance_data/",
+    type : "POST",
+
+    dataType : "json",
+    data : {
+      'datas' : JSON.stringify(datas),
+    },
+    success : function(obj_data){
+     
+      
+    },
+    error : function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+
+total_sum = 0;
+function get_total_amount(instance, td, row, col, prop, value, cellProperties) {
+   Handsontable.renderers.TextRenderer.apply(this, arguments);
+  //console.log(col)
+    amount1          = (instance.getCell(0, 14).innerText);
+    amount2          = (instance.getCell(0, 17).innerText);
+    amount3          = (instance.getCell(0, 20).innerText);
+    amount4          = (instance.getCell(0, 23).innerText);
+    amount5          = (instance.getCell(0, 26).innerText);
+    amount6          = (instance.getCell(0, 29).innerText);
+    amount7          = (instance.getCell(0, 32).innerText);
+    amount8          = (instance.getCell(0, 35).innerText);
+    amount9          = (instance.getCell(0, 38).innerText);
+    amount10         = (instance.getCell(0, 41).innerText);
+    amount11         = (instance.getCell(0, 44).innerText);
+    amount12         = (instance.getCell(0, 47).innerText);
+    amount13         = (instance.getCell(0, 50).innerText);
+    amount14         = (instance.getCell(0, 53).innerText);
+    amount15         = (instance.getCell(0, 56).innerText);
+    amount16         = (instance.getCell(0, 59).innerText);
+    amount17         = (instance.getCell(0, 62).innerText);
+    amount18         = (instance.getCell(0, 65).innerText);
+    amount19         = (instance.getCell(0, 68).innerText);
+    amount20         = (instance.getCell(0, 71).innerText);
+
+    amount21         = (instance.getCell(0, 74).innerText);
+    amount22         = (instance.getCell(0, 77).innerText);
+    amount23         = (instance.getCell(0, 80).innerText);
+    amount24         = (instance.getCell(0, 83).innerText);
+    amount25         = (instance.getCell(0, 86).innerText);
+
+    amount26         = (instance.getCell(0, 89).innerText);
+    amount27         = (instance.getCell(0, 92).innerText);
+    amount28         = (instance.getCell(0, 95).innerText);
+    amount29         = (instance.getCell(0, 98).innerText);
+    amount30         = (instance.getCell(0, 101).innerText);
+   
+    td.style.backgroundColor = '#edf582';
+    total_sum = parseFloat(amount1)+parseFloat(amount2)+parseFloat(amount3)+parseFloat(amount4)+parseFloat(amount5)+parseFloat(amount6)+parseFloat(amount7)+parseFloat(amount8)+parseFloat(amount9)+parseFloat(amount10)+parseFloat(amount11)+parseFloat(amount12)+parseFloat(amount13)+parseFloat(amount14)+parseFloat(amount15)+parseFloat(amount16)+parseFloat(amount17)+parseFloat(amount18)+parseFloat(amount19)+parseFloat(amount20)+parseFloat(amount21)+parseFloat(amount22)+parseFloat(amount23)+parseFloat(amount24)+parseFloat(amount25)+parseFloat(amount26)+parseFloat(amount27)+parseFloat(amount28)+parseFloat(amount29)+parseFloat(amount30);   
+      td.innerHTML = total_sum;
+     
+  };
+
+
+
+function grender1(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no1  = (data[0]['invoice_no1'])
+    service1     = (data[0]['service1'])
+    amount1      = (data[0]['amount1'])    
+    s_n          = 1
+   
+
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service1),
+        'invoice_no' : JSON.stringify(invoice_no1),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);
+        //get_data_calc(obj_data['amount'],0,0,0,0,0,0,0,0,0,0,0,0,0,0) 
+        }
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+function grender2(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no2  = (data[0]['invoice_no2'])
+    service2     = (data[0]['service2'])
+    s_n          = 2
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service2),
+        'invoice_no' : JSON.stringify(invoice_no2),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+    
+};
+
+
+function grender3(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no3  = (data[0]['invoice_no3'])
+    service3     = (data[0]['service3'])
+    s_n          = 3
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service3),
+        'invoice_no' : JSON.stringify(invoice_no3),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+};
+
+
+function grender4(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no4  = (data[0]['invoice_no4'])
+    service4     = (data[0]['service4'])
+    s_n          = 4
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service4),
+        'invoice_no' : JSON.stringify(invoice_no4),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+          td.innerHTML = obj_data['amount'].toFixed(0);
+          //td.style.backgroundColor = '#f7f1ab' 
+        }        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+};
+
+
+function grender5(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no5  = (data[0]['invoice_no5'])
+    service5     = (data[0]['service5'])
+    s_n          = 5
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service5),
+        'invoice_no' : JSON.stringify(invoice_no5),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+};
+
+
+function grender6(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no6  = (data[0]['invoice_no6'])
+    service6     = (data[0]['service6'])
+    s_n          = 6
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service6),
+        'invoice_no' : JSON.stringify(invoice_no6),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+};
+
+
+function grender7(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no7  = (data[0]['invoice_no7'])
+    service7     = (data[0]['service7'])
+    s_n          = 7
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service7),
+        'invoice_no' : JSON.stringify(invoice_no7),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender8(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no8  = (data[0]['invoice_no8'])
+    service8     = (data[0]['service8'])
+    s_n          = 8
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service8),
+        'invoice_no' : JSON.stringify(invoice_no8),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+};
+
+
+function grender9(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no9  = (data[0]['invoice_no9'])
+    service9     = (data[0]['service9'])
+    s_n          = 9
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service9),
+        'invoice_no' : JSON.stringify(invoice_no9),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });  
+};
+
+
+function grender10(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data      = instance.getData();    
+    invoice_no10  = (data[0]['invoice_no10'])
+    service10     = (data[0]['service10'])
+    s_n           = 10
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service10),
+        'invoice_no' : JSON.stringify(invoice_no10),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+};
+
+
+function grender11(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data      = instance.getData();    
+    invoice_no11  = (data[0]['invoice_no11'])
+    service11     = (data[0]['service11'])
+    s_n           = 11
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service11),
+        'invoice_no' : JSON.stringify(invoice_no11),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+};
+
+
+function grender12(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data      = instance.getData();    
+    invoice_no12  = (data[0]['invoice_no12'])
+    service12     = (data[0]['service12'])
+    s_n           = 12
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service12),
+        'invoice_no' : JSON.stringify(invoice_no12),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);
+        }
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });  
+};
+
+
+function grender13(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data      = instance.getData();    
+    invoice_no13  = (data[0]['invoice_no13'])
+    service13     = (data[0]['service13'])
+    s_n           = 13
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service13),
+        'invoice_no' : JSON.stringify(invoice_no13),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+};
+
+
+function grender14(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data      = instance.getData();    
+    invoice_no14  = (data[0]['invoice_no14'])
+    service14     = (data[0]['service14'])
+    s_n           = 14
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service14),
+        'invoice_no' : JSON.stringify(invoice_no14),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender15(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no15 = (data[0]['invoice_no15'])
+    service15    = (data[0]['service15'])
+    s_n          = 15
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service15),
+        'invoice_no' : JSON.stringify(invoice_no15),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender16(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no16 = (data[0]['invoice_no16'])
+    service16    = (data[0]['service16'])
+    s_n          = 16
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service16),
+        'invoice_no' : JSON.stringify(invoice_no16),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+
+function grender17(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no17 = (data[0]['invoice_no17'])
+    service17    = (data[0]['service17'])
+    s_n          = 17
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service17),
+        'invoice_no' : JSON.stringify(invoice_no17),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender18(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no18 = (data[0]['invoice_no18'])
+    service18    = (data[0]['service18'])
+    s_n          = 18
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service18),
+        'invoice_no' : JSON.stringify(invoice_no18),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0); 
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender19(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no19 = (data[0]['invoice_no19'])
+    service19    = (data[0]['service19'])
+    s_n          = 19
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service19),
+        'invoice_no' : JSON.stringify(invoice_no19),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0); 
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender20(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no20 = (data[0]['invoice_no20'])
+    service20    = (data[0]['service20'])
+    s_n          = 20
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service20),
+        'invoice_no' : JSON.stringify(invoice_no20),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0); 
+        }        
+        
+       
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender21(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no21 = (data[0]['invoice_no21'])
+    service21    = (data[0]['service21'])
+    s_n          = 21
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service21),
+        'invoice_no' : JSON.stringify(invoice_no21),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender22(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no22 = (data[0]['invoice_no22'])
+    service22    = (data[0]['service22'])
+    s_n          = 22
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service22),
+        'invoice_no' : JSON.stringify(invoice_no22),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+function grender23(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no23 = (data[0]['invoice_no23'])
+    service23    = (data[0]['service23'])
+    s_n          = 23
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service23),
+        'invoice_no' : JSON.stringify(invoice_no23),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+function grender24(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no24 = (data[0]['invoice_no24'])
+    service24    = (data[0]['service24'])
+    s_n          = 24
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service24),
+        'invoice_no' : JSON.stringify(invoice_no24),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0);  
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+function grender25(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no25 = (data[0]['invoice_no25'])
+    service25    = (data[0]['service25'])
+    s_n          = 25
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service25),
+        'invoice_no' : JSON.stringify(invoice_no25),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0); 
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender26(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no26 = (data[0]['invoice_no26'])
+    service26    = (data[0]['service26'])
+    s_n          = 26
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service26),
+        'invoice_no' : JSON.stringify(invoice_no26),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0); 
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender27(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no27 = (data[0]['invoice_no27'])
+    service27    = (data[0]['service27'])
+    s_n          = 27
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service27),
+        'invoice_no' : JSON.stringify(invoice_no27),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0); 
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender28(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no28 = (data[0]['invoice_no28'])
+    service28    = (data[0]['service28'])
+    s_n          = 28
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service28),
+        'invoice_no' : JSON.stringify(invoice_no28),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0); 
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender29(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no29 = (data[0]['invoice_no29'])
+    service29    = (data[0]['service29'])
+    s_n          = 29
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service29),
+        'invoice_no' : JSON.stringify(invoice_no29),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0); 
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function grender30(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no30 = (data[0]['invoice_no30'])
+    service30    = (data[0]['service30'])
+    s_n          = 30
+    $.ajax({
+      url : "/it/calc_remittance_datas",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),
+        'service'    : JSON.stringify(service30),
+        'invoice_no' : JSON.stringify(invoice_no30),
+      },
+
+      success : function(obj_data){
+        if(obj_data['sno']==0){
+          return 0;
+        }else{
+        td.innerHTML = obj_data['amount'].toFixed(0); 
+        }  
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+};
+
+
+function tot_rate_amount(instance, td, row, col, prop, value, cellProperties) {    
+  Handsontable.renderers.TextRenderer.apply(this, arguments);
+
+  var data      = instance.getData();    
+  _fcy_amt      = (data[0]['fcy_amount'])
+  _rates        = (data[0]['rate'])
+  _amt_ref      = (data[0]['net_inward_amt_ref'])
+  if(_rates!=0 && _rates!=""){
+    total         = parseFloat(_fcy_amt*_rates)
+
+  }else {
+    total         = _fcy_amt
+    td.style.backgroundColor = '#f7f1ab';
+  }
+  td.innerHTML  = total;
+  td.style.backgroundColor = '#f7f1ab'
+
+}
+
+
+function tot_amt_ref(instance, td, row, col, prop, value, cellProperties) {    
+  Handsontable.renderers.TextRenderer.apply(this, arguments);
+
+  var data      = instance.getData();    
+  _fcy_amt      = (data[0]['fcy_amount'])
+  _rates        = (data[0]['rate'])
+  _amt_ref      = (data[0]['net_inward_amt_ref'])  
+  total         = _fcy_amt  
+  td.innerHTML  = total;  
+  td.style.backgroundColor = '#f7f1ab';
+}
+
+get_rob();
+
+
+
+$('#tab_type').click(function(){  
+  client_name       = (VA_table6.getCell(0, 0).innerText);
+  //alert(JSON.stringify(client_name))
+
+  if(client_name=='▼'){
+    alert('Please Select Client Name');
+    return 0;
+  }
+
+  value_date        = (VA_table6.getCell(0, 1).innerText);
+  remitttance_date  = (VA_table6.getCell(0, 2).innerText);
+  inward_number     = (VA_table6.getCell(0, 3).innerText);
+  inward_amount     = (VA_table6.getCell(0, 4).innerText);
+  currency_type     = (VA_table6.getCell(0, 5).innerText);
+  //market_rate       = (VA_table6.getCell(0, 5).innerText);
+  rate              = (VA_table6.getCell(0, 6).innerText);
+  amount_inr        = (VA_table6.getCell(0, 7).innerText);
+  net_amt_ref       = (VA_table6.getCell(0, 8).innerText);
+  bank_deduct       = (VA_table6.getCell(0, 9).innerText);
+  tds               = (VA_table6.getCell(0, 10).innerText);
+  //alert()
+  service1          = (VA_table6.getCell(0, 12).innerText);
+  invoice_n1        = (VA_table6.getCell(0, 13).innerText);
+  amount1           = (VA_table6.getCell(0, 14).innerText);
+
+
+  service2          = (VA_table6.getCell(0, 15).innerText);
+  invoice_n2        = (VA_table6.getCell(0, 16).innerText);
+  amount2           = (VA_table6.getCell(0, 17).innerText);
+
+  service3          = (VA_table6.getCell(0, 18).innerText);
+  invoice_n3        = (VA_table6.getCell(0, 19).innerText);
+  amount3           = (VA_table6.getCell(0, 20).innerText);
+
+  service4          = (VA_table6.getCell(0, 21).innerText);
+  invoice_n4        = (VA_table6.getCell(0, 22).innerText);
+  amount4           = (VA_table6.getCell(0, 23).innerText);
+
+  service5          = (VA_table6.getCell(0, 24).innerText);
+  invoice_n5        = (VA_table6.getCell(0, 25).innerText);
+  amount5           = (VA_table6.getCell(0, 26).innerText);
+
+  service6          = (VA_table6.getCell(0, 27).innerText);
+  invoice_n6        = (VA_table6.getCell(0, 28).innerText);
+  amount6           = (VA_table6.getCell(0, 29).innerText);
+
+  service7          = (VA_table6.getCell(0, 30).innerText);
+  invoice_n7        = (VA_table6.getCell(0, 31).innerText);
+  amount7           = (VA_table6.getCell(0, 32).innerText);
+
+  service8          = (VA_table6.getCell(0, 33).innerText);
+  invoice_n8        = (VA_table6.getCell(0, 34).innerText);
+  amount8           = (VA_table6.getCell(0, 35).innerText);
+
+  service9          = (VA_table6.getCell(0, 36).innerText);
+  invoice_n9        = (VA_table6.getCell(0, 37).innerText);
+  amount9           = (VA_table6.getCell(0, 38).innerText);
+
+  service10          = (VA_table6.getCell(0, 39).innerText);
+  invoice_n10        = (VA_table6.getCell(0, 40).innerText);
+  amount10           = (VA_table6.getCell(0, 41).innerText);
+
+  service11          = (VA_table6.getCell(0, 42).innerText);
+  invoice_n11        = (VA_table6.getCell(0, 43).innerText);
+  amount11           = (VA_table6.getCell(0, 44).innerText);
+
+  service12          = (VA_table6.getCell(0, 45).innerText);
+  invoice_n12        = (VA_table6.getCell(0, 46).innerText);
+  amount12           = (VA_table6.getCell(0, 47).innerText);
+
+  service13          = (VA_table6.getCell(0, 48).innerText);
+  invoice_n13        = (VA_table6.getCell(0, 49).innerText);
+  amount13           = (VA_table6.getCell(0, 50).innerText);
+
+  service14          = (VA_table6.getCell(0, 51).innerText);
+  invoice_n14        = (VA_table6.getCell(0, 52).innerText);
+  amount14           = (VA_table6.getCell(0, 53).innerText);
+
+  service15          = (VA_table6.getCell(0, 54).innerText);
+  invoice_n15        = (VA_table6.getCell(0, 55).innerText);
+  amount15           = (VA_table6.getCell(0, 56).innerText);
+
+  service16          = (VA_table6.getCell(0, 57).innerText);
+  invoice_n16        = (VA_table6.getCell(0, 58).innerText);
+  amount16           = (VA_table6.getCell(0, 59).innerText);
+
+  service17          = (VA_table6.getCell(0, 60).innerText);
+  invoice_n17        = (VA_table6.getCell(0, 61).innerText);
+  amount17           = (VA_table6.getCell(0, 62).innerText);
+
+  service18          = (VA_table6.getCell(0, 63).innerText);
+  invoice_n18        = (VA_table6.getCell(0, 64).innerText);
+  amount18           = (VA_table6.getCell(0, 65).innerText);
+
+  service19          = (VA_table6.getCell(0, 66).innerText);
+  invoice_n19        = (VA_table6.getCell(0, 67).innerText);
+  amount19           = (VA_table6.getCell(0, 68).innerText);
+
+  service20          = (VA_table6.getCell(0, 69).innerText);
+  invoice_n20        = (VA_table6.getCell(0, 70).innerText);
+  amount20           = (VA_table6.getCell(0, 71).innerText);
+
+  service21          = (VA_table6.getCell(0, 72).innerText);
+  invoice_n21        = (VA_table6.getCell(0, 73).innerText);
+  amount21           = (VA_table6.getCell(0, 74).innerText);
+
+  service22          = (VA_table6.getCell(0, 75).innerText);
+  invoice_n22        = (VA_table6.getCell(0, 76).innerText);
+  amount22           = (VA_table6.getCell(0, 77).innerText);
+
+  service23          = (VA_table6.getCell(0, 78).innerText);
+  invoice_n23        = (VA_table6.getCell(0, 79).innerText);
+  amount23           = (VA_table6.getCell(0, 80).innerText);
+
+  service24          = (VA_table6.getCell(0, 81).innerText);
+  invoice_n24        = (VA_table6.getCell(0, 82).innerText);
+  amount24           = (VA_table6.getCell(0, 83).innerText);
+
+  service25          = (VA_table6.getCell(0, 84).innerText);
+  invoice_n25        = (VA_table6.getCell(0, 85).innerText);
+  amount25           = (VA_table6.getCell(0, 86).innerText);
+
+  service26          = (VA_table6.getCell(0, 87).innerText);
+  invoice_n26        = (VA_table6.getCell(0, 88).innerText);
+  amount26           = (VA_table6.getCell(0, 89).innerText);
+  service27          = (VA_table6.getCell(0, 90).innerText);
+  invoice_n27        = (VA_table6.getCell(0, 91).innerText);
+  amount27           = (VA_table6.getCell(0, 92).innerText);
+  service28          = (VA_table6.getCell(0, 93).innerText);
+  invoice_n28        = (VA_table6.getCell(0, 94).innerText);
+  amount28           = (VA_table6.getCell(0, 95).innerText);
+  service29          = (VA_table6.getCell(0, 96).innerText);
+  invoice_n29        = (VA_table6.getCell(0, 97).innerText);
+  amount29           = (VA_table6.getCell(0, 98).innerText);
+  service30          = (VA_table6.getCell(0, 99).innerText);
+  invoice_n30        = (VA_table6.getCell(0, 100).innerText);
+  amount30           = (VA_table6.getCell(0, 101).innerText);
+
+  remarks            = (VA_table6.getCell(0, 102).innerText);
+
+  
+  
+ $.ajax({
+      url : "/it/submitting_remittance_data",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'value_date'          : JSON.stringify(value_date),
+        'client_name'         : JSON.stringify(client_name),
+        'remitttance_date'    : JSON.stringify(remitttance_date),
+        'inward_number'       : JSON.stringify(inward_number),
+        'inward_amount'       : JSON.stringify(inward_amount),
+        'currency_type'       : JSON.stringify(currency_type),
+       // 'market_rate'         : JSON.stringify(market_rate),
+        'rate'                : JSON.stringify(rate),
+        'amount_inr'          : JSON.stringify(amount_inr),
+        'net_amt_ref'         : JSON.stringify(net_amt_ref),
+        'bank_deduct'         : JSON.stringify(bank_deduct),
+        'tds'                 : JSON.stringify(tds),
+        'service1'            : JSON.stringify(service1),
+        'invoice_n1'          : JSON.stringify(invoice_n1),
+        'amount1'             : JSON.stringify(amount1),
+        'service2'            : JSON.stringify(service2),
+        'invoice_n2'          : JSON.stringify(invoice_n2),
+        'amount2'             : JSON.stringify(amount2),
+        'service3'            : JSON.stringify(service3),
+        'invoice_n3'          : JSON.stringify(invoice_n3),
+        'amount3'             : JSON.stringify(amount3),
+        'service4'            : JSON.stringify(service4),
+        'invoice_n4'          : JSON.stringify(invoice_n4),
+        'amount4'             : JSON.stringify(amount4),
+        'service5'            : JSON.stringify(service5),
+        'invoice_n5'          : JSON.stringify(invoice_n5),
+        'amount5'             : JSON.stringify(amount5),
+        'service6'            : JSON.stringify(service6),
+        'invoice_n6'          : JSON.stringify(invoice_n6),
+        'amount6'             : JSON.stringify(amount6),
+        'service7'            : JSON.stringify(service7),
+        'invoice_n7'          : JSON.stringify(invoice_n7),
+        'amount7'             : JSON.stringify(amount7),
+        'service8'            : JSON.stringify(service8),
+        'invoice_n8'          : JSON.stringify(invoice_n8),
+        'amount8'             : JSON.stringify(amount8),
+        'service9'            : JSON.stringify(service9),
+        'invoice_n9'          : JSON.stringify(invoice_n9),
+        'amount9'             : JSON.stringify(amount9),
+        'service10'           : JSON.stringify(service10),
+        'invoice_n10'         : JSON.stringify(invoice_n10),
+        'amount10'            : JSON.stringify(amount10),
+        'service11'           : JSON.stringify(service11),
+        'invoice_n11'         : JSON.stringify(invoice_n11),
+        'amount11'            : JSON.stringify(amount11),
+        'service12'           : JSON.stringify(service12),
+        'invoice_n12'         : JSON.stringify(invoice_n12),
+        'amount12'            : JSON.stringify(amount12),
+        'service13'           : JSON.stringify(service13),
+        'invoice_n13'         : JSON.stringify(invoice_n13),
+        'amount13'            : JSON.stringify(amount13),
+        'service14'           : JSON.stringify(service14),
+        'invoice_n14'         : JSON.stringify(invoice_n14),
+        'amount14'            : JSON.stringify(amount14),
+        'service15'           : JSON.stringify(service15),
+        'invoice_n15'         : JSON.stringify(invoice_n15),
+        'amount15'            : JSON.stringify(amount15),
+        'service16'           : JSON.stringify(service16),
+        'invoice_n16'         : JSON.stringify(invoice_n16),
+        'amount16'            : JSON.stringify(amount16),
+        'service17'           : JSON.stringify(service17),
+        'invoice_n17'         : JSON.stringify(invoice_n17),
+        'amount17'            : JSON.stringify(amount17),
+        'service18'           : JSON.stringify(service18),
+        'invoice_n18'         : JSON.stringify(invoice_n18),
+        'amount18'            : JSON.stringify(amount18),
+        'service19'           : JSON.stringify(service19),
+        'invoice_n19'         : JSON.stringify(invoice_n19),
+        'amount19'            : JSON.stringify(amount19),
+        'service20'           : JSON.stringify(service20),
+        'invoice_n20'         : JSON.stringify(invoice_n20),
+        'amount20'            : JSON.stringify(amount20),
+        'service21'           : JSON.stringify(service21),
+        'invoice_n21'         : JSON.stringify(invoice_n21),
+        'amount21'            : JSON.stringify(amount21),
+        'service22'           : JSON.stringify(service22),
+        'invoice_n22'         : JSON.stringify(invoice_n22),
+        'amount22'            : JSON.stringify(amount22),
+        'service23'           : JSON.stringify(service23),
+        'invoice_n23'         : JSON.stringify(invoice_n23),
+        'amount23'            : JSON.stringify(amount23),
+        'service24'           : JSON.stringify(service24),
+        'invoice_n24'         : JSON.stringify(invoice_n24),
+        'amount24'            : JSON.stringify(amount24),
+        'service25'           : JSON.stringify(service25),
+        'invoice_n25'         : JSON.stringify(invoice_n25),
+        'amount25'            : JSON.stringify(amount25),
+        'service26'           : JSON.stringify(service26),
+        'invoice_n26'         : JSON.stringify(invoice_n26),
+        'amount26'            : JSON.stringify(amount26),        
+        'service27'           : JSON.stringify(service27),
+        'invoice_n27'         : JSON.stringify(invoice_n27),
+        'amount27'            : JSON.stringify(amount27),        
+        'service28'           : JSON.stringify(service28),
+        'invoice_n28'         : JSON.stringify(invoice_n28),
+        'amount28'            : JSON.stringify(amount28),        
+        'service29'           : JSON.stringify(service29),
+        'invoice_n29'         : JSON.stringify(invoice_n29),
+        'amount29'            : JSON.stringify(amount29),        
+        'service30'           : JSON.stringify(service30),
+        'invoice_n30'         : JSON.stringify(invoice_n30),
+        'amount30'            : JSON.stringify(amount30),     
+
+        'remarks'             : JSON.stringify(remarks),
+       
+      },
+
+      success : function(obj_data){
+        console.log(obj_data)
+       if(obj_data=='Done'){
+          alert('Done');
+          location.reload();
+        } 
+        if(obj_data=='Already Submitted'){
+          alert('Already submitted');
+          return 0;
+          //location.reload();
+        }        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    }); 
+
+
+})
+
+</script> 
+
+{% endblock %}

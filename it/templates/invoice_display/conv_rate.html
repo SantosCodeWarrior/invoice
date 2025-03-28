@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="https://handsontable.com/static/css/main.css"> -->
+    <script src="https://handsontable.com/docs/6.0.1/scripts/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handsontable-pro@6.0.1/dist/handsontable.full.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable-pro@6.0.1/dist/handsontable.full.min.css">
+
+<style type="text/css">
+  .hot-display-license-info{
+    display: none;
+  }
+
+
+  .handsontable TR:nth-child(1) TH {
+  font-size: 12px;
+  
+}
+
+</style>
+
+<script type="text/javascript">
+function submittab(){
+//alert('dd')
+  var data      = tab_table.getData();  
+  data          = tab_table.getData();  
+  data_cleaned  = [];
+  var i         = 0;
+  while(true){
+    if(data[i]['name'] != null ){    
+      data_cleaned.push(data[i]['name']);
+      i++;
+    }
+    else{
+      break;
+    }
+  }
+
+ $('#loader').css('display','');
+  $.ajax({
+    url : "/it/conv_rate_list/",
+    type : "POST",
+    dataType : "json",
+    data: {
+      tabs_name: JSON.stringify(data),        
+      csrfmiddlewaretoken: ''
+    },
+    success : function(obj_data){ 
+      alert('Done')
+      $('#loader').css('display','none');     
+     // get_reports()
+    },
+    error : function(err){       
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+}
+
+
+
+</script>
+
+<div class = "box box-success">
+    <div class="box-header with-border">
+    <center>Conversion Rate</center><a href="/it/reconciliation/"><button class="btn btn-primary" style="font-size: 9px;height: 25px;margin-top: -14px; margin-right: 32px;float: right;">View Reconciliation (USD)</button></a><br>&nbsp;
+    
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+    <div class = "col-md-12" style="height:100%">
+      <div class = 'handsontable' style="height: 600px; overflow: auto; margin-top : 30px;" data-originalstyle="height: 300px; overflow: auto"  id="get_client_data"></div>
+      <!-- <button class="btn btn-success" id="insert_new_conv_rate">SUBMIT</button> -->
+       <button class="btn btn-primary" style = "margin : 0px;cursor: pointer;font-size: 10px;" id = "insert_new_conv_rate" onclick = "submittab()" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading">SUBMIT</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript">  
+  var data = [
+    {
+      id          : '1',
+      rate_date   : '',
+      rate_price  : 0,
+      rate_open   : 0,
+      rate_high   : 0,
+      rate_low    : 0,
+      rate_avg    : 0,
+    }
+  ];
+  
+  container     = document.getElementById('get_client_data');
+  var tab_table = new Handsontable(container, {
+    minSpareRows  : 90,   
+    dropdownMenu  : true,   
+    columnSorting : true,    
+    stretchH      : 'all',
+      
+    colHeaders    : ['ID','Conv.Date','Price','Open','High','Low','AVG'],    
+    contextMenu   : true,
+   
+    columns: [
+    {
+      data: "id",
+      type: 'text',
+      
+    },      
+   
+
+    {
+      data: "rate_date",
+      type: 'date',
+      dateFormat: 'DD-MMM-YYYY',
+     
+    },
+
+    {
+      data: "rate_price",
+      type:'text',
+      //renderer: avgRenderer, 
+      
+    },
+
+    {
+      data: "rate_open",
+      type:'text',  
+      //renderer: avgRenderer,    
+      
+    }, 
+
+    {
+      data: "rate_high",
+      type: 'text', 
+      //renderer: avgRenderer, 
+     
+    },
+
+    {
+      data: "rate_low",
+      type: 'text',
+     // renderer: avgRenderer, 
+      
+    },
+
+    {
+      data: "rate_avg",
+      type: 'text', 
+      renderer: avgRenderer,     
+    },
+        
+    ],
+
+    data: data,
+  });
+
+
+function avgRenderer(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data   = instance.getData();
+    var price  = data[row][2];
+    var open   = data[row][3];
+    var high   = data[row][4];
+    var low    = data[row][5];
+
+    var avgs = (price+open+high+low)/4
+    td.innerHTML = avgs;
+  };
+
+
+
+$('#hot-display-license-info').css('display','none');
+get_reports()
+
+function get_reports(){  
+  $.ajax({
+    url : "/it/conv_rate_list/",
+    type : "GET",
+
+    dataType : "json",
+    data : {
+   
+      
+    },
+    success : function(obj_data){ 
+    console.log(obj_data)  
+      $('#loader').css('display','none');
+      tab_table.loadData(obj_data['rate_array']);
+       
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  }); 
+}
+
+
+
+
+
+  $('#insert_new_conv_rate').click(function(){
+    data2      = tab_table.getData();   
+    $.ajax({
+        url: '/it/insert_for_conv_rate/',
+        dataType: 'JSON',
+        type: 'GET',
+        data:
+        { 
+          'table_details'  : JSON.stringify(data2),
+        },
+        success : function(obj){
+          alert('Done')
+          location.reload();
+        },
+        error : function(err){
+          console.log(JSON.stringify(err,null,4));
+        }
+    });
+  })
+
+
+
+
+
+
+
+</script>
+{% endblock %}

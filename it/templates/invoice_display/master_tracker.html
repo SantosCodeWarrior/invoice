@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+
+
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+
+
+<style type="text/css">
+	input[type="date"]::before {
+		color: #999999;
+		content: attr(placeholder);
+	}
+	input[type="date"] {
+		color: #ffffff;
+	}
+	input[type="date"]:focus,
+	input[type="date"]:valid {
+		color: #666666;
+	}
+	input[type="date"]:focus::before,
+	input[type="date"]:valid::before {
+		content: "" !important;
+	}
+
+
+
+table tr:hover td {
+  background: #f0e5aa;
+  cursor: pointer;
+}
+
+
+.handsontable td, th { 
+	font-size: 10px;
+}
+</style>
+
+
+<center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+
+<div class="col-md-12" >
+	<h4 id="header"><center>Master Tracker (CHM)</center></h4>	
+	<div class="">
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table" style="width: 30%;font-size: 12px">
+					<tr>
+						<td><input type="date" name="" id="start_date" placeholder="DHT Start Date" required></td>
+						<td><input type="date" name="" id="end_date" placeholder="DHT End Date" required></td>
+						<td><button class="btn btn-primary" id="submit_data" style="font-size: 12px">Load</button></td>
+						<td style=""><button class="btn btn-danger" id="btn_export" style="font-size: 12px">Export</button></td>
+					</tr>
+				</table>
+				&nbsp;
+				
+			</div>	       
+		</div>
+	</div>	
+</div>
+
+<div class="" style="display: none;">
+	<div class="row">
+		<div class="col-md-12" style="overflow-y: auto;width: 50%;height: 100%">
+			<table class="stripe row-border" style="margin-left:12px;font-size: 9px;" id="chm_data_header"> 
+				<thead style="background-color: rgb(40, 167, 69);color:white;font-size: 9px">
+					<th>S.N.</th>
+					<th>Ship Name</th>
+					<th>Voyage No</th>
+					<th>PIC</th>
+					<th>Pool Name</th>
+					<th>Client Name</th>
+					<th>Nomination Date</th>
+					<th>Discharge Port</th>
+					<th>ETD Discharge Date</th>
+					<th>PV Completed Date</th>
+					<th>Status</th>
+					<th>Start DHT Date</th>
+					<th>End DHT Date</th>
+					<th>Remarks</th>
+					<th>Done ?</th>
+					<th>Voyage ID</th>
+				</thead>
+				<tbody id="get_chm_list" style="font-size: 9px"></tbody>					
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+      <div class="col-md-10">
+        <div style="overflow-x: scroll;overflow-y: scroll;width: 120%;height: 700px">
+          <div class = 'handsontable col-md-12' data-original  id = "master_tracker_data"></div> 
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+	$('#submit_data').click(function(){
+		$('#loader').css('display','');
+		var start_dates = $('#start_date').val();
+		var end_dates   = $('#end_date').val();
+
+		if(end_dates==''){
+			swal("Info","Kindly select a date to load the data",'info');
+			$('#loader').css('display','none');
+			return 0;
+		}
+		
+		$.ajax({
+	    url : "/it/filter_master_tracker/",
+	    type: 'GET',
+	    dataType: 'json',
+	    data: {
+	      	'start_dates' 	: start_dates,
+			'end_dates' 	: end_dates,
+	    },
+
+	    success : function(obj){
+	    	$('#loader').css('display','none');
+	    	$('#get_chm_list').empty();
+
+	    	for(var i=0;i<obj['chm_list'].length;i++){
+		    	if(obj['chm_list'][i]['tag_done']==""){
+		    		backgcolr = "#ff9778";		    	
+		    	
+		    	}else{
+		    		backgcolr = '';
+		    	}
+
+	    		tab_table.loadData(obj['chm_list']);
+
+	    		//$('#get_chm_list').append('<tr style="background-color:'+backgcolr+'"><td>'+(i+1)+'</td><td>'+obj['chm_list'][i]['ship_name']+'</td><td>'+obj['chm_list'][i]['voyage_no']+'</td><td>'+obj['chm_list'][i]['vm_name']+'</td><td>'+obj['chm_list'][i]['pool_name']+'</td><td>'+obj['chm_list'][i]['client_name']+'</td><td>'+obj['chm_list'][i]['nominate_date']+'</td><td>'+obj['chm_list'][i]['disch_port']+'</td><td>'+obj['chm_list'][i]['max_disch_date']+'</td><td>'+obj['chm_list'][i]['pv_complete_date']+'</td><td>'+obj['chm_list'][i]['status']+'</td><td>'+obj['chm_list'][i]['start_dht']+'</td><td>'+obj['chm_list'][i]['end_dht']+'</td><td>'+obj['chm_list'][i]['get_resons']+'</td><td>'+obj['chm_list'][i]['tag_done']+'</td><td>'+obj['chm_list'][i]['voyage_id']+'</td></tr>');
+	    	}	
+
+ 	    // 	var table = $('#chm_data_header').DataTable({
+	    	// 	"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+	    	// });
+      //       $('#chm_data_header tbody').on('click', 'tr', function () {
+      //           if ($(this).hasClass('selected')) {
+      //               $(this).removeClass('selected');
+      //           }
+      //           else {
+      //               table.$('tr.selected').removeClass('selected');
+      //               $(this).addClass('selected');
+      //           }
+      //       });
+	    },
+
+	    error : function(err){     
+	      console.log(JSON.stringify(err,null,4));
+	    }
+	  });
+	})
+
+
+  var data = [
+    {
+      	ship_name   		: '',
+      	voyage_no   		: '',
+      	vm_name     		: '',
+      	pool_name   		: '',
+      	client_name 		: '',
+      	nominate_date 		: '',
+      	disch_port    		: '',
+     	max_disch_date 		: '',
+      	pv_complete_date 	: '',
+      	status 				: '',
+      	start_dht 			: '',
+	  	end_dht 			: '',
+	  	get_resons 			: '',
+		tag_done 			: '',
+		voyage_id 			: '', 
+
+    }
+  ];
+
+  
+
+
+
+  
+  container     = document.getElementById('master_tracker_data');
+  var tab_table = new Handsontable(container, {
+    rowHeaders    : true,
+    dropdownMenu  : true,
+    filters       : true,
+    columnSorting : true,  
+    stretchH      : 'all',
+
+    colHeaders    : ['Ship Name','Voyage No','PIC','Client Name','Nomination Date','Discharge Port', 'ETD Discharge Date','PV Complete Date','Status','Start DHT Date','End DHT Date','Remarks','Done?','Voyage ID'],
+    colWidths     : [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+    contextMenu   : true,
+
+    columns: [
+    {
+        data: "ship_name",      
+        type: 'text',
+      },
+
+      {
+        data: "voyage_no",      
+        type: 'text',
+      },
+
+      {
+        data: "vm_name",
+        type: 'text',
+       
+      },
+
+      {
+        data: "client_name",
+        type: 'text',
+       
+      },
+
+      {
+        data: "nominate_date",       
+        type: 'text',
+      },
+
+      {
+        data: "disch_port",   
+        type: 'text',
+       
+      },
+
+      {
+        data: "max_disch_date",   
+        type: 'text',
+       
+      },
+
+      {
+        data: "pv_complete_date",   
+        type: 'text',
+       
+      },
+
+       {
+        data: "status",   
+        type: 'text',
+       
+      },
+
+      {
+        data: "start_dht",   
+        type: 'text',
+       
+      },
+
+       {
+        data: "end_dht",   
+        type: 'text',
+       
+      },
+
+       {
+        data: "get_resons",   
+        type: 'text',
+       
+      },
+       {
+        data: "tag_done",   
+        type: 'text',
+       
+      },
+       {
+        data: "voyage_id",   
+        type: 'text',
+       
+      },
+    ],
+    data: data,
+  });
+
+
+
+
+$('#start_date').change(function(){
+	var st_dt   	 	= $(this).val();
+	var splt_dt 	 	= st_dt.split('-');
+	spl_year 		 	= splt_dt[0];
+	spl_month 		 	= splt_dt[1];
+	var get_last_days 	= lastday(spl_year,spl_month)
+	merge_end_date 	 	= spl_year+'-'+spl_month+'-'+get_last_days	
+	$('#end_date').val(merge_end_date);
+
+})
+
+
+var lastday = function(y, m){
+    return new Date(y, m, 0).getDate();
+}
+
+
+$('#btn_export').click(function(){
+	$('#loader').css('display','');
+	var datas = tab_table.getData();
+	$.ajax({
+    url : "/it/export_master_trackerss/",
+    type: 'POST',
+    dataType: 'json',
+    data: {
+      	'datas' : JSON.stringify(datas),			
+    },
+
+    success : function(obj){
+    	$('#loader').css('display','none');
+    	location.href = "/it/xexport_tracker_download/";	  
+    },
+
+    error : function(err){     
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+
+
+
+</script>
+
+
+
+{% endblock %}

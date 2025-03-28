@@ -1,0 +1,1054 @@
+invoice_no,invoice_date,ship_name,voyage_no,pic,disch_port,disch_date,client_name,invoice_amount,received_date,paid,price_type
+3385/1920,08-Feb-2019,Seaways Visyas ,161,Jocelyn Silva,Freeport Bahamas,2019-01-25,Ultranav,"1,400.00",2019-03-13,paid,5 to 9
+3386/1920,11-Feb-2019,Patagonia ,"85,86,87",Lazaros.Tsitoglou,Rotterdam,2019-01-19,Shell,"1,050.00",2019-07-23,paid,
+3387/1920,11-Feb-2019,Brentholmen,"70,71,72",Lazaros.Tsitoglou,Port Jerome,2019-01-26,Shell,"1,050.00",2019-07-23,paid,
+3388/1920,11-Feb-2019,Vestholmen,"45,46,47,48",Lazaros.Tsitoglou,Gothenberg,2019-01-28,Shell,"1,050.00",2019-07-23,paid,
+3389/1920,11-Feb-2019,Tigris,"259,260,261",Lazaros.Tsitoglou,Rotterdam,2019-01-27,Shell,"1,050.00",2019-07-23,paid,
+3390/1920,11-Feb-2019,Emmy Schulte,"229,230,232",Lazaros.Tsitoglou,Eastham,2019-01-20,Shell,"1,050.00",2019-07-23,paid,
+3391/1920,11-Feb-2019,Sten Skagen,"119,121,123,124",Lazaros.Tsitoglou,Port Jerome,2019-01-30,Shell,"1,050.00",2019-09-26,paid,
+3392/1920,11-Feb-2019,Elisalex Schulte,"115,116,117",Lazaros.Tsitoglou,Eastham,2019-01-26,Shell,"1,050.00",2019-07-23,paid,
+3393/1920,11-Feb-2019,Hafnia Lupus ,27_35,Jennet Lek,Rotterdam,2019-01-09,Clearlake,"1,400.00",2019-03-14,paid,
+3394/1920,02-Mar-2019,Elandra Redwood,1,Mindy Quek,Savannah,2019-01-24,Cargill,"1,600.00",2019-03-11,paid,
+3395/1920,02-Mar-2019,Kanpur,80,Shivanshu Sharma,Lingii,2019-02-19,Navig8,"1,400.00",2019-03-15,paid,
+3396/1920,02-Mar-2019,Crudesun,04,Shashi Yadav,Singapore,2019-02-26,Navig8,"1,400.00",2019-03-15,paid,
+3397/1920,02-Mar-2019,SKS Spey,47,David Watson,Singapore,2019-02-09,Shell,"1,050.00",2019-06-10,paid,
+3398/1920,02-Mar-2019,CSK Valiant,15,Tan Tech Poh,Ulsan,2019-02-23,Shell,"1,050.00",2019-06-11,paid,
+3399/1920,02-Mar-2019,Stena Surprise,201804,Jose Ngunza,Kemaman,2019-02-17,Stena Bulk,"1,400.00",2019-04-03,paid,3 to 5
+3400/1920,04-Mar-2019,Stena Superior,201806,Ola Andersson ,Singapore,2019-02-11,Stena Bulk,"1,400.00",2019-04-04,paid,3 to 5
+3401/1920,04-Mar-2019,Sonangol cabinda,201805,Shawn Sandhu,Singapore,2019-02-25,Stena Bulk,"1,400.00",2019-04-04,paid,3 to 5
+3402/1920,04-Mar-2019,Stena Weco Excellence,1807,Yue Ting Chew,Rotterdam,2019-02-11,Stena WECO,"1,500.00",2020-06-01,paid,3 to 5
+3403/1920,04-Mar-2019,Stena Weco Energy,1808,Yue Ting Chew,Nordenham,2019-02-13,Stena WECO,"1,500.00",2020-06-01,paid,3 to 5
+3404/1920,04-Mar-2019,Ocean Princess,1801,Emil Calizaya,Rotterdam,2019-02-03,Stena WECO,"1,500.00",2020-06-01,paid,3 to 5
+3405/1920,04-Mar-2019,Silver Satcie,1801,Amelia Seah ,Rotterdam,2019-02-06,Stena WECO,"1,500.00",2020-06-01,paid,3 to 5
+3406/1920,04-Mar-2019,Stena Weco Tenacity,1801,Amelia Seah ,Rotterdam,2019-02-15,Stena WECO,"1,500.00",2019-04-04,paid,3 to 5
+3407/1920,04-Mar-2019,Donegal Spirit,171,Ho Yi Chuen,Corpus Christi,2019-02-10,Teekay,800.00,2019-04-03,paid,
+3408/1920,04-Mar-2019,Nordic Barsilla,06,Ben Herbert,Zhoushan,2019-02-08,Teekay,800.00,2019-04-03,paid,
+3409/1920,04-Mar-2019,Esther Spirit,171,Sriram Sarma,St.Croix,2019-02-17,Teekay,800.00,2019-03-28,paid,
+3410/1920,04-Mar-2019,Stavanger Falcon,1,Danny Tan,Pyeongtaek,2019-02-22,Teekay,800.00,2019-03-28,paid,
+3411/1920,04-Mar-2019,Esteem Brilliance,12,Danny Tan,Sriracha,2019-02-06,Teekay,800.00,2019-03-28,paid,
+3412/1920,04-Mar-2019,Matterhorn Spirit,250,Guy Gavshon,Rotterdam,2019-02-19,Teekay,800.00,2019-04-10,paid,
+3413/1920,04-Mar-2019,Stavanger Eagle,02,Soo Pie,Ulsan,2019-02-15,Teekay,800.00,2019-03-28,paid,
+3414/1920,04-Mar-2019,Stavanger Bliss ,7,Soo Pie,Yeosu,2019-02-18,Teekay,800.00,2019-03-28,paid,
+3415/1920,04-Mar-2019, Pusaka Borneo,4,Danny Tan,Brisbane,2019-02-16,Teekay,800.00,2019-04-03,paid,
+3416/1920,14-Mar-2019,Danubia,37,Tania Regalado G.,Bayway,2019-03-10,Ultranav,"1,400.00",2019-04-04,paid,5 to 9
+3417/1920,14-Mar-2019,Lincoln Park,8,Sebestian Vega ,San Juan,2019-02-02,Ultranav,"1,400.00",2019-04-05,paid,5 to 9
+3418/1920,14-Mar-2019,Seaways jademar,226,Juan Carlos Villarroel,Los Angeles,2019-02-08,Ultranav,"1,400.00",2019-04-12,paid,5 to 9
+3419/1920,14-Mar-2019,Seaways Rubymar,046-149,Juan Carlos Villarroel,Los Angeles,2019-03-03,Ultranav,"1,200.00",2019-04-12,paid,ShortHaul
+3420/1920,14-Mar-2019,Maya,192,Jocelyn Silva,Balboa,2019-03-07,Ultranav,"1,200.00",2019-03-25,paid,ShortHaul
+3421/1920,14-Mar-2019,Aqualiberty,88-55,"Edgardo Sotelo
+",Singapore,2019-02-06,Ultranav,"1,400.00",2019-03-22,paid,5 to 9
+3422/1920,14-Mar-2019,Seaways Reymar,222,Jocelyn Silva,Zhoushan,2019-02-26,Ultranav,"1,400.00",2019-04-12,paid,5 to 9
+3423/1920,14-Mar-2019,Sten Skagen,"125,126",Lazaros.Tsitoglou,Rotterdam,2019-02-20,Shell,"1,050.00",2019-05-30,paid,
+3424/1920,14-Mar-2019,Vestholmen,"49,50",Lazaros.Tsitoglou,Immingham,2019-02-20,Shell,"1,050.00",2019-05-30,paid,
+3425/1920,14-Mar-2019,Elisalex Schulte,"118,119,120,121",Lazaros.Tsitoglou,Rotterdam,2019-02-28,Shell,"1,050.00",2019-05-30,paid,
+3426/1920,14-Mar-2019,Tigris,"262,263,264BL",Lazaros.Tsitoglou,Rotterdam,2019-02-26,Shell,"1,050.00",2019-05-30,paid,
+3427/1920,14-Mar-2019,Emmy Schulte,"232b,233,234b",Lazaros.Tsitoglou,Rotterdam,2019-02-28,Shell,"1,050.00",2019-05-30,paid,
+3428/1920,14-Mar-2019,Brentholmen,"73.74,76",Lazaros.Tsitoglou,Immingham,2019-02-25,Shell,"1,050.00",2019-05-30,paid,
+3429/1920,29-Mar-2019,Lady Malou,39,Mindy Quek,Savannah,2019-02-25,Cargill,"1,600.00",2019-04-04,paid,
+3430/1920,29-Mar-2019,Cap Philippe  ,1807,Martin Olesen,Kemaman,2019-03-09,Euronav,"1,200.00",2019-08-05,paid,
+3431/1920,29-Mar-2019,Maria Bottiglieri,05,Elena Souli,Jinzhou,2019-03-10,Navig8,"1,400.00",2019-04-15,paid,
+3432/1920,29-Mar-2019,Mesaieed,3-19,Harsha Lanka,Rotterdam,2019-03-07,Navig8,"1,400.00",2019-04-15,paid,
+3433/1920,29-Mar-2019,Kanpur,81,Shivanshu Sharma,Geelong,2019-03-21,Navig8,"1,400.00",2019-04-15,paid,
+3434/1920,29-Mar-2019,Yankul Silver,30,Lazaros.Tsitoglou,Houston,2019-03-08,Shell,"1,050.00",,,
+3435/1920,29-Mar-2019,Almi Odyssey,6,David Watson,Singapore,2019-03-02,Shell,"1,050.00",2019-06-12,paid,
+3436/1920,01-Apr-2019,Atlantic Falcon,1801,Amelia Seah ,Liverpool,2019-02-23,Stena WECO,"1,500.00",2019-08-26,paid,3 to 5
+3437/1920,01-Apr-2019,Nord Vantage,1801,Yue Ting Chew,Rotterdam,2019-02-28,Stena WECO,"1,500.00",2019-08-26,paid,3 to 5
+3438/1920,01-Apr-2019,Team Toccata,1901,"
+Emil Calizaya",Rotterdam,2019-03-08,Stena WECO,"1,500.00",2019-08-26,paid,3 to 5
+3439/1920,01-Apr-2019,Songa Pride,1801,Amelia Seah,Rotterdam,2019-03-03,Stena WECO,"1,500.00",2019-08-26,paid,3 to 5
+3440/1920,01-Apr-2019,Albatross Trader ,34,Marina Demangel V,Esmeraldas,2019-03-22,Ultranav,"1,600.00",2019-04-12,paid,1 to 4
+3441/1920,01-Apr-2019,Seaways Leyte,77,Jocelyn Silva,St.Croix,2019-03-25,Ultranav,"1,600.00",2019-04-26,paid,1 to 4
+3442/1920,01-Apr-2019,Seaways Luzon,153,René Manuel Sánchez E.,Yabucoa,2019-03-25,Ultranav,"1,200.00",2019-04-29,paid,ShortHaul
+3443/1920,03-Apr-2019,Esther Spirit,172,Sriram Sarma,Newyork,2019-03-22,Teekay,800.00,2019-05-01,paid,
+3444/1920,03-Apr-2019,Esteem Brilliance,14,Ho Yi Chuen,Taichung,2019-03-10,Teekay,800.00,2019-05-02,paid,
+3445/1920,03-Apr-2019,Axel Spirit,167,Ho Yi Chuen,Hongkong,2019-03-12,Teekay,800.00,2019-05-02,paid,
+3446/1920,03-Apr-2019,Mare Tirrenum,84,Parishit Jhaveri,Rizhao,2019-03-12,Teekay,800.00,2019-05-02,paid,
+3447/1920,03-Apr-2019,Stavanger Bliss ,8,Soo Pie,Ulsan,2019-03-11,Teekay,800.00,2019-05-02,paid,
+3448/1920,11-Apr-2019,Vestholmen,51,Lazaros.Tsitoglou,Ravenna,2019-03-11,Shell,"1,050.00",2019-07-04,paid,
+3449/1920,11-Apr-2019,Brentholmen,78,Lazaros.Tsitoglou,Portland,2019-03-11,Shell,"1,050.00",2019-07-04,paid,
+3450/1920,11-Apr-2019,Sten Skagen,128,Lazaros.Tsitoglou,Eastham,2019-03-15,Shell,"1,050.00",2019-07-04,paid,
+3451/1920,11-Apr-2019,Tigris,267,Lazaros.Tsitoglou,Antwerp,2019-03-26,Shell,"1,050.00",2019-07-04,paid,
+3452/1920,11-Apr-2019,Elisalex Schulte,124,Lazaros.Tsitoglou,Eastham,2019-03-29,Shell,"1,050.00",2019-07-04,paid,
+3453/1920,24-Apr-2019,Thelma Victory,1,Mindy Quek,Savannah,2019-03-18,Cargill,"1,600.00",2019-05-01,paid,
+3454/1920,24-Apr-2019,Marlin Majestic ,1,Mindy Quek,Hamburg,2019-03-16,Cargill,"1,600.00",2019-05-01,paid,
+3455/1920,24-Apr-2019,Active ,20,Mindy Quek,Savannah,2019-03-26,Cargill,"1,600.00",2019-05-01,paid,
+3456/1920,11-May-2019,Bareilly,05,Sanjeev Bhatnagar,Gdansk,2019-04-09,Navig8,"1,400.00",2020-05-31,paid,
+3457/1920,11-May-2019,Crudemed,6,Sanjeev Bhatnagar,Corpus Christi,2019-04-24,Navig8,"1,400.00",2020-05-31,paid,
+3458/1920,11-May-2019,Southern  Spirit,4,Sanjeev Bhatnagar,St.Croix,2019-04-30,Navig8,"1,400.00",2020-05-31,paid,
+3459/1920,11-May-2019,Nave Cetus,85,Andrew Turner,Oxelosund,2019-05-05,Navig8,"1,400.00",2020-05-31,paid,
+3460/1920,11-May-2019,Pacific Debbie,22,Chris O'Connor,Singapore,2019-05-03,Shell,"1,050.00",2019-09-26,paid,
+3461/1920,11-May-2019,New Advance,58,Josh Myers,Ulsan,2019-04-25,Shell,"1,050.00",2019-09-26,paid,
+3462/1920,11-May-2019,Yankul Silver,31,Kelly Ross,Rio Haina,2019-04-02,Shell,"1,050.00",2019-09-26,paid,
+3463/1920,11-May-2019,Patani ,819005,Christopher Alcock,Ravenna,2019-04-13,Shell,"1,050.00",2019-09-26,paid,
+3464/1920,11-May-2019,Yankul Silver,33,Michael Troiano,Sorel,2019-05-01,Shell,"1,050.00",2019-09-26,paid,
+3465/1920,11-May-2019,Eurovision,201901,Ola Andersson,PAL,2019-04-26,Stena Bulk,"1,400.00",2019-06-11,paid,3 to 5
+3466/1920,11-May-2019,Almi Voyager,201901,Jose Ngunza,Singapore,2019-04-01,Stena Bulk,"1,400.00",2019-06-11,paid,3 to 5
+3467/1920,11-May-2019,Almi Sky,201903,Antonio Pita,Rotterdam,2019-04-02,Stena Bulk,"1,400.00",2019-06-11,paid,3 to 5
+3468/1920,11-May-2019,Stena Primosk,201902,Erica Edvadsson,Paulsboro,2019-04-06,Stena Bulk,"1,400.00",2019-06-11,paid,3 to 5
+3469/1920,11-May-2019,Eco California,1901,Amelia Seah,Rotterdam,2019-04-05,Stena WECO,"1,500.00",2019-08-26,paid,3 to 5
+3470/1920,11-May-2019,Challenge Pinnacle,1901,Amelia Seah,Rotterdam,2019-04-09,Stena WECO,"1,500.00",2019-08-26,paid,3 to 5
+3471/1920,11-May-2019,STI Duchessa,1901,Amelia Seah ,Rotterdam,2019-04-26,Stena WECO,"1,500.00",2019-08-26,paid,3 to 5
+3472/1920,11-May-2019,Clearocean Marvel,1901,Amelia Seah ,Rotterdam,2019-04-24,Stena WECO,"1,500.00",2019-08-26,paid,3 to 5
+3473/1920,14-May-2019,Los Angeles Spirit,22,Dean Reddish      ,St.Charles,2019-04-10,Teekay,800.00,2020-07-24,paid,
+3474/1920,14-May-2019,Blue Pride ,64,Anatoly.Basanets,Map Ta Phut,2019-04-29,Teekay,800.00,2020-06-15,paid,
+3475/1920,14-May-2019,Everest Spirit,154,Ben Herbert,Singapore,2019-04-02,Teekay,800.00,2020-06-15,paid,
+3476/1920,14-May-2019,Barcelona Spirit,21,Viesturs Zuika,Jinzhou  ,2019-04-14,Teekay,800.00,2020-06-15,paid,
+3477/1920,14-May-2019,New Accord,19,Charlie Thomas,Houston,2019-04-14,Teekay,800.00,2019-06-13,paid,
+3478/1920,14-May-2019,Narmada Spirit,41,Guy Gavshon,Suanshan,2019-05-06,Teekay,800.00,2020-07-24,paid,
+3479/1920,14-May-2019,Peak Spirit,47,Soo Pei,Singapore,2019-04-25,Teekay,800.00,2019-05-23,paid,
+3480/1920,14-May-2019,Pinnacle Spirit,62,Ankita Srivastava,Corpus Christi,2019-04-26,Teekay,800.00,2020-07-15,paid,
+3481/1920,14-May-2019,Persepolis,11,Fernando Giler V.,Richmond,2019-03-29,Ultranav,"1,400.00",2019-06-10,paid,5 to 9
+3482/1920,14-May-2019,Nicopolis,5,Fernando Giler V.,Richmond,2019-04-06,Ultranav,"1,400.00",2019-05-23,paid,5 to 9
+3483/1920,14-May-2019,Inca,201,Fernando Giler V,Long Beach,2019-03-22,Ultranav,"1,400.00",2019-05-23,paid,5 to 9
+3484/1920,14-May-2019,Seaways Hellas,225," 
+
+Joaquín Ramírez C.",Antwerp,2019-04-09,Ultranav,"1,400.00",2019-06-12,paid,5 to 9
+3485/1920,14-May-2019,Persepolis,12,"
+
+Fernando Giler V.",Balboa,2019-04-22,Ultranav,"1,400.00",2019-06-07,paid,5 to 9
+3486/1920,14-May-2019,Seaways Samar,87," 
+
+René Manuel Sánchez E.",Long Beach,2019-04-28,Ultranav,"1,200.00",2019-06-12,paid,ShortHaul
+3487/1920,14-May-2019,Aqualiberty,089-056,Edgardo Sotelo,Brisbane ,2019-04-07,Ultranav,"1,400.00",2019-05-23,paid,5 to 9
+3488/1920,14-May-2019,Ice Fighter ,61,Alex Celleri C,Los Angeles,2019-04-08,Ultranav,"1,400.00",2019-06-12,paid,5 to 9
+3489/1920,14-May-2019,Albatross Trader ,35,Basilio Quiel,San Juan,2019-04-17,Ultranav,"1,200.00",2019-05-24,paid,ShortHaul
+3490/1920,14-May-2019,Seaways Rubymar,048-151,Juan Carlos Villarroel,Balboa,2019-04-24,Ultranav,"1,200.00",2019-06-11,paid,ShortHaul
+3491/1920,17-May-2019,Brentholmen,80,Lazaros.Tsitoglou,Eastham,2019-04-20,Shell,"1,050.00",2019-07-23,paid,
+3492/1920,17-May-2019,Tigris,"268,269,270",Lazaros Tsitoglou,Fawley,2019-04-25,Shell,"1,050.00",2019-07-23,paid,
+3493/1920,17-May-2019,Emmy Schulte,235,Lazaros Tsitoglou,Rotterdam,2019-04-27,Shell,"1,050.00",2019-07-23,paid,
+3494/1920,17-May-2019,Sten Skagen,"130,131,132",Lazaros Tsitoglou,Eastham,2019-04-17,Shell,"1,050.00",2019-07-23,paid,
+3495/1920,17-May-2019,Elisalex Schulte,129,Lazaros Tsitoglou,Rotterdam,2019-04-21,Shell,"1,050.00",2019-07-23,paid,
+3496/1920,01-Jun-2019,Marlin Mystery,1,Mindy Quek,Savannah,2019-05-14,Cargill,"1,600.00",2020-06-12,paid,
+3497/1920,01-Jun-2019,Marlin Marvel,1,Mindy Quek,Hamburg,2019-05-20,Cargill,"1,600.00",2019-08-22,paid,
+3498/1920,01-Jun-2019,Cap Felix,1806,Annemie Bryssinck,Ningbo,2019-02-28,Euronav,"1,200.00",2019-08-05,paid,
+3499/1920,01-Jun-2019,Genmar Compatriot,1901,Nicolas Van Gulck,Haldia,2019-05-02,Euronav,"1,200.00",2019-08-05,paid,
+3500/1920,10-Jun-2019,Aframax Rio,71,Rajesh Baran,Ulsan,2019-05-20,Navig8,"1,400.00",2019-06-27,paid,
+3501/1920,10-Jun-2019,Nave Cetus,86,Andrew Turner,Wilhemshaven,2019-05-28,Navig8,"1,400.00",2019-06-27,paid,
+3502/1920,10-Jun-2019,Bareilly,6,Sanjeev Bhatnagar,Fujairah,2019-05-25,Navig8,"1,400.00",2019-06-28,paid,
+3503/1920,10-Jun-2019,Nave Equinox,58,Chris Alcock,Paulsboro,2019-05-06,Shell,"1,050.00",2019-09-26,paid,
+3504/1920,10-Jun-2019,Pacific Treasures ,44,Mathew Joseph,Singapore,2019-05-13,Shell,"1,050.00",2019-09-27,paid,
+3505/1920,24-Jun-2019,Stena President,1904,Sara Westerberg,Antwerp,2019-06-03,Stena Bulk,"1,400.00",2019-07-12,paid,3 to 5
+3506/1920,24-Jun-2019,Sonangol Kalandula,1903,Shawn Sandhu,Singapore,2019-06-14,Stena Bulk,"1,400.00",2019-07-26,paid,3 to 5
+3507/1920,24-Jun-2019,Eurovision,201902,Nils Israelsson,El segundo,2019-06-12,Stena Bulk,"1,400.00",2019-07-26,paid,3 to 5
+3508/1920,24-Jun-2019,Stena Superior ,201902,Sara Strambolt,Lake Charles,2019-05-26,Stena Bulk,"1,400.00",2019-07-26,paid,3 to 5
+3509/1920,26-Jun-2019,Apostolos,1901,Yue Ting Chew,Rotterdam,2019-05-14,Stena WECO,"1,700.00",2019-07-29,paid,1 to 2
+3510/1920,27-Jun-2019,Leyte Spirit,59,Danny Tan,Richmond,2019-05-12,Teekay,800.00,2019-07-24,paid,
+3511/1920,27-Jun-2019,Esteem Brilliance,17,Danny Tan,Sriracha,2019-05-29,Teekay,800.00,2019-07-26,paid,
+3512/1920,27-Jun-2019,Mare Picenum,27,Guy Gavshon ,Aoshan,2019-05-23,Teekay,800.00,2019-07-26,paid,
+3513/1920,27-Jun-2019,Sydney Spirit,22,Anna Zigure,Rotterdam,2019-05-11,Teekay,800.00,2019-07-24,paid,
+3514/1920,27-Jun-2019,Mare Oriens,100,Danny Tan, Yeosu,2019-05-23,Teekay,800.00,2019-07-24,paid,
+3515/1920,27-Jun-2019,Sten Skagen,"134,135,136",Lazaros Tsitoglou,Slagen,2019-05-23,Shell,"1,050.00",2019-09-26,paid,
+3516/1920,27-Jun-2019,Vestholmen,"52,53",Lazaros Tsitoglou,Stanlow,2019-05-31,Shell,"1,050.00",2019-09-26,paid,
+3517/1920,27-Jun-2019,Brentholmen,"83,84,85",Lazaros.Tsitoglou,Balboa,2019-05-19,Shell,"1,050.00",2019-09-26,paid,
+3518/1920,27-Jun-2019,Tequila,"161,162",Lazaros Tsitoglou,Rotterdam,2019-05-31,Shell,"1,050.00",2019-09-26,paid,
+3519/1920,27-Jun-2019,Emmy Schulte,"236,237",Lazaros Tsitoglou,Rotterdam,2019-05-25,Shell,"1,050.00",2019-09-26,paid,
+3520/1920,27-Jun-2019,Elisalex Schulte,130_131,Lazaros Tsitoglou,Ravenna,2019-05-26,Shell,"1,050.00",2019-09-26,paid,
+3521/1920,27-Jun-2019,Tigris,"269,270,271,273",Lazaros Tsitoglou,Antwerp,2019-05-31,Shell,"1,050.00",2019-09-26,paid,
+3522/1920,29-Jun-2019,Seaways leyte,78,Jocelyn Silva,Martinez,2019-05-01,Ultranav,"1,600.00",2019-07-26,paid,1 to 4
+3523/1920,29-Jun-2019,Cabo San Vicente,32," 
+
+Jens Pribnow",Port Arthur,2019-05-11,Ultranav,"1,200.00",2019-07-18,paid,ShortHaul
+3524/1920,29-Jun-2019,Seaways Luzon,155,"
+
+René Manuel Sánchez E.",Balboa,2019-05-01,Ultranav,"1,200.00",2019-07-26,paid,ShortHaul
+3525/1920,29-Jun-2019,Seaways Hellas,227,Joaquín Ramírez C.,St.Charles,2019-05-29,Ultranav,"1,600.00",2019-07-26,paid,1 to 4
+3526/1920,03-Jul-2019,Eco Marina Del Rey,2,Mindy Quek,Savannah,2019-06-07,Cargill,"1,600.00",2019-08-07,paid,
+3527/1920,03-Jul-2019,Fraternity,1902,Martin Olesen,Long Beach,2019-06-01,Euronav,"1,200.00",2019-08-30,paid,
+3528/1920,03-Jul-2019,Victory Venture ,19002C,Harsha Lanka,Singapore,2019-06-19,Navig8,"1,400.00",2019-08-29,paid,
+3529/1920,03-Jul-2019,Ariane ,3,Rajesh Baran,Kanokawa,2019-06-13,Navig8,"1,400.00",2020-04-27,paid,
+3530/1920,03-Jul-2019,Advantage Summer ,35,David Watson,Aoshan,2019-06-07,Shell,"1,050.00",2019-09-26,paid,
+3531/1920,04-Jul-2019,Doric Courage ,1901,Amelia Seah,Rotterdam,2019-06-22,Stena WECO,"1,700.00",2019-08-06,paid,1 to 2
+3532/1920,04-Jul-2019,Omodos,1901, Amelia Seah ,Rotterdam,2019-06-14,Stena WECO,"1,700.00",2019-08-06,paid,1 to 2
+3533/1920,05-Jul-2019,Afra Laurel,67,E.D Vrachatis,Pyeongtaek,2019-05-23,Hellenic Tankers,"1,400.00",2019-08-01,paid,
+3534/1920,05-Jul-2019,Shenlong Spirit ,28,Ankita Srivastava,Qingdao,2019-06-02,Teekay,800.00,2019-07-24,paid,
+3535/1920,05-Jul-2019,New Award,18,Danny Tan,Kikuma,2019-06-02,Teekay,800.00,2019-07-18,paid,
+3536/1920,05-Jul-2019,Iskmati Spirit,21,Charlie Thomas,Melbourne,2019-06-23,Teekay,800.00,2019-07-31,paid,
+3537/1920,05-Jul-2019,Mare Doricum,26,Ankita Srivastava,Cartagena,2019-06-17,Teekay,800.00,2019-07-31,paid,
+3538/1920,05-Jul-2019,Mare Oriens,101,Danny Tan,Laizhou,2019-06-20,Teekay,800.00,2019-07-17,paid,
+3539/1920,05-Jul-2019,Stavanger Bliss ,12,Danny Tan,Nagoya,2019-06-23,Teekay,800.00,2019-07-31,paid,
+3540/1920,12-Jul-2019,Ice Fighter ,61.9,Alex Celleri C.,Long Beach,2019-06-12,Ultranav,"1,600.00",2019-09-09,paid,1 to 4
+3541/1920,12-Jul-2019,Andes,173P-133F,Alex Celleri,Panama,2019-06-04,Ultranav,"1,600.00",2019-09-09,paid,1 to 4
+3542/1920,12-Jul-2019,Madison,06,Juan Carlos Villarroel,Los Angeles,2019-06-21,Ultranav,"1,600.00",2019-08-08,paid,1 to 4
+3543/1920,12-Jul-2019,Seaways leyte,80,Juan Carlos Villarroel,Balboa,2019-06-27,Ultranav,"1,200.00",2019-08-05,paid,ShortHaul
+3544/1920,16-Jul-2019,Tequila,"162,163",Lazaros Tsitoglou,Graysville,2019-06-08,Shell,"1,050.00",2019-09-26,paid,
+3545/1920,16-Jul-2019,Sten Skagen,"135,136,137",Lazaros Tsitoglou,Antwerp,2019-06-16,Shell,"1,050.00",2019-09-26,paid,
+3546/1920,16-Jul-2019,Tigris,"274,275,276",Lazaros Tsitoglou,Antwerp,2019-06-19,Shell,"1,050.00",2019-09-26,paid,
+3547/1920,16-Jul-2019,Emmy Schulte,"239,240",Lazaros Tsitoglou,Rotterdam,2019-06-18,Shell,"1,050.00",2019-09-26,paid,
+3548/1920,16-Jul-2019,Elisalex Schulte,133,Lazaros Tsitoglou,Eastham,2019-06-24,Shell,"1,050.00",2019-09-26,paid,
+3549/1920,16-Jul-2019,Vestholmen,"53,54,55",Lazaros Tsitoglou,Rotterdam,2019-06-30,Shell,"1,050.00",2019-09-26,paid,
+3550/1920,16-Jul-2019,Brentholmen,"84,85,86,87,88",Lazaros Tsitoglou,Eastham,2019-06-29,Shell,"1,050.00",2019-09-26,paid,
+3551/1920,24-Jul-2019,Advantage Award,76,Jan Hicks,Sriracha,2018-05-05,Tauber,"1,600.00",2019-07-31,paid,
+3552/1920,24-Jul-2019,London Star,114061,Jan Hicks,Haldia,2019-01-05,Tauber,"1,600.00",2019-07-31,paid,
+3553/1920,24-Jul-2019,Danubia,38,Jan Hicks,Haldia,2019-06-26,Tauber,"1,600.00",2019-07-31,paid,
+3554/1920,02-Aug-2019,Ardmore Seahawk,1,Mindy Quek,Savannah,2019-07-15,Cargill,"1,600.00",2019-09-04,paid,
+3555/1920,02-Aug-2019,Sea Tiger,1,Mindy Quek,Savannah,2019-07-23,Cargill,"1,600.00",2019-09-04,paid,
+3556/1920,02-Aug-2019,Marvin Confidence ,2,Mindy Quek,Brindisi,2019-07-05,Cargill,"1,600.00",2019-09-04,paid,
+3557/1920,02-Aug-2019,Hellas Marianna,6,Mindy Quek,Ravenna,2019-07-03,Cargill,"1,600.00",2019-09-04,paid,
+3558/1920,02-Aug-2019,Stella ,1902,Nicolas Van Gulck,Melbourne,2019-07-09,Euronav,"1,200.00",,,
+3559/1920,03-Aug-2019,Kanpur,84,Shivanshu Sharma,Malta,2019-07-02,Navig8,"1,400.00",2019-08-29,paid,
+3560/1920,03-Aug-2019,Nave Cetus,87,Andrew Turner,Pascagoula,2019-07-10,Navig8,"1,400.00",2019-08-19,paid,
+3561/1920,03-Aug-2019,Aljalaa,126,Andrew Turner,Singapore,2019-07-21,Navig8,"1,400.00",2019-08-29,paid,
+3562/1920,03-Aug-2019,Eagle Brasilia,7,Christopher Alcock,Le Havre,2019-07-11,Shell,"1,050.00",2019-12-18,paid,
+3563/1920,03-Aug-2019,Stena Presisdent,1905,Sara Westerberg,Freeport Bahamas,2019-07-07,Stena Bulk,"1,600.00",2019-08-16,paid,1 to 2
+3564/1920,03-Aug-2019,Gladys W,1904,Amelia Seah,Rotterdam,2019-07-18,Stena WECO,"1,500.00",2019-09-05,paid,3 to 5
+3565/1920,03-Aug-2019,Philoxenia,1901,Yue Ting Chew,Liverpool,2019-07-16,Stena WECO,"1,500.00",2019-09-05,paid,3 to 5
+3566/1920,03-Aug-2019,Green Sea,1903,Yue Ting Chew,Rotterdam,2019-07-31,Stena WECO,"1,500.00",2019-08-13,paid,3 to 5
+3567/1920,05-Aug-2019,Everest Spirit,156,Ben Herbert,Kikuma,2019-07-12,Teekay,800.00,2019-09-09,paid,
+3568/1920,05-Aug-2019,Limerick Spirit,111,Hemant Chopra,Riverhead,2019-07-24,Teekay,800.00,2019-09-09,paid,
+3569/1920,05-Aug-2019,Nordic Brasilia,8,Ben Herbert,Corpus Christi,2019-07-05,Teekay,800.00,2019-09-06,paid,
+3570/1920,05-Aug-2019,Stavanger Bliss ,13,Danny Tan,Ulsan,2019-07-28,Teekay,800.00,2019-09-09,paid,
+3571/1920,07-Aug-2019,Cabo Miaski,25,Javier Zamora,Richmond,2019-06-30,Ultranav,"1,400.00",2019-09-09,paid,5 to 9
+3572/1920,07-Aug-2019,Socrates,27,Alex Celleri C.,St.Rose,2019-06-11,Ultranav,"1,400.00",2019-09-09,paid,5 to 9
+3573/1920,07-Aug-2019,Neapolis,12,Jens Pribnow,Los Angeles,2019-07-23,Ultranav,"1,400.00",2019-09-09,paid,5 to 9
+3574/1920,07-Aug-2019,Antipolis,16,Rene M Sanchez,Balboa,2019-07-13,Ultranav,"1,400.00",2019-09-09,paid,5 to 9
+3575/1920,07-Aug-2019,Cabo Kamui,31,Javier Zamora,Richmond,2019-07-22,Ultranav,"1,400.00",2019-09-09,paid,5 to 9
+3576/1920,07-Aug-2019,Celsius Mumbai,3,Italo Rubio,Buenaventura,2019-07-23,Ultranav,"1,400.00",2019-09-12,paid,5 to 9
+3577/1920,09-Aug-2019,Sten Skagen,"138,139",Lazaros Tsitoglou,Rotterdam,2019-07-12,Shell,"1,050.00",2019-12-16,paid,
+3578/1920,09-Aug-2019,Elisalex Schulte,"134,135,136,137",Lazaros Tsitoglou,Rotterdam,2019-07-29,Shell,"1,050.00",2019-12-16,paid,
+3579/1920,09-Aug-2019,Tigris ,"277,278",Lazaros Tsitoglou,Liverpool,2019-07-15,Shell,"1,050.00",2019-12-16,paid,
+3580/1920,09-Aug-2019,Vestholmen,"56,57,58",Lazaros Tsitoglou,Antwerp,2019-07-23,Shell,"1,050.00",2019-12-16,paid,
+3581/1920,09-Aug-2019,Patricia,"74,75,76",Animesh Garg,Eastham,2019-07-29,Shell,"1,050.00",2019-12-16,paid,
+3582/1920,09-Aug-2019,Brentholmen,90.91.92,Lazaros Tsitoglou,Rotterdam,2019-07-25,Shell,"1,050.00",2019-12-16,paid,
+3583/1920,09-Aug-2019,Emmy Schulte,"241,242,243",Lazaros Tsitoglou,Malta,2019-07-28,Shell,"1,050.00",2019-12-16,paid,
+3584/1920,09-Aug-2019,Seapacis,303046,Natalia Baldina,St Charles,	06-Jul-2019,LITASCO,"1,200.00",,,1 TO 5
+3585/1920,09-Aug-2019,Goldway,V17,Elizaveta Brewster,Singapore,2019-08-13,LITASCO,"1,200.00",2019-09-05,paid,1 TO 5
+3586/1920,02-Sep-2019,Crudesun,5,Evan Alderich,Port Arthur,2019-06-28,Navig8,"1,400.00",2019-09-17,paid,
+3587/1920,02-Sep-2019,Bareilly ,08,Shivanshu Sharma,Antwerp,2019-08-03,Navig8,"1,400.00",2019-09-17,paid,
+3588/1920,02-Sep-2019,Cape Baxely,42,Shashi Yadav,Melbourne,2019-08-29,Navig8,"1,400.00",2019-09-17,paid,
+3589/1920,02-Sep-2019,Crudesun ,7,Shashi Yadav,Sikka,2019-08-23,Navig8,"1,400.00",2019-09-17,paid,
+3590/1920,02-Sep-2019,Aljalaa,127,Shivanshu Sharma,Zhoushan,2019-08-18,Navig8,"1,400.00",2019-09-17,paid,
+3591/1920,05-Sep-2019,Stena Perros,201902,Jose Nguza,Singapore,2019-08-12,Stena Bulk,"1,600.00",,,1 to 2
+3592/1920,05-Sep-2019,Almi Voyager,201904,Jose Ngunza,Bilbao,2019-08-28,Stena Bulk,"1,600.00",2019-10-07,paid,1 to 2
+3593/1920,06-Sep-2019,Advantage Solar,75,Django Pie,Le Havre,2019-08-20,Shell,"1,050.00",2019-11-14,paid,
+3594/1920,07-Sep-2019,Patricia,"77,78,79",Lazaros Tsitoglou,Rotterdam,2019-08-21, Shell,"1,050.00",2019-11-14,paid,
+3595/1920,07-Sep-2019,Sten Skagen,"142,143,144",Lazaros Tsitoglou,Flushing,2019-08-23,Shell,"1,050.00",2019-11-14,paid,
+3596/1920,07-Sep-2019,Vestholmen,"59,60",Lazaros Tsitoglou,Rijeka,2019-08-30,Shell,"1,050.00",2019-11-14,paid,
+3597/1920,07-Sep-2019,Elisalex Schulte,"138,139,140",Lazaros Tsitoglou,Antwerp,2019-08-31,Shell,"1,050.00",2019-11-14,paid,
+3598/1920,07-Sep-2019,Tigris,"279,280",Lazaros Tsitoglou,Antwerp,2019-08-26,Shell,"1,050.00",2019-11-14,paid,
+3599/1920,07-Sep-2019,Emmy Schulte,246,Lazaros Tsitoglou,Rotterdam,2019-08-28,Shell,"1,050.00",2019-11-14,paid,
+3600/1920,07-Sep-2019,Brentholmen,"93,94,95",Lazaros Tsitoglou,Port Jerome,2019-08-23,Shell,"1,050.00",2019-11-14,paid,
+3601/1920,07-Sep-2019,Eco Palm Springs ,1901,Yue Ting Chew,Rotterdam,2019-08-04,Stena WECO,"1,500.00",2020-06-01,paid,3 to 5
+3602/1920,07-Sep-2019,Maetiga,1903,Emil Calizaya,Nordenham,2019-08-29,Stena WECO,"1,500.00",2020-06-01,paid,3 to 5
+3603/1920,07-Sep-2019,Yasa Albatross,1901,Yue Ting Chew,Rotterdam,2019-08-29,Stena WECO,"1,500.00",2020-06-01,paid,3 to 5
+3604/1920,07-Sep-2019,Nord Vanquish,1,Mindy Quek,Savannah,2019-08-17,Cargill,"1,600.00",2019-10-10,paid,
+3605/1920,07-Sep-2019,Sea Eagle,1,Mindy Quek,Savannah,2019-08-26,Cargill,"1,600.00",2019-10-10,paid,
+3606/1920,07-Sep-2019,Blackcomb Spirit ,102,Brian Newman,Map Ta Phut,2019-08-12,Teekay,800.00,2019-10-04,paid,
+3607/1920,07-Sep-2019,FSL Hongkong,60,Ben Herbert,Pascagoula,2019-08-04,Teekay,800.00,2019-10-04,paid,
+3608/1920,07-Sep-2019,Seoul Spirit,30,Ben Herbert,Singapore,2019-08-26,Teekay,800.00,2019-10-04,paid,
+3609/1920,07-Sep-2019,Garibaldi Spirit,120,Danny Tan,Linggi,2019-08-24,Teekay,800.00,2019-10-04,paid,
+3610/1920,07-Sep-2019,Athens Spirit,31,Charlie Thomas,St.Charles,2019-08-30,Teekay,800.00,2019-10-04,paid,
+3611/1920,07-Sep-2019,Mare Oriens,105,Danny Tan,Kikuma,2019-08-27,Teekay,800.00,2019-10-04,paid,
+3612/1920,07-Sep-2019,Stavanger Falcon,11,Danny Tan,Port Dickson,2019-08-09,Teekay,800.00,2019-10-04,paid,
+3613/1920,07-Sep-2019,Aqualeader,71,Joaquín Ramírez C,Singapore,2019-08-14,Ultranav,"1,400.00",2019-10-04,paid,5 to 9
+3614/1920,07-Sep-2019,Nicopolis,8,Fernando Giler V,Los Angeles,2019-08-13,Ultranav,"1,400.00",2019-09-21,paid,5 to 9
+3615/1920,07-Sep-2019,Cabo San Antonio,10,Jens Pribnow,Singapore,2019-08-21,Ultranav,"1,400.00",2019-10-15,paid,5 to 9
+3616/1920,07-Sep-2019,Madison,8,Juan Carlos Coello,Los Angeles,2019-08-29,Ultranav,"1,400.00",2019-10-04,paid,5 to 9
+3617/1920,07-Sep-2019,Salamina,102 F,Fernando Giler V,Richmond,2019-08-07,Ultranav,"1,400.00",2019-09-25,paid,5 to 9
+3618/1920,07-Sep-2019,Cabo Froward,142,Javier Zamora,Balboa,2019-08-17,Ultranav,"1,400.00",2019-10-04,paid,5 to 9
+3619/1920,09-Sep-2019,	Celsius Manhattan	,3,Italo Rubio,Manta,2019-08-31,Ultranav,"1,400.00",2019-10-04,paid,5 to 9
+3620/1920,09-Sep-2019,Aquapuelche,21,Edgardo Sotelo,Singapore,2019-08-09,Ultranav,"1,400.00",2019-09-17,paid,5 to 9
+3621/1920,09-Sep-2019,Aquapuelche,22,Edgardo Sotelo,kaohsiung,2019-08-29,Ultranav,"1,200.00",2019-09-17,paid,ShortHaul
+3622/1920,09-Sep-2019,Icefighter ,61-12,Alex Celleri C,Balboa,2019-08-26,Ultranav,"1,200.00",2019-10-04,paid,ShortHaul
+3623/1920,01-Oct-2019,Seaways Redwood,5047067,Ekaterina Hmelev,Come By Chance,2019-08-18,LITASCO,"1,200.00",2019-10-18,paid,1 TO 5
+3624/1920,02-Oct-2019,Bareilly ,9,Sanjeev Bhatnagar,Lome,2019-09-07,Navig8,"1,400.00",2019-10-25,paid,
+3625/1920,02-Oct-2019,Crudemed,9,Shivanshu Sharma,Corpus Christi,2019-09-26,Navig8,"1,400.00",2019-10-17,paid,
+3626/1920,02-Oct-2019,Ariane,6,Rajesh Baran,Iwakuni,2019-09-03,Navig8,"1,400.00",2020-12-30,paid,
+3627/1920,02-Oct-2019,Spirit II,2,Andrew Turner,Ain Sukhna,2019-09-17,Navig8,"1,400.00",2019-10-17,paid,
+3628/1920,02-Oct-2019,Fos Picasso,10,Rajesh Baran,Singapore,2019-09-06,Navig8,"1,400.00",2019-10-17,paid,
+3629/1920,02-Oct-2019,Nave Cetus,90,Harsha Lanka,Jieh/Zouk/Zahran,2019-09-22,Navig8,"1,400.00",2019-10-30,paid,
+3630/1920,02-Oct-2019,Kanpur,87,Sanjeev Bhatnagar,Ain Sukhna,2019-09-23,Navig8,"1,400.00",2019-10-25,paid,
+3631/1920,02-Oct-2019,Advantage Summer ,37,David Watson,Vadinar,2019-09-04,Shell,"1,050.00",2019-10-18,paid,
+3632/1920,02-Oct-2019,Seagalaxy,3,Mathew Joseph,Channel view,2019-09-11,Shell,"1,050.00",2019-10-21,paid,
+3633/1920,02-Oct-2019,Sonangol Cazenga,201905,Jose Ngunza,St.James,2019-09-21,Stena Bulk,"1,400.00",2020-06-01,paid,3 to 5
+3634/1920,02-Oct-2019,Sonangol Huila,1907,Jose Ngunza,Yingkou,2019-09-30,Stena Bulk,"1,400.00",2019-11-04,paid,3 to 5
+3635/1920,02-Oct-2019,Stena President,1907,Sara Westerberg,Tangier,2019-09-21,Stena Bulk,"1,400.00",2019-10-09,paid,3 to 5
+3636/1920,02-Oct-2019,Yasa Pelican,1901,Yue Ting Chew,Liverpool,2019-09-14,Stena WECO,"1,500.00",2020-06-01,paid,3 to 5
+3637/1920,02-Oct-2019,Marlin Millenia,1901,Zackary Lin,Rotterdam,2019-09-03,Stena WECO,"1,500.00",2019-11-04,paid,3 to 5
+3638/1920,02-Oct-2019,Stena Weco Excellence,1904,Erwin Mati,Rotterdam,2019-09-13,Stena WECO,"1,500.00",2019-11-04,paid,3 to 5
+3639/1920,02-Oct-2019,Jiaolong Spirit,28,Viesturs Zuika,Ulsan,2019-09-01,Teekay,800.00,2019-10-31,paid,
+3640/1920,02-Oct-2019,Tianlong Spirit,24,Dean Reddish  ,Ulsan,2019-09-16,Teekay,800.00,2019-10-31,paid,
+3641/1920,02-Oct-2019,Godavari Spirit,43,Viesturs Zuika,Ningbo,2019-09-16,Teekay,800.00,2019-11-01,paid,
+3642/1920,02-Oct-2019,Zenith Spirit,201538,Danny Tan,Dalian,2019-08-31,Teekay,800.00,2019-10-31,paid,
+3643/1920,02-Oct-2019,Emerald Spirit ,93,Parikshit Javeri,Singapore,2019-09-17,Teekay,800.00,2019-10-31,paid,
+3644/1920,02-Oct-2019,Barcelona Spirit,23,Viesturs Zuika,El segundo,2019-09-03,Teekay,800.00,2019-10-31,paid,
+3645/1920,02-Oct-2019,Stavanger Falcon,12,Soo Pei,Ulsan,2019-09-05,Teekay,800.00,2019-10-31,paid,
+3646/1920,02-Oct-2019,Erik Spirit,158,Zhigang Li,Yeosu,2019-09-29,Teekay,800.00,2019-10-14,paid,
+3647/1920,09-Oct-2019,Seaways Jademar,235,René Manuel Sánchez E.,Long Beach,2019-09-02,Ultranav,"1,600.00",2019-11-06,paid,1 to 4
+3648/1920,09-Oct-2019,Nicopolis,9,Fernando Giler V,Balboa,2019-09-08,Ultranav,"1,600.00",2019-10-23,paid,1 to 4
+3649/1920,09-Oct-2019,Ice Victory,64.002,Juan Carlos Villarroel,San Lorenzo,2019-10-02,Ultranav,"1,600.00",2019-11-06,paid,1 to 4
+3650/1920,10-Oct-2019,Vestholmen,"61,62",Lazaros Tsitoglou,Augusta,2019-09-04,Shell,"1,050.00",2019-11-05,paid,
+3651/1920,10-Oct-2019,Emmy Schulte,"247,248",Lazaros Tsitoglou,Immingham,2019-09-21,Shell,"1,050.00",2019-11-22,paid,
+3652/1920,10-Oct-2019,Brentholmen,"97,98",Lazaros Tsitoglou,Rotterdam,2019-09-24,Shell,"1,050.00",2019-11-14,paid,
+3653/1920,10-Oct-2019,Sten Skagen,146,Lazaros Tsitoglou,Skaw,2019-09-26,Shell,"1,050.00",2019-11-05,paid,
+3654/1920,10-Oct-2019,Tigris,"281,282,283,284",Lazaros Tsitoglou,Antwerp,2019-09-27,Shell,"1,050.00",2019-11-19,paid,
+3655/1920,10-Oct-2019,Patricia,"80,81",Lazaros Tsitoglou,Tranmere,2019-09-27,Shell,"1,050.00",2019-11-05,paid,
+3656/1920,04-Nov-2019,British Heritage,19005,Lazaros Tsitoglou,New Orleans,2019-10-14,BP,"1,400.00",2019-12-06,paid,
+3657/1920,04-Nov-2019,Stamatia,02,Mindy Quek,Hamburg,2019-10-15,Cargill,"1,600.00",2019-12-05,paid,
+3658/1920,04-Nov-2019,Torm Solution,1,Mindy Quek,Savannah,2019-10-21,Cargill,"1,600.00",2019-12-05,paid,
+3659/1920,04-Nov-2019,Crudesun,8,Bharat Shukla ,Baton Rouge,2019-10-09,Navig8,"1,400.00",2019-11-15,paid,
+3660/1920,04-Nov-2019,Torm Mathilde,1,Rajesh Baran,Daesan,2019-10-10,Navig8,"1,400.00",2019-11-27,paid,
+3661/1920,04-Nov-2019,Fos Da Vinci,9,Dawn Camacho Booth,Singapore,2019-10-22,Navig8,"1,400.00",2019-11-15,paid,
+3662/1920,04-Nov-2019,ADS Oslo,10,Dawn Camacho Booth,Linggi,2019-10-20,Navig8,"1,400.00",2019-11-15,paid,
+3663/1920,04-Nov-2019,Affinity V,1,Andrew Turner,Corpus Christi,2019-10-20,Navig8,"1,400.00",2019-12-17,paid,
+3664/1920,04-Nov-2019,Mesaieed,10,Sanjeev Bhatnagar,Port Elizabeth,2019-10-20,Navig8,"1,400.00",2019-11-15,paid,
+3665/1920,04-Nov-2019,Spirit II,3,Andrew Turner,Le Havre,2019-10-10,Navig8,"1,400.00",2019-11-15,paid,
+3666/1920,04-Nov-2019,Cape Brindisi,49,Shashi Yadav,Singapore,2019-10-25,Navig8,"1,400.00",2019-12-16,paid,
+3667/1920,05-Nov-2019,Almi Odyssey,10,Chris Chapman,Sikka,2019-10-27,Shell,"1,050.00",2019-11-25,paid,
+3668/1920,05-Nov-2019,Yankul Silver,38,Lazaros Tsitoglou,Tanjung Pelepas,2019-10-22,Shell,"1,050.00",2019-12-09,paid,
+3669/1920,05-Nov-2019,Stena President,1908,Sara Westerberg,Houston,2019-10-30,Stena Bulk,"1,400.00",2019-11-14,paid,3 to 5
+3670/1920,05-Nov-2019,Stena Penguin,201910,Sara Westerberg,Conakry,2019-10-16,Stena Bulk,"1,400.00",2019-11-14,paid,3 to 5
+3671/1920,05-Nov-2019,Stena Perros,201903,Jose Ngunza,St.Rose,2019-10-29,Stena Bulk,"1,400.00",2019-11-14,paid,3 to 5
+3672/1920,07-Nov-2019,Everglades,1,Natalia Baldina,Freeport Bahamas,2019-10-05,LITASCO,"1,200.00",2019-11-19,paid,1 TO 5
+3673/1920,07-Nov-2019,Delta Atlantica,8,Ekaterina Hmelev,Sigapore,2019-10-03,LITASCO,"1,200.00",2019-12-09,paid,1 TO 5
+3674/1920,07-Nov-2019,CE Niriis,304,Natalia Baldina,Singapore,2019-10-08,LITASCO,"1,200.00",2019-12-09,paid,1 TO 5
+3675/1920,07-Nov-2019,ST Nikolai,1905,Zackary Lin,Rotterdam,2019-10-19,Stena WECO,"1,700.00",2019-12-09,paid,1 to 2
+3676/1920,07-Nov-2019,Ashkini Spirit,29,Jurgis,Zhoushan,2019-10-10,Teekay,800.00,2019-12-05,paid,
+3677/1920,07-Nov-2019,Atlantic Dawn,72,Viesturs Zuika,Baytown,2019-10-12,Teekay,800.00,2019-12-05,paid,
+3678/1920,07-Nov-2019,Axel Spirit,174,Danny Tan,Linggi,2019-10-02,Teekay,800.00,2019-12-05,paid,
+3679/1920,07-Nov-2019,Tarbet Spirit,102,Dean Reddish         ,Immingham,2019-10-19,Teekay,800.00,2019-12-06,paid,
+3680/1920,07-Nov-2019,Everest Spirit,159,Surinder Singh,Houston,2019-10-05,Teekay,800.00,2020-01-29,paid,
+3681/1920,07-Nov-2019,Stavanger Falcon,13,Danny Tan,Kikuma,2019-10-12,Teekay,800.00,2019-12-05,paid,
+3682/1920,07-Nov-2019,Tokyo Spirit,24,Dean Reddish         ,Pembroke,2019-10-28,Teekay,800.00,2019-12-05,paid,
+3683/1920,07-Nov-2019,Moscow Spirit,30,Jurgis Erdmanis,St.Lucia,2019-10-27,Teekay,800.00,2019-12-05,paid,
+3684/1920,07-Nov-2019,Mare Siculum,25,Ankita Srivastava,Dalian,2019-10-24,Teekay,800.00,2019-12-05,paid,
+3685/1920,08-Nov-2019,Cabo De Hornos,60,Juan Carlos Villarroel,Singapore,2019-10-06,Ultranav,"1,400.00",2019-12-05,paid,5 to 9
+3686/1920,08-Nov-2019,Neapolis,14,Rene M Sanchez,Rotterdam,2019-10-15,Ultranav,"1,400.00",2019-12-05,paid,5 to 9
+3687/1920,08-Nov-2019,Ice Fighter,61.13,Alex Celleri C,Houston,2019-10-05,Ultranav,"1,200.00",2019-12-16,paid,ShortHaul
+3688/1920,08-Nov-2019,Antipolis,20,Edgardo Sotelo,Richmond,2019-10-28,Ultranav,"1,400.00",2019-12-05,paid,5 to 9
+3689/1920,08-Nov-2019,Cabo Miaski,29,Andrés Marín,Balboa,2019-10-03,Ultranav,"1,200.00",2019-12-05,paid,ShortHaul
+3690/1920,08-Nov-2019,Salamina,66,Fernando Giler V,Bayway,2019-10-20,Ultranav,"1,400.00",2019-11-25,paid,5 to 9
+3691/1920,08-Nov-2019,Seaways Hellas,233,Joaquín Ramírez C.,Houston,2019-10-23,Ultranav,"1,400.00",2019-12-05,paid,5 to 9
+3692/1920,08-Nov-2019,Seaways Visyas ,169,Jens Pribnow,New York,2019-11-02,Ultranav,"1,400.00",2019-12-05,paid,5 to 9
+3693/1920,13-Nov-2019,Patricia,82,Lazaros Tsitoglou,Rotterdam,2019-10-06,Shell,"1,050.00",2019-12-09,paid,
+3694/1920,13-Nov-2019,Tigris,"285,286",Lazaros Tsitoglou,Antwerp,2019-10-21,Shell,"1,050.00",2019-12-09,paid,
+3695/1920,13-Nov-2019,Elisalex Schulte,"143,144",Lazaros Tsitoglou,Stigsnaes,2019-10-27,Shell,"1,050.00",2019-12-06,paid,
+3696/1920,13-Nov-2019,Brentholmen,"99,100,101",Lazaros Tsitoglou,Rotterdam,2019-10-19,Shell,"1,050.00",2019-12-09,paid,
+3697/1920,13-Nov-2019,Vestholmen,"63,64",Lazaros Tsitoglou,Liverpool,2019-10-21,Shell,"1,050.00",2019-12-09,paid,
+3698/1920,13-Nov-2019,Sten Skagen,147,Animesh Garg,Eastham,2019-10-31,Shell,"1,050.00",2019-12-09,paid,
+3699/1920,13-Nov-2019,Emmy Schulte,250,Animesh Garg,Malmo,2019-10-27,Shell,"1,050.00",2019-12-09,paid,
+3700/1920,02-Dec-2019,Hellas Marianna,8,Mindy Quek,Savannah,2019-11-10,Cargill,"1,600.00",2020-01-03,paid,
+3701/1920,03-Dec-2019,Cape Belavista,46,Shashi Yadav,Ain Sukhna,2019-11-02,Navig8,"1,400.00",2020-03-16,paid,
+3702/1920,03-Dec-2019,SCF Baikal,201901,Sanjeev Bhatnagar,Slagen,2019-11-01,Navig8,"1,400.00",2020-01-15,paid,
+3703/1920,03-Dec-2019,Apollo,3,Harsha Lanka ,Singapore,2019-11-22,Navig8,"1,400.00",2019-12-17,paid,
+3704/1920,03-Dec-2019,Nave Cetus,6,Rajesh Baran,Freeport,2019-11-17,Navig8,"1,400.00",2020-12-30,paid,
+3705/1920,03-Dec-2019,	Navig8 Perseverance,5,Andrew Turner,St.Eustatius,2019-11-26,Navig8,"1,400.00",2020-12-30,paid,
+3706/1920,03-Dec-2019,Mahadah Silver,43,Lazaros Tsitoglou,Ras Lafan,2019-11-20,Shell,"1,050.00",2020-06-25,paid,
+3707/1920,03-Dec-2019,Silver Sawsan,35,Lazaros Tsitoglou,Ras Lafan,2019-11-10,Shell,"1,050.00",2020-07-08,paid,
+3708/1920,03-Dec-2019,Sonangol Cazenga,1906,Shawn Sandhu,Singapore,2019-11-29,Stena Bulk,"1,600.00",2019-12-06,paid,1 to 2
+3709/1920,03-Dec-2019,Stena President,1909,Sara Westerberg,Esquivel,2019-11-21,Stena Bulk,"1,600.00",2019-12-17,paid,1 to 2
+3710/1920,03-Dec-2019,Susanne Victory,1901,Yue Ting Chew,Liverpool,2019-11-09,Stena WECO,"1,700.00",2020-01-03,paid,1 to 2
+3711/1920,03-Dec-2019,Stena Weco Elegance,1905,Erwin Matin ,Rotterdam,2019-11-14,Stena WECO,"1,700.00",2020-01-03,paid,1 to 2
+3712/1920,06-Dec-2019,Esther Spirit,177,Soo Pei,Cherry Point,2019-11-30,Teekay,800.00,2020-01-09,paid,
+3713/1920,06-Dec-2019,Stavanger Falcon,14,Danny Tan,kikuma,2019-11-10,Teekay,800.00,2020-01-09,paid,
+3714/1920,06-Dec-2019,Blue Power,44,Siew Siew,Tanjung Pelepas,2019-11-12,Teekay,800.00,2020-01-09,paid,
+3715/1920,06-Dec-2019,Sten Fjell,74,Animesh Garg,Eastham,2019-11-04,Shell,"1,050.00",2020-01-07,paid,
+3716/1920,06-Dec-2019,Autumn,142,Andrew Winner,Gothenburg,2019-11-02,Shell,"1,050.00",2020-01-07,paid,
+3717/1920,06-Dec-2019,Brentholmen,"102,103",Animesh Garg,Alexandria,2019-11-11,Shell,"1,050.00",2020-01-07,paid,
+3718/1920,06-Dec-2019,Emmy Schulte,"251,252",Animesh Garg,Westhinder,2019-11-18,Shell,"1,050.00",2020-01-07,paid,
+3719/1920,06-Dec-2019,Tigris,"288,289,290,292",Animesh Garg,Rotterdam,2019-11-29,Shell,"1,050.00",2020-01-07,paid,
+3720/1920,06-Dec-2019,Elisalex Schulte,"145,146",Animesh Garg,Eastham,2019-11-28,Shell,"1,050.00",2020-01-07,paid,
+3721/1920,06-Dec-2019,Vestholmen,65,Animesh Garg,Sarroch,2019-11-27,Shell,"1,050.00",2020-01-07,paid,
+3722/1920,06-Dec-2019,Sten Skagen,"148,149,150,151",Animesh Garg,Eastham,2019-11-30,Shell,"1,050.00",2020-01-07,paid,
+3723/1920,06-Dec-2019,Selini ,08P-109F,Fernando Giler V.,Rotterdam,2019-11-28,Ultranav,"1,200.00",2020-04-09,paid,10 and Up
+3724/1920,06-Dec-2019,Cabo San Vicente,37,Juan Carlos Villarroel,Singapore,2019-11-14,Ultranav,"1,200.00",2020-01-03,paid,10 and Up
+3725/1920,06-Dec-2019,Madison,10,Juan Carlos Villarroel,Long Beach,2019-11-10,Ultranav,"1,200.00",2020-01-03,paid,10 and Up
+3726/1920,06-Dec-2019,Seaways Jademar,237,Andrés Marín,St.Eustatius,2019-11-28,Ultranav,"1,200.00",2020-03-04,paid,ShortHaul
+3727/1920,06-Dec-2019,Selecao,32P-132F,Fernando Giler V.,Port Everglades,2019-11-10,Ultranav,"1,200.00",2020-03-11,paid,10 and Up
+3728/1920,06-Dec-2019,Aqualiberty,096-063,Edgardo Sotelo,El segundo,2019-11-22,Ultranav,"1,200.00",2020-01-03,paid,10 and Up
+3729/1920,06-Dec-2019,Chantal,137P-143F,Alex Celleri C.,New York,2019-11-30,Ultranav,"1,200.00",2020-01-03,paid,10 and Up
+3730/1920,06-Dec-2019,Cabo Kamui,35,Javier Jamura,St.Eustatius,2019-11-23,Ultranav,"1,200.00",2020-03-04,paid,10 and Up
+3731/1920,06-Dec-2019,Ice Energy ,68_3,Fernando Giler,Balboa,2019-11-28,Ultranav,"1,200.00",2020-03-11,paid,ShortHaul
+3732/1920,06-Dec-2019,Neapolis,15,Rene M Sanchez,New York,2019-11-20,Ultranav,"1,200.00",2020-01-03,paid,10 and Up
+3733/1920,06-Dec-2019,Aquapuelche,23,Jens Pribnow,Cherry Point,2019-11-15,Ultranav,"1,200.00",2019-12-16,paid,10 and Up
+3734/1920,10-Dec-2019,Eagle Barcelona,1925,Natalia Baldina,St. Rose,2019-11-28,LITASCO,"1,200.00",2019-12-17,paid,1 TO 5
+3735/1920,10-Dec-2019,China Dawn,v5035069,Michaela OLUND,USG,2019-04-10,LITASCO,800.00,2019-12-17,paid,Reconstruction
+3736/1920,10-Dec-2019,Eurofaith,v17,Michaela OLUND,Singapore,2019-03-07,LITASCO,800.00,2019-12-17,paid,Reconstruction
+3737/1920,04-Jan-2020,Castor ,2,Mindy Quek,Hamburg,2020-12-10,Cargill,"1,600.00",2020-06-12,paid,
+3738/1920,04-Jan-2020,Fos Picasso,11,Rajesh Baran,Jinzhou  ,2019-12-06,Navig8,"1,400.00",2020-03-16,paid,
+3739/1920,04-Jan-2020,Crudesun,08_19,Johney Phelps,Baton Rouge,2019-12-06,Navig8,"1,400.00",2020-01-24,paid,
+3740/1920,04-Jan-2020,Bareilly,11-19,Sanjeev Bhatnagar,St.Charles,2019-12-23,Navig8,"1,400.00",2020-03-16,paid,
+3741/1920,04-Jan-2020,Aljalaa,5-129,Sanjeev Bhatnagar,Singapore,2019-12-15,Navig8,"1,400.00",2020-02-13,paid,
+3742/1920,04-Jan-2020,Mesaieed,11,Sanjeev Bhatnagar,Singapore,2019-12-23,Navig8,"1,400.00",2020-01-15,paid,
+3743/1920,04-Jan-2020,Stride,91,Vineet Khara,Singapore,2019-12-29,Navig8,"1,400.00",2020-02-13,paid,
+3744/1920,06-Jan-2020,Leo Sun,75,Natalia Baldina,Big Stone,2019-12-07,LITASCO,"1,200.00",2020-01-14,paid,1 TO 5
+3745/1920,07-Jan-2020,Silver Valerie,1901,Zackary Lin,Rotterdam,2019-12-08,Stena WECO,"1,700.00",2020-02-07,paid,1 to 2
+3746/1920,07-Jan-2020,Luzon Spirit,51,Viesturs Zuika,St.Charles,2019-12-03,Teekay,800.00,2020-02-05,paid,
+3747/1920,07-Jan-2020,Stavanger Falcon,15,Danny Tan,Kikuma,2019-12-09,Teekay,800.00,2020-02-05,paid,
+3748/1920,07-Jan-2020,Peak Spirit,54,Soo Pei,Kiwinawa,2019-12-07,Teekay,800.00,2020-02-05,paid,
+3749/1920,07-Jan-2020,Mare Tirrenum,97,Danny Tan,Kikuma,2019-12-05,Teekay,800.00,2020-02-05,paid,
+3750/1920,07-Jan-2020,Narmada Spirit,45,Dean Reddish ,Zhoushan,2019-12-21,Teekay,800.00,2020-02-05,paid,
+3751/1920,07-Jan-2020,Erik Spirit,162,Siew Siew,Dalian,2019-12-16,Teekay,800.00,2020-02-05,paid,
+3752/1920,07-Jan-2020,Emerald Spirit ,97,Parikshit Jhaveri,Singapore,2019-12-13,Teekay,800.00,2020-02-05,paid,
+3753/1920,07-Jan-2020,Whistler  Spirit,89,Danny Tan,Port Suez,2019-12-16,Teekay,800.00,2020-02-05,paid,
+3754/1920,07-Jan-2020,Monteral Spirit,40,Danny Tan,Point Tupper,2019-12-13,Teekay,800.00,2020-02-28,paid,
+3755/1920,07-Jan-2020,Tarbet Spirit,104,Ankita Srivastava,Tarragona,2019-12-15,Teekay,800.00,2020-02-07,paid,
+3756/1920,07-Jan-2020,Pusaka Borneo,16,Danny Tan,Ulsan,2020-01-02,Teekay,800.00,2020-02-05,paid,
+3757/1920,07-Jan-2020,Mare Tirrenum,98,Danny Tan,Singapore,2019-12-26,Teekay,800.00,2020-02-05,paid,
+3758/1920,07-Jan-2020,Blue Power,45,Danny Tan,Singapore,2019-12-30,Teekay,800.00,2020-02-05,paid,
+3759/1920,07-Jan-2020,Axel Spirit,176,Danny Tan,Kikuma,2012-12-31,Teekay,800.00,2020-02-05,paid,
+3760/1920,07-Jan-2020,Seaways Silvermar,234," 
+
+Miguel Barria V.",Bayonne,2019-12-09,Ultranav,"1,400.00",2020-01-15,paid,5 to 9
+3761/1920,07-Jan-2020,Seaways Leyte  ,85,Jens Peribnow,Long Beach,2019-12-02,Ultranav,"1,400.00",2020-02-05,paid,5 to 9
+3762/1920,07-Jan-2020,Persepolis,22P-123F,Fernando Giler V,St.Eustatius,2019-12-11,Ultranav,"1,200.00",2020-01-15,paid,ShortHaul
+3763/1920,07-Jan-2020,Cabo San Antonio,11,Javier Zamora,Long Beach,2019-12-08,Ultranav,"1,400.00",2020-02-05,paid,5 to 9
+3764/1920,07-Jan-2020,Seaways Goldmar,168,Miguel Barria,Balboa,2019-12-02,Ultranav,"1,400.00",2020-01-15,paid,5 to 9
+3765/1920,07-Jan-2020,Madison,11,Andres Marin,Houston,2019-12-13,Ultranav,"1,200.00",2020-02-05,paid,ShortHaul
+3766/1920,07-Jan-2020,Cabo Tamar,291,Javier Zamora,Hong Kong,2019-12-10,Ultranav,"1,200.00",2020-02-05,paid,ShortHaul
+3767/1920,07-Jan-2020,Aquapuelche,24,Edgardo Sotelo,Cherry Point,2019-12-13,Ultranav,"1,200.00",2020-01-22,paid,ShortHaul
+3768/1920,07-Jan-2020,Selini ,09P-110F,Edgardo Sotelo,New York,2018-12-31,Ultranav,"1,400.00",2020-01-15,paid,5 to 9
+3769/1920,09-Jan-2020,Sten Fjell	,78,Animesh Garg,Rotterdam,2019-12-04,Shell,"1,050.00",2020-02-03,paid,
+3770/1920,11-Jan-2020,Elisalex Schulte,148,Animesh Garg,Algeciras,2019-12-28,Shell,"1,050.00",2020-02-03,paid,
+3771/1920,11-Jan-2020,Vestholmen,"66,65,67",Animesh Garg,Eastham,2019-12-20,Shell,"1,050.00",2020-02-03,paid,
+3772/1920,11-Jan-2020,Sten Skagen,152_3,Animesh Garg,Rotterdam,2019-12-23,Shell,"1,050.00",2020-06-15,paid,
+3773/1920,11-Jan-2020,Tigris,294295296,Animesh Garg,Antwerp,2019-12-28,Shell,"1,050.00",2020-02-03,paid,
+3774/1920,11-Jan-2020,Emmy Schulte,253254,Animesh Garg,Algeciras,2019-12-31,Shell,"1,050.00",2020-02-03,paid,
+3775/1920,13-Jan-2020,Brentholmen,104105106,Animesh Garg,Rotterdam,2019-12-28,Shell,"1,050.00",2020-02-03,paid,
+3776/1920,03-Feb-2020,Navig8 Gratitude ,1,Mindy Quek,Savannah,2020-01-20,Cargill,"1,600.00",2020-03-04,paid,
+3777/1920,04-Feb-2020,Ariane ,8_19,Dawn Camacho Booth,Los Angeles,2020-01-19,Navig8,"1,400.00",2020-02-25,paid,
+3778/1920,04-Feb-2020,Aframax Riviera,77,Cassie Davis,Singapore,2020-01-25,Navig8,"1,400.00",2020-03-16,paid,
+3779/1920,04-Feb-2020,Nancy P,15,Karl Kontselidze,Antwerp,2020-01-05,Shell,"1,050.00",2020-02-17,paid,
+3780/1920,04-Feb-2020,Almi Sun,7/16/2019,Chris Chapman,Singapore,2020-01-16,Shell,"1,050.00",2020-02-17,paid,
+3781/1920,05-Feb-2020,FSL Hongkong,65,Natalia Baldina,Corpus Christi,2020-01-23,LITASCO,"1,200.00",2020-02-12,paid,1 TO 5
+3782/1920,05-Feb-2020,Dubai Angel,128_L,Elizaveta Brewster,Houston,2020-01-17,LITASCO,"1,200.00",2020-02-12,paid,1 TO 5
+3783/1920,06-Feb-2020,Sonangol Huila ,1909,Ola Andersson ,Dakar,2020-01-12,Stena Bulk,"1,400.00",2020-03-11,paid,3 to 5
+3784/1920,06-Feb-2020,Eurovision,1909,Ola Andersson ,Rotterdam,2020-01-25,Stena Bulk,"1,400.00",2020-03-11,paid,3 to 5
+3785/1920,06-Feb-2020,Stena President,1911,Sara Westerberg,Antwerp,2020-01-13,Stena Bulk,"1,400.00",2020-03-11,paid,3 to 5
+3786/1920,06-Feb-2020,Essie C,1908,Ameliah Seah,Liverpool,2020-01-21,Stena WECO,"1,500.00",,,3 to 5
+3787/1920,06-Feb-2020,Stenaweco Gladys W,1909,Zackary Lin ,Gela,2020-01-12,Stena WECO,"1,500.00",,,3 to 5
+3788/1920,06-Feb-2020,St. Clemens,1910,Zackary Lin ,Rotterdam,2020-01-20,Stena WECO,"1,500.00",,,3 to 5
+3789/1920,07-Feb-2020,Godavari Spirit,44,Ankita Srivastava,Yingkou,2020-01-03,Teekay,800.00,2020-03-04,paid,
+3790/1920,07-Feb-2020,Baker Spirit,34,Ankita Srivastava,Houston,2020-01-25,Teekay,800.00,2020-03-04,paid,
+3791/1920,07-Feb-2020,Helga  Spirit,124,Soo Pie,Yingkou,2020-01-08,Teekay,800.00,2020-03-04,paid,
+3792/1920,07-Feb-2020,Stavanger Falcon,16,Danny Tan,singapore,2020-01-15,Teekay,800.00,2020-03-04,paid,
+3793/1920,07-Feb-2020,Pinnacle Spirit,40,Charlie Thomas ,St.Charles,2020-01-29,Teekay,800.00,2020-03-04,paid,
+3794/1920,07-Feb-2020,Emerald Spirit ,98,Parikshit Jhaveri,Singapore,2020-01-14,Teekay,800.00,2020-03-04,paid,
+3795/1920,07-Feb-2020,Tarbet Spirit,105,Danny Tan,Pascagoula,2020-01-20,Teekay,800.00,2020-03-06,paid,
+3796/1920,07-Feb-2020,Emmy Schulte,255256,Animesh Garg,Algeciras,2020-01-15,Shell,"1,050.00",2020-03-03,paid,
+3797/1920,07-Feb-2020,Brentholmen,108109110,Animesh Garg,Rotterdam,2020-01-26,Shell,"1,050.00",2020-07-09,paid,
+3798/1920,07-Feb-2020,Elisalex Schulte,151152,Animesh Garg,Eastham,2020-01-24,Shell,"1,050.00",2020-03-03,paid,
+3799/1920,07-Feb-2020,Tigris,297298299,Animesh Garg,Liverpool,2020-01-29,Shell,"1,050.00",2020-03-03,paid,
+3800/1920,07-Feb-2020,Vestholmen,"69,70,71,72",Animesh Garg,Antwerp,2020-01-28,Shell,"1,050.00",2020-03-03,paid,
+3801/1920,07-Feb-2020,Sten Skagen,"155, 156, 157",Animesh Garg,Rotterdam,2020-01-31,Shell,"1,050.00",2020-03-03,paid,
+3802/1920,08-Feb-2020,Sten Fjell ,"81,82",Animesh Garg,Portland,2020-01-20,Shell,"1,050.00",2020-03-03,paid,
+3803/1920,10-Feb-2020,Ice Fighter ,61-17,Alex Celleri C.,Balboa,2020-01-30,Ultranav,"1,600.00",2020-03-11,paid,1 to 4
+3804/1920,10-Feb-2020,Seaways Jademar,276,Andres Marin,San Francisco,2020-01-09,Ultranav,"1,600.00",2020-03-11,paid,1 to 4
+3805/1920,10-Feb-2020,Birdie Trader,43,Sebastian Vega,Mejillones,2020-01-29,Ultranav,"1,600.00",2020-02-26,paid,1 to 4
+3806/1920,03-Mar-2020,Eagle Sibu,1,Jan Hicks,Tanjung Pelepas,2019-07-25,Tauber,"1,600.00",2020-03-11,paid,
+3807/1920,03-Mar-2020,Cape Taura,19012,Jan Hicks,Haldia,2020-01-16,Tauber,"1,600.00",2020-03-11,paid,
+3808/1920,03-Mar-2020,Kanpur,91,Bharat Shukla,Singapore,2020-02-06,Navig8,"1,400.00",2020-03-30,paid,
+3809/1920,03-Mar-2020,Four Wind,2,Sanjeev Bhatnagar,Linggi,2020-02-09,Navig8,"1,400.00",2020-03-30,paid,
+3810/1920,03-Mar-2020,Nave Cetus,86-20,Bharat Shukla,Karimun,2020-02-03,Navig8,"1,400.00",2020-04-06,paid,
+3811/1920,03-Mar-2020,Navig8 Precision,10,Sanjeev Bhatnagar,Lome,2020-02-05,Navig8,"1,400.00",2020-03-30,paid,
+3812/1920,03-Mar-2020,Victory Venture ,20002,Sanjeev Bhatnagar,Zhoushan,2020-02-12,Navig8,"1,400.00",2020-03-30,paid,
+3813/1920,03-Mar-2020,Sonangol Cazenga,201907,Nils Israelsson,Bayway,2020-02-05,Stena Bulk,"1,400.00",2020-04-06,paid,3 to 5
+3814/1920,03-Mar-2020,Stena President,2001,Jose Ngunza,Le Havre,2020-02-05,Stena Bulk,"1,400.00",2020-03-11,paid,3 to 5
+3815/1920,03-Mar-2020,Stena Penguin,2001,Jose Ngunza,Kalamata ,2020-02-07,Stena Bulk,"1,400.00",2020-03-11,paid,3 to 5
+3816/1920,04-Mar-2020,Aspen  Spirit,33,Charlie Thomas ,Barbers Point,2020-02-03,Teekay,800.00,2020-05-04,paid,
+3817/1920,04-Mar-2020,Jiaolong Spirit ,30,Viesturs Zuika,Norco,2020-02-24,Teekay,800.00,2020-04-06,paid,
+3818/1920,04-Mar-2020,Stavanger Bliss ,19,Danny Tan,Brisbane ,2020-02-05,Teekay,800.00,2020-03-11,paid,
+3819/1920,04-Mar-2020,New Award,27,Danny Tan,Singapore,2020-02-08,Teekay,800.00,2020-04-06,paid,
+3820/1920,04-Mar-2020,Stavanger Falcon,17,Danny Tan,Longkou,2020-02-03,Teekay,800.00,2020-04-06,paid,
+3821/1920,04-Mar-2020,Stavanger Blossom,81,Parikshit Jhaveri,Tanjung Pelepas,2020-02-13,Teekay,800.00,2020-04-06,paid,
+3822/1920,04-Mar-2020,Los Angeles Spirit,31,Ben Herbert,Singapore,2020-02-25,Teekay,800.00,2020-06-15,paid,
+3823/1920,04-Mar-2020,Helga Spirit,125,Soo Pie,Dalian,2020-02-16,Teekay,800.00,2020-04-23,paid,
+3824/1920,04-Mar-2020,Blue Sea,5,Parikshit Jhaveri,Zhanjiang,2020-02-18,Teekay,800.00,2020-04-06,paid,
+3825/1920,05-Mar-2020,Aqualegacy,68,Juan Carlos Villarroel,Kawasaki,2020-02-03,Ultranav,"1,600.00",2020-04-07,paid,1 to 4
+3826/1920,05-Mar-2020,Energy Champion,09_19,Alex Celleri C,Paulsboro,2020-02-06,Ultranav,"1,600.00",2020-04-07,paid,1 to 4
+3827/1920,05-Mar-2020,Neapolis,17,Rene M Sanchez,San Francisco,2020-02-04,Ultranav,"1,600.00",2020-04-07,paid,1 to 4
+3828/1920,05-Mar-2020,Selecao,35P_135F,Fernando Giler V.,Panama,2020-02-20,Ultranav,"1,600.00",2020-04-07,paid,1 to 4
+3829/1920,05-Mar-2020,Nicopolis,16P,Fernando Giler V,Balboa,2020-02-20,Ultranav,"1,200.00",2020-04-07,paid,ShortHaul
+3830/1920,05-Mar-2020,Seaways Reymar ,232,Miguel Barria,Long Beach,2020-02-13,Ultranav,"1,200.00",2020-03-12,paid,ShortHaul
+3831/1920,06-Mar-2020,Kriti Diamond,23,Elizaveta Brewster,Singapore,2020-02-11,LITASCO,"1,200.00",2020-04-08,paid,1 TO 5
+3832/1920,06-Mar-2020,Minerva Iris,258,  Andrey Voronin,Corpus Christi,2020-02-14,LITASCO,"1,200.00",2020-04-08,paid,1 TO 5
+3833/1920,06-Mar-2020,Yamato Spirit,77,Elizaveta Brewster,Singapore,2020-02-19,LITASCO,"1,200.00",2020-04-08,paid,1 TO 5
+3834/1920,06-Mar-2020,Pluto Moon,4,Elizaveta Brewster,Port Neeches ,2020-02-23,LITASCO,"1,200.00",2020-04-13,paid,1 TO 5
+3835/1920,06-Mar-2020,Advantage Solar,76,David Watson,Tanjung Pelepas,2020-02-20,Shell,"1,050.00",2020-06-15,paid,
+3836/1920,06-Mar-2020,Mahadah Silver,45_1,Sony Sebestian,Toamasina,2020-02-07,Shell,"1,050.00",,,
+3837/1920,07-Mar-2020,Brentholmen,111,Animesh Garg,Ravenna,2020-02-07,Shell,"1,050.00",2020-04-16,paid,
+3838/1920,07-Mar-2020,Tigris,300301,Lazaros Tsitoglou,Liverpool,2020-02-21,Shell,"1,050.00",2020-04-16,paid,
+3839/1920,07-Mar-2020,Emmy Schulte,257258,Lazaros Tsitoglou,Rotterdam,2020-02-03,Shell,"1,050.00",2020-04-16,paid,
+3840/1920,07-Mar-2020,Vestholmen,"73,74",Lazaros Tsitoglou,Stenungsund,2020-02-23,Shell,"1,050.00",2020-04-16,paid,
+3841/1920,07-Mar-2020,Elisalex Schulte,155,Lazaros Tsitoglou,Eastham,2020-02-28,Shell,"1,050.00",2020-04-16,paid,
+3842/1920,07-Mar-2020,Sten Skagen,158159160,Lazaros Tsitoglou,Eastham,2020-02-28,Shell,"1,050.00",2020-07-24,paid,
+3843/1920,31-Mar-2020,Compass,5, Jasmine Lim,Sriracha,2020-02-25,Hafnia,"1,600.00",2020-04-27,paid,
+3844/1920,31-Mar-2020,Folegandros,3,Ekaterina Hmelev,Agioi Theodoroi,2020-03-01,LITASCO,"1,200.00",2020-05-04,paid,1 TO 5
+3845/1920,31-Mar-2020,Isabella ,281,Andrey Voronin,Freeport,2020-03-24,LITASCO,"1,200.00",2020-05-04,paid,1 TO 5
+3846/1920,31-Mar-2020,Bari,29,Shashi Yadav,Aoshan,2020-01-28,Navig8,"1,400.00",2020-04-27,paid,
+3847/1920,31-Mar-2020,Navig8 Perseverance,8,Shashi Yadav,Fujairah,2020-03-04,Navig8,"1,400.00",2020-04-27,paid,
+3848/1920,31-Mar-2020,Bareilly,13,Andrew Turner,Fujairah,2020-03-21,Navig8,"1,400.00",2020-04-27,paid,
+3849/1920,31-Mar-2020,Torm Mathilde,5,Andrew Turner,Genoa,2020-03-04,Navig8,"1,400.00",2020-04-27,paid,
+3850/1920,31-Mar-2020,Bacaliaros,1,Sanjeev Bhatnagar,Melbourne,2020-03-21,Navig8,"1,400.00",2020-05-15,paid,
+3851/1920,31-Mar-2020, Navig8 Promise,5,Andrew Turner ,Ain Sukhna,2020-03-03,Navig8,"1,400.00",2020-04-27,paid,
+3852/1920,31-Mar-2020,Pacific A. Dorodchi ,7,Andrew Turner ,Fujairah,2020-03-20,Navig8,"1,400.00",2020-04-27,paid,
+3853/1920,31-Mar-2020,Affinity V,01_20,Andrew Turner,Port Said,2020-03-16,Navig8,"1,400.00",2020-04-27,paid,
+3854/1920,31-Mar-2020,Libya,1,Sanjeev Bhatnagar,Ulsan,2020-03-04,Navig8,"1,400.00",2020-04-27,paid,
+3855/1920,31-Mar-2020,Navig8 Perseverance,9,Bharat Shukla,Rabigh,2020-03-28,Navig8,"1,400.00",2020-04-27,paid,
+3856/1920,31-Mar-2020,Navig8 Precision,11,Andrew Turner,Rotterdam,2020-03-27,Navig8,"1,400.00",2020-04-27,paid,
+3857/1920,31-Mar-2020,Nicopolis,17P,Fernando Giler V.,Pascagoula,2020-03-17,Ultranav,"1,200.00",2020-04-20,paid,ShortHaul
+3858/1920,31-Mar-2020,Seaways Leyte,88,Jens Pribnow,Yabacoa,2020-03-17,Ultranav,"1,200.00",2020-04-16,paid,ShortHaul
+3859/1920,31-Mar-2020,Cabo Miaski,34,Joaquín Ramírez C.,Taboguilla,2020-03-23,Ultranav,"1,200.00",2020-04-29,paid,ShortHaul
+3860/1920,31-Mar-2020,Cabo De Hornos,62,René Manuel Sánchez E.,Los Angeles,2020-03-01,Ultranav,"1,400.00",2020-04-29,paid,5 to 9
+3861/1920,31-Mar-2020,World Harmony,136P_145F,Alex Celleri C.,Paulsboro,2020-03-17,Ultranav,"1,400.00",2020-04-29,paid,5 to 9
+3862/1920,31-Mar-2020,Seaways Jademar,242,Andres Marin,St.Eustatius,2020-03-28,Ultranav,"1,400.00",2020-04-29,paid,5 to 9
+3863/1920,31-Mar-2020,Victory Venture ,V20003,Alvin Teng,Hawaii,2020-03-28,Clearlake,"1,400.00",,,
+3864/1920,31-Mar-2020,NCC Rabigh,201908,Cecile Pierdet ,Agadir,2020-02-17,LDC,"1,600.00",2020-05-26,paid,
+3865/1920,31-Mar-2020,Eurovison,1909,Ola Andersson,Rotterdam,2020-01-25,Stena Bulk,"1,400.00",2020-12-30,paid,3 to 5
+3866/1920,31-Mar-2020,Stena President ,2002,Nils Israelsson, Sarroch,2020-03-03,Stena Bulk,"1,400.00",2020-04-23,paid,3 to 5
+3867/1920,31-Mar-2020,Stena Penguin,2002,Jose Ngunza,Kalamata ,2020-03-23,Stena Bulk,"1,400.00",2021-01-06,paid,3 to 5
+3868/1920,31-Mar-2020,Nord Vanquish,1904,Yue Ting Chew,Liverpool,2020-02-24,Stena WECO,"1,700.00",2020-05-01,paid,1 to 2
+3869/1920,31-Mar-2020,Advantage Summer,41,David Watson,Rotterdam,2020-03-19,Shell,"1,050.00",2020-07-17,paid,
+3870/1920,31-Mar-2020,Silver Sawsan,40,Lazaros Tsitoglou,Port Louis,2020-03-24,Shell,"1,050.00",,,
+3871/1920,31-Mar-2020,Emmy Schulte,259,Lazaros Tsitoglou,Tanger,2020-03-28,Shell,"1,050.00",2020-06-11,paid,
+3872/1920,31-Mar-2020,Sten Fjell,"85,86, 87",Lazaros Tsitoglou,Aabenraa,2020-03-25,Shell,"1,050.00",2020-06-11,paid,
+3873/1920,31-Mar-2020,Tigris,"302, 303,304",Lazaros Tsitoglou,Liverpool,2020-03-25,Shell,"1,050.00",2020-06-11,paid,
+3874/1920,31-Mar-2020,Elisalex Schulte,"156, 157, 158",Lazaros Tsitoglou,Antwerp,2020-03-26,Shell,"1,050.00",2020-06-11,paid,
+3875/1920,31-Mar-2020,Sten Skagen,"162, 163, 164",Lazaros Tsitoglou,Eastham,2020-03-29,Shell,"1,050.00",2020-06-11,paid,
+3876/1920,31-Mar-2020,Kaveri Spirit,29,Dean Reddish         ,Vadinar,2020-03-24,Teekay,800.00,2020-05-04,paid,
+3877/1920,31-Mar-2020,Vail Spirit,33,Charlie Thomas,Texas,2020-03-15,Teekay,800.00,2020-04-23,paid,
+3878/1920,31-Mar-2020,Prostar,8,Viesturs Zuika,Delaware,2020-03-10,Teekay,800.00,2020-06-01,paid,
+3879/1920,31-Mar-2020,New Award,28,Danny Tan,Yeosu,2020-03-08,Teekay,800.00,2020-04-23,paid,
+3880/1920,31-Mar-2020,Nordic Brasilia,10,Barney Houghton,Bilbao,2020-03-13,Teekay,800.00,2020-05-01,paid,
+3881/1920,31-Mar-2020,Stavanger Falcon,18,Danny Tan,Zhuhai,2020-03-01,Teekay,800.00,2020-04-23,paid,
+3882/1920,31-Mar-2020,Yamato Spirit,70,Siew Siew,Kikuma,2020-03-10,Teekay,800.00,2020-04-23,paid,
+3883/1920,31-Mar-2020,Atlantic Dawn,80,Ben Herbert,Pascagoula,2020-03-27,Teekay,800.00,2020-04-23,paid,
+3884/1920,31-Mar-2020,Shanghai Dawn,88,Soo Pie,Zhoushan,2020-03-09,Teekay,800.00,,,
+3885/1920,31-Mar-2020,Godavari Spirit,45, Jurgis Erdmanis,Sriracha,2020-03-29,Teekay,800.00,,,
+3886/1920,31-Mar-2020,Stavanger Eagle ,17,Soo Pie,Singapore,2020-03-15,Teekay,800.00,2020-04-23,paid,
+3887/1920,31-Mar-2020,Archangelos Gabriel,007_214,Jan Hicks,Haldia,2020-03-22,Tauber,"1,600.00",2020-05-04,paid,
+3888/1920,31-Mar-2020,Navig8 Guide,2,Mindy Quek,Hamburg,2020-03-31,Cargill,"1,600.00",2020-05-04,paid,
+3889/1920,31-Mar-2020,Jacob,20001,Montatip Submeeklin,Kemaman,2020-03-26,TIPCO,"1,400.00",2020-05-01,paid,
+3890/1920,31-Mar-2020,Navig8 Tourmaline,1,Mindy Quek,Rotterdam,2020-02-27,Cargill,"1,600.00",2020-05-04,paid,
+3891/2021,09-May-2020, Compassion ,2,Peter Eden,"Port Elizabeth 
+",2020-04-07,Hafnia,"1,600.00",2021-01-08,paid,
+3892/2021,09-May-2020,Caspian Sea,12,Natalia Baldina,Sikka,2020-04-03,LITASCO,"1,200.00",2020-06-18,paid,1 TO 5
+3893/2021,09-May-2020,Crudemed,15,Andrew Turner,Port Elizabeth,2020-02-23,Navig8,"1,400.00",2020-05-27,paid,
+3894/2021,09-May-2020,Apollo,5,Andrew Turner,Tanjung Pelepas,2020-04-06,Navig8,"1,400.00",2020-05-27,paid,
+3895/2021,09-May-2020,Torm Mathilde,6,Johney Phelps,Baytown,2020-04-26,Navig8,"1,400.00",2020-05-27,paid,
+3896/2021,09-May-2020,Mesaieed,13,Andrew Turner," 
+Baton Rouge",2020-04-17,Navig8,"1,400.00",2020-05-27,paid,
+3897/2021,09-May-2020,Crudemed,16,Kelly Ross,Paulsboro,2020-04-09,Navig8,"1,400.00",2020-05-27,paid,
+3898/2021,09-May-2020,Seaways Visayas ,172,Jens Pribnow,Melones Terminal,2020-03-09,Ultranav,"1,400.00",2020-05-20,paid,5 to 9
+3899/2021,09-May-2020,Aqualegend ,87_064,Joaquín Ramírez C,Singapore,2020-03-13,Ultranav,"1,400.00",2020-06-05,paid,5 to 9
+3900/2021,09-May-2020,Seaways Hellas,236,Andrés Marín,Martinez,2020-03-01,Ultranav,"1,400.00",2020-05-21,paid,5 to 9
+3901/2021,09-May-2020,Seaways Samar,96_104,Jens Peribnow,Los Angeles,2020-03-12,Ultranav,"1,400.00",2020-05-20,paid,5 to 9
+3902/2021,09-May-2020,Seaways Rubymar,058_161,Jens Pribnow,Freeport Bahamas,2020-04-05,Ultranav,"1,400.00",2020-05-20,paid,5 to 9
+3903/2021,09-May-2020,Seaways Reymar,233,Miguel Barria V.,Delaware,2020-04-04,Ultranav,"1,400.00",2020-06-05,paid,5 to 9
+3904/2021,09-May-2020,Seaways Rosemar ,249,Miguel Barria V.,Balboa,2020-04-16,Ultranav,"1,400.00",2020-05-26,paid,5 to 9
+3905/2021,09-May-2020,Socrates,38,Alex Celleri C.,Panama,2020-04-06,Ultranav,"1,400.00",2020-06-05,paid,5 to 9
+3906/2021,09-May-2020,Selecao,36P-136F,Fernando Giler V,Panama,2020-04-06,Ultranav,"1,200.00",2020-05-20,paid,ShortHaul
+3907/2021,09-May-2020,Persepolis,26P-127F,Fernando Giler V.,Taboguilla,2020-04-07,Ultranav,"1,200.00",2020-06-05,paid,ShortHaul
+3908/2021,09-May-2020,Nordic Rio,1907,Nils Israelsson,Texas,2020-04-09,Stena Bulk,"1,600.00",2020-06-09,paid,1 to 2
+3909/2021,09-May-2020,Stena President,2003,Sara Westerberg," Rotterdam 
+",2020-04-19,Stena Bulk,"1,600.00",2020-06-08,paid,1 to 2
+3910/2021,09-May-2020,Navig8 Grace,1,Mindy Quek,Quincy,2020-04-27,Cargill,"1,600.00",2020-10-09,paid,
+3911/2021,11-May-2020,Louis P,35,Karl Kontselidze ,Singapore,2020-04-14,Shell,"1,050.00",,,
+3912/2021,11-May-2020,Advantage Start,80,Andrea . J. Proverbs,Tanjung Pelepas,2020-04-01,Shell,"1,050.00",2020-10-16,paid,
+3913/2021,11-May-2020,Pacific Jewels,51,Christopher Allock,Norco,2020-04-15,Shell,"1,050.00",,,
+3914/2021,11-May-2020,Emmy Schulte,"260, 261",Lazaros Tsitoglou,Antwerp,2020-04-23,Shell,"1,050.00",2020-06-15,paid,
+3915/2021,11-May-2020,Sten Skagen,"165, 166, 167",Lazaros Tsitoglou,Copenhagen,2020-04-25,Shell,"1,050.00",2020-06-15,paid,
+3916/2021,11-May-2020,Sten Fjell,"89, 90",Lazaros Tsitoglou,Le Havre,2020-04-27,Shell,"1,050.00",2020-06-15,paid,
+3917/2021,11-May-2020,Elisalex Schulte,"159, 160, 161",Lazaros Tsitoglou,Rotterdam,2020-04-29,Shell,"1,050.00",2020-06-15,paid,
+3918/2021,11-May-2020,Tigris,"305, 306, 307, 308",Lazaros Tsitoglou,Liverpool,2020-04-30,Shell,"1,050.00",2020-06-15,paid,
+3919/2021,11-May-2020,Brentholmen,"112, 113, 114",Lazaros Tsitoglou,Malmo,2020-04-30,Shell,"1,050.00",2020-06-15,paid,
+3920/2021,11-May-2020,Blackcomb Spirit ,110,Danny Tan,SW Pass,2020-04-10,Teekay,800.00,2020-02-15,paid,
+3921/2021,11-May-2020,Esther Spirit,181,Barney Houghton,Baytown,2020-04-11,Teekay,800.00,2020-07-09,paid,
+3922/2021,11-May-2020,Stavanger Falcon,19,Danny Tan,Singapore,2020-04-06,Teekay,800.00,2020-06-01,paid,
+3923/2021,11-May-2020,Stavanger Eagle,18L,Soo Pie,Longkou,2020-04-13,Teekay,800.00,2020-06-01,paid,
+3924/2021,11-May-2020,Axel Spirit,181,Soo Pei,Hong Kong,2020-04-25,Teekay,800.00,2020-06-01,paid,
+3925/2021,09-Jun-2020,San Jacinto,SAJ202002,Natalia Baldina,Singapore,2020-05-02,LITASCO,"1,200.00",2020-06-18,paid,1 TO 5
+3926/2021,09-Jun-2020,Maersk Penguin,3011009,Natalia Baldina,Port Arthur,2020-05-18,LITASCO,"1,200.00",2020-06-18,paid,1 TO 5
+3927/2021,09-Jun-2020,Maersk Trenton,20604,Natalie Comrie,Kalamata ,2020-05-30,LITASCO,"1,200.00",2020-08-18,paid,1 TO 5
+3928/2021,09-Jun-2020,Nordic Luna,27,Ekaterina Hmelev,Southwold,2020-05-19,LITASCO,"1,200.00",2020-07-10,paid,1 TO 5
+3929/2021,09-Jun-2020,Navig8 Promise,6,Andrew Turner,Malta,2020-05-01,Navig8,"1,400.00",2020-06-16,paid,
+3930/2021,09-Jun-2020,Fos Da Vinci,13,Dawn Camacho Booth,Singapore,2020-05-04,Navig8,"1,400.00",2020-06-29,paid,
+3931/2021,09-Jun-2020,Stride,94,Dawn Camacho Booth,Aoshan,2020-05-29,Navig8,"1,400.00",2020-06-29,paid,
+3932/2021,09-Jun-2020,Affinity V,7,Andrew Turner,St.Charles,2020-05-19,Navig8,"1,400.00",2020-06-16,paid,
+3933/2021,09-Jun-2020,World Harmony,137,Alex Celleri C.,Cristobal,2020-05-08,Ultranav,"1,400.00",2020-07-08,paid,5 to 9
+3934/2021,09-Jun-2020,Madison,15,Andres Marin,Balboa,2020-05-02,Ultranav,"1,400.00",2020-07-08,paid,5 to 9
+3935/2021,09-Jun-2020,Celsius Mayfair ,3,"
+Basilio Quiel",Barcelona,2020-05-11,Ultranav,"1,400.00",2020-07-15,paid,5 to 9
+3936/2021,09-Jun-2020,Selini ,13P-114F,Fernando Giler V.,Melones Terminal,2020-05-22,Ultranav,"1,400.00",2020-06-18,paid,5 to 9
+3937/2021,09-Jun-2020,Cabo Froward,151,Miguel Barria V.,Melones Terminal,2020-05-31,Ultranav,"1,400.00",2020-06-15,paid,5 to 9
+3938/2021,09-Jun-2020,Chantal,142,Alex Celleri C.,Delaware,2020-05-16,Ultranav,"1,400.00",2020-07-08,paid,5 to 9
+3939/2021,09-Jun-2020,Goldengate Park,56,Juan Cristobal Reinecke,Mejillones,2020-05-16,Ultranav,"1,400.00",2020-07-08,paid,5 to 9
+3940/2021,09-Jun-2020,Persepolis,27P-128F,Fernando Giler V.,Balboa,2020-05-05,Ultranav,"1,200.00",2020-06-18,paid,ShortHaul
+3941/2021,09-Jun-2020,Nicopolis,18,Alex Celleri C.,Cristobal,2020-05-14,Ultranav,"1,200.00",2020-06-18,paid,ShortHaul
+3942/2021,09-Jun-2020,Eco City of Angeles,20001,Cecile Pierdet,Bilbao ,2020-05-05,LDC,"1,600.00",,,
+3943/2021,09-Jun-2020,Wisby Atlantic,2002,Yue Ting Chew,Liverpool,2020-05-23,Stena WECO,"1,700.00",2020-07-10,paid,1 to 2
+3944/2021,09-Jun-2020,Stena Penguin,2003,Jose Ngunza,Port Arthur,2020-05-03,Stena Bulk,"1,600.00",2020-06-15,paid,1 to 2
+3945/2021,09-Jun-2020,Stena President ,2005,Sara Westerberg,Freeport Bahamas,2020-05-20,Stena Bulk,"1,600.00",2020-06-15,paid,1 to 2
+3946/2021,10-Jun-2020,Almi Odyssey,13,Chris Chapman,Yingkou,2020-05-08,Shell,"1,050.00",2020-07-17,paid,
+3947/2021,10-Jun-2020,Advantage Arrow,136,Julian Culton,Melaka,2020-05-19,Shell,"1,050.00",2020-09-18,paid,
+3948/2021,10-Jun-2020,Louis P,36,Wong De Kai,Gela,2020-05-27,Shell,"1,050.00",,,
+3949/2021,10-Jun-2020,Lion King,23,Christopher Chapman,Wilhemshaven,2020-05-31,Shell,"1,050.00",2020-06-29,paid,
+3950/2021,10-Jun-2020,Sten Skagen,"168, 169",Kate Vovka,Rotterdam,2020-05-25,Shell,"1,050.00",2020-09-09,paid,
+3951/2021,10-Jun-2020,Emmy Schulte,"262, 263, 264, 265",Lazaros Tsitoglou, Copenhagen,2020-05-29,Shell,"1,050.00",2020-09-09,paid,
+3952/2021,10-Jun-2020,Elisalex Schulte,162,Lazaros Tsitoglou,Dakar,2020-05-16,Shell,"1,050.00",2020-09-09,paid,
+3953/2021,10-Jun-2020,Sten Fjell,"91, 92, 93, 94",Lazaros Tsitoglou,Rotterdam,2020-05-31,Shell,"1,050.00",2020-09-09,paid,
+3954/2021,10-Jun-2020,Tigris,"309, 310",Lazaros Tsitoglou,Liverpool,2020-05-25,Shell,"1,050.00",2020-09-09,paid,
+3955/2021,10-Jun-2020,Matterhorn Spirit,275,Dean Reddish         ,STS/Eagle Torrance,2020-05-11,Teekay,800.00,2020-07-24,paid,
+3956/2021,10-Jun-2020,Beijing Spirit ,36,Barney Houghton,Canaport,2020-05-03,Teekay,800.00,2020-07-06,paid,
+3957/2021,10-Jun-2020,New Award,29,Danny Tan,Singapore,2020-05-11,Teekay,800.00,2020-06-19,paid,
+3958/2021,10-Jun-2020,Stavanger Falcon,20,Danny Tan,Kikuma,2020-05-17,Teekay,800.00,2020-06-19,paid,
+3959/2021,10-Jun-2020,Limerick Spirit,122,Mathew Head,Freeport,2020-05-10,Teekay,800.00,2020-07-10,paid,
+3960/2021,10-Jun-2020,Luzon Spirit,60,Parikshit Jhaveri ,Singapore,2020-05-24,Teekay,800.00,2020-06-25,paid,
+3961/2021,10-Jun-2020,Erik Spirit,170,Siew Siew,Yangshan,2020-05-29,Teekay,800.00,2020-06-19,paid,
+3962/2021,08-Jul-2020,Astro Phoenix,133,Ekaterina Hmelev,Yantai,2020-06-23,LITASCO,"1,200.00",2020-08-10,paid,1 TO 5
+3963/2021,08-Jul-2020,Orpheas,9032010,Natalia Baldina,Singapore/Tanjung Pelepas,2020-06-03,LITASCO,"1,200.00",2020-08-11,paid,1 TO 5
+3964/2021,08-Jul-2020,NS Antarctic,202007,Natalie Comrie,SW Pass/St. Charles,2020-06-27,LITASCO,"1,200.00",2020-08-11,paid,1 TO 5
+3965/2021,08-Jul-2020,Four Wind,4,Kelly Ross,Tanjung Pelepas,2020-06-07,Navig8,"1,400.00",2020-07-29,paid,
+3966/2021,08-Jul-2020,Fos Da Vinci,13_2,Pushkar Sidhaye,Tanjung Pelepas,2020-06-16,Navig8,"1,400.00",2020-08-14,paid,
+3967/2021,08-Jul-2020,Torm Mathilde,8,Andrew Turner,Jeddah,2020-06-24,Navig8,"1,400.00",2020-07-29,paid,
+3968/2021,08-Jul-2020,Crudemed,17,Kelly Ross,Tanjung Pelepas,2020-06-25,Navig8,"1,400.00",2020-07-29,paid,
+3969/2021,08-Jul-2020, Aquapuelche,29,Edgardo Sotelo,Singapore,2020-06-13,Ultranav,"1,400.00",2020-07-14,paid,5 to 9
+3970/2021,08-Jul-2020,Seaways Reymar,235,René Manuel Sánchez E.,Yorktown ,2020-06-06,Ultranav,"1,400.00",2020-08-06,paid,5 to 9
+3971/2021,08-Jul-2020,Salamina,12P_113F,Fernando Giler V,St.Eustatius,2020-06-11,Ultranav,"1,400.00",2020-07-14,paid,5 to 9
+3972/2021,08-Jul-2020,Ice Victory,64_10,Juan Carlos Villarroel,Balboa,2020-06-28,Ultranav,"1,400.00",2020-08-06,paid,5 to 9
+3973/2021,08-Jul-2020,Seaways Rubymar,60_163,Jens Pribnow,Freeport ,2020-06-10,Ultranav,"1,400.00",2020-08-06,paid,5 to 9
+3974/2021,08-Jul-2020,Sonangol Cazenga ,2001,Shawn Sandhu,Singapore,2020-06-02,Stena Bulk,"1,400.00",2020-08-11,paid,3 to 5
+3975/2021,08-Jul-2020,Densa Whale,2001,Phil Thompson,Huangdao,2020-06-13,Stena Bulk,"1,400.00",2020-12-31,paid,3 to 5
+3976/2021,08-Jul-2020,Nordic Rio,2001,Bryan Wright,Singapore,2020-06-19,Stena Bulk,"1,400.00",2020-08-11,paid,3 to 5
+3977/2021,08-Jul-2020,Sonangol Kalandula,2005,Nils Israelsson,Rotterdam,2020-06-20,Stena Bulk,"1,400.00",2020-08-11,paid,3 to 5
+3978/2021,08-Jul-2020,Green Planet ,2002,Erwin Matin,Dakar,2020-06-12,Stena WECO,"1,700.00",2020-12-31,paid,1 to 2
+3979/2021,08-Jul-2020,Ocean  Breeze,2001,Ameliah Seah,Rotterdam,2020-06-30,Stena WECO,"1,700.00",2020-12-31,paid,1 to 2
+3980/2021,08-Jul-2020,AST Sunshine,8,Andrea . J. Proverbs,Abidjan,2020-06-21,Shell,"1,050.00",,,
+3981/2021,08-Jul-2020,Advantage Spring,45,Andrea . J. Proverbs,Martinez,2020-06-23,Shell,"1,050.00",2020-07-27,paid,
+3982/2021,08-Jul-2020,Sten Skagen,"170,171, 172",Lazaros Tsitoglou, Copenhagen,2020-06-20,Shell,"1,050.00",2020-09-09,paid,
+3983/2021,08-Jul-2020,Emmy Schulte,"266, 267, 268",Lazaros Tsitoglou,Eastham,2020-06-27,Shell,"1,050.00",2020-09-09,paid,
+3984/2021,08-Jul-2020,Tigris,"311, 312, 313, 314",Lazaros Tsitoglou,Rotterdam,2020-06-25,Shell,"1,050.00",2020-09-09,paid,
+3985/2021,08-Jul-2020,Sten Fjell,"95, 96, 97, 98",Lazaros Tsitoglou,Tarbert,2020-06-26,Shell,"1,050.00",2020-09-09,paid,
+3986/2021,08-Jul-2020,Elisalex Schulte,"163, 164",Lazaros Tsitoglou,Eastham,2020-06-29,Shell,"1,050.00",2020-09-09,paid,
+3987/2021,08-Jul-2020,Blue Pride,82L,Siew Siew,Tanjung Pelepas,2020-06-30,Teekay,800.00,2020-07-17,paid,
+3988/2021,08-Jul-2020,Stavanger Bliss ,24,Soo Pie,Melbourne,2020-06-24,Teekay,800.00,2020-07-17,paid,
+3989/2021,08-Jul-2020,Pacific Dawn,87,Dean Reddish,Baytown,2020-06-30,Teekay,800.00,2020-07-17,paid,
+3990/2021,08-Jul-2020,Picton ,1,Harsh Babu,Rotterdam,2020-05-21,Cargill,"1,600.00",,,
+3991/2021,08-Jul-2020,Ion M,5,Mindy Quek,Ventspils,2020-06-10,Cargill,"1,600.00",,,
+3992/2021,10-Aug-2020,Cap Felix,2003,Ekaterina Hmelev,Qingdao,2020-07-30,LITASCO,"1,200.00",2020-09-10,paid,1 TO 5
+3993/2021,10-Aug-2020,Front Singapore,13,Ekaterina Hmelev,Tianjin,2020-07-18,LITASCO,"1,200.00",2020-09-10,paid,1 TO 5
+3994/2021,10-Aug-2020,Nordic Luna,NAT028,Ekaterina Hmelev,Southwold,2020-07-08,LITASCO,"1,200.00",2020-09-10,paid,1 TO 5
+3995/2021,10-Aug-2020,Nordlotus,NLT20-004,Natalia Baldina,Corpus Christi,2020-07-30,LITASCO,"1,200.00",2020-09-10,paid,1 TO 5
+3996/2021,10-Aug-2020,Scorpio,148,Natalia Baldina,SW Pass,2020-07-13,LITASCO,"1,200.00",2020-09-10,paid,1 TO 5
+3997/2021,10-Aug-2020,Jacob,2002,Montatip Submeeklin,Kemaman,2020-07-15,TIPCO,"1,400.00",2020-09-11,paid,
+3998/2021,10-Aug-2020,Maersk Tokyo,1,Harish Babu,Rotterdam,2020-07-07,Cargill,"1,600.00",2020-09-10,paid,
+3999/2021,10-Aug-2020,Pacific Cobalt,1,Mindy Quek,Rotterdam,2020-07-19,Cargill,"1,600.00",2020-09-10,paid,
+4000/2021,10-Aug-2020,Hellas Tatiana,27,Alvin Teng,Gela,2020-07-21,Clearlake,"1,400.00",2020-12-24,paid,
+4001/2021,10-Aug-2020,Apollo,8,Rajeev Kumar,Yombo - Singapore,2020-07-26,Navig8,"1,400.00",2020-08-14,paid,
+4002/2021,10-Aug-2020,Stride,95,Arindam Sarkar,Tanjung Pelepas/Singapore - Tanjung Pelepas,2020-07-04,Navig8,"1,400.00",2020-09-11,paid,
+4003/2021,10-Aug-2020,Four Wind,05L,Bharat Shukla,Tanjung Bruas,2020-07-18,Navig8,"1,400.00",2020-08-25,paid,
+4004/2021,10-Aug-2020,Fos Da Vinci,14,Bharat Shukla,Song Doc Term. - Zhoushan,2020-07-06,Navig8,"1,400.00",2020-09-23,paid,
+4005/2021,10-Aug-2020,Crudsun,16,Andrew Turner ,Muuga - Yanbu,2020-07-19,Navig8,"1,400.00",2020-08-25,paid,
+4006/2021,10-Aug-2020,Affinity V,10,Kelly Ross,Freeport - Delaware,2020-07-17,Navig8,"1,400.00",2020-08-25,paid,
+4007/2021,10-Aug-2020,Chantal,143P-149F,Alex Celleri C,Singapore,2020-07-22,Ultranav,"1,400.00",2020-09-09,paid,5 to 9
+4008/2021,10-Aug-2020,Cabo De Hornos,65,René Manuel Sánchez E.,Canaport,2020-07-21,Ultranav,"1,400.00",2020-09-09,paid,5 to 9
+4009/2021,10-Aug-2020,Salamina,14P-115F,Fernando Giler V,Rotterdam,2020-07-18,Ultranav,"1,400.00",2020-08-21,paid,5 to 9
+4010/2021,10-Aug-2020,Ice Victory,64-11,Juan Carlos Villarroel,Los Angeles,2020-07-22,Ultranav,"1,400.00",2020-08-21,paid,5 to 9
+4011/2021,10-Aug-2020,Seaways Leyte  ,90,Jens Pribnow,Melones Terminal,2020-07-16,Ultranav,"1,200.00",2020-08-26,paid,ShortHaul
+4012/2021,10-Aug-2020,Almi Sun,19,Christopher Chapman,Singapore,2020-07-28,Shell,"1,050.00",2020-09-01,paid,
+4013/2021,10-Aug-2020,Fulmar,18,Christopher Allock,St.Charles,2020-07-23,Shell,"1,050.00",2020-09-14,paid,
+4014/2021,10-Aug-2020,Almi Odyssey,14,Andrea J. Proverbs ,St.James,2020-07-16,Shell,"1,050.00",,,
+4015/2021,10-Aug-2020,Sten Fjell,"99, 100, 101,102",Lazaros Tsitoglou,Rotterdam,2020-07-30,Shell,"1,050.00",2020-09-09,paid,
+4016/2021,10-Aug-2020,Emmy Schulte,270,Lazaros Tsitoglou,Rotterdam,2020-07-22,Shell,"1,050.00",2020-09-18,paid,
+4017/2021,10-Aug-2020,Sten Skagen,"173, 174, 175",Lazaros Tsitoglou,Gothenburg,2020-07-23,Shell,"1,050.00",2020-09-09,paid,
+4018/2021,10-Aug-2020,Tigris,"315, 316, 317, 318",Lazaros Tsitoglou,Liverpool,2020-07-23,Shell,"1,050.00",2020-09-09,paid,
+4019/2021,10-Aug-2020,Elisalex Schulte,"165, 166, 167, 167",Lazaros Tsitoglou,Eastham,2020-07-28,Shell,"1,050.00",2020-09-09,paid,
+4020/2021,11-Aug-2020,Stavanger Eagle,21,Soo Pie,Kikuma,2020-07-01,Teekay,800.00,2020-08-20,paid,
+4021/2021,11-Aug-2020,Everest Spirit,175,Harrison Sharpe,Baytown,2020-07-29,Teekay,800.00,2020-08-21,paid,
+4022/2021,11-Aug-2020,Blue Power,53,Danny Tan,Zhoushan,2020-07-11,Teekay,800.00,2020-08-20,paid,
+4023/2021,11-Aug-2020,Stavanger Blossom,88,Soo Pei,Sriracha,2020-07-14,Teekay,800.00,2020-08-20,paid,
+4024/2021,11-Aug-2020,Stena Penguin,2004,Nils Israelsson,Baton Rouge,2020-07-06,Stena Bulk,"1,600.00",2020-10-21,paid,1 to 2
+4025/2021,11-Aug-2020,Stena Weco Energy,2004,Yue Ting Chew,Brake,2020-07-27,Stena WECO,"1,700.00",2020-09-09,paid,1 to 2
+4026/2021,08-Sep-2020,Sea Garnet,2,Elizaveta Brewster,Qingdao,2020-08-13,LITASCO,"1,150.00",,,6 to 10
+4027/2021,08-Sep-2020,Botafogo,095L,Natalia Baldina,Sikka,2020-08-04,LITASCO,"1,150.00",2020-10-09,paid,6 to 10
+4028/2021,08-Sep-2020,Kriti Sfakia,56,Natalia Baldina,Fujairah,2020-08-09,LITASCO,"1,150.00",2020-10-09,paid,6 to 10
+4029/2021,08-Sep-2020,NS Arctic,202010,Natalia Baldina,St.Charles,2020-08-11,LITASCO,"1,150.00",2020-10-09,paid,6 to 10
+4030/2021,08-Sep-2020,Nordic Luna,NAT029,Ekaterina Hmelev,Rotterdam,2020-08-06,LITASCO,"1,150.00",2020-10-09,paid,6 to 10
+4031/2021,08-Sep-2020,Aristodimos,13,Lana Kuriyanova,Pascagoula,2020-08-08,LITASCO,"1,150.00",2020-10-09,paid,6 to 10
+4032/2021,08-Sep-2020,Minerva Clara,217,Natalie Comrie,SW Pass,2020-08-09,LITASCO,"1,150.00",2020-10-09,paid,6 to 10
+4033/2021,08-Sep-2020,Nordic Vega,67,Ekaterina Hmelev,"Rotterdam,Southworld",2020-08-25,LITASCO,"1,150.00",2020-10-09,paid,6 to 10
+4034/2021,08-Sep-2020,Torm Mathilde,9,Andrew Turner,Sikka,2020-08-09,Navig8,"1,400.00",2020-09-23,paid,
+4035/2021,08-Sep-2020,Suez Vasilis,1,Kunal Kishore,Jinzhou  ,2020-08-23,Navig8,"1,400.00",2020-10-15,paid,
+4036/2021,08-Sep-2020,Stride,96,Arindam Sarkar,Singapore,2020-08-27,Navig8,"1,400.00",2020-09-30,paid,
+4037/2021,08-Sep-2020,Navig8 Promise,10,Pushkar Sidhaye,Rabigh,2020-08-05,Navig8,"1,400.00",2020-10-15,paid,
+4038/2021,08-Sep-2020,Selecao,39P-139F,Fernando Giler V.,Balboa,2020-08-08,Ultranav,"1,200.00",2020-09-18,paid,10 and Up
+4039/2021,08-Sep-2020,World Harmony,139,Alex Celleri C.,Delaware,2020-08-01,Ultranav,"1,200.00",2020-10-07,paid,10 and Up
+4040/2021,08-Sep-2020,Aqualegend ,091_068," 
+
+Edgardo Sotelo",Kawasaki,2020-08-04,Ultranav,"1,200.00",2020-10-07,paid,10 and Up
+4041/2021,08-Sep-2020,Aqualeader,098_082,Joaquín Ramírez C.,Kawasaki,2020-08-04,Ultranav,"1,200.00",,,10 and Up
+4042/2021,08-Sep-2020,Vari Trader,19,David Lara,Buenaventura,2020-08-22,Ultranav,"1,200.00",2020-10-07,paid,10 and Up
+4043/2021,08-Sep-2020,Barbouni,47,David Lara,Paranagua,2020-08-25,Ultranav,"1,200.00",2020-10-07,paid,10 and Up
+4044/2021,08-Sep-2020,Seaways Leyte,91,Jens Pribnow,St.Charles,2020-08-01,Ultranav,"1,200.00",2020-09-18,paid,ShortHaul
+4045/2021,08-Sep-2020,Salamina,15,Fernando Giler V.,New York,2020-08-18,Ultranav,"1,200.00",2020-12-11,paid,10 and Up
+4046/2021,08-Sep-2020,Seaways Rosemar ,252,Sebastian Lopez Miranda,San Francisco,2020-08-16,Ultranav,"1,200.00",2020-09-15,paid,ShortHaul
+4047/2021,08-Sep-2020,Aquapuelche ,31,Edgardo Sotelo,El segundo,2020-08-28,Ultranav,"1,200.00",2020-12-15,paid,ShortHaul
+4048/2021,08-Sep-2020,Vari Trader,20,David Lara,Buenaventura,2020-08-22,Ultranav,"1,200.00",,,10 and Up
+4049/2021,08-Sep-2020,Nordic Star,12,David Watson,Rotterdam,2020-08-01,Shell,"1,050.00",2020-11-10,paid,
+4050/2021,08-Sep-2020,Advantage Start,82,David Watson,"Rotterdam 
+",2020-08-25,Shell,"1,050.00",,,
+4051/2021,08-Sep-2020,Brentholmen,122,Lazaros Tsitoglou,Calabar,2020-08-13,Shell,"1,050.00",2020-11-10,paid,
+4052/2021,08-Sep-2020,Elisalex Schulte,168,Lazaros Tsitoglou,Le Havre,2020-08-12,Shell,"1,050.00",2020-11-10,paid,
+4053/2021,08-Sep-2020,Sten Fjell,"103, 104, 105",Lazaros Tsitoglou,Rotterdam,2020-08-25,Shell,"1,050.00",2020-11-10,paid,
+4054/2021,08-Sep-2020,Emmy Schulte,"271, 272",Lazaros Tsitoglou,Caleta Cordova.,2020-08-22,Shell,"1,050.00",2020-11-10,paid,
+4055/2021,08-Sep-2020,Sten Skagen,"176, 177",Lazaros Tsitoglou,Tangier,2020-08-20,Shell,"1,050.00",2020-11-10,paid,
+4056/2021,08-Sep-2020,Tigris,"319, 321, 322",Lazaros Tsitoglou,Liverpool,2020-08-23,Shell,"1,050.00",2020-11-10,paid,
+4057/2021,08-Sep-2020,Matterhorn Spirit,281,Sriram Hari Sarma ,Jeddah,2020-08-10,Teekay,800.00,2020-09-17,paid,
+4058/2021,08-Sep-2020,Prosky,13,Harrison Sharpe,Baytown,2020-08-08,Teekay,800.00,2020-09-17,paid,
+4059/2021,08-Sep-2020,Stavanger Falcon,22,Danny Tan,Sriracha,2020-08-17,Teekay,800.00,2020-09-17,paid,
+4060/2021,08-Sep-2020,Luzon Spirit,22,Parikshit Jhaveri ,Singapore,2020-08-13,Teekay,800.00,2020-09-17,paid,
+4061/2021,08-Sep-2020,Stavanger Bliss ,25,Soo Pei,Melbourne,2020-08-06,Teekay,800.00,2020-09-17,paid,
+4062/2021,08-Sep-2020,Ionic Althea,28,Alvin Teng,Yanbu,2020-08-18,Clearlake,"1,400.00",2020-09-15,paid,
+4063/2021,09-Sep-2020,MTM Hudson,1,Mindy Quek,Savannah,2020-08-17,Cargill,"1,600.00",2020-10-09,paid,
+4064/2021,09-Sep-2020,Stamatia,20604,Harish Babu,Rotterdam,2020-08-23,Cargill,"1,600.00",2020-10-09,paid,
+4065/2021,09-Sep-2020,Stena President,2007,Nils Israelsson,SW Pass,2020-08-07,Stena Bulk,"1,400.00",2020-09-24,paid,3 to 5
+4066/2021,09-Sep-2020,Sonangol Maiombe,2002,Nils Israelsson,Durban,2020-08-17,Stena Bulk,"1,400.00",2020-10-16,paid,3 to 5
+4067/2021,09-Sep-2020,Stena Penguin,2006,Nils Israelsson,Alexandria,2020-08-29,Stena Bulk,"1,400.00",2020-09-24,paid,3 to 5
+4068/2021,09-Sep-2020,Stena President ,2008,Nils Israelsson,Freeport,2020-08-21,Stena Bulk,"1,400.00",2020-09-24,paid,3 to 5
+4069/2021,09-Sep-2020,Fraternity,2002,Martin Olesen, Port Angeles ,2020-07-26,Euronav,"1,200.00",2020-10-01,paid,
+4070/2021,09-Sep-2020,Statia,2002,Nicolas Van Gulck,Zhanjiang,2020-08-08,Euronav,"1,200.00",2020-12-13,paid,
+4071/2021,09-Sep-2020,Bastia ,20202,Thomas Simoen,Sikka,2020-08-17,Euronav,"1,200.00",2020-12-13,paid,
+4072/2021,09-Sep-2020,Maria ,2003,Thomas Simoen,Sikka,2020-08-16,Euronav,"1,200.00",2020-12-13,paid,
+4073/2021,09-Oct-2020,Caribbean Voyager,8,Lana Kuriyanova,"Pascagoula 
+",2020-09-21,LITASCO,"1,200.00",2020-11-18,paid,1 TO 5
+4074/2021,09-Oct-2020,Marlin Shikoku,16,Ekaterina Hmelev,Southwold,2020-09-15,LITASCO,"1,200.00",2020-11-10,paid,1 TO 5
+4075/2021,09-Oct-2020,Belmar,121,Elizaveta Brewster,Singapore,2020-09-21,LITASCO,"1,200.00",2020-10-16,paid,1 TO 5
+4076/2021,09-Oct-2020,Hafnia Karwa,116,Natalie Comrie ,Sikka,2020-09-21,LITASCO,"1,200.00",2020-12-14,paid,1 TO 5
+4077/2021,09-Oct-2020,Ariane,14,Cassie Davis,Kattupalli,2020-09-17,Navig8,"1,400.00",2020-10-27,paid,
+4078/2021,09-Oct-2020,Navig8 Promise,11,Pushkar Sidhaye," Singapore 
+",2020-09-15,Navig8,"1,400.00",2020-10-27,paid,
+4079/2021,09-Oct-2020,Stride,97,Andew Turner," Shuqaiq 
+",2020-09-21,Navig8,"1,400.00",2020-10-27,paid,
+4080/2021,09-Oct-2020,Cabo Froward,155,Sebastián López Miranda,Bayway,2020-09-03,Ultranav,"1,200.00",2020-10-16,paid,10 and Up
+4081/2021,09-Oct-2020,Eva Tokyo,8,David Lara,Callao,2020-09-05,Ultranav,"1,200.00",2020-11-05,paid,10 and Up
+4082/2021,09-Oct-2020,Seaways Luzon,171,Jens Pribnow,Los Angeles,2020-09-12,Ultranav,"1,200.00",2020-10-20,paid,10 and Up
+4083/2021,09-Oct-2020,Nicopolis,21,"
+
+Fernando Giler V.",New York,2020-09-12,Ultranav,"1,200.00",2020-10-20,paid,10 and Up
+4084/2021,09-Oct-2020,Vari Trader,20,David Lara,Ponce,2020-09-15,Ultranav,"1,200.00",2020-11-05,paid,10 and Up
+4085/2021,09-Oct-2020,Barbouni,48,David Lara,Callao,2020-09-26,Ultranav,"1,200.00",2020-11-05,paid,10 and Up
+4086/2021,09-Oct-2020,Ice Engergy,15,Fernando Giler V.," 
+San Francisco 
+",2020-09-29,Ultranav,"1,200.00",2020-10-20,paid,10 and Up
+4087/2021,09-Oct-2020,Ice Victory,12,Juan Carlos Villarroel,Martinez,2020-09-13,Ultranav,"1,200.00",2020-11-05,paid,ShortHaul
+4088/2021,09-Oct-2020,Seaways Leyte,92,Jens Pribnow,Puerto Sandino,2020-09-01,Ultranav,"1,200.00",2020-10-16,paid,ShortHaul
+4089/2021,09-Oct-2020,Salamina,16,Fernando Giler V.,Puerto Cortes,2020-09-13,Ultranav,"1,200.00",2020-12-17,paid,ShortHaul
+4090/2021,09-Oct-2020,Cabo Froward,156,Sebastián López Miranda,Melones Terminal,2020-09-25,Ultranav,"1,200.00",2020-10-16,paid,ShortHaul
+4091/2021,10-Oct-2020, Clearocean Magic,12,Mike Chee,Gela,2020-09-21,Clearlake,"1,400.00",2020-12-24,paid,
+4092/2021,10-Oct-2020,Sonangol Cazenga,2002,Shawn Sandhu,Martinez,2020-09-02,Stena Bulk,"1,600.00",2020-12-30,paid,1 to 2
+4093/2021,10-Oct-2020,Karvounis,9,Chris Chapman,Wilhemshaven,2020-09-12,Shell,"1,050.00",2020-12-11,paid,
+4094/2021,10-Oct-2020,Elisalex Schulte,"170, 171",Lazaros Tsitoglou,Antwerp,2020-09-07,Shell,"1,050.00",2021-02-17,paid,
+4095/2021,10-Oct-2020,Emmy Schulte,"273, 274",Lazaros Tsitoglou,Eastham,2020-09-24,Shell,"1,050.00",2021-03-30,paid,
+4096/2021,10-Oct-2020,Sten Skagen,"178, 178B, 180",Lazaros Tsitoglou,Gothenburg,2020-09-21,Shell,"1,050.00",2021-02-17,paid,
+4097/2021,10-Oct-2020,Sten Fjell,"106, 107, 108, 109",Lazaros Tsitoglou,Rotterdam,2020-09-29,Shell,"1,050.00",2021-02-18,paid,
+4098/2021,10-Oct-2020,Tigris,"323, 324, 325",Lazaros Tsitoglou,Eastham,2020-09-30,Shell,"1,050.00",2021-02-18,paid,
+4099/2021,10-Oct-2020,Maersk Cayman,1,Mindy Quek,Rotterdam,2020-09-25,Cargill,"1,600.00",,,
+4100/2021,10-Oct-2020,Energy Challenger,5_20,Jan Hicks,"Haldia 
+",2020-09-05,Tauber,"1,600.00",2020-10-16,paid,
+4101/2021,10-Oct-2020,Cap Victor,2005,Nathalie Weyn,Melbourne,2020-09-18,Euronav,"1,200.00",2020-11-07,paid,
+4102/2021,10-Oct-2020,Stavanger Falcon,23,Danny Tan,Hong Kong,2020-09-03,Teekay,800.00,2020-10-15,paid,
+4103/2021,10-Oct-2020,London Spirit,38,Ben Herbert,"St.Lucia 
+",2020-09-17,Teekay,800.00,2020-10-22,paid,
+4104/2021,10-Oct-2020,Atlantic Dawn,86,Parikshit Jhaveri,Ulsan,2020-09-30,Teekay,800.00,2020-10-22,paid,
+4105/2021,10-Oct-2020,Stavanger Falcon,24,Soo Pie,Daesan,2020-09-29,Teekay,800.00,2020-10-22,paid,
+4106/2021,02-Nov-2020,Scorpio,150,Andrey Voronin,Corpus Christi,2020-10-02,LITASCO,"1,200.00",2020-12-10,paid,1 TO 5
+4107/2021,02-Nov-2020,Unity Venture,38,Natalie Comrie,"Texas,Port Arthur",2020-10-02,LITASCO,"1,200.00",2021-01-06,paid,1 TO 5
+4108/2021,02-Nov-2020,Capricorn Sun,73,Elizaveta Brewster,Tanjung Pelepas,2020-10-14,LITASCO,"1,200.00",2020-12-03,paid,1 TO 5
+4109/2021,02-Nov-2020,Minerva Olympia,15,Natalia Baldina,Pascagoula,2020-10-15,LITASCO,"1,200.00",2021-01-06,paid,1 TO 5
+4110/2021,02-Nov-2020,Navig8 Ametrine,16,Sertac Hepisler,Singapore,2020-10-06,Navig8,"1,400.00",2021-01-27,paid,
+4111/2021,2 Nov 20,Barbouni,49,David Lara,Santa Marta,2020-10-17,Ultranav,"1,400.00",2020-11-27,paid,5 to 9
+4112/2021,2 Nov 20,Cabo Kamui,40,Juan Carlos Coello,Singapore,2020-10-13,Ultranav,"1,400.00",2020-12-02,paid,5 to 9
+4113/2021,2 Nov 20,Cabo Misaki,38,Sebastian Lopez Miranda,Houston,2020-10-07,Ultranav,"1,400.00",2020-11-10,paid,5 to 9
+4114/2021,2 Nov 20,Aqualoyalty,094_78,Edgardo Sotelo,Talcahuano,2020-09-28,Ultranav,"1,200.00",2020-12-02,paid,ShortHaul
+4115/2021,2 Nov 20,World Harmony,142P_151F,Alex Celleri C,Los Angeles,2020-10-17,Ultranav,"1,400.00",2020-12-02,paid,5 to 9
+4116/2021,2 Nov 20,Persepolis,31P,Fernando Giler V,San Francisco,2020-10-18,Ultranav,"1,400.00",2020-12-02,paid,5 to 9
+4117/2021,2 Nov 20,Torm Mathilde,117,Hafizh Azhari,Singapore,2020-10-08,Clearlake,"1,400.00",,,
+4118/2021,2 Nov 20,Clearocean Marvel,22,Alvin Teng,Gela,2020-10-19,Clearlake,"1,400.00",,,
+4119/2021,2 Nov 20,Sonangol Kassanje,2003,Shawn Sandhu,Tanjung Pelepas,2020-10-01,Stena Bulk,"1,400.00",2020-12-04,paid,3 to 5
+4120/2021,2 Nov 20,Nordic Rio,2003,Shawn Sandhu,Tanjung Pelepas,2020-10-25,Stena Bulk,"1,400.00",2020-12-04,paid,3 to 5
+4121/2021,2 Nov 20,Stena President,2011,Sara Westerberg,St.Rose,2020-10-24,Stena Bulk,"1,400.00",2020-12-03,paid,3 to 5
+4122/2021,3 Nov 20,Moscow Spirit,35,Barney Houghton,Aoshan,2020-10-12,Teekay,800.00,2020-11-13,paid,
+4123/2021,3 Nov 20,Luzon Spirit,65,Parikshit Jhaveri,Zhuhai,2020-10-16,Teekay,800.00,2020-11-13,paid,
+4124/2021,3 Nov 20,Mare Oriens,118,Danny Tan,Singapore,2020-10-11,Teekay,800.00,2020-11-13,paid,
+4125/2021,3 Nov 20,Stavanger Blossom,90,Soo Pei,Richmond,2020-10-26,Teekay,800.00,2020-11-19,paid,
+4126/2021,3 Nov 20,Stavanger Bliss,28,Danny Tan,Dalian,2020-10-26,Teekay,800.00,2020-11-13,paid,
+4127/2021,3 Nov 20,Blue Sea,7,Parikshit Jhaveri,Brisbane,2020-10-06,Teekay,800.00,2020-11-13,paid,
+4128/2021,3 Nov 20,Matterhorn Spirit,282,Danny Tan,Tanjung Pelepas,2020-10-08,Teekay,800.00,2020-11-13,paid,
+4129/2021,3 Nov 20,Whistler Spirit,99,Ho Yi Chuen,Longkou,2020-10-02,Teekay,800.00,2020-11-13,paid,
+4130/2021,03-Nov-2020,Eagle Brasilia,30,Nikos Vlisidis ,Rotterdam,2020-10-16,Shell,"1,050.00",2021-03-30,paid,
+4131/2021,03-Nov-2020,Advantage Atom,166,Tan Tech Poh,Ulsan,2020-10-21,Shell,"1,050.00",2021-03-30,paid,
+4131/2021,03-Nov-2020,Pacific Treasures,61,Julian Culton,"St Charles, Port Arthur",2020-10-21,Shell,"1,050.00",,,
+4133/2021,03-Nov-2020,Elisalex Schulte,"172, 173",Lazaros Tsitoglou,Eastham,2020-10-29,Shell,"1,050.00",2021-03-30,paid,
+4134/2021,03-Nov-2020,Sten Skagen,"181, 181_02, 182",Lazaros Tsitoglou,Asnaes,2020-10-19,Shell,"1,050.00",2021-02-18,paid,
+4135/2021,03-Nov-2020,Sten Fjell,"110, 111",Lazaros Tsitoglou,Eastham,2020-10-25,Shell,"1,050.00",2021-02-17,paid,
+4136/2021,03-Nov-2020,Tigris,"327, 328",Lazaros Tsitoglou,Stigsnaes,2020-10-25,Shell,"1,050.00",2021-02-18,paid,
+4137/2021,03-Nov-2020,Emmy Schulte,"275, 276, 277",Lazaros Tsitoglou, Vlissingen,2020-10-28,Shell,"1,050.00",2021-03-30,paid,
+4138/2021,25 Nov 20,Cap Victor,2006,Nathalie Weyn,Rotterdam,2020-11-21,Euronav,"1,200.00",,,
+4139/2021,2 Dec 20,Umlma,9,Natalia Baldina,Pascagoula,2020-11-03,LITASCO,"1,200.00",,,1 TO 5
+4140/2021,2 Dec 20,Aristodimos,10,"Elizaveta Brewster
+
+",Fujairah,2020-11-08,LITASCO,"1,200.00",2021-01-06,paid,1 TO 5
+4141/2021,2 Dec 20,Sloman Thetis,20615,"Elizaveta Brewster
+
+",Santa Panagia,2020-11-22,LITASCO,"1,200.00",2021-01-13,paid,1 TO 5
+4142/2021,2 Dec 20,Leo,2,Pushkar Sidhaye,Port Dickson,2020-11-04,Navig8,"1,400.00",2020-12-11,paid,
+4143/2021,2 Dec 20,Lumphini Park,17,David Lara,San Juan,2020-11-12,Ultranav,"1,200.00",2021-01-29,paid,ShortHaul
+4144/2021,2 Dec 20,Aquapuelche,34,Edgardo Sotelo,USG,2020-11-11,Ultranav,"1,200.00",2020-12-15,paid,ShortHaul
+4145/2021,2 Dec 20,Cabo Misaki,39,Sebastian Lopez Miranda,Freeport,2020-11-13,Ultranav,"1,600.00",2020-12-17,paid,1 to 4
+4146/2021,2 Dec 20,Salamina,18P_119F,Joaquín Ramírez C,Pascagoula,2020-11-18,Ultranav,"1,600.00",2020-12-30,paid,1 to 4
+4147/2021,2 Dec 20,Hellas Marianna,21,Hafizh Azhari,Varna,2020-11-02,Clearlake,"1,400.00",,,
+4148/2021,2 Dec 20,Stena Superior,202005,Shawn Sandhu,Wilhemshaven,2020-11-14,Stena Bulk,"1,600.00",2021-03-01,paid,1 to 2
+4149/2021,2 Dec 20,Stena President,2012,Nils Israelsson,Rocky Point,2020-11-07,Stena Bulk,"1,600.00",2020-12-30,paid,1 to 2
+4150/2021,2 Dec 20,Wisby Pacific,2006,Lars Hojer,Gela,2020-11-23,Stena WECO - ,"1,700.00",2020-12-30,paid,1 to 2
+4151/2021,2 Dec 20,Solar Claire,2002,Peter Eden,Brake,2020-11-16,Stena WECO - ,"1,700.00",2021-02-02,paid,1 to 2
+4152/2021,2 Dec 20,Cap Felix,2004,Nathalie Weyn,Melbourne,2020-11-07,Euronav,"1,200.00",,,
+4153/2021,2 Dec 20,Cap Leon,2005,"
+Martin Olesen",Cherry Point,2020-11-16,Euronav,"1,200.00",,,
+4154/2021,2 Dec 20,Stavanger Poseidon,1,Yavor Raynov,Hamburg,2020-11-11,Cargill,"1,600.00",2021-02-17,paid,
+4155/2021,2 Dec 20,GWN 2,1,Harish Babu,Rotterdam,2020-11-02,Cargill,"1,600.00",2021-02-17,paid,
+4156/2021,2 Dec 20,Maersk  Tokyo,2,Harsh Babu,Rotterdam,2020-11-21,Cargill,"1,600.00",2021-02-17,paid,
+4157/2021,3 Dec 20,Tarbet Spirit,123,Dimitirs Jermine,Corpus Christi,2020-11-16,Teekay,800.00,2020-12-10,paid,
+4158/2021,3 Dec 20,FSL Hong Kong,80,Hasith Kumar,Baton Rouge,2020-11-28,Teekay,800.00,2020-12-10,paid,
+4159/2021,3 Dec 20,Nordic Brasilia,15,Barney Houghton,Singapore,2020-11-17,Teekay,800.00,2020-12-10,paid,
+4160/2021,3 Dec 20,Blue Power,57,Siew Siew,Hong Kong,2020-11-19,Teekay,800.00,2020-12-10,paid,
+4161/2021,3 Dec 20,Stavanger Falcon,26,Danny Tan,Zhoushan,2020-11-27,Teekay,800.00,2020-12-10,paid,
+4162/2021,3 Dec 20,Axel Spirit,190,Soo Pei,Laizhou,2020-11-28,Teekay,800.00,2020-12-10,paid,
+4163/2021,3 Dec 20,Eagle Brasilia,31,Nikos Vlisidis,Rotterdam,2020-11-03,Shell,"1,050.00",2021-02-22,paid,
+4164/2021,3 Dec 20,Samuel Prospect,29,Nikos Vlisidis,Rotterdam,2020-11-11,Shell,"1,050.00",2021-02-22,paid,
+4165/2021,3 Dec 20,Pacific Jewels,61,Nikos Vlisidis,Rotterdam,2020-11-17,Shell,"1,050.00",2021-02-24,paid,
+4166/2021,3 Dec 20,Advantage Sun,65,Andrea J. Proverbs,Tanjung Pelepas,2020-11-22,Shell,"1,050.00",2021-02-11,paid,
+4167/2021,3 Dec 20,Sten Skagen,"183, 184, 185, 186",Lazaros Tsitoglou,Rotterdam,2020-11-24,Shell,"1,050.00",2021-02-18,paid,
+4168/2021,3 Dec 20,Emmy Schulte,"278, 279, 280, 281",Lazaros Tsitoglou,Rotterdam,2020-11-29,Shell,"1,050.00",2021-02-17,paid,
+4169/2021,3 Dec 20,Tigris,"329, 330, 331",Lazaros Tsitoglou,Rotterdam,2020-11-16,Shell,"1,050.00",2021-02-18,paid,
+4170/2021,3 Dec 20,Elisalex Schulte,"174, 175, 176",Lazaros Tsitoglou,Rotterdam,2020-11-26,Shell,"1,050.00",2021-02-17,paid,
+4171/2021,3 Dec 20,Sten Fjell,"112, 113, 114, 115",Lazaros Tsitoglou,Rotterdam,2020-11-28,Shell,"1,050.00",2021-02-18,paid,
+4172/2021,4 Jan 21,Jag Laxmi,5069013,Natalia Baldina,Sabine,2020-12-05,LITASCO,"1,200.00",,,1 TO 5
+4173/2021,4 Jan 21,Jag Lyall,2,Elizabeth Brewster,Sikka,2020-12-21,LITASCO,"1,200.00",2021-02-04,paid,1 TO 5
+4174/2021,4 Jan 21,Lincoln Park,24,Sebastian Vega,Coronel,2020-12-11,Ultranav,"1,200.00",2021-02-02,paid,ShortHaul
+4175/2021,4 Jan 21,Seaways Hellas,246,Andres Marin,Balboa,2020-12-31,Ultranav,"1,200.00",2021-01-11,paid,10 and Up
+4176/2021,4 Jan 21,Cabo Misaki,40,Sebastian Lopez Miranda,Puerto Sandino,2020-12-10,Ultranav,"1,200.00",2021-01-11,paid,10 and Up
+4177/2021,4 Jan 21,Cabo Froward,158,Sebastian Lopez Miranda,St.Eustatius,2020-12-03,Ultranav,"1,200.00",2021-01-11,paid,ShortHaul
+4178/2021,4 Jan 21,Cabo Froward,159,Sebastian Lopez Miranda,Balboa,2020-12-27,Ultranav,"1,200.00",2021-01-11,paid,ShortHaul
+4179/2021,4 Jan 21,Cabo Fuji,27,Juan Carlos Villarroel,Singapore,2020-12-16,Ultranav,"1,200.00",2021-08-11,paid,ShortHaul
+4180/2021,4 Jan 21,Antipolis,28,Juan Carlos Coello,St.Croix,2020-12-29,Ultranav,"1,200.00",2021-01-11,paid,10 and Up
+4181/2021,4 Jan 21,Aquasurazo,39,Edgardo Sotelo,Kawasaki,2020-12-18,Ultranav,"1,200.00",2021-01-13,paid,10 and Up
+4182/2021,4 Jan 21,Salamina,19P_120F,Joaquín Ramírez C.,St.Eustatius,2020-12-09,Ultranav,"1,200.00",2021-01-14,paid,ShortHaul
+4183/2021,4 Jan 21,Ice Victory,64_15,Juan Carlos Coello,Freeport Bahamas,2020-12-09,Ultranav,"1,200.00",2021-01-11,paid,ShortHaul
+4184/2021,4 Jan 21,Ice Energy,17,Jovita Velasco N,Freeport,2020-12-15,Ultranav,"1,200.00",2021-02-02,paid,10 and Up
+4185/2021,4 Jan 21,Afroditi,2005,Shawn Sandhu,Singapore,2020-12-03,Stena Bulk,"1,600.00",2021-02-04,paid,1 to 2
+4186/2021,4 Jan 21,Densa Whale,2005,Shawn Sandhu,Yang Po,2020-12-24,Stena Bulk,"1,600.00",2021-02-04,paid,1 to 2
+4187/2021,4 Jan 21,Ayoe,V01,Harish Babu,Rotterdam,2020-12-31,Cargill,"1,600.00",2021-02-17,paid,
+4188/2021,4 Jan 21,Almi Sun,21,Andrea J. Proverbs,Singapore,2020-12-14,Shell,"1,050.00",,,
+4189/2021,4 Jan 21,Almi Odyssey,17,Andrea J. Proverbs,Singapore,2020-12-30,Shell,"1,050.00",,,
+4190/2021,4 Jan 21,Advantage Spring,47,Andrea J. Proverbs,Tanjung Langsat,2020-12-08,Shell,"1,050.00",,,
+4191/2021,4 Jan 21,Sten Fjell,"116, 117",Dennis Becher,Eastham,2020-12-25,Shell,"1,050.00",2021-02-18,paid,
+4192/2021,4 Jan 21,Tigris,"332, 333, 334",Dennis Becher,Liverpool,2020-12-21,Shell,"1,050.00",2021-03-30,paid,
+4193/2021,4 Jan 21,Emmy Schulte,"282, 282_B",Dennis Becher,Le Havre,2020-12-21,Shell,"1,050.00",2021-02-17,paid,
+4194/2021,4 Jan 21,Elisalex Schulte,"178, 179",Dennis Becher,Eastham,2020-12-16,Shell,"1,050.00",2021-02-18,paid,
+4195/2021,4 Jan 21,Sten Skagen,"187, 188, 189",Dennis Becher,Tarbert,2020-12-24,Shell,"1,050.00",2021-02-17,paid,
+4196/2021,4 Jan 21,Yamato Spirit,91,Dean Reddish,Wilhemshaven,2020-12-28,Teekay,800.00,2021-01-14,paid,
+4197/2021,4 Jan 21,Blue Sea,09,Mathew Head,Baytown,2020-12-17,Teekay,800.00,2021-01-28,paid,
+4198/2021,4 Jan 21,Everest Spirit,179,Siew Siew,Ulsan,2020-12-07,Teekay,800.00,2021-01-08,paid,
+4199/2021,4 Jan 21,Blue Pride,89,Parikshit Jhaveri,Daesan,2020-12-12,Teekay,800.00,2021-01-14,paid,
+4200/2021,4 Jan 21,Tianlong Spirit,32,Siew Siew,Laizhou,2020-12-19,Teekay,800.00,2021-01-14,paid,
+4201/2021,4 Jan 21,Hafnia Andromeda,46,Evan Aldrich,Singapore,2020-12-22,Hafnia,"1,600.00",,,
+4202/2021,5 Jan 21,Crudesun,20,Pushkar Sidhaye,Fujairah,2020-12-15,Navig8,"1,400.00",2021-02-27,paid,
+4203/2021,5 Jan 21,Apollo,14,Pushkar Sidhaye,Longkou,2020-12-17,Navig8,"1,400.00",2021-02-27,paid,
+4204/2021,5 Jan 21,Marlin Santorini,3,Shashi Yadav,Sungai Linggi,2020-12-01,Navig8,"1,400.00",2021-01-27,paid,
+4205/2021,2 Feb 21,Seaways Redwood,3017008,Natalia Baldina,Pascagoula,2021-01-03,LITASCO,"1,150.00",,,6 to 10
+4206/2021,2 Feb 21,Miltiadis M II,91_20,Ekaterina Hmelev,Linggi,2021-01-24,LITASCO,"1,150.00",2021-02-17,paid,6 to 10
+4207/2021,2 Feb 21,Davis Sea,01,Elizaveta Brewster,Singapore,2021-01-04,LITASCO,"1,150.00",2021-03-05,paid,6 to 10
+4208/2021,2 Feb 21,Eagle Hatteras,2027,Natalie Comrie,Baton Rouge,2021-01-15,LITASCO,"1,150.00",,,6 to 10
+4209/2021,2 Feb 21,Banda Sea,67SV012,Andrey Voronin,Corpus Christi,2021-01-25,LITASCO,"1,150.00",2021-03-05,paid,6 to 10
+4210/2021,2 Feb 21,Dubai Glamour,137,Natalia Baldina,St.Charles,2021-01-30,LITASCO,"1,150.00",,,6 to 10
+4211/2021,2 Feb 21,Donald,6,Elizaveta Brewster,Santa Panagia,2021-01-07,LITASCO,"1,150.00",2021-03-05,paid,6 to 10
+4212/2021,3 Feb 21,Stena Penguin,2008,Alfredo Massango,Conakry,2021-01-19,Stena Bulk,"1,600.00",2021-02-16,paid,1 to 2
+4213/2021,3 Feb 21,Crudemed,5,Pushkar Sidhaye,Sikka,2021-01-16,Navig8,"1,400.00",2021-02-10,paid,
+4214/2021,3 Feb 21,Affinity V,15,Dawn Camacho Booth,"St Charles, Port Arthur",2021-01-05,Navig8,"1,400.00",2021-02-10,paid,
+4215/2021,3 Feb 21,Ionic Artemis,4,Andrew Turner,St.Charles,2021-01-13,Navig8,"1,400.00",2021-02-10,paid,
+4216/2021,3 Feb 21,Nord Gainer,1,Vladimir Marchevski,Rotterdam,2021-01-19,Cargill,"1,600.00",2021-03-04,paid,
+4217/2021,3 Feb 21,Citrus,6,Hafizh Azhari,Amsterdam,2021-01-27,Clearlake,"1,400.00",,,
+4218/2021,3 Feb 21,Cabo De Hornos,71,Sebastian Lopez Miranda,Freeport Bahamas,2021-01-05,Ultranav,"1,200.00",2021-02-10,paid,ShortHaul
+4219/2021,3 Feb 21,Cabo De Hornos,72,Sebastian Lopez Miranda,Freeport Bahamas,2021-01-21,Ultranav,"1,200.00",2021-02-10,paid,ShortHaul
+4220/2021,3 Feb 21,Cabo Kamui,43,Juan Carlos Villarroel,Los Angeles,2021-01-04,Ultranav,"1,200.00",2021-03-01,paid,ShortHaul
+4221/2021,3 Feb 21,Ice Fighter,61_28,Joaquin Ramirez,Melones Terminal,2021-01-23,Ultranav,"1,200.00",2021-03-05,paid,ShortHaul
+4222/2021,3 Feb 21,Ice Victory,64_16,Juan Carlos Villarroel,Balboa,2021-01-08,Ultranav,"1,200.00",2021-02-10,paid,ShortHaul
+4223/2021,3 Feb 21,Selini,19P-120F,Joaquin Ramirez,Singapore,2021-01-07,Ultranav,"1,400.00",2021-03-05,paid,5 to 9
+4224/2021,3 Feb 21,Gagarin Prospect,54,Nikos Vlisidis,Rotterdam,2021-01-13,Shell,"1,050.00",,,
+4225/2021,3 Feb 21,Advantage Anthem,135,Nikos Vlisidis,Castellon,2021-01-18,Shell,"1,050.00",,,
+4226/2021,3 Feb 21,Eagle San Diego,12,Matthew Joseph,Port Dickson,2021-01-21,Shell,"1,050.00",,,
+4227/2021,3 Feb 21,Sten Skagen,"190, 191, 192",Dennis Becher,Borssole,2021-01-18,Shell,"1,050.00",,,
+4228/2021,3 Feb 21,Elisalex Schulte,"180, 181",Dennis Becher,Dakar,2021-01-21,Shell,"1,050.00",,,
+4229/2021,3 Feb 21,Sten Fjell,"118, 119",Dennis Becher,Fawley,2021-01-25,Shell,"1,050.00",,,
+4230/2021,3 Feb 21,Tigris,"335, 336, 337",Dennis Becher,Rotterdam,2021-01-25,Shell,"1,050.00",,,
+4231/2021,3 Feb 21,Emmy Schulte,"283, 284, 285, 286",Dennis Becher,Rotterdam,2021-01-26,Shell,"1,050.00",,,
+4232/2021,3 Feb 21,Mare Doricum,36,Dean Reddish,Wilhemshaven,2021-01-19,Teekay,800.00,2021-02-11,paid,
+4233/2021,3 Feb 21,Los Angeles Spirit,37,Harrison Sharpe,SW Pass/St.Charles,2021-01-30,Teekay,800.00,2021-02-11,paid,
+4234/2021,3 Feb 21,Hovden Spirit,97,Charles Silva,Tranmere,2021-01-18,Teekay,800.00,2021-02-18,paid,
+4235/2021,3 Feb 21,Atlantic Dawn,89,Parikshit Jhaveri,Kikuma,2021-01-13,Teekay,800.00,2021-02-18,paid,
+4236/2021,3 Feb 21,Stavanger Falcon,27,Danny Tan,Long Beach,2021-01-20,Teekay,800.00,2021-02-11,paid,
+4237/2021,3 Feb 21,Blue Sea,10,Parikshit Jhaveri,Tanjung Pelepas,2021-01-10,Teekay,800.00,2021-02-18,paid,
+4238/2021,4 Feb 21,Jacob,20_003,Montatip Submeeklin,Sungai Linggi ,,TIPCO,"1,400.00",2021-03-08,paid,
+4239/2021,2 Mar 21,Moscow Spirit,36,Barney Houghton,Melbourne,2021-02-17,Teekay,800.00,2021-03-12,paid,
+4240/2021,2 Mar 21,Stavanger Blossom,94,Soo Pei,Kanokawa,2021-02-04,Teekay,800.00,2021-03-12,paid,
+4241/2021,2 Mar 21,New Award,39,Danny Tan,Tanjung Pelepas,2021-02-08,Teekay,800.00,2021-03-12,paid,
+4242/2021,2 Mar 21,Stavanger Bliss,30,Soo Pei,Yantai,2021-02-13,Teekay,800.00,2021-03-10,paid,
+4243/2021,2 Mar 21,Blue Sea,12,Parikshit Jhaveri,Rayong,2021-02-04,Teekay,800.00,,,
+ 4244/2021,2 Mar 21,Cap Theodora,V2005,Ekaterina Hmelev,Qingdao,2021-02-01,LITASCO,"1,200.00",2021-04-05,paid,1 TO 5
+4245/2021,2 Mar 21,Alba,V05026,Ekaterina Hmelev,Bilbao,2021-02-19,LITASCO,"1,200.00",2021-04-05,paid,1 TO 5
+4246/2021,2 Mar 21,Montego,267_21,Natalia Baldina,Freeport,2021-02-13,LITASCO,"1,200.00",,,1 TO 5
+4247/2021,2 Mar 21,Searuby,27,Natalia Baldina,Pascagoula,2021-02-27,LITASCO,"1,200.00",,,1 TO 5
+4248/2021,2 Mar 21,Mesaieed,22,Andrew Turner,Tanjung Pelepas/Singapore,2021-02-23,Navig8,"1,400.00",2021-03-12,paid,
+4249/2021,2 Mar 21,Ariane,V17,Pushkar Sidhaye,Jiangyin,2021-02-23,Navig8,"1,400.00",2021-03-12,paid,
+4250/2021,2 Mar 21,Condor Trader,45,Basilio Quiel,Mejillones,2021-02-17,Ultranav,"1,400.00",2021-03-30,paid,5 to 9
+4251/2021,2 Mar 21,Vari Trader,25,Italo Rubio,St.Croix,2021-02-07,Ultranav,"1,400.00",2021-03-30,paid,5 to 9
+4252/2021,2 Mar 21,Celsius Miami,4,David Lara,Callao,2021-02-16,Ultranav,"1,400.00",2021-03-30,paid,5 to 9
+4253/2021,2 Mar 21,Cabo Misaki,41,Sebastian Lopez Miranda,Singapore,2021-02-12,Ultranav,"1,400.00",2021-03-09,paid,5 to 9
+4254/2021,2 Mar 21,Seaways Jademar,245,Andres Marin,Singapore,2021-02-26,Ultranav,"1,400.00",2021-03-30,paid,5 to 9
+4255/2021,2 Mar 21,Nicopolis,26,Rene M Sanchez,Los Angeles,2021-02-28,Ultranav,"1,400.00",2021-03-30,paid,5 to 9
+4256/2021,2 Mar 21,Cabo De Hornos,73,Sebastian Lopez Miranda,New York,2021-02-03,Ultranav,"1,200.00",2021-03-09,paid,ShortHaul
+4257/2021,2 Mar 21,Antipolis,30,Juan Carlos Coello,Freeport,2021-02-26,Ultranav,"1,200.00",2021-03-30,paid,ShortHaul
+4258/2021,2 Mar 21,Ice Victory,64_18,Juan Carlos Villarroel,Cristobal,2021-02-21,Ultranav,"1,200.00",2021-03-08,paid,ShortHaul
+4259/2021,2 Mar 21,Stena Immaculate,2006,Erwin Matin,Rotterdam,2021-02-20,Stena WECO - ,"1,700.00",2021-03-30,paid,1 to 2
+4260/2021,2 Mar 21,STI Black Hawk,2001,Jermaine Tjua,Liverpool,2021-02-03,Stena WECO - ,"1,700.00",,,1 to 2
+4261/2021,2 Mar 21,Sonangol Porto Amboim,2101,Nils Israelsson,Tanjung Pelepas,2021-02-12,Stena Bulk,"1,600.00",2021-04-05,paid,1 to 2
+4262/2021,2 Mar 21,Navig8 Gratitude,4,Mindy Quek,Rotterdam/Hamburg,2021-02-23,Cargill,"1,600.00",,,
+4263/2021,2 Mar 21,Eagle Brasilia,35,Nikos Vlisidis,Tranmere,2021-02-01,Shell,"1,050.00",,,
+4264/2021,2 Mar 21,Almi Sun,23,Matthew Joseph,Singapore,2021-02-26,Shell,"1,050.00",2021-03-30,paid,
+4265/2021,2 Mar 21,Besiktas Dardanelles,01_2021,David Watson,Wilhemshaven,2021-02-16,Shell,"1,050.00",2021-03-30,paid,
+4266/2021,2 Mar 21,Elisalex Schulte,"182, 183, 184",Dennis Becher,Canical,2021-02-24,Shell,"1,050.00",,,
+4267/2021,2 Mar 21,Emmy Schulte,288,Dennis Becher,Ravenna,2021-02-22,Shell,"1,050.00",,,
+4268/2021,2 Mar 21,Sten Fjell,"120, 121, 122",Dennis Becher,Rotterdam,2021-02-25,Shell,"1,050.00",,,
+4269/2021,2 Mar 21,Sten Skagen,"193, 194, 195",Dennis Becher,Antwerp,2021-02-22,Shell,"1,050.00",,,
+4270/2021,2 Mar 21,Tigris,"338, 339, 340",Dennis Becher,Eastham,2021-02-26,Shell,"1,050.00",,,
+4271/2021,5 Mar 21,Jacob,20_003_,Montatip Submeeklin,Kemaman,,TIPCO,"1,400.00",2021-04-07,paid,
+4272/2021,31 Mar 21,Wisco  Adventure ,01,Harish Babu,Rotterdam,2021-03-21,Cargill,"1,600.00",,,
+4273/2021,31 Mar 21,Verige,38,Alvin Teng,Antwerp,2021-03-06,Clearlake,"1,400.00",,,
+4274/2021,31 Mar 21,Champion Pomer,2021000173,Hafizh Azhari,Flushing,2021-03-28,Clearlake,"1,400.00",,,
+4275/2021,31 Mar 21,Tianlong Spirit,33,  Andrey Voronin,Singapore,2021-03-10,LITASCO,"1,150.00",,,6 to 10
+4276/2021,31 Mar 21,Jag Leena,25,Ekaterina Hmelev,Dalian,2021-03-10,LITASCO,"1,150.00",,,6 to 10
+4277/2021,31 Mar 21,Myrtos,90,Elizaveta Brewster,Sikka,2021-03-13,LITASCO,"1,150.00",,,6 to 10
+4278/2021,31 Mar 21,Abliani,47,Natalia Baldina,Corpus Christi,2021-03-19,LITASCO,"1,150.00",,,6 to 10
+4279/2021,31 Mar 21,Minerva Coralia ,44,Natalia Baldina,Paulsboro /Delware,2021-03-22,LITASCO,"1,150.00",,,6 to 10
+4280/2021,31 Mar 21,Athens Spirit,41,Ekaterina Hmelev,Sabine,2021-03-23,LITASCO,"1,150.00",,,6 to 10
+4281/2021,31 Mar 21,Crudemed,06_21,Pushkar Sidhaye,Freeport,2021-03-18,Navig8,"1,400.00",,,
+4282/2021,31 Mar 21,Monte Toledo,1,Kunal Kishore,Tanjung Pelepas,2021-03-18,Navig8,"1,400.00",,,
+4283/2021,31 Mar 21,Spirit II,782101,Bharat Shukla,Balongan,2021-03-25,Navig8,"1,400.00",,,
+4284/2021,31 Mar 21,Fos Hamilton,15,Andrew Turner,"Fujairah, Sitra",2021-03-30,Navig8,"1,400.00",,,
+4285/2021,31 Mar 21,Gagarin Prospect,55,Nikos Vlisidis,Baytown,2021-03-04,Shell,"1,050.00",,,
+4286/2021,31 Mar 21,Eagle Brasilia,37,Nikos Vlisidis,Sarroch,2021-03-17,Shell,"1,050.00",,,
+4287/2021,31 Mar 21,Tequila,236,Karl Kontselidze,Houston,2021-03-19,Shell,"1,050.00",,,
+4288/2021,31 Mar 21,Tigris,"341, 342, 343",Dennis Becher,Liverpool,2021-03-28,Shell,"1,050.00",,,
+4289/2021,31 Mar 21,Sten Fjell,125,Dennis Becher,Eastham,2021-03-21,Shell,"1,050.00",,,
+4290/2021,31 Mar 21,Emmy Schulte,"290, 291",Dennis Becher,Brofjorden,2021-03-28,Shell,"1,050.00",,,
+4291/2021,31 Mar 21,Elisalex Schulte,"185, 186",Dennis Becher,Ravenna,2021-03-28,Shell,"1,050.00",,,
+4292/2021,31 Mar 21,Sten Skagen,"196, 197",Dennis Becher,Eastham,2021-03-29,Shell,"1,050.00",,,
+4293/2021,31 Mar 21,Nordic Rio,2101,Ola Andersson,Algeciras,2021-03-03,Stena Bulk,"1,400.00",,,3 to 5
+4294/2021,31 Mar 21,Afroditi,2101,Antonio Pita,FOS,2021-03-05,Stena Bulk,"1,400.00",,,3 to 5
+4295/2021,31 Mar 21,Stena Penguin,2101,Jose Ngunza,New York,2021-03-11,Stena Bulk,"1,400.00",,,3 to 5
+4296/2021,31 Mar 21,Whistler Spirit,103,Danny Tan,Long Beach,2021-03-04,Teekay,800.00,2021-04-08,paid,
+4297/2021,31 Mar 21,Esther Spirit,195,Harrison Sharpe,St.James,2021-03-09,Teekay,800.00,,,
+4298/2021,31 Mar 21,Oberon,3,Danny Tan,Tanjung Pelepas,2021-03-14,Teekay,800.00,2021-04-08,paid,
+4299/2021,31 Mar 21,Nordic Brasilia,16,Dean Reddish,Wilhemshaven,2021-03-24,Teekay,800.00,,,
+4300/2021,31 Mar 21,Tahoe Spirit,40,Ankita Srivastava,Santa Panagia,2021-03-29,Teekay,800.00,,,
+4301/2021,31 Mar 21,Shamrock Mercury,67,Italo Rubio,Dordrecht,2021-03-01,Ultranav,"1,200.00",,,10 and Up
+4302/2021,31 Mar 21,Selecao,49P _149F,Alex Celleri C,Balboa,2021-03-05,Ultranav,"1,200.00",,,ShortHaul
+4303/2021,31 Mar 21,Celsius Miami,5,David Lara,Buenaventura,2021-03-05,Ultranav,"1,200.00",,,ShortHaul
+4304/2021,31 Mar 21,Halcon Trader,51,David Lara,Lazaro Cardenas,2021-03-08,Ultranav,"1,200.00",,,10 and Up
+4305/2021,31 Mar 21,Cabo San Antonio,20,Sebastian Lopez Miranda,Cherry Point,2021-03-10,Ultranav,"1,200.00",,,10 and Up
+4306/2021,31 Mar 21,Seaways Rosemar,255,Jens Peribnow,Martinez,2021-03-11,Ultranav,"1,200.00",2021-04-12,paid,ShortHaul
+4307/2021,31 Mar 21,Ice Victory,64_19,Juan Carlos Villarroel,Freeport Bahamas,2021-03-13,Ultranav,"1,200.00",,,ShortHaul
+4308/2021,31 Mar 21,Antipolis,31,Juan Carlos Villarroel,Balboa,2021-03-17,Ultranav,"1,200.00",,,ShortHaul
+4309/2021,31 Mar 21,Shamrock Jupiter,78,Oscar Bracho Rojas,Rio De Janeiro,2021-03-20,Ultranav,"1,200.00",,,10 and Up
+4310/2021,31 Mar 21,Cabo Froward,160,Sebastian Lopez Miranda,Tanjung Pelepas,2021-03-23,Ultranav,"1,200.00",,,10 and Up
+4311/2122,30 Apr 21,Mare Doricum,38,Dean Reddish,Tanjung Pelepas,2021-04-05,Teekay,800.00,,,
+4312/2122,30 Apr 21,Yamato Spirit,97,Ho Yi Chuen,Singapore,2021-04-15,Teekay,800.00,,,
+4313/2122,30 Apr 21,Stavanger Blossom,97,Soo Pei,Kikuma,2021-04-18,Teekay,800.00,,,
+4314/2122,30 Apr 21,Blue Pride,93,Parikshit Jhaveri,Singapore,2021-04-23,Teekay,800.00,,,
+4315/2122,30 Apr 21,Tokyo Spirit,32,Harrison Sharpe,Fujairah,2021-04-24,Teekay,800.00,,,
+4316/2122,30 Apr 21,Atlantic Dawn,93,Danny Tan,Singapore,2021-04-28,Teekay,800.00,,,
+4317/2122,30 Apr 21,Oberon,5,Danny Tan,Noumea,2021-04-29,Teekay,800.00,,,
+4318/2122,30 Apr 21,Stavanger Falcon,30,Danny Tan,Mina Al Ahmadi,2021-04-30,Teekay,800.00,,,
+4319/2122,30 Apr 21,Clearocean Mathilde,10,Hafizh Azhari,Amsterdam,2021-04-30,Clearlake,"1,400.00",,,
+4320/2122,30 Apr 21,Fraternity,2102,Martin Olesen,El segundo,2021-04-26,Euronav,"1,200.00",,,
+4321/2122,30 Apr 21,Montesperanza,82,Ekaterina Hmelev,"Ulsan, Yosu",2021-04-25,LITASCO,"1,200.00",,,1 TO 5
+4322/2122,30 Apr 21,Bonita,267,Natalia Baldina,"Freeport,New Orleans",2021-04-29,LITASCO,"1,200.00",,,1 TO 5
+4323/2122,30 Apr 21,Nissos Christiana,16,Elizaveta Brewster,Pascagoula,2021-04-29,LITASCO,"1,200.00",,,1 TO 5
+4324/2122,30 Apr 21,Rivera,48,Natalia Baldina,"Borco Terminal, St Charles, Arthur",2021-04-25,LITASCO,"1,200.00",,,1 TO 5
+4325/2122,30 Apr 21,Stride,102,Andrew Turner,Shuqayq,2021-04-14,Navig8,"1,400.00",,,
+4326/2122,30 Apr 21,Aristoklis,2101_04,Andrew Turner,"Borco Terminal, St Charles",2021-04-11,Navig8,"1,400.00",,,
+4327/2122,30 Apr 21,Ridgebury Nicholas A,9,Kunal Kishore,Yingkou,2021-04-16,Navig8,"1,400.00",,,
+4328/2122,30 Apr 21,Ridgebury Judith,02_21,Amit Tiwari,Singapore,2021-04-27,Navig8,"1,400.00",,,
+4329/2122,30 Apr 21,Voyager,7,Kunal Kishore,Fujairah,2021-04-20,Navig8,"1,400.00",,,
+4330/2122,30 Apr 21,Ridgebury Mary Jane,1,Shashi Yadav,Singapore,2021-04-04,Navig8,"1,400.00",,,
+4331/2122,30 Apr 21,Evagoras,12,Mangesh Sambhus,Tanjung Pelepas,2021-04-29,Navig8,"1,400.00",,,
+4332/2122,30 Apr 21,Advantage Spice,63,David Watson,Rotterdam,2021-04-20,Shell,"1,050.00",,,
+4333/2122,30 Apr 21,Silver Rotterdam,59,Karl Kontselidze,Singapore,2021-04-29,Shell,"1,050.00",,,
+4334/2122,30 Apr 21,Sten Skagen,"198, 199, 200",Dennis Becher,Rotterdam,2021-04-28,Shell,"1,050.00",,,
+4335/2122,30 Apr 21,Tigris,"344, 345, 346",Dennis Becher,Liverpool,2021-04-17,Shell,"1,050.00",,,
+4336/2122,30 Apr 21,Emmy Schulte,"292, 293",Dennis Becher,Rotterdam,2021-04-11,Shell,"1,050.00",,,
+4337/2122,30 Apr 21,Elisalex Schulte,187,Dennis Becher,Rotterdam,2021-04-30,Shell,"1,050.00",,,
+4338/2122,30 Apr 21,Sten Fjell,"126, 127",Dennis Becher,Eastham,2021-04-20,Shell,"1,050.00",,,
+4339/2122,30 Apr 21,Almi Navigator,2002,Miguel E. Masembo,St.Croix,2021-04-28,Stena Bulk,"1,400.00",,,3 to 5
+4340/2122,30 Apr 21,Sonangol Porto Amboim,2102,Antonio Pita,Wilhemshaven,2021-04-05,Stena Bulk,"1,400.00",,,3 to 5
+4341/2122,30 Apr 21,Stena Penguin,2102,Antonio Pita,New York,2021-04-25,Stena Bulk,"1,400.00",,,3 to 5
+4342/2122,30 Apr 21,Stena President,2102,Nils Israelsson,Port Arthur,2021-04-09,Stena Bulk,"1,400.00",,,3 to 5
+4343/2122,30 Apr 21,Sonangol Kassanje,2103,Nils Israelsson,Rotterdam,2021-04-21,Stena Bulk,"1,400.00",,,3 to 5
+4344/2122,30 Apr 21,Venice A,152,Jan Hicks,Sriracha,2021-04-14,Tauber,"1,600.00",,,
+4345/2122,30 Apr 21,Shamrock Mercury,68,Natalia Ramirez Gonzalez,Coronel,2021-04-27,Ultranav,"1,200.00",,,10 and Up
+4346/2122,30 Apr 21,Halcon Trader,52,David Lara,St.Croix,2021-04-07,Ultranav,"1,200.00",,,10 and Up
+4347/2122,30 Apr 21,Bochem Luxembourg,10,Oscar Bracho Rojas,Buenaventura,2021-04-15,Ultranav,"1,200.00",,,10 and Up
+4348/2122,30 Apr 21,Vari Trader,27,Italo Rubio,Paranagua,2021-04-04,Ultranav,"1,200.00",,,10 and Up
+4349/2122,30 Apr 21,Seaways Samar,106,Jens Peribnow,St.Rose,2021-04-26,Ultranav,"1,200.00",,,10 and Up
+4350/2122,30 Apr 21,World Harmony,146,Alex Celleri C,Rotterdam,2021-04-11,Ultranav,"1,200.00",,,10 and Up
+4351/2122,30 Apr 21,Antipolis,32,Juan Carlos Villarroel,Los Angeles,2021-04-15,Ultranav,"1,200.00",,,10 and Up
+4352/2122,30 Apr 21,Neapolis,32,Sebastian Lopez Miranda,Balboa,2021-04-11,Ultranav,"1,200.00",,,10 and Up
+4353/2122,30 Apr 21,Salamina,22P_123F,Alex Celleri C,Singapore,2021-04-13,Ultranav,"1,200.00",,,10 and Up
+4354/2122,30 Apr 21,Selini,20P_121F,Alex Celleri C,Singapore,2021-04-19,Ultranav,"1,200.00",,,10 and Up
+4355/2122,30 Apr 21,Seaways Guayaquil,7,Sebastian Lopez Miranda,Singapore,2021-04-09,Ultranav,"1,200.00",,,10 and Up
+4356/2122,30 Apr 21,Lincoln Park,28,David Lara,Rio De Janeiro,2021-04-30,Ultranav,"1,200.00",,,10 and Up
+4357/2122,31 May 21,GWN 2,3,Harish Babu,Rotterdam/Hamburg,2021-05-07,Cargill,"1,600.00",,,
+4358/2122,31 May 21,Torm Malaysia,01,Harish Babu,Rotterdam,2021-05-05,Cargill,"1,600.00",,,
+4359/2122,31 May 21,Marlin Somerset,20_V2102,Martin Olesen,Singapore,2021-05-07,Euronav,"1,200.00",,,
+4360/2122,31 May 21,Alba,L05028,Ekaterina Hmelev,New Orleans,2021-05-30,Litasco,"1,200.00",,,
+4361/2122,31 May 21,Propontis,1,Natalia Baldina,SW Pass,2021-05-18,Litasco,"1,200.00",,,
+4362/2122,31 May 21,Corossol,95,Elizaveta Brewster,Sikka,2021-05-03,Litasco,"1,200.00",,,
+4363/2122,31 May 21,Primorsky Prospect,202105,Natalia Baldina,Freeport,2021-05-08,Litasco,"1,200.00",,,
+4364/2122,31 May 21,Crudesun,07_23,Pushkar Sidhaye,Melbourne,2021-05-01,Navig8,"1,400.00",,,
+4365/2122,31 May 21,Fos Hamilton,16,Pushkar Sidhaye,Shuqaiq,2021-05-08,Navig8,"1,400.00",,,
+4366/2122,31 May 21,Seliger,4,Pushkar Sidhaye,Singapore,2021-05-13,Navig8,"1,400.00",,,
+4367/2122,31 May 21,Ridgebury Captain Drogin,8,Kunal Kishore,Sungai Linggi,2021-05-09,Navig8,"1,400.00",,,
+4368/2122,31 May 21,Navig8 Amethyst,19,Sertac Hepisler,Singapore,2021-05-25,Navig8 Chemical,"1,600.00",,,
+4369/2122,31 May 21,Gagarin Prospect,57,Chris Chapman,Baton Rouge,2021-05-14,Shell,"1,050.00",,,
+4370/2122,31 May 21,Almi Sun,24,Matthew Joseph,Balongan,2021-05-03,Shell,"1,050.00",,,
+4371/2122,31 May 21,Sten Skagen,"201,  202,  203",Dennis Becher,Eastham,2021-05-30,Shell,"1,050.00",,,
+4372/2122,31 May 21,Tigris,"347,  348,  349",Dennis Becher,Liverpool,2021-05-16,Shell,"1,050.00",,,
+4373/2122,31 May 21,Emmy Schulte,"294,  295",Dennis Becher,Ravenna,2021-05-15,Shell,"1,050.00",,,
+4374/2122,31 May 21,Elisalex Schulte,"188,  189",Dennis Becher,Antwerp,2021-05-15,Shell,"1,050.00",,,
+4375/2122,31 May 21,Sten Fjell,"128,  129,  130,  131",Dennis Becher,Liverpool,2021-05-29,Shell,"1,050.00",,,
+4376/2122,31 May 21,Sonangol Porto Amboim,2103,Antonio Pita,Ngqura,2021-05-14,Stena Bulk,"1,400.00",,,3 to 5
+4377/2122,31 May 21,Stena Penguin,2103,Antonio Pita,St.Eustatius,2021-05-19,Stena Bulk,"1,400.00",,,3 to 5
+4378/2122,31 May 21,Stena President,2103,Nils Israelsson,Rotterdam,2021-05-13,Stena Bulk,"1,400.00",,,3 to 5
+4379/2122,31 May 21,Nord Majestic,2101,Zackary Lin,Liverpool,2021-05-14,Stena WECO - ,"1,700.00",,,1 to 2
+4380/2122,31 May 21,Copper Spirit,38,Ankita Srivastava,Wilhemshaven,2021-05-12,Teekay,800.00,,,
+4381/2122,31 May 21,Jiaolong Spirit,39,Harrison Sharpe,St.Charles,2021-05-26,Teekay,800.00,,,
+4382/2122,31 May 21,Athens Spirit,43,Charlie Thomas,Santa Panagia,2021-05-12,Teekay,800.00,,,
+4383/2122,31 May 21,Vail Spirit,44,Ankita Srivastava,Corpus Christi,2021-05-28,Teekay,800.00,,,
+4384/2122,31 May 21,Yamato Spirit,98,Ho Yi Chuen,Ulsan,2021-05-07,Teekay,800.00,,,
+4385/2122,31 May 21,New Award,44,Danny Tan,Yangshan,2021-05-25,Teekay,800.00,,,
+4386/2122,31 May 21,Stavanger Falcon,31,Danny Tan,Singapore,2021-05-24,Teekay,800.00,,,
+4387/2122,31 May 21,Matterhorn Spirit,284,Parikshit Jhaveri,Zhoushan,2021-05-17,Teekay,800.00,,,
+4388/2122,31 May 21,Bochem Luxembourg,11,Oscar Bracho Rojas,Houston,2021-05-27,Ultranav,"1,200.00",,,10 and Up
+4389/2122,31 May 21,Lumphini Park,21,Esteban Canales Herrera,Callao,2021-05-01,Ultranav,"1,200.00",,,10 and Up
+4390/2122,31 May 21,Celsius Manhattan,23,Basilio Quiel,Rio Haina,2021-05-31,Ultranav,"1,200.00",,,10 and Up
+4391/2122,31 May 21,Celsius Mayfair,12,Basilio Quiel,Buenaventura,2021-05-19,Ultranav,"1,200.00",,,10 and Up
+4392/2122,31 May 21,Celsius Miami,07,David Lara,San Vicente,2021-05-05,Ultranav,"1,200.00",,,10 and Up
+4393/2122,31 May 21,Gwen,10,Esteban Canales Herrera,Baranquilla,2021-05-10,Ultranav,"1,200.00",,,10 and Up
+4394/2122,31 May 21,Lavraki,03,Natalia Ramirez Gonzalez,Aratu,2021-05-21,Ultranav,"1,200.00",,,10 and Up
+4395/2122,31 May 21,Xena,16,Natalia Ramirez Gonzalez,Callao,2021-05-28,Ultranav,"1,200.00",,,10 and Up
+4396/2122,31 May 21,Cabo Kamui,46,Juan Carlos Coello,Singapore,2021-05-06,Ultranav,"1,200.00",,,10 and Up
+4397/2122,31 May 21,Seaways Rubymar,173,Jens Peribnow,Long Beach,2021-05-26,Ultranav,"1,200.00",,,10 and Up
+4398/2122,31 May 21,Chantal,152P-159F,Alex Celleri C,La Pampilla,2021-05-30,Ultranav,"1,200.00",,,10 and Up
+4399/2122,31 May 21,Cabo Fuji,30,Joaquín Ramírez C.,Martinez,2021-05-02,Ultranav,"1,200.00",,,10 and Up
+4400/2122,31 May 21,Seaways Leyte,100,Jens Peribnow,Paulsboro,2021-05-29,Ultranav,"1,200.00",,,10 and Up
+4401/2122,31 May 21,Neapolis,33,Sebastian Lopez Miranda,Los Angeles,2021-05-08,Ultranav,"1,200.00",,,10 and Up
+4402/2122,31 May 21,Nicopolis,27,Juan Carlos Villarroel,Singapore,2021-05-09,Ultranav,"1,200.00",,,10 and Up

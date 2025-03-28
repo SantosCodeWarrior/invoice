@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+  <script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+  <link rel='stylesheet' type='text/css' href='/static/1/css/style.css' />
+  <link rel='stylesheet' type='text/css' href='/static/1/css/print.css' media="print"/>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
+  
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+
+
+  <style type="text/css">
+    p span {
+  display: block;
+}
+
+table td tr th {
+  border: 1px soild #d5ded7;
+}
+  </style>
+
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+      <table>
+        <td><textarea id="get_address"></textarea></td>
+      </table>
+      <button id="btn_submit" class="btn btn-success" style="font-size: 12px;float: right;margin-top: -62px;">Submit</button>
+      <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+      
+      <table style="font-size: 12px;border-collapse: collapse;border:1px solid #d5ded7;width:100%" id="get_tmple_pdf">
+    
+        <thead>
+          <tr>
+            <th colspan="8"></th>
+          </tr>
+        </thead>
+        <tbody id="get_other_data">
+          <tr>
+            <td rowspan="18"></td>
+            <td colspan="2" style="background-color: #d9dbda;font-weight: bold">Customer's name &amp; address:</td>
+            <td rowspan="4"></td>
+            <td colspan="3" style="background-color: #d9dbda">Invoice No.:<b id="get_invoice_number"></b></td>
+            <td rowspan="18"></td>
+          </tr>
+          <tr>
+            <td colspan="2"><div id="get_client_address" style="font-weight: bold;"></div></td>
+            <td colspan="3">Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;See Page 1<br>Our Ref. :&nbsp;&nbsp;<b id="get_invoice_number1"></b></td>
+          </tr>
+          <tr>
+            <td>Person Incharge:</td>
+            <td><div id="get_vm_name" style="font-weight: bold;"></div></td>
+            <td>Your Ref.:</td>
+            <td colspan="2"><div id="get_vessel_voyage_no" style="font-weight: bold;"></div></td>
+          </tr>
+          <tr>
+            <td>Remarks</td>
+            <td><input type="text" id="get_remarks" style="background-color: #f0f2b1"></td><!--  <div id="get_remarks" style="font-weight: bold;"></div> -->
+            <td>Port:</td>
+            <td colspan="2"><div id="get_disch_port_date" style="font-weight: bold;"></div></td>
+          </tr>
+          <tr>
+            <td colspan="6" style="font-weight: bold;text-align: center;background-color: #d9dbda">Project Details</td>
+          </tr>
+          <tr>
+            <td>Project ID:    <br>Project Name:<br>Project Type:</td>
+            <td colspan="5"><b id="get_project_id"></b><br>Cargo Heating Services<br>Cargo Heating Management</td>
+          </tr>
+          <tr>
+            <td colspan="6" style="background-color: #d9dbda;text-align: center;font-weight: bold">Particulars</td>
+          </tr>
+          <tr style="font-weight: bold;">
+            <td>Sr.No.</td>
+            <td>Service Details</td>
+            <td>Qty</td>
+            <td>Amount USD</td>
+            <td>Conv. Rate</td>
+            <td>Amount AED</td>
+          </tr>
+
+          <tr>
+            <td id="s_no_label1"><input type="text" name="" id="s_no_label"></td>
+            <td id="chm_label1"><input type="text" name="" id="chm_label"></td>
+            <td id="qty_label1"><input type="text" name="" id="qty_label"></td>
+            <td id="price_label1"><input type="text" name="" id="price_label"></td>
+            <td id="rate_label1"><input type="text" name="" id="rate_label" style="background-color: #f0f2b1"></td>
+            <td id="amount_label1"><input type="text" name="" id="amount_label"></td>
+          </tr>        
+
+          <tr>
+            <td  colspan="6"></td>
+       <!-- <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td> -->
+          </tr>
+          <tr style="border-right: 1px solid white;border-bottom: 1px solid grey;">
+            <td colspan="5" style="border-right: 1px solid white;border-bottom: 1px solid grey;">Total</td>
+            <td style="border-right: 1px solid white;border-bottom: 1px solid grey;"><div id="total_amount"></div></td>
+          </tr>
+          <tr style="border-right: 1px solid white;border-bottom: 1px solid grey;">
+            <td colspan="6"  style="border-right: 1px solid white;border-bottom: 1px solid grey;"></td>
+            <!-- <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td> -->
+          </tr>
+          <tr style="border-right: 1px solid white;border-bottom: 1px solid grey;">
+            <td style="border-right: 1px solid white;border-bottom: 1px solid grey;text-align: left;">Amount Due:</td>
+            <td colspan="5" style="border-right: 1px solid white;border-bottom: 1px solid grey;text-align: right;"><div id="amt_due"></div></td>
+          </tr>
+          <tr style="border-right: 1px solid white;border-bottom: 1px solid grey;">
+            <td colspan="6" style="background-color: #d9dbda;text-align: right;font-weight: bold;border-right: 1px solid white;border-bottom: 1px solid grey;">AED Four Thousand Two Hundred and Twenty Three</td>
+          </tr>
+          <tr style="border-right: 1px solid white;border-bottom: 1px solid grey;">
+            <td colspan="5" style="border-right: 1px solid white;border-bottom: 1px solid grey;text-align: right;">Payment due date:</td>
+            <td style="border-right: 1px solid white;border-bottom: 1px solid grey;text-align: right;">See Page 1</td>
+          </tr>
+          <tr>
+            <td colspan="6" style="border-right: 1px solid white;border-bottom: 1px solid grey;"></td>
+           
+          </tr>
+          <tr>
+            <td colspan="4" style="border-right: 1px solid white;border-bottom: 1px solid grey;">Terms of payment:<br>By wire transfer to our account "Blue Water Trade Winds Pvt Ltd" with<br><br><br><br>HDFC Bank<br>32, Arhat Bazar, Dehradun - 248001, Uttarakhand, INDIA<br>Uttaranchal, INDIA<br>SWIFT Code: HDFCINBB<br>Account Name: Blue Water Trade Winds Pvt Ltd<br>Account Number: 02252560001213</td>
+            <td colspan="2"  style="border-right: 1px solid white;border-bottom: 1px solid grey;"><img src="/static/pdf/stamp.png" style="    width: 155px; height: 161px;    margin-bottom: -140px;    margin-left: 76px;"><br><br><br><br><br><br><br></td>
+          </tr>
+          <tr style="border-bottom: 1px solid grey;">
+            <td colspan="6" style="background-color: #d9dbda;font-weight: bold;font-size: 8px;text-align: center;border-right: 1px solid white;border-bottom: 1px solid grey;">Please quote our invoice number and date in all correspondence and payments</td>
+          </tr>
+        </tbody>
+      </table>
+        <table class="table" id="get_other_temple_pdf" style="display: none;">
+        <tr style="font-weight: bold;font-size: 12px">
+            <td>Sr.No.</td>
+            <td>Vessel</td>
+            <td>Voy No.</td>
+            <td>Load Port</td>
+            <td>Date</td>
+            <td>Discharge Port</td>
+            <td>Date</td>
+            <td>Qty.(Days)</td>
+            <td>Rate</td>
+            <td>Amount</td>
+          </tr>
+        <tbody id="get_app_data"></tbody>
+        <td colspan="9"></td>
+        <td id="total_amt"></td>
+        
+        </table>
+        <button id="submit_generate_template" class="btn btn-success" style="display: none;">SUBMIT</button>
+    </div>
+    <button class="btn btn-success" id="generate_invoice_pdf" style="display: none">Generate</button>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  function parseURLParams(url) {
+    var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") {
+      return;
+    }
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=");
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+        if (!parms.hasOwnProperty(n)) {
+            parms[n] = [];
+        }
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
+  }
+
+  var curr_url   = window.location.href;
+  var invoice_no = parseURLParams(curr_url)['invoice_no'];
+  $('#get_invoice_number').html(invoice_no);
+  $('#get_invoice_number1').html(invoice_no);
+  var e_types     = parseURLParams(curr_url)['types'];
+  $('#loader').css('display','');
+  $.ajax({
+    url: '/it/show_invoice_template/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{
+      'invoice_no'  : JSON.stringify(invoice_no), 
+      'e_types'     : JSON.stringify(e_types),     
+    },
+
+    success : function(obj){
+ 
+      if(obj['invoice_array'][0]['e_types']=='APP'){
+          $('#loader').css('display','none');
+        $('#get_other_data').css('display','none');
+        $('#get_app_data').css('display','');
+        for(var i=0;i<obj['invoice_array'].length;i++){
+          $('#get_app_data').append('<tr style="font-size:12px"><td>'+(i+1)+'</td><td>'+obj['invoice_array'][i]['ship_name']+'</td><td>'+obj['invoice_array'][i]['voy_age_no']+'</td><td>'+obj['invoice_array'][i]['load_port']+'</td><td>'+obj['invoice_array'][i]['load_date']+'</td><td>'+obj['invoice_array'][i]['disch_port']+'</td><td>'+obj['invoice_array'][i]['disch_date']+'</td><td>'+obj['invoice_array'][i]['qty']+'</td><td>'+obj['invoice_array'][i]['price']+'</td><td>'+obj['invoice_array'][i]['tot_amount']+'</td></tr>')          
+        }
+        $('#total_amt').html(obj['sum_of_amount']);
+      }else{        
+        $('#get_other_data').css('display','');
+        $('#get_app_data').css('display','none');
+        $('#get_client_address').html(obj['invoice_array'][0]['address']);    
+        $('#get_vm_name').html(obj['invoice_array'][0]['vm_name']);
+        $('#get_vessel_voyage_no').html(obj['invoice_array'][0]['join_voy_no']);
+        $('#get_disch_port_date').html(obj['invoice_array'][0]['join_disch']);
+        $('#get_remarks').val(obj['invoice_array'][0]['remarks']);
+        $('#price_label').val(obj['invoice_array'][0]['price']);
+
+        $('#qty_label').val(obj['invoice_array'][0]['qty']);
+        $('#rate_label').val(obj['invoice_array'][0]['rate']);
+        var amt = (obj['invoice_array'][0]['qty']*obj['invoice_array'][0]['rate']*obj['invoice_array'][0]['price']);
+        $('#amount_label').val(amt);
+        $('#chm_label').val('Cargo Heating Service charges');
+        $('#s_no_label').val(1);
+        $('#total_amount').html('USD '+amt);
+        $('#amt_due').html('AED '+amt);
+        $('#get_project_id').html(obj['invoice_array'][0]['project_ID'])
+      }
+    },
+    error : function(err){
+     console.log(JSON.stringify(err));
+    }
+  });
+
+
+
+$('#generate_invoice_pdf').click(function(){
+    
+    var create_table = $('#get_tmple_pdf').tableToJSON();
+    
+    $.ajax({
+    url: '/it/get_generate_pdf/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{     
+      'create_table'  : JSON.stringify(create_table), 
+    },
+
+    success : function(obj){
+     
+    },
+    error : function(err){
+     console.log(JSON.stringify(err));
+    }
+  });
+})
+
+$('#submit_generate_template').click(function(){
+  var create_table = $('#get_other_temple_pdf').tableToJSON();
+  //console.log(create_table)
+
+  $.ajax({
+    url: '/it/get_app_generate_pdf/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{     
+      'create_table'  : JSON.stringify(create_table), 
+    },
+
+    success : function(obj){
+     
+    },
+    error : function(err){
+     console.log(JSON.stringify(err));
+    }
+  });
+})
+   
+$('#loader').css('display','none')
+$('#btn_submit').click(function(){
+  var e_rate      = $('#rate_label').val();
+  var curr_url    = window.location.href;
+  var invoice_no  = parseURLParams(curr_url)['invoice_no'];
+  var e_types     = parseURLParams(curr_url)['types'];
+  var e_remarks   = $('#get_remarks').val(); 
+  var e_price = $('#price_label').val();
+  alert(e_remarks)
+
+  $.ajax({
+    url: '/it/update_rate_for_pdf/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{
+      'e_rate'     : JSON.stringify(e_rate),
+      'invoice_no' : JSON.stringify(invoice_no),    
+      'e_types'    : JSON.stringify(e_types),
+      'e_price'    : JSON.stringify(e_price), 
+      'e_remarks'  : JSON.stringify(e_remarks)
+    },
+
+    success : function(obj){
+
+     if(obj=='done'){
+        var btn = "button";
+        swal({
+          title : "<b>Succesfully submitted</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button>',
+          html  : true,
+          type  : "success",
+          showConfirmButton: false
+        });
+
+        $(document).on('click', "#btnA", function(){
+          window.location.href=window.location.href;
+        });
+      }
+    },
+    error : function(err){
+     console.log(JSON.stringify(err));
+    }
+  });
+})
+</script>
+
+
+{% endblock %}

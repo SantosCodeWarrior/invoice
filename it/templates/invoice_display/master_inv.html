@@ -1,0 +1,671 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<div class="container">
+  <div class="col-md-12">
+  <b>&nbsp;&nbsp; &nbsp;Remittance Entry</b>
+  <table class="table table-bordered" style="font-size: 10px;margin-left: 15px;width: 100%;">
+    <thead>
+      <tr>        
+        <th style="background-color: #28a745;color:white">In (Date)</th>
+        <th style="background-color: #28a745;color:white">Bank</th>
+        <!--<th style="background-color: #28a745;color:white">Proj.Name</th>
+        <th style="background-color: #28a745;color:white">Client</th> -->
+        <th style="background-color: #28a745;color:white">Party</th>
+        <th style="background-color: #28a745;color:white">Total Amt. (INR)</th> 
+        <th style="background-color: #28a745;color:white">Rate</th>   
+        <th style="background-color: #28a745;color:white">Dollar</th> 
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr style="font-size: 9px">
+        <td><input class="form-control" type="date" name="" id="get_in_date" style="border-color: #c2c4c3;width:112px;font-size: 12px"></td>
+        <td><select class="form-control" id="select_bank_name" style="font-size: 10px;width: 85px;"><option value="0">SELECT</option><option value="SBI">SBI</option><option value="HDFC">HDFC</option></select></td>
+       <!--  <td><select class="form-control" id="select_proj_type" style="width: 80px;font-size: 10px;"><option value="0">SELECT</option><option value="BOSS">BOSS</option><option value="CHM">CHM</option></select></td>
+        <td><select class="form-control" id="get_client_name"  style="width: 150px;font-size: 12px"></select></td> -->
+        <td><input class="form-control" type="text" name="" id="get_party_name" style="width: 160px;font-size: 12px"></td>
+        <td><input class="form-control" type="text" name="" id="get_amount_details" style="width: 74px;font-size: 12px"></td>
+        <td><input class="form-control" type="text" name="" id="get_rate" style="width: 74px;font-size: 12px"></td>
+        <td><input class="form-control alert_currency" type="text" name="" id="get_currency" style="width: 74px;font-size: 12px"></td>
+      </tr>
+      <tr>
+        <td colspan="9"><input class="form-control" type="text" name="" id="get_remarks_details" style="width: 100%;font-size: 12px" placeholder="Remarks"></td>
+      </tr>
+    </tbody>
+    </table>        
+    </div>
+</div>
+
+
+
+<div class="container">
+  <div class="col-md-12">
+    <button class="btn btn-success" id="add_row" style="font-size:12px;cursor:pointer;margin-left:15px">Add Row</button>
+    <button id="upload_doc" class="btn btn-primary btn-md center-block" style="font-size:12px;cursor:pointer;display: ">Upload</button></a>
+    <div id="error_log" style="margin-left: 13px;"></div>
+  </div>
+</div>
+<br>
+<div class="container">
+<div class="col-md-12" style="overflow-x: scroll;height: 250px">
+ <table class="table table-bordered" style="font-size: 12px;margin-left: 15px;width: 97%;" id="get_amt_details">
+    <thead>
+      <tr>        
+        <th style="background-color: #28a745;color:white">Proj.Name</th>
+        <th style="background-color: #28a745;color:white">Client</th>    
+        <th style="background-color: #28a745;color:white">Invoice No</th>
+        <th style="background-color: #28a745;color:white">Bank Chrgs</th>
+        <th style="background-color: #28a745;color:white">Amount</th>        
+        <!--<th style="background-color: #28a745;color:white">Client</th> -->    
+        <th style="background-color: #28a745;color:white">Remark</th> 
+        <th style="background-color: #28a745;color:white"></th> 
+      </tr>
+    </thead>
+    <tbody id="get_invoice_list"></tbody>
+    </table>     
+  </div>
+
+
+
+</div>
+<div class="container">
+  <div class="col-md-12">
+    <button class="btn btn-primary col-md-12"  id='btn_submit_details' style="font-size: 12px;cursor: pointer;display:none;">Continue</button> 
+    <button class="btn btn-primary col-md-12"  id='btn_update_details' style="font-size: 12px;cursor: pointer;display:none;">Continue</button>   
+  </div>
+</div>
+     
+<script type="text/javascript">
+$('#get_in_date').change(function(){
+  $('#get_in_date').css('background-color','white')
+})
+
+$('#select_bank_name').change(function(){
+  $('#select_bank_name').css('background-color','white')
+})
+
+
+$('#select_proj_type').change(function(){
+  $('#select_proj_type').css('background-color','white')
+})
+
+
+$('#get_client_name').change(function(){
+  $('#get_client_name').css('background-color','white')
+})
+
+
+$('#get_amount_details').change(function(){
+  $('#get_amount_details').css('background-color','white')
+})
+
+$('#add_row').change(function(){
+  $('#add_row').css('background-color','white');
+})
+
+ 
+$('#invoice_no_0').change(function(){
+  $('#invoice_no_0').css('background-color','white');
+})
+
+$(".invoice_data").select2();
+$('.invoice_data').css('width','10% !important')
+// $('#select_proj_type').change(function(){
+//   var proj_name = $(this).val();  
+//     $.ajax({
+//     url : "/it/get_client_details",
+//     type : "get",
+//     dataType : "json",
+//     data : { 
+//       'proj_name' :  proj_name,
+//     },
+//     success : function(obj_data){
+//       $('#get_client_name').empty();
+//       $('#get_client_name').append('<option value="0">Client</option>')
+//       for(var i=0;i<obj_data.length;i++){
+//         $('#get_client_name').append('<option value='+obj_data[i]['client_name']+'>'+obj_data[i]['client_name']+'</option>')
+//       }
+//     },
+//     error: function(err){
+//       console.log(JSON.stringify(err,null,4))
+//     }
+//   });
+// })
+
+$('.btn_edit').click(function(){
+  var remID = $(this).attr('id');
+  $('#txt_remiitance_id').val(remID)
+  /* hrefx = "/static/it/upload_files/?remID="+remID*/
+})
+
+var ct=0;
+$(document).on('click', '#add_row', function() {
+var rowCount = $('#get_amt_details tr.chr').length;
+  if (rowCount>0){
+    ct = rowCount
+  }
+  add_remittance_handling_row(ct)
+  ct++;
+});
+
+sums=0;
+function add_remittance_handling_row(ct){   
+    $("#get_amt_details").append('<tr class="chr list_table" id="remmitance_tracker"><td><select class="form-control proj_types" id="select_proj_type'+ct+'" style="width: 80px;font-size: 10px;"><option value="0"></option><option value="BOSS">BOSS</option><option value="CHM">CHM</option></select></td><td><select class="form-control" id="get_client_name'+ct+'" style="width: 150px;font-size: 12px"></select></td><td><input type="text" id="invoice_no_'+ct+'" style="width:100px;height: 23px;" class="remittance'+ct+'"></td><td><input type="text" id="bank_chrgs_'+ct+'" style="width:100px;height: 23px;" class="remittance'+ct+'" value="0.0"></td><td><input type="text" id="sub_amount_'+ct+'" style="width:100px;height: 23px;" class="sub_amount'+ct+'" value="0.0"></td><td style="display:none"><input type="text" id="client_'+ct+'" style="width:100px;height: 23px;" class="remittance'+ct+'"></td><td><input type="text" id="remarks_'+ct+'" style="width:100px;height: 23px;" class="remittance'+ct+'"></td><td><input class ="remittance_delrow" type="button" value="Delete Row" id="remittance_delrow'+ct+'" style="height:23px;"></td></tr>');
+
+      $('#select_proj_type'+ct).change(function(){
+        var proj_name = $(this).val();        
+          $.ajax({
+          url : "/it/get_client_details",
+          type : "get",
+          dataType : "json",
+          data : { 
+            'proj_name' :  proj_name,
+          },
+          success : function(obj_data){
+            $('#get_client_name'+ct).empty();
+            $('#get_client_name'+ct).append('<option value="0">Client</option>')
+            for(var i=0;i<obj_data.length;i++){
+              $('#get_client_name'+ct).append('<option value='+obj_data[i]['client_name']+'>'+obj_data[i]['client_name']+'</option>')
+            }
+          },
+          error: function(err){
+            console.log(JSON.stringify(err,null,4))
+          }
+        });
+    })
+
+
+    
+
+
+    $('#invoice_no_'+ct).change(function(){
+      var invoice_no  = $(this).val();
+      $.ajax({
+      url   : "/it/get_remittance_master",
+      type  : "get",
+      dataType : "json",
+      data : {
+       'get_invoice_no'  : invoice_no,  
+      },
+      success : function(obj_data){
+        //console.log(obj_data['arr_list'][0]['amount'],obj_data)
+        $('#sub_amount_'+ct).val(obj_data['arr_list'][0]['amount'])
+        $('#client_'+ct).val(obj_data['arr_list'][0]['client_name'])
+        
+        try{
+        var tot = $('#sub_amount_'+ct).val();
+        sums+=parseFloat(tot);
+
+        var get_amtt = $('#get_currency').val();        
+        if(get_amtt!=sums){
+          $('#error_log').html('कुल राशि '+numberWithCommas(sums)+' सही नहीं है');            
+          $('#error_log').css('width','187px');
+          $('#error_log').css('font-size','13px');
+          $('#error_log').css('margin-top:','-28px');
+          $('#error_log').css('margin-left','164px');
+          $('#error_log').css('margin-top','-27px');            
+          $('#get_currency').css('background-color','red'); 
+        }else{
+          $('#error_log').html('कुल राशि '+numberWithCommas(sums)+' सही है');           
+          $('#get_currency').css('background-color','white'); 
+        }
+      }catch(ee){
+
+      }
+      },
+      error: function(err){
+        console.log(JSON.stringify(err,null,4))
+      }
+    });
+  })
+}
+
+$(document).on('click','.remittance_delrow',function(){
+  var num=$(this).attr('id');
+  num=num[num.length-1];
+  var tab_len=ct;
+  $(this).closest('tr').remove();
+    ct--;
+});
+
+
+function numberWithCommas(x) {
+    x = x.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x))
+        x = x.replace(pattern, "$1,$2");
+    return x;
+}
+
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars  = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      return pair[1];
+    }
+    else
+    {
+      return 0;
+    }
+  }
+}
+
+</script>
+
+</script>
+
+<script type="text/javascript">
+function parseURLParams(url) {
+  var queryStart  = url.indexOf("?") + 1,
+  queryEnd        = url.indexOf("#") + 1 || url.length + 1,
+  query           = url.slice(queryStart, queryEnd - 1),
+  pairs           = query.replace(/\+/g, " ").split("&"),
+  parms           = {}, i, n, v, nv;
+  if (query === url || query === "") {
+    return;
+  }
+  for (i = 0; i < pairs.length; i++) {
+    nv  = pairs[i].split("=");
+    n   = decodeURIComponent(nv[0]);
+    v   = decodeURIComponent(nv[1]);
+    if (!parms.hasOwnProperty(n)) {
+      parms[n] = [];
+    }
+    parms[n].push(nv.length === 2 ? v : null);
+  }
+  return parms;
+}
+
+urlParams = parseURLParams(window.location.href);
+var remid = urlParams['remid'];
+  if(remid==undefined){
+
+  }else{
+  $.ajax({
+    url : "/it/get_remittance_id",
+    type : "get",
+    dataType : "json",
+    data : { 
+      'remid' : JSON.stringify(remid),         
+    },
+    success : function(obj_data){ 
+      $('#upload_doc').css('display','');
+      $('#get_in_date').val(obj_data['m_array'][0]['credit_date']);
+      $('#select_bank_name').val(obj_data['m_array'][0]['bank_name']);   
+      $('#select_proj_type').val(obj_data['m_array'][0]['proj_name']);
+      $('#get_client_name').append('<option value='+obj_data['m_array'][0]['client_name']+'>'+obj_data['m_array'][0]['client_name']+'</option>');
+      $('#get_party_name').val(obj_data['m_array'][0]['party_name']);
+      $('#get_amount_details').val(obj_data['m_array'][0]['total_amount'])
+      $('#get_currency').val(obj_data['m_array'][0]['tot_currency'])
+      $('#get_rate').val(obj_data['m_array'][0]['get_rate'])
+
+      for(var i=0;i<obj_data['tot_data'];i++){
+        $("#get_amt_details").append('<tr class="chr list_table" id="remmitance_tracker"><td style="display:none"><input type="text" id="e_id'+i+'" style="width:100px;height: 23px;" class="remittance'+i+'" value='+obj_data['all_data'][i]['e_id']+'></td><td><input type="text" id="proj_name_'+i+'" style="width:100px;height: 23px;" class="remittance'+i+'" value='+obj_data['all_data'][i]['proj_name']+'></td><td><input type="text" style="width:150px;font-size:12px" value='+obj_data['all_data'][i]['client']+' id="client_'+i+'"></td><td><input type="text" id="invoice_no_'+i+'" style="width:100px;height: 23px;" class="remittance'+i+'" value='+obj_data['all_data'][i]['invoice_no']+'></td><td><input type="text" id="bank_chrgs_'+i+'" style="width:100px;height: 23px;" class="remittance'+i+'" value='+obj_data['all_data'][i]['bank_chrgs']+'></td><td><input type="text" id="sub_amount_'+i+'" style="width:100px;height: 23px;" class="remittance'+i+'" value='+obj_data['all_data'][i]['sub_amount']+'></td><td><input type="text" id="remarks_'+i+'" style="width:100px;height: 23px;" class="remittance'+i+'" value='+obj_data['all_data'][i]['remarks']+'></td><td><input class ="remittance_delrow " type="button" value="Delete Row" id="remittance_delrow'+i+' ,'+obj_data['all_data'][i]['e_id']+'" style="height:23px;"></td></tr>');
+         
+          var proj_name   = $('#proj_name_'+i).val(); 
+          var invoice_nox = $('#invoice_no_'+i).val();
+          $.ajax({
+          url : "/it/get_client_proj_details/",
+          type : "get",
+          dataType : "json",
+          data : { 
+            'proj_name'  : proj_name,
+            'invoice_no' : invoice_nox,  
+          },
+          success : function(odata){    
+
+          },
+          error: function(err){
+            console.log(JSON.stringify(err,null,4))
+          }
+        });       
+      }
+
+      /*<select class="form-control remittance'+i+'" id="client_'+i+'" style="width: 150px;font-size: 12px"></select>*/
+
+      $('.remittance_delrow').click(function(){
+        var get_data = $(this).attr('id');
+        get_split    = get_data.split(',');
+        get_id       = get_split[1]; 
+        var result   = confirm("Want to Remove?");
+        if (result==true)
+        {
+          var result2 = confirm("Want to Remove?");
+          if (result2==true)
+          {
+            $.ajax({
+              url : "/it/del_details",
+              type : "get",
+              dataType : "json",
+              data : { 
+               'get_id'  : get_id,         
+              },
+              success : function(obj_data){
+                if(obj_data=='done'){
+                  alert('Data successfully deleted.')
+                }          
+              },
+              error: function(err){
+                console.log(JSON.stringify(err,null,4))
+              }
+            });
+          }
+        }
+      })  
+    },
+
+    error: function(err){
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+}
+
+function parseURLParamsx(url) {
+    var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query      = url.slice(queryStart, queryEnd - 1),
+        pairs      = query.replace(/\+/g, " ").split("&"),
+        parms      = {}, i, n, v, nv;
+
+    if (query === url || query === "") {
+        return;
+    }
+
+    for (i = 0; i < pairs.length; i++) {
+      nv  = pairs[i].split("=");
+      n   = decodeURIComponent(nv[0]);
+      v   = decodeURIComponent(nv[1]);
+
+      if (!parms.hasOwnProperty(n)) {
+        parms[n] = [];
+      }
+    parms[n].push(nv.length === 2 ? v : null);
+  }
+  return parms;
+}
+
+urlParamsx  = parseURLParamsx(window.location.href);
+var BANKID  = urlParamsx['BANKID'];
+if(BANKID==undefined){
+
+}else{
+  $.ajax({
+    url: "/it/get_bank_id_master",
+    type: "get",
+    dataType: "json",
+    data:{ 
+      'get_BANKID'  : JSON.stringify(BANKID),         
+    },
+    success:function(obj_data){
+      $('#get_in_date').val(obj_data['bank_list'][0]['bank_date']);
+      $('#select_bank_name').val(obj_data['bank_list'][0]['bank_name']);   
+      $('#select_proj_type').val(obj_data['bank_list'][0]['proj_name']);   
+      $('#get_amount_details').val(obj_data['bank_list'][0]['tot_amt']);      
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+}
+
+
+$('#btn_submit_details').click(function(){      
+      d = $('#get_amt_details tr.chr').length;
+      var get_in_date         = $('#get_in_date').val();
+      var select_bank_name    = $('#select_bank_name').val();
+      var get_party_name      = $('#get_party_name').val();
+      var get_remarks_details = $('#get_remarks_details').val();
+      var rowCount            = $('#get_amt_details tr').length-1;     
+      var get_currency        = $('#get_currency').val();
+      var get_rate            = $('#get_rate').val();
+      var get_total_amounts   = $('#get_amount_details').val();
+     
+      arr_invoice_no          = [];
+      arr_bank_chrgs          = [];
+      arr_sub_amount          = [];
+      arr_client              = [];
+      arr_remarks             = [];
+      arr_proj_name           = [];
+      for(var ct=0;ct<d;ct++){
+        var select_proj_type    = $('#select_proj_type'+ct).val(); 
+        var get_client_name     = $('#get_client_name'+ct).val(); 
+        var get_amount_details  = $('#sub_amount_'+ct).val(); 
+        var bank_chrgs          = $('#bank_chrgs_'+ct).val();
+        var remarks             = $('#remarks_'+ct).val();     
+        var invoice_no          = $('#invoice_no_'+ct).val();
+        var sub_amount          = $('#sub_amount_'+ct).val();
+        var client              = $('#client_'+ct).val();
+        arr_invoice_no.push(invoice_no)
+        arr_bank_chrgs.push(bank_chrgs)
+        arr_sub_amount.push(sub_amount)
+        arr_client.push(client)
+        arr_remarks.push(remarks)
+        arr_proj_name.push(select_proj_type)        
+      }
+      
+      if(get_in_date==''){
+        alert('Please select In Date');
+        $('#get_in_date').css('background-color','red')
+        return 0;
+      }
+
+      if(select_bank_name==0){
+        alert('Please select Bank Name');
+        $('#select_bank_name').css('background-color','red')
+        return 0;
+      }     
+
+      if(get_amount_details==""){
+        alert('Please Insert Amount');
+        $('#get_amount_details').css('background-color','red')
+        return 0;
+      }
+
+      if(rowCount==0){
+        alert('Please Add Row for inserting details');
+        $('#add_row').css('background-color','red');
+        return 0;
+      }
+
+      var invoice_row = $('#invoice_no_0').val();
+      if(invoice_row==''){
+        alert('Please insert Invoice No');
+        $('#invoice_no_0').css('background-color','red');
+        return 0;
+      }
+
+      try{
+        urlParamsxx  = parseURLParamsx(window.location.href);
+        var BANKIDx  = urlParamsxx['BANKID'];
+      }catch(er){
+
+      }
+
+        var range     = [];
+        for (var i = 0; i < arr_sub_amount.length; i ++ ) {
+          range.push(parseInt(arr_sub_amount[i]))
+        }
+        var sum       = range.reduce(function(a, b) { return a + b; }, 0);
+        var ch_amount = $('#get_currency').val();
+        if(sum!=ch_amount){
+          $('#error_log').html('कुल राशि सही नहीं है');
+          $('#error_log').css('width','187px');
+          $('#error_log').css('font-size','13px');
+          $('#error_log').css('margin-top:','-28px');
+          $('#error_log').css('margin-left','164px');
+          $('#error_log').css('margin-top','-27px');          
+          $('#get_currency').css('background-color','red');
+          $('#error_log').css('color','red');      //     
+          return 0;
+        }     
+
+      $.ajax({
+        url : "/it/submit_remittance_master/",
+        type : "POST",
+        dataType : "json",
+        data : { 
+         'get_in_date'  : JSON.stringify(get_in_date),
+         'select_bank'  : select_bank_name,
+         'proj_name'    : JSON.stringify(arr_proj_name),
+         'client_name'  : get_client_name,
+         'party_name'   : get_party_name,
+         'get_amount'   : get_amount_details,
+         'get_remarks'  : get_remarks_details,   
+         'invoice_nox'  : JSON.stringify(arr_invoice_no),
+         'bank_chrgs'   : JSON.stringify(arr_bank_chrgs),
+         'amount'       : JSON.stringify(arr_sub_amount),
+         'client'       : JSON.stringify(arr_client),
+         'remarks'      : JSON.stringify(arr_remarks),
+         'rowCount'     : JSON.stringify(rowCount),        
+         'BANKIDx'      : JSON.stringify(BANKIDx),
+         'get_currency' : JSON.stringify(get_currency),
+         'get_rate'     : JSON.stringify(get_rate),
+         'tot_amounts'  : JSON.stringify(get_total_amounts),        
+         
+        },
+        success : function(obj_data){
+
+          if(obj_data=='done'){
+            alert('Remittance Entry submitted');
+            $('#upload_doc').css('display','')
+            //location.reload();
+          }
+        },
+        error: function(err){
+          console.log(JSON.stringify(err,null,4))
+        }
+      });
+    })
+
+
+$('#get_currency').change(function(){
+  var amt  = $('#get_amount_details').val();
+  var curr = $(this).val();
+  get_rate = (amt/curr);
+  $('#get_rate').val(get_rate);
+})
+
+$('#get_rate').change(function(){
+  var amt  = $('#get_amount_details').val();
+  var rate = $(this).val();
+  get_curr = (amt/rate);
+  $('#get_currency').val(get_curr);
+})
+
+  //$('#get_client_name').select2();
+  $('#upload_doc').click(function(){
+  var curr_url  = window.location.href
+  var BANKID    = parseURLParams(curr_url)['BANKID']
+  var remid     = parseURLParams(curr_url)['remid']  
+  
+  if(BANKID!=undefined){
+    var url     = '/it/upload_files/?BANKID='+(BANKID);
+    window.open(url,"_blank");
+    
+  }
+
+  if(remid!=undefined){
+    var url     = '/it/upload_files/?remid='+(remid);
+    window.open(url,"_blank");
+  }
+})
+
+if(remid!=undefined){
+  $('#btn_submit_details').css('display','none');
+  $('#btn_update_details').css('display','');
+}else{
+  $('#btn_submit_details').css('display','');
+  $('#btn_update_details').css('display','none');
+}
+
+$('#btn_update_details').click(function(){
+  ar_invoice_no          = [];
+  ar_bank_chrgs          = [];
+  ar_sub_amount          = [];
+  ar_client              = [];
+  ar_remarks             = [];
+  ar_proj_name           = []; 
+  ar_get_id              = [];
+  ar_proj_c              = [];
+  var curr_url           = window.location.href
+  var rem_ids            = parseURLParams(curr_url)['remid'];
+  total_row              = $('#get_amt_details tr.chr').length;
+  var get_currency       = $('#get_currency').val();
+  var get_rate           = $('#get_rate').val();
+  
+  for(var r=0;r<total_row;r++){
+    var proj_name   = $('#proj_name_'+r).val();
+    var client_name = $('#client_'+r).val();
+    var invoice_noc = $('#invoice_no_'+r).val();
+    var bnk_chrgs   = $('#bank_chrgs_'+r).val();
+    var sub_amt     = $('#sub_amount_'+r).val();
+    var remark      = $('#remarks_'+r).val();
+    var get_id      = $('#e_id'+r).val();
+    var proj_namec  = $('#select_proj_type'+r).val();
+    
+    ar_invoice_no.push(invoice_noc)
+    ar_bank_chrgs.push(bnk_chrgs)
+    ar_sub_amount.push(sub_amt)
+    ar_client.push(client_name)
+    ar_remarks.push(remark)
+    ar_proj_name.push(proj_name)
+    ar_get_id.push(get_id)
+    ar_proj_c.push(proj_namec)
+  }
+
+var ty        = ar_sub_amount.map(Number);
+var get_array = (JSON.stringify(ty)); 
+var sum = ty.reduce(function(a, b){
+  return a + b;
+}, 0);
+    
+var get_amount_data   = $('#get_amount_details').val();
+var get_currency_data = $('#get_currency').val(sum);
+var get_rate_data     = (get_amount_data)/(sum);
+
+
+$.ajax({
+    url: "/it/update_remittance_master/",
+    type: "GET",
+    dataType: "json",
+    data: { 
+     'rem_ids'     : JSON.stringify(rem_ids),  
+     'invoice_nox' : JSON.stringify(ar_invoice_no),
+     'bank_chrgs'  : JSON.stringify(ar_bank_chrgs),
+     'amount'      : JSON.stringify(ar_sub_amount),
+     'client'      : JSON.stringify(ar_client),
+     'remarks'     : JSON.stringify(ar_remarks),
+     'get_id'      : JSON.stringify(ar_get_id),              
+     'rowCount'    : JSON.stringify(total_row), 
+     'get_curr'    : JSON.stringify(sum),
+     'get_rate'    : JSON.stringify(get_rate_data),
+     'proj_name'   : JSON.stringify(ar_proj_name),
+     'ar_proj_c'   : JSON.stringify(ar_proj_c),
+    },
+    success : function(obj_data){
+      if(obj_data=='done'){
+        $('#error_log').html('Remittance Entry updated.');
+        $('#upload_doc').css('display','')
+        //location.reload();
+      }
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+})
+</script>
+
+{% endblock %}

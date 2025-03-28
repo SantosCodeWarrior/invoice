@@ -1,0 +1,547 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+<style rel=’stylesheet’ type=’text/css’>
+body {
+margin: 0;
+}
+table {
+width: 190px;
+height: 100px;
+border: thin solid grey;
+}
+th, tfoot td {
+border: thin solid grey;
+text-align: center;
+font-weight: bold;
+}
+tbody td {
+font-size: 10px;
+}
+caption {
+font-size: 10px;
+text-align: right;
+}
+td, th, caption {
+padding: 4px;
+}
+
+input.input-box, textarea { background: cyan; }
+
+textarea {
+  resize: none;
+}
+</style>
+
+<div class="container">
+  <center><h6>Reconciliation Entry (Foreign)</h6></center>
+  <br>
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-12">
+       <table style="border-collapse: collapse;" border="0">
+        <thead style="font-size: 12px">
+          <tr style="font-size: 12px;text-align: right;">
+                <td style="white-space: nowrap;font-size:10px">Certificate No.</td>
+                <td><input type="text" name=""  style="font-size: 10px;background-color: #bfe7f5;border: solid; black;" class="form-control" id="certificate"></td>
+                <td style="font-size: 10px;">Client</td>
+                <td><input type="text" name=""  style="font-size: 10px;width: 130px;height: 40px;background-color: #bfe7f5" id="client_array">
+
+                  <!-- <select class="form-control" style="font-size: 10px;width: 132px;height: 30px;background-color: #bfe7f5" id="client_array">
+                  <option value="0"></option>
+                  {% for x in cl_array %}
+                  <option value="{{x.client_name}}">{{x.client_list}}</option>
+                  {% endfor %}                
+                </select> -->
+                </td>
+                <td style="white-space: nowrap;font-size: 10px;">Remittance Date</td>
+                <td><input type="date" name=""  style="font-size: 10px;width: 130px;height: 40px;background-color: #bfe7f5" id="remittance_date"></td>
+                <td style="white-space: nowrap;font-size: 10px">Inward Amount</td>
+                <td><input type="text" name=""  style="font-size: 10px;background-color: #bfe7f5" class="form-control" id="inward_amount" value="0"></td>
+                <td style="font-size: 10px;white-space: nowrap;">Reference No</td>
+                <td><input type="text" name=""  style="font-size: 10px;background-color: #bfe7f5" class="form-control" id="reference_no" value="0"></td>
+               
+              </tr>
+            </thead>
+    <tbody>
+      <tr  style="font-size: 12px">
+        <td style="white-space: nowrap;font-size: 10px;">Bank Charges</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #bfe7f5;border: 1px solid #f5b4a6;" class="form-control" id="bank_charges" value="0"></td>
+        <td style="font-size: 10px;text-align: right;">Currency</td>
+        
+        <td>
+          <select class="form-control" style="font-size: 10px;background-color: #bfe7f5" id="currency">
+            <option value="0">SELECT</option>
+            {% for c in currency_list %}
+            <option value="{{c.currency_name}}">{{c.currency_name}}</option>                   
+            {% endfor %}
+          </select>
+        </td>
+
+        <td style="font-size: 10px;text-align: right;">Amount INR</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #bfe7f5" class="form-control" id="amount_inr" value="0"></td><td style="font-size: 10px;text-align: right;">Rate</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #bfe7f5" class="form-control" id="rate"  value=0></td>    
+        <td style="font-size: 10px;white-space: nowrap;">Total Amount</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #bfe7f5" class="form-control" id="total_amount" value="0"></td>
+      </tr>
+
+      <tr>        
+        <td style="font-size: 10px;white-space: nowrap;">Remarks</td>
+        <td colspan="5" style="padding-top:5px;padding-bottom: 5px;"><textarea style="font-size: 10px; background-color: rgb(191, 231, 245); margin-top: 0px; margin-bottom: 0px; height: 35px;resize:none" class="form-control" id="e_remarks" value=""></textarea></td>
+        <td style="font-size: 10px;white-space: nowrap;display: none;">Net Inward Ref</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #bfe7f5;display: none;" class="form-control" id="net_inward_ref" value="0"></td>
+       <!--  <td>&nbsp;</td>
+        <td>&nbsp;</td> -->
+       <!--  <td>&nbsp;</td>
+        <td>&nbsp;</td> -->
+      </tr>
+
+
+      <tr>      
+        <td style="font-size: 10px;">Service1</td>
+        <td>
+          <select class="form-control" style="font-size: 10px;background-color: #eef0b6" id="get_1">
+            <option value="0"></option>
+            <option value="BOSS">BOSS</option>
+            <option value="CHM">CHM</option>
+          </select>
+        </td>
+        <td style="font-size: 10px;white-space: nowrap;">Invoice No1</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="invoice_no_1"></td>
+        <td style="font-size: 10px;">Amount1</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_1"  value="0"></td>
+
+      </tr>
+      <tr>
+         <td style="font-size: 10px;">Service2</td>
+        <td>
+            <select class="form-control" style="font-size: 10px;background-color: #eef0b6" id="get_2">
+              <option value="0"></option>
+              <option value="BOSS">BOSS</option>
+              <option value="CHM">CHM</option>
+            </select>
+        </td>
+        <td style="font-size: 10px;white-space: nowrap;">Invoice No2</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="invoice_no_2"></td>
+        <td style="font-size: 10px;">Amount2</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_2" value="0"></td>
+        <tr>
+        <td style="font-size: 10px;">Service3</td>
+        <td>
+          <select class="form-control" style="font-size: 10px;background-color: #eef0b6" id="get_3">
+            <option value="0"></option>
+            <option value="BOSS">BOSS</option>
+            <option value="CHM">CHM</option>
+          </select>
+        </td>
+        <td style="font-size: 10px;white-space: nowrap;">Invoice No3</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="invoice_no_3"></td>
+        <td style="font-size: 10px;">Amount3</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_3"  value="0"></td>
+        </tr>
+        <tr>
+        <td style="font-size: 10px;">Service4</td>
+        <td>
+          <select class="form-control" style="font-size: 10px;background-color: #eef0b6" id="get_4">
+            <option value="0"></option>
+            <option value="BOSS">BOSS</option>
+            <option value="CHM">CHM</option>
+          </select>
+        </td>
+
+        <td style="font-size: 10px;white-space: nowrap;">Invoice No4</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="invoice_no_4"></td>
+        <td style="font-size: 10px;">Amount4</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_4" value="0"></td>
+      </tr>
+      <tr>
+        <td style="font-size: 10px;">Service5</td>
+        <td>
+          <select class="form-control" style="font-size: 10px;background-color: #eef0b6;" id="get_5">
+            <option value="0"></option>
+            <option value="BOSS">BOSS</option>
+            <option value="CHM">CHM</option>
+          </select>
+        </td>
+        <td style="font-size: 10px;white-space: nowrap;">Invoice No5</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6;" class="form-control" id="invoice_no_5"></td>
+        <td style="font-size: 10px;">Amount5</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_5"  value="0"></td>
+        </tr>
+        <tr>
+        <td style="font-size: 10px;">Service6</td>
+        <td>
+          <select class="form-control" style="font-size: 10px;background-color: #eef0b6" id="get_6">
+            <option value="0"></option>
+            <option value="BOSS">BOSS</option>
+            <option value="CHM">CHM</option>
+          </select>
+        </td>
+        <td style="font-size: 10px;white-space: nowrap;">Invoice No6</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="invoice_no_6"></td>
+        <td style="font-size: 10px;">Amount6</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_6"  value="0"></td>
+      </tr>
+      <tr>
+        <td style="font-size: 10px;">Service7</td>
+        <td>
+          <select class="form-control" style="font-size: 10px;background-color: #eef0b6" id="get_7">
+            <option value="0"></option>
+            <option value="BOSS">BOSS</option>
+            <option value="CHM">CHM</option>
+          </select>
+        </td>
+        <td style="font-size: 10px;white-space: nowrap;">Invoice No7</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="invoice_no_7"></td>
+        <td style="font-size: 10px;">Amount7</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_7"  value="0"></td>
+        </tr>
+
+        <tr>
+        <td style="font-size: 10px;">Service8</td>
+        <td>
+          <select class="form-control" style="font-size: 10px;background-color: #eef0b6" id="get_8">
+            <option value="0"></option>
+            <option value="BOSS">BOSS</option>
+            <option value="CHM">CHM</option>
+          </select>
+        </td>
+        <td style="font-size: 10px;white-space: nowrap;">Invoice No8</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="invoice_no_8"></td>
+        <td style="font-size: 10px;">Amount8</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_8" value="0"></td>
+      </tr>
+      <tr>
+        <td style="font-size: 10px;">Service9</td>
+        <td> <select class="form-control" style="font-size: 10px;background-color: #eef0b6;" id="get_9">
+                <option value="0"></option>
+                <option value="BOSS">BOSS</option>
+                <option value="CHM">CHM</option>
+              </select></td>
+        <td style="font-size: 10px;white-space: nowrap;">Invoice No9</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_9"  value="0"></td>
+        <td style="font-size: 10px;">Amount9</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_9"  value="0"></td>
+        </tr>
+        <tr>
+        <td style="font-size: 10px;">Service10</td>
+        <td>
+          <select class="form-control" style="font-size: 10px;background-color: #eef0b6" id="get_10">
+            <option value="0"></option>
+            <option value="BOSS">BOSS</option>
+            <option value="CHM">CHM</option>
+          </select>
+        </td>
+        <td style="font-size: 10px;white-space: nowrap;">Invoice No10</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="invoice_no_10"></td>
+        <td style="font-size: 10px;">Amount10</td>
+        <td><input type="text" name=""  style="font-size: 10px;background-color: #eef0b6" class="form-control" id="amount_10"  value="0"></td>
+        <td><button class="btn btn-primary col-md-12" id="btn_save">Save</button></td>
+      </tr>
+    </tbody>
+    </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $('#invoice_no_1').change(function(){    
+    e_invoice = $(this).val();    
+    e_service = $('#get_1').val();
+    get_call(e_service,e_invoice,'1');  
+  })
+
+  $('#invoice_no_2').change(function(){    
+    e_invoice = $(this).val();    
+    e_service = $('#get_2').val();
+    get_call(e_service,e_invoice,'2');  
+  })
+
+
+  $('#invoice_no_3').change(function(){    
+    e_invoice = $(this).val();    
+    e_service = $('#get_3').val();
+    get_call(e_service,e_invoice,'3');  
+  })
+
+  $('#invoice_no_4').change(function(){    
+    e_invoice = $(this).val();    
+    e_service = $('#get_4').val();
+    get_call(e_service,e_invoice,'4');  
+  })
+
+  $('#invoice_no_5').change(function(){    
+    e_invoice = $(this).val();    
+    e_service = $('#get_5').val();
+    get_call(e_service,e_invoice,'5');  
+  })
+
+  $('#invoice_no_6').change(function(){    
+    e_invoice = $(this).val();    
+    e_service = $('#get_6').val();
+    get_call(e_service,e_invoice,'6');  
+  })
+
+  $('#invoice_no_7').change(function(){    
+    e_invoice = $(this).val();    
+    e_service = $('#get_7').val();
+    get_call(e_service,e_invoice,'7');  
+  })
+
+  $('#invoice_no_8').change(function(){    
+    e_invoice = $(this).val();    
+    e_service = $('#get_8').val();
+    get_call(e_service,e_invoice,'8');  
+  })
+
+  $('#invoice_no_9').change(function(){    
+    e_invoice = $(this).val();    
+    e_service = $('#get_9').val();
+    get_call(e_service,e_invoice,'9');  
+  })
+
+  $('#invoice_no_10').change(function(){    
+    e_invoice = $(this).val();    
+    e_service = $('#get_10').val();
+    get_call(e_service,e_invoice,'10');  
+  })
+
+
+
+
+function get_call(e_service,e_invoice,n){ 
+   $.ajax({
+    url : "/it/calculation_remittance/",
+    type : "GET",
+    dataType : "json",
+    data : {
+      'n'           : JSON.stringify(n),
+      'e_service'   : JSON.stringify(e_service),
+      'e_invoice'   : JSON.stringify(e_invoice),
+    },
+    success : function(obj){     
+      $('#amount_'+obj['sno']).val(obj['amount']);     
+    },
+
+    error: function(err){      
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+}  
+
+
+
+$('#btn_save').click(function(){
+
+  var client_array       = $('#client_array').val();
+  var net_inward_ref     = $('#net_inward_ref').val();
+  var remittance_date    = $('#remittance_date').val();
+  var status             = $('#status').val();
+  var invoice_no_5       = $('#invoice_no_5').val();
+  var invoice_no_9       = $('#invoice_no_9').val();
+  var certificate        = $('#certificate').val();
+  var bank_charges       = $('#bank_charges').val();
+  var amount_5           = $('#amount_5').val();
+  var amount_9           = $('#amount_9').val();
+  var inward_amount      = $('#inward_amount').val();
+  var total_amount       = $('#total_amount').val();
+  var service_6          = $('#get_6').val();
+  var service_10         = $('#get_10').val();
+  var currency           = $('#currency').val();
+  var rate               = $('#rate').val();
+  var invoice_no_6       = $('#invoice_no_6').val();
+  var invoice_no_10      = $('#invoice_no_10').val();
+  var amount_inr         = $('#amount_inr').val();
+  var amount_6           = $('#amount_6').val();
+  var amount_10          = $('#amount_10').val();
+  var service_1          = $('#get_1').val();
+  var service_3          = $('#get_3').val();
+  var service_7          = $('#get_7').val();
+  var invoice_no_1       = $('#invoice_no_1').val();
+  var invoice_no_3       = $('#invoice_no_3').val();
+  var invoice_no_7       = $('#invoice_no_7').val();
+  var amount_1           = $('#amount_1').val();
+  var amount_3           = $('#amount_3').val();
+  var amount_7           = $('#amount_7').val();
+  var service_2          = $('#get_2').val();
+  var service_4          = $('#get_4').val();
+  var service_8          = $('#get_8').val();
+  var invoice_no_2       = $('#invoice_no_2').val();
+  var invoice_no_4       = $('#invoice_no_4').val();
+  var invoice_no_8       = $('#invoice_no_8').val();
+  var amount_2           = $('#amount_2').val();
+  var amount_4           = $('#amount_4').val();
+  var amount_8           = $('#amount_8').val();
+  var service_5          = $('#get_5').val();
+  var service_9          = $('#get_9').val();
+  var reference_no       = $('#reference_no').val();
+  var e_remarks          = $('#e_remarks').val();
+
+  if(remittance_date==''){
+    alert('Please Select Remittance Date');
+    $('#remittance_date').focus();
+    $('#remittance_date').css('background-color','red');
+    return;
+  }
+
+  if(certificate==''){
+    alert('Please Insert Certificate');
+    $('#certificate').focus();
+    $('#certificate').css('background-color','red');
+    return;
+  }
+
+  $.ajax({
+    url : "/it/save_remittance/",
+    type : "GET",
+    dataType : "json",
+    data : {     
+      'client_array'    : JSON.stringify(client_array),
+      'net_inward_ref'  : JSON.stringify(net_inward_ref),
+      'remittance_dat'  : JSON.stringify(remittance_date),
+      'status'          : JSON.stringify(status),
+      'invoice_no_5'    : JSON.stringify(invoice_no_5),
+      'invoice_no_9'    : JSON.stringify(invoice_no_9),
+      'certificate'     : JSON.stringify(certificate),
+      'bank_charges'    : JSON.stringify(bank_charges),
+      'amount_5'        : JSON.stringify(amount_5),
+      'amount_9'        : JSON.stringify(amount_9),
+      'inward_amount'   : JSON.stringify(inward_amount),
+      'total_amount'    : JSON.stringify(total_amount),
+      'service_6'       : JSON.stringify(service_6),
+      'service_10'      : JSON.stringify(service_10),
+      'currency'        : JSON.stringify(currency),
+      'rate'            : JSON.stringify(rate),
+      'invoice_no_6'    : JSON.stringify(invoice_no_6),
+      'invoice_no_10'   : JSON.stringify(invoice_no_10),
+      'amount_inr'      : JSON.stringify(amount_inr),
+      'amount_6'        : JSON.stringify(amount_6),
+      'amount_10'       : JSON.stringify(amount_10),
+      'service_1'       : JSON.stringify(service_1),
+      'service_3'       : JSON.stringify(service_3),
+      'service_7'       : JSON.stringify(service_7),
+      'invoice_no_1'    : JSON.stringify(invoice_no_1),
+      'invoice_no_3'    : JSON.stringify(invoice_no_3),
+      'invoice_no_7'    : JSON.stringify(invoice_no_7),
+      'amount_1'        : JSON.stringify(amount_1),
+      'amount_3'        : JSON.stringify(amount_3),
+      'amount_7'        : JSON.stringify(amount_7),
+      'service_2'       : JSON.stringify(service_2),
+      'service_4'       : JSON.stringify(service_4),
+      'service_8'       : JSON.stringify(service_8),
+      'invoice_no_2'    : JSON.stringify(invoice_no_2),
+      'invoice_no_4'    : JSON.stringify(invoice_no_4),
+      'invoice_no_8'    : JSON.stringify(invoice_no_8),
+      'amount_2'        : JSON.stringify(amount_2),
+      'amount_4'        : JSON.stringify(amount_4),
+      'amount_8'        : JSON.stringify(amount_8),
+      'service_5'       : JSON.stringify(service_5),
+      'service_9'       : JSON.stringify(service_9),
+      'reference_no'    : JSON.stringify(reference_no),
+      'e_remarks'       : JSON.stringify(e_remarks),
+    },
+    success : function(obj){  
+      if(obj=='done'){
+        alert('Done')
+      }
+    },
+
+    error: function(err){      
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+
+
+})
+
+
+$('#remittance_date').change(function(){
+  $('#remittance_date').css('background-color','white');
+})
+
+$('#certificate').change(function(){
+  $('#certificate').css('background-color','#bfe7f5');
+  $('#certificate').css('font-weight','bold');
+    var certificate_value = $(this).val();
+
+    $.ajax({
+    url : "/it/get_remittance/",
+    type : "GET",
+    dataType : "json",
+    data : {     
+      'certificate_value'    : JSON.stringify(certificate_value),     
+      
+    },
+    success : function(obj){     
+     if(obj[0]['client_name']!=""){
+        $('#rate').val(obj[0]['rate'])
+        $('#currency').val(obj[0]['currency']);
+        $('#remittance_date').val(obj[0]['remit_date']);
+        $('#inward_amount').val(obj[0]['inward_amount']);
+        $('#client_array').val(obj[0]['client_name']);
+        $('#reference_no').val(obj[0]['reference']);
+        $('#total_amount').val(obj[0]['amt_inr']);       
+        var ine_amt = parseFloat(obj[0]['inward_amount'])*parseFloat(obj[0]['rate']);
+       
+        $('#amount_inr').val(ine_amt);
+        $('#total_amount').val(obj[0]['inward_amount']);
+        $('#net_inward_ref').val(obj[0]['inward_amount']);   
+        $('#e_remarks').val(obj[0]['remarks']); 
+
+    }else{
+      $('#rate').val(obj[0]['rate'])
+       $('#currency').val(obj[0]['currency']);
+       $('#remittance_date').val(obj[0]['remit_date']);
+       $('#inward_amount').val(obj[0]['inward_amount']);
+       $('#client_array').val(obj[0]['client_name']);
+       $('#reference_no').val(obj[0]['reference']);
+       $('#total_amount').val(obj[0]['amt_inr']);
+      var dd          = $('#total_amount').val();
+      var cc          = $('#rate').val();
+      var in_amt      = dd/cc;
+      var amount_inr  = parseFloat(obj[0]['rate'])*parseFloat(in_amt);
+      $('#inward_amount').val(in_amt);        
+      $('#amount_inr').val(amount_inr);
+      $('#total_amount').val(in_amt);
+      $('#net_inward_ref').val(in_amt);      
+     }
+    },
+
+    error: function(err){      
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+})
+
+$('#bank_charges').change(function(){
+ var bnk_chrgs = $(this).val();
+ if(bnk_chrgs!=0 || bnk_chrgs!=""){
+  var fix_value = $('#inward_amount').val();
+  $('#total_amount').val(fix_value);
+ }
+ var tm = $('#total_amount').val();
+ chrgs  = (tm-bnk_chrgs);
+ $('#total_amount').val(chrgs);
+
+})
+
+
+</script>
+
+{% endblock %}

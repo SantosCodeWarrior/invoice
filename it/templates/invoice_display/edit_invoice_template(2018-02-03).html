@@ -1,0 +1,467 @@
+{% extends "base.html" %}
+{% block content %}
+
+<html>
+<head>
+  <script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+  <link rel='stylesheet' type='text/css' href='/static/1/css/style.css' />
+  <link rel='stylesheet' type='text/css' href='/static/1/css/print.css' media="print"/>
+  <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.min.js'></script>
+  <script type='text/javascript' src='/static/1/js/example.js'></script>
+</head>
+<body>
+
+  <div id="page-wrap">
+   <!--  <textarea id="header">INVOICE</textarea> -->    
+    <div id="identity">
+           {% ifnotequal ship_array 0 %} 
+            <textarea id="address">{{ship_array.0.address}}</textarea>           
+            <!-- <input type="text" value="{{ship_array.0.address}}" id="address" >    -->      
+            {% endifnotequal %}          
+    </div>
+
+   
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $( function() {
+    $( "#invoice_date" ).datepicker();
+  } );
+</script>
+
+<div style="display: none;">
+{% ifnotequal ship_array 0 %}
+  <div id="proj_name">{{ship_array.0.proj_name}}</div>
+  <div id="clientname">{{ship_array.0.client_name}}</div>
+{% endifnotequal %} 
+</div>
+
+<div style="display: none;">
+{% ifnotequal customer_no 0 %}
+  <div id="customer_no">{{customer_no}}</div>
+{% endifnotequal %}
+</div>
+
+<div style="display: none;">
+{% ifnotequal ship_array 0 %}
+  <div id="currency">{{ship_array.0.currency}}</div>
+{% endifnotequal %}
+</div>
+
+
+
+  <script src="/static/js/jquery.tabletojson.min.js"></script>
+  <div style="clear:both"></div>    
+    <div id="customer">     
+        <table id="meta" style="display:''">
+            <tr>            
+              <td class="meta-head" style="white-space: nowrap;">Customer GTIN No.</td>
+              {% ifnotequal ship_array 0 %}    
+              <td><input type="text" name="" value="{{ship_array.0.customer_no}}" id="edit_customer_gtin_no" style="text-align: right;"></td>
+               {% endifnotequal %}
+            </tr>
+
+            <tr>            
+              <td class="meta-head">Invoice #</td>
+              {% ifnotequal ship_array 0 %}    
+              <td>{{ship_array.0.invoice_no}}</td>
+               {% endifnotequal %}
+            </tr>
+
+            <tr>            
+              <td class="meta-head">Voyage Manager</td>
+              {% ifnotequal ship_array 0 %}    
+              <td><input type="text" name="" value="{{ship_array.0.vm_name}}" id="edit_vm_name" style="text-align: right;"></td>
+               {% endifnotequal %}
+            </tr>
+
+
+            <tr>
+              <td class="meta-head">Invoice Date</td>
+              {% ifnotequal ship_array 0 %}    
+              <td><input type="text" id="invoice_date" value="{{ship_array.0.invoice_date|date:'Y-m-d'}}" style="text-align: right;"></td>
+              {% endifnotequal %}
+            </tr>
+            <tr>
+              <td class="meta-head">Amount Due</td>              
+              {% ifnotequal total_amount 0 %}
+                <td class="total-value" style="white-space: nowrap"><div id="subtotal">{{currency_tag}} {{total_amount}}</div></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Cancel Invoice</td>              
+              {% ifnotequal ship_array 0 %}
+                <td class="total-value" style="white-space: nowrap"><input type="checkbox" name="cancel" id="cancel_invoice"></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Unpaid</td>              
+              {% ifnotequal ship_array 0 %}
+                <td class="total-value" style="white-space: nowrap"><input type="checkbox" name="unpaid" id="unpaid"></td>
+              {% endifnotequal %}
+            </tr>
+
+        </table>   
+        {% ifnotequal tag_show 0 %}
+        <table id="meta" style="display:{{tag_show}};float:left">
+          {% endifnotequal %}
+            <tr>            
+              <td class="meta-head">Voyage Manager</td>
+              {% ifnotequal ship_array 0 %}  
+              <td><div id="ship_name">{{ship_array.0.vm_name}}</div></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Vessel Name</td>
+               {% ifnotequal ship_array 0 %}  
+              <td><div id="ship_name">{{ship_array.0.ship_name}}</div></td>
+               {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Voyage No</td> 
+               {% ifnotequal ship_array 0 %}              
+              <td><div id="edit_voyage_no">{{ship_array.0.voyage_no}}</div></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Disch.Port</td>
+               {% ifnotequal ship_array 0 %}    
+              <td><div id="disch_port">{{ship_array.0.disch_port}}</div></td>
+              {% endifnotequal %}
+            </tr>
+
+            <tr>
+              <td class="meta-head">Disch.Date</td>
+              {% ifnotequal ship_array 0 %}  
+              <td><div id="disch_date">{{ship_array.0.disch_date|date:"d-M-y"}}</div></td>
+               {% endifnotequal %}
+            </tr>
+
+           <!--  <tr>
+              <td class="meta-head">Project ID</td>
+              <td><div id="ship_name">{{c.heading}}</div></td>
+            </tr> -->
+
+          <!--   <tr>
+              <td class="meta-head">Invoice #</td>
+              <td>{{c.invoice_no}}</td>
+            </tr> -->
+
+            <!-- <tr>
+              <td class="meta-head">Invoice Date</td>
+              <td><input type="text" id="invoice_date" value="{{c.invoice_date|date:"Y-m-d"}}"></td>             
+            </tr> -->
+
+            <tr>
+              <td class="meta-head">Due Date</td>              
+              <td id="calc_due_date">{{c.due_date|date:"d-M-Y"}}</td> 
+            </tr>
+            
+            </table>
+
+    </div>
+
+    
+    <table id="items" class="invoice_details">    
+      <thead>
+          <th>Item</th>
+          <th>Description</th>
+          <th>Unit Cost</th>
+          <th>Quantity</th>
+          {% ifnotequal ship_array 0 %}
+          <th style="display:{{ship_array.0.hide}}">Rate</th>
+           {% endifnotequal %}
+          <th>Amount</th>
+          <th style="display: none">Invoice No</th>
+          <th style="display: none">Voyage No</th>
+          <th style="display: none">Proj Name</th>
+          <th style="display: none">VM Name</th>
+          <th style="display: none">Monthwise</th>
+          <th style="display: none">Vessel Type</th>
+          <th style="display: none">client_name</th>
+          <th style="display: none">url</th>
+          <th style="display: none">InvoiceID</th>
+      </thead>
+
+      {% ifnotequal ship_array 0 %}
+      {% for x in ship_array %}
+      <tr class="item-row">
+
+          <td class="item-name" id="{{x.ship_name}}"><div class="delete-wpr"><textarea>{{forloop.counter}}</textarea><a class="delete" href="javascript:;" title="Remove row">X</a></div></td>
+          <td class="description"><textarea>{{x.ship_name}}</textarea></td>
+          <td><textarea class="cost">{{x.invoice_price}}</textarea></td>
+          <td><textarea class="qty">{{x.qty}}</textarea></td>
+          <td style="display:{{x.hide}}"><textarea class="rate">{{x.invoice_rate}}</textarea></td>
+          <td><span class="price">{{x.amount}}</span></td>
+          <td style="display: none">{{x.invoice_no}}</td>
+          <td style="display: none">{{x.voyage_no}}</td>
+          <td style="display: none">{{x.proj_name}}</td>
+          <td style="display: none">{{x.vm_name}}</td>
+          <td style="display: none">{{x.month_wise}}</td>
+          <td style="display: none">{{x.vessel_type}}</td>
+          <td style="display: none">{{x.client_name}}</td>
+          <td style="display: none">{{x.url}}</td>
+          <td style="display: none" class="loop">{{x.invoiceID}}</td>
+        {% endfor %}
+        {% endifnotequal %}
+      </tr>
+
+     
+      
+     
+      
+      <!-- <tr id="hiderow">
+        <td colspan="5"><a id="addrow" href="javascript:;" title="Add a row"><button class="btn btn-info">Add</button></a></td>
+      </tr> -->
+      
+     
+    
+    </table>
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+
+    <br>
+
+      <button id="update_invoice" class="col-md-12 btn btn-success">UPDATE</button>
+    <br>
+    
+    <!-- <div id="terms">
+      <h5>Terms</h5>
+      <textarea></textarea>
+    </div> -->
+    
+  </div>  
+</body>
+</html>
+
+<script type="text/javascript">
+function parseURLParams(url) {
+    var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") {
+      return;
+    }
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=");
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+        if (!parms.hasOwnProperty(n)) {
+            parms[n] = [];
+        }
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
+  }
+  
+    
+  var tt      = document.getElementById('invoice_date').value;//new Date    
+  var client  = $('#client').text();
+  var date    = new Date(tt);
+  var newdate = new Date(date);
+  if(client=='Shell'){
+    newdate.setDate(newdate.getDate() + 60);
+  }
+  else{
+    newdate.setDate(newdate.getDate() + 30);
+  }
+
+  var dd = newdate.getDate();
+  var mm = ("0" + (newdate.getMonth() + 1)).slice(-2)
+  var y  = newdate.getFullYear();
+  if(dd<10){
+    dt = "0"+dd;
+  }else{
+    dt = dd;
+  }
+
+  
+  var someFormattedDate = y + '-' + mm + '-' + dt;    
+  $('#calc_due_date').text(someFormattedDate);
+ 
+  var todaysDate = new Date();
+
+function convertDate(date) {
+  var yyyy     = date.getFullYear().toString();  
+  var mm      = (date.getMonth()+1).toString();
+  var dd      = date.getDate().toString();
+  var mmChars = mm.split('');
+  var ddChars = dd.split('');
+  return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+}
+
+ var ddate = (convertDate(todaysDate));
+ var in_date = '{{ship_array.0.invoice_date}}';
+ var ate     = (convertDate(in_date));
+ $('#invoice_date').val(ate); 
+ $('#invoice_date').css('text-align','right');
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var curr_url    = window.location.href
+    var invoice_no  = parseURLParams(curr_url)['invoice_no']
+    
+    $.ajax({
+    url: '/it/edit_invoice_details/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{
+      'invoice_no'   : JSON.stringify(invoice_no),
+    },
+    success : function(obj){
+           
+        
+    },
+    error : function(err){
+      //alert(JSON.stringify(err));
+    }
+  }); 
+}) 
+
+ 
+$('.item-name').click(function(){
+  var del = $(this).attr('id');
+   var result = confirm("Want to Remove?");
+    if (result==true)
+    {
+        var result2 = confirm("Want to Remove?");
+        if (result2==true)
+        { 
+          var curr_url      = window.location.href
+          var invoice_no    = parseURLParams(curr_url)['invoice_no']
+          $.ajax({
+            url: '/it/delete_invoice_template/',
+            dataType: 'JSON',
+            type: 'GET',
+            data:{
+              'invoice_no'     : JSON.stringify(invoice_no),      
+              'delete_invoice' : del,     
+            },
+            success : function(obj){
+
+            },
+            error : function(err){
+              console.log(JSON.stringify(err));
+            }
+          }); 
+        }
+      }  
+    })
+     
+
+
+$('#update_invoice').click(function(){
+  $('#loader').css('display','');
+  var curr_url      = window.location.href
+  var invoice_no    = parseURLParams(curr_url)['invoice_no']
+  var address       = $('#address').val();
+  var proj_name     = $('#proj_name').html();
+  var client_name   = $('#clientname').html();
+  var customer_no   = $('#customer_no').html();
+  var invoice_date  = $('#invoice_date').val();
+  var edate         = document.getElementById("invoice_date").value; //03-11-2014
+  var edit_vm_name  = $('#edit_vm_name').val();  
+  var qty           = $('.qty').val();
+  var calc_rate     = $('.rate').val();
+  var calc_price    = $('.cost').val();
+  var update_ID     = $('.loop').html();
+ 
+
+    var myDate = new Date(edate);    
+    var d = myDate.getDate();
+    var m =  myDate.getMonth();
+    m += 1;  
+    var y = myDate.getFullYear();
+    if(d<10) 
+    {
+        dd='0'+d;
+    }else{
+      dd = d;
+    } 
+
+
+    if(m<10) 
+    {
+        mm='0'+m;
+    } else{
+      mm= m;
+    }
+    var newdate=(y+ "-" + mm + "-" + dd);
+    var date_format_invoice_date = newdate;
+
+  if($('#cancel_invoice').is(":checked"))
+  {
+    cancel_invoice=1;
+    //alert(cancel_invoice);
+  }
+  else
+  {
+    cancel_invoice=0;
+    //alert(cancel_invoice);
+  }
+
+  if($('#unpaid').is(":checked"))
+  {
+    unpaid=1;
+    //alert(unpaid);
+  }
+  else
+  {
+    unpaid=0;
+    //alert(unpaid);
+  }
+
+  
+  
+  var curren = $('#currency').html();
+  var items  = $('.invoice_details').tableToJSON();
+  var customer_ns = $('#edit_customer_gtin_no').val();
+  
+  $.ajax({
+    url: '/it/update_invoice_template/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{
+      'invoice_no'      : JSON.stringify(invoice_no),
+      'invoice_details' : JSON.stringify(items),
+      'address'         : address,
+      'cancel_invoice'  : cancel_invoice,
+      'proj_name'       : proj_name,
+      'client_name'     : client_name,
+      'customer_no'     : customer_no,
+      'invoice_date'    : date_format_invoice_date,
+      'currency'        : curren,
+      'edit_vm_name'    : edit_vm_name,
+      'modify_qty'      : JSON.stringify(qty),
+      'modify_rate'     : JSON.stringify(calc_rate),
+      'modify_price'    : JSON.stringify(calc_price),
+      'total_amount'    : '{{total_amount}}',
+      'unpaid'          : unpaid,
+      'customer_no'     : customer_ns,
+      'update_ID'       : JSON.stringify(update_ID),
+      
+    },
+    success : function(obj){
+      $('#loader').css('display','none');
+      swal('Success','Invoice updated successfully','success')
+    },
+    error : function(err){
+     alert(JSON.stringify(err));
+    }
+  }); 
+
+}) 
+</script>
+
+{% endblock %}

@@ -1,0 +1,462 @@
+
+{% block content %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Invoice</title>
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="/static/css/sb-admin.css" rel="stylesheet">
+</head>
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/js/1/js/jquery.backstretch.min.js"></script>
+<script>
+
+
+
+$(document).on('click','#user_name',function(){
+    $("#invalid").hide();
+    });
+$(document).on('click','#password',function(){
+    $("#invalid").hide();
+    });
+
+
+
+
+$(document).on('click','#login_button',function(){
+    $('#input_otp').prop('disabled', false);   
+    // alert("it works");
+    // alert(csrftoken);
+    if($('#user_name').val()=="")
+    {
+        $("#invalid").addClass("alert-danger");
+            $("#invalid").removeClass("alert-success");
+            $("#invalid").css("display","");
+            $("#invalid").html(" <i class='fa fa-times fa-3px'></i> Please Enter the Username");
+            return;
+    }
+    else if($('#password').val()=="")
+    {
+        $("#invalid").addClass("alert-danger");
+            $("#invalid").removeClass("alert-success");
+            $("#invalid").css("display","");
+            $("#invalid").html("<i class='fa fa-times fa-3px'></i> Please Enter the Password");
+            return;
+    }
+
+    var user=$('#user_name').val();
+    var password=$('#password').val();
+    
+    $.ajax({
+        url:"/it/user_login",
+        type : "POST",
+        dataType : "json",
+        data : {
+          username : JSON.stringify(user),
+          password: JSON.stringify(password),
+          csrfmiddlewaretoken: '{{ csrf_token }}'            
+        },
+
+        success:function(data){
+          if(data=='loggedin')
+            {              
+              if (user=='gmadam'){
+                window.location.href = "/it/welcome";
+                $("#invalid").removeClass("alert-danger");
+                $("#invalid").addClass("alert-success");
+                $("#invalid").css("display","");
+                $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module ");
+              }
+
+              else if(user=='admin'){               
+                window.location.href = "/it/welcome";
+                $("#invalid").removeClass("alert-danger");
+                $("#invalid").addClass("alert-success");
+                $("#invalid").css("display","");
+                $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module ");
+              }
+
+              else if(user=='arti'){
+                window.location.href = "/it/welcome"; 
+                $("#invalid").removeClass("alert-danger");
+                $("#invalid").addClass("alert-success");
+                $("#invalid").css("display","");
+                $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module "); 
+              }
+
+              else if(user=='vasudha'){
+                window.location.href = "/it/welcome"; 
+                $("#invalid").removeClass("alert-danger");
+                $("#invalid").addClass("alert-success");
+                $("#invalid").css("display","");
+                $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module "); 
+              }
+
+              else if(user=='anuragt'){
+                window.location.href = "/it/welcome"; 
+                $("#invalid").removeClass("alert-danger");
+                $("#invalid").addClass("alert-success");
+                $("#invalid").css("display","");
+                $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module "); 
+              }
+
+              else if(user=='santosht'){
+                window.location.href = "/it/welcome"; 
+                $("#invalid").removeClass("alert-danger");
+                $("#invalid").addClass("alert-success");
+                $("#invalid").css("display","");
+                $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module "); 
+              }
+
+
+              else if(user=='abhishek'){
+                window.location.href = "/it/welcome"; 
+                $("#invalid").removeClass("alert-danger");
+                $("#invalid").addClass("alert-success");
+                $("#invalid").css("display","");
+                $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module "); 
+              }
+
+              else{
+                window.location.href = "/it/welcome";
+                $("#invalid").removeClass("alert-danger");
+                $("#invalid").addClass("alert-success");
+                $("#invalid").css("display","");
+                $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module ");
+              }
+
+              var now = new Date()
+              
+              get_log_sessions(user,now)
+            }
+            else
+            {
+              $("#invalid").addClass("alert-danger");
+              $("#invalid").removeClass("alert-success");
+              $("#invalid").css("display","");
+              $("#invalid").html("<i class='fa fa-times fa-3px'></i> Username or password do not match");
+            }
+        },
+        error:function(err){
+          console.log(JSON.stringify(err,null,4));
+        }
+    });
+});
+
+
+function get_log_sessions(n,t){
+  var date    = t.toLocaleDateString();
+  var time    = t.toLocaleTimeString();
+  get_dt_tme  = date+''+time;
+  splt_date   = date.split('/');
+  dates       = splt_date[0];
+  months      = splt_date[1];
+  years       = splt_date[2];
+  date_timem  =  years+'-'+months+'-'+dates+' '+time
+  
+  $.ajax({
+    url:"/it/log_sessions",
+    type : "GET",
+    dataType : "json",
+    data : {
+     'userx'      : n,
+     'date_timem' : date_timem,
+    },
+    success:function(data){
+          
+    },
+    error:function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });  
+}
+
+</script>
+<body  style="background-image: url('/static/img/bg3.png'); background-repeat: no-repeat;background-size: cover;margin-top: 174px;" >
+<!-- <body class="bg-dark"> -->
+  <div class="container">
+    <div class="card card-login mx-auto mt-5" style="box-shadow: 0 0 55px gray;border-color:#323296">
+      <div class="card-header"><center><font color="#f5f5f5"><img src="/static/img/invoice.png" width="180" height="100" style="margin-left: 0px"></font></center></div>
+     <!--  <div style="white-space: nowrap;font-size: 9px"  class="container d-flex mt-4 p-12">
+        <center style="color:#186cb8;">Login with: <input type="radio" class="form-control" style=";color:#186cb8">&nbsp;UseID&nbsp;&nbsp;<input type="radio" name="" class="form-control">OTP</center>
+      </div> -->
+     <center>
+     <table style="width: 180px;">
+      <thead>
+        <tr style="text-align: center;display: none;">
+          <td style="font-size: 12px;color:#186cb8;">Login with:</td>
+          <td style="font-size: 12px;color:#186cb8;">User ID</td>
+          <td style="font-size: 12px;color:#186cb8;"><input type="radio" class="form-control single-select" style=";color:#186cb8" id="btn_user_id" checked></td>
+          <td style="font-size: 12px;color:#186cb8;">OTP</td>
+          <td style="font-size: 12px;color:#186cb8;"><input type="radio" name="" class="form-control single-select" id="btn_otp"></td>
+        </tr>
+      </thead>
+      </table>
+    </center>
+
+
+        
+      <div class="card-body">
+        <form role="form" id="login_form" method="post" onsubmit="return false;">
+          {% csrf_token %}
+          <fieldset>
+              <!-- <div class="form-group" style="padding-bottom:20px;">                
+                <select class="form-control" id="select_user_name" style="display: none;font-size: 12px">
+                  <option value="0"></option>
+                  <option value="admin">Admin</option>
+                  <option value="gmadam">Madam</option>
+                  <option value="vasudha">Vasudha</option>
+                  <option value="arti">Arti</option>
+                  <option value="sandeepm">Sandeep</option>
+                  <option value="anuragt">Anurag</option>
+                  <option value="santosht">Santosh</option>
+                </select>
+              </div> -->
+
+              <div class="form-group" style="padding-bottom:20px;">
+                <input class="form-control" placeholder="Username" name="username" type="text" id="user_name" autofocus style="display: none;">
+                <input class="form-control" placeholder="Mail ID" name="username" type="text" id="input_user_id" autofocus style="">
+              </div>
+              <div class="form-group" style="padding-bottom:20px;">
+                <input class="form-control" placeholder="Password" name="password" type="password" id="password" value="" style="display: none"> 
+                <input class="form-control" placeholder="Enter OTP" name="username" type="text" id="input_otp" autofocus style="" disabled="ok">
+                <label style="font-size: 12px;color:grey;display: none;" id="show_label">
+                  
+                  <span class="timer">
+                    <span id="counter"></span>
+                  </span></label>
+
+              </div>
+              <div class="checkbox">
+                <!--  <label>
+                  <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                </label> -->
+              </div>
+              <!-- Change this to a button or input when using this as a form -->
+              <button id="login_button" class="btn btn-lg btn-success btn-block" style="background-color:#313195;border:0px;cursor: pointer;display: none;">Login</button><br>
+              <button id="otp_button" class="btn btn-lg btn-success btn-block" style="background-color:#313195;border:0px;cursor: pointer;display: none;">Submit</button><br>
+              <center><img src="/static/1/img/1.png" style="width: 130px;"></center>
+          </fieldset>
+      </form>
+        <div class="alert alert-danger" id="invalid" style="display:none;"></div>
+        <!-- <div class="text-center">
+          <a class="d-block small mt-3" href="register.html">Register an Account</a>
+          <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+</body>
+</html>
+
+<script type="text/javascript">
+  $('#btn_otp').change(function(){
+    $('#user_name').css('display','none')
+    $('#password').css('display','none')
+    $('#input_user_id').css('display','')
+    $('#input_otp').css('display','')
+    $('#login_button').css('display','none')
+    $('#otp_button').css('display','none')
+    $('#select_user_name').css('display','')
+
+  })
+
+  $('#btn_user_id').change(function(){
+    $('#user_name').css('display','')
+    $('#input_user_id').css('display','none')
+    $('#password').css('display','')
+    $('#input_otp').css('display','none')    
+    $('#login_button').css('display','')
+    $('#otp_button').css('display','none')
+    $('#select_user_name').css('display','none')
+  })
+
+
+$('#otp_button').click(function(){
+  var type_input_otp = $('#input_otp').val();
+  var user_nmae = $('#input_user_id').val();
+   $.ajax({
+      url: "/it/otp_verification/",
+        type: "GET",
+        dataType: "json",
+        data: {
+          'user_nmae'      : JSON.stringify(user_nmae),         
+          'type_input_otp' : JSON.stringify(type_input_otp),  
+        },
+        success : function(obj_data){          
+          if(obj_data['otp_msg']=="Invalid"){
+            $("#invalid").addClass("alert-danger");
+            $("#invalid").removeClass("alert-success");
+            $("#invalid").css("display","");
+            $("#invalid").html("<i class='fa fa-times fa-3px'></i> OTP Invalid.Please try again !!");
+            return 0;
+          }
+
+          else
+          {
+            if(obj_data['msgs']=='loggedin')
+              {         
+                
+                
+                if (obj_data['username']=='gmadam'){
+                  window.location.href = "/it/welcome";
+                  $("#invalid").removeClass("alert-danger");
+                  $("#invalid").addClass("alert-success");
+                  $("#invalid").css("display","");
+                  $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module ");
+                }
+
+                else if(obj_data['username']=='admin'){               
+                  window.location.href = "/it/welcome";
+                  $("#invalid").removeClass("alert-danger");
+                  $("#invalid").addClass("alert-success");
+                  $("#invalid").css("display","");
+                  $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module ");
+                }
+
+                else if(obj_data['username']=='arti'){
+                  window.location.href = "/it/welcome"; 
+                  $("#invalid").removeClass("alert-danger");
+                  $("#invalid").addClass("alert-success");
+                  $("#invalid").css("display","");
+                  $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module "); 
+                }
+
+                else if(obj_data['username']=='vasudha'){
+                  window.location.href = "/it/welcome"; 
+                  $("#invalid").removeClass("alert-danger");
+                  $("#invalid").addClass("alert-success");
+                  $("#invalid").css("display","");
+                  $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module "); 
+                }
+
+                else if(obj_data['username']=='anuragt'){
+                  window.location.href = "/it/welcome"; 
+                  $("#invalid").removeClass("alert-danger");
+                  $("#invalid").addClass("alert-success");
+                  $("#invalid").css("display","");
+                  $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module "); 
+                }
+
+                else if(obj_data['username']=='santosht'){
+                  window.location.href = "/it/welcome"; 
+                  $("#invalid").removeClass("alert-danger");
+                  $("#invalid").addClass("alert-success");
+                  $("#invalid").css("display","");
+                  $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module "); 
+                }
+
+                else if(obj_data['username']=='sandeepm'){
+                  window.location.href = "/it/welcome"; 
+                  $("#invalid").removeClass("alert-danger");
+                  $("#invalid").addClass("alert-success");
+                  $("#invalid").css("display","");
+                  $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module "); 
+                }
+
+                else if(obj_data['username']=='anuragt'){
+                  window.location.href = "/it/welcome";
+                  $("#invalid").removeClass("alert-danger");
+                  $("#invalid").addClass("alert-success");
+                  $("#invalid").css("display","");
+                  $("#invalid").html("<i class='fa fa-check fa-3px'></i> Welcome to Automated Invoice Module ");  
+                }
+
+                else{
+                  window.location.href = "/it/user_login";
+                }
+
+                var now = new Date()
+                
+                get_log_sessions(obj_data['username'],now)              
+              }
+              else
+              {
+                $("#invalid").addClass("alert-danger");
+                $("#invalid").removeClass("alert-success");
+                $("#invalid").css("display","");
+                $("#invalid").html("<i class='fa fa-times fa-3px'></i> Username or password do not match");
+              }
+          }
+
+
+          
+        },
+        error : function(err){       
+          console.log(JSON.stringify(err,null,4));
+        }
+    });
+
+})
+
+
+  document.querySelectorAll('.single-select').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.querySelectorAll('.single-select').forEach(r => {
+        if (r !== radio) r.checked = false;
+      });
+    });
+  });
+
+
+$('#input_user_id').change(function(){
+  $('#input_otp').attr('disabled',false);
+  $('#show_label').css('display','')
+  get_otp();
+})
+
+$('#input_otp').change(function(){
+  $('#otp_button').css('display','')
+})
+
+
+function get_otp(){
+   var userID =  $('#input_user_id').val();
+    alert('Sent OTP in your '+userID);
+    $.ajax({
+      url: "/it/get_otp_plan/",
+        type: "GET",
+        dataType: "json",
+        data: {
+          'userID' : JSON.stringify(userID),           
+        },
+        success : function(obj_data){
+          
+        },
+        error : function(err){       
+          console.log(JSON.stringify(err,null,4));
+        }
+    });
+}
+
+
+
+// function countdown() {
+//         var seconds = 60;
+//         function tick() {
+//           var counter = document.getElementById("counter");
+//           seconds--;
+//           counter.innerHTML =
+//             "0:" + (seconds < 10 ? "0" : "") + String(seconds);
+//           if (seconds > 0) {
+//             setTimeout(tick, 1000);
+//           } else {
+//             $('#input_otp').attr('disabled',true);
+//             document.getElementById("counter").innerHTML = "";
+//           }
+//         }
+//         tick();
+//       }
+//  countdown();
+</script>
+{% endblock %}

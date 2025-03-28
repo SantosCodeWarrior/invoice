@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+{% block content %}
+
+<html>
+<head>
+  <script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+  <link rel='stylesheet' type='text/css' href='/static/1/css/style.css' />
+  <link rel='stylesheet' type='text/css' href='/static/1/css/print.css' media="print"/>
+  <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.min.js'></script>
+  <script type='text/javascript' src='/static/1/js/example.js'></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+</head>
+<body>
+
+  <div id="page-wrap">
+    <center><h2><u>INVOICE ENTRY</u></h2></center>  
+    <div id="identity">         
+      <textarea id="address" style="border:solid 1px grey;" placeholder="Enter Address"></textarea>
+    </div>
+
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<script>
+  $( function() {
+    $( "#invoice_date").datepicker();
+  } );
+</script>
+
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+  <div style="clear:both"></div>
+  <div id="price_tag" style="display: none"></div>
+    <div id="customer"  style="margin-top: -145px">
+        <table id="meta" style="display:''">
+              <tr>
+              <td class="meta-head" style="white-space: nowrap;">Project Name</td>             
+              <td>
+                <select class="form-control" id="select_proj_type">
+                  <option value="0">SELECT</option>
+                  <option value="BOSS">BOSS</option>
+                  <option value="CHM">CHM</option>
+                </select>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="meta-head" style="white-space: nowrap;">Currrency Type</td>             
+              <td>
+                <select class="form-control" id="select_currency">
+                  <option value="0">SELECT</option>
+                  <option value="USD">USD</option>
+                  <option value="INR">INR</option>
+                </select>
+              </td>
+            </tr>        
+
+            <tr>
+              <td class="meta-head">Invoice #</td>             
+              <!-- <td><input type="text" value="" id="edit_invoice_no" style="text-align: right;"></td> -->
+              <td><div id="edit_invoice_no" style="text-align: right;"></td>               
+            </tr>
+
+            <tr>
+              <td class="meta-head">Client Name</td>             
+              <td><input type="text" value="" id="edit_client_name" style="text-align: right;"></td>              
+            </tr>
+
+            <tr style="display: none;white-space: nowrap;" id="show_customer_tin_no">
+              <td class="meta-head">Customer GTIN No.</td>             
+              <td><input type="text" name="" value="" id="edit_customer_gtin_no" style="text-align: right;"></td>              
+            </tr>
+
+            <tr style="white-space: nowrap;">
+              <td class="meta-head">Voyage Manager</td>              
+              <td><input type="text" name="" value="" id="edit_vm_name" style="text-align: right;"></td>              
+            </tr>
+
+            <tr>
+              <td class="meta-head">Invoice Date</td>            
+              <td><input type="text" id="invoice_date" value="" style="text-align: right;"></td>             
+            </tr>
+            <!--  <tr>
+              <td class="meta-head">Amount Due</td>             
+                <td class="total-value" style="white-space: nowrap"><div id="subtotal"></div></td>             
+            </tr>
+            -->            
+            <tr>
+              <td class="meta-head">Cancel Invoice</td>             
+                <td class="total-value" style="white-space: nowrap"><input type="checkbox" name="cancel" id="cancel_invoice"></td>             
+            </tr>
+
+            <tr>
+              <td class="meta-head">Unpaid</td>             
+                <td class="total-value" style="white-space: nowrap"><input type="checkbox" name="unpaid" id="unpaid"></td>             
+            </tr>
+        </table>
+    </div>
+   
+   
+
+  
+    <table id="items" class="invoice_details">
+      <thead>
+          <th>Item</th>
+          <th>Description</th>
+          <th>Unit Cost</th>
+          <th>Quantity</th>         
+          <th><center>Rate <br><i style="font-size: 12px;color:grey">for INR</i></center></th>          
+          <th>Amount</th>        
+      </thead>
+
+      
+      <tr class="item-row">
+          <td class="item-name"><div class="delete-wpr"><textarea class="s_no_text" id="s_nos"></textarea><a class="delete" href="javascript:;" title="Remove row">X</a></div></td>
+          <td class="description"><textarea></textarea></td>
+          <td><textarea class="cost"></textarea></td>
+          <td><textarea class="qty"></textarea></td>
+          <td><textarea class="rate"></textarea></td>
+          <td><span class="price"></span></td>
+      </tr>
+
+      <tr id="hiderow">
+        <td colspan="6"><a id="addrow" href="javascript:;" title="Add a row"><button class="btn btn-info" id="add_row" value="25">Add</button></a></td>
+      </tr>
+    </table>
+
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+    <p></p>
+    <div class="row">
+      <div class="col-sm-12">
+        <button id="submit_other_invoice" class="btn btn-primary btn-md center-block" style="width:100px;cursor:pointer">Submit</button>        
+      </div>
+    </div>
+    
+
+    <div id="terms">
+      <h5>Remarks</h5>      
+      <textarea id="invoice_remark" style="background-color: #ffff99;" value="Paid"></textarea>   
+   </div>
+  </div>
+</body>
+</html>
+
+
+
+<script type="text/javascript"> 
+$('#select_currency').change(function(){
+  var type = $(this).val();
+  var proj_name = $('#select_proj_type').val();
+  if(type=='USD'){
+    var type = 'USD';
+    $('#show_customer_tin_no').css('display','none');
+  }else if(type=='INR'){
+    var type = 'INR';
+    $('#show_customer_tin_no').css('display','');
+  }
+ 
+ $.ajax({
+    url: '/it/get_other_invoice/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    { 
+      'type'      : type,
+      'proj_name' : proj_name,
+    },
+    success : function(obj){
+      $('#edit_invoice_no').text(obj['get_invoice'][0]['invoice_no']);
+    },
+    error : function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+var today = new Date();
+var dd    = today.getDate();
+var mm    = today.getMonth()+1; 
+var yyyy  = today.getFullYear();
+if(dd<10) 
+{
+  dd='0'+dd;
+}
+
+if(mm<10) 
+{
+  mm='0'+mm;
+}
+today = mm+'/'+dd+'/'+yyyy;
+$('#invoice_date').val(today);
+
+$('#select_proj_type').change(function(){
+  $('#edit_invoice_no').val('');
+  $('#select_currency').val('');
+})
+
+
+function get_table_values(){
+    details  = []
+    desc     = []
+    $(".s_no_text").each(function(){
+      details.push({
+        'sno':$(this).val(),
+        'Description':$(this).parent().parent().next().children().val(),
+        'unit_cost':$(this).parent().parent().next().next().children().val(),
+        'qty':$(this).parent().parent().next().next().next().children().val(),
+        'total_cost':$(this).parent().parent().next().next().next().next().children().val(),
+        'invoiceID' :$(this).parent().parent().next().next().next().next().next().next().next().next().next().next().next().next().next().next().children().val(),
+      });
+    });
+    return details
+  }
+
+
+$('#submit_other_invoice').click(function(){
+  var table_details = get_table_values();
+  var invoice_no = $('#edit_invoice_no').text(); 
+  var proj_name  = $('#select_proj_type').val(); 
+  var curr_type  = $('#select_currency').val();
+  var vm_name    = $('#edit_vm_name').val();
+  var in_date    = $('#invoice_date').val();
+  var cl_name    = $('#edit_client_name').val();
+  var gtin_no    = $('#edit_customer_gtin_no').val();
+  var address    = $('#address').val()
+
+  $.ajax({
+    url: '/it/submit_other_invoice/',
+    dataType: 'JSON',
+    type: 'POST',
+    data:
+    {
+      'table_details'  : JSON.stringify(table_details),
+      'invoice_no'     : invoice_no,
+      'proj_name'      : proj_name,
+      'curr_type'      : curr_type,
+      'vm_name'        : vm_name,
+      'in_date'        : in_date,
+      'cl_name'        : cl_name,
+      'gtin_no'        : gtin_no,
+      'address'        : address,
+    },
+    success : function(obj){
+      alert('Done')
+      // if(obj['msg']=='done'){
+      // swal({
+      //     title: 'Invoice',
+      //     text: "Invoice successfully generated.Please wait for going to Tracker.",
+      //     type: 'success',
+      //     showConfirmButton:false,
+      //     confirmButtonText: 'Yes, delete it!'
+      //   })
+      
+      //   if(obj['proj_name']=='CHM' && obj['curr_type']=='USD'){
+      //     location.href = '/it/chm_tracker/?generated_invoice_date='+invoice_date+'&currency='+obj['curr_type']+'&proj_name='+obj['proj_name']+'';
+      //   }else if(obj['proj_name']=='CHM' && obj['curr_type']=='INR'){
+      //     location.href = '/it/inr_tracker/?generated_invoice_date='+invoice_date+'&currency='+obj['curr_type']+'&proj_name='+obj['proj_name']+'';
+      //   }
+      // }
+    },
+    error : function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,3101 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css">
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+
+
+<style type="text/css">
+  .hot-display-license-info{
+    display: none;
+  }
+
+
+  .handsontable TR:nth-child(1) TH {
+  font-size: 12px;
+  
+}
+
+.dataTables_info{
+  display: none;
+}
+
+
+.handsontable table thead th{
+        background-color: green;
+        color:white;
+        font-weight:bold;
+        font-size:12px;
+    }
+
+    table tr:hover td {
+  /*background: #ffff4d;*/
+  /*cursor: pointer;*/
+}
+
+/*li {
+  font-size: 10px;
+}*/
+.dataTables_filter{
+  font-size: 12px;
+}
+
+.select2-results__options{
+  font-size: 10px;
+}
+
+/*tr td { background-color: white }
+tr:hover td { background-color: white };*/
+  
+}
+
+ .table-hover tbody tr:hover,
+            .table-hover tbody tr:hover td,
+            .table-hover tbody tr:hover th{
+                background:#22313F !important;
+                color:#fff !important;
+            }
+
+
+          @-webkit-keyframes glowing {
+  0% { background-color: #000080; -webkit-box-shadow: 0 0 3px #000080; }
+  50% { background-color: #000040; -webkit-box-shadow: 0 0 40px #000040; }
+  100% { background-color: #000080; -webkit-box-shadow: 0 0 3px #000080; }
+}
+
+@-moz-keyframes glowing {
+  0% { background-color: #000080; -moz-box-shadow: 0 0 3px #000080; }
+  50% { background-color: #000040; -moz-box-shadow: 0 0 40px #000040; }
+  100% { background-color: #000080; -moz-box-shadow: 0 0 3px #000080; }
+}
+
+@-o-keyframes glowing {
+  0% { background-color: #000080; box-shadow: 0 0 3px #000080; }
+  50% { background-color: #000040; box-shadow: 0 0 40px #000040; }
+  100% { background-color: #000080; box-shadow: 0 0 3px #000080; }
+}
+
+@keyframes glowing {
+  0% { background-color: #000080; box-shadow: 0 0 3px #000080; }
+  50% { background-color: #000040; box-shadow: 0 0 40px #000040; }
+  100% { background-color: #000080; box-shadow: 0 0 3px #000080; }
+}
+
+
+.button {
+  -webkit-animation: glowing 1500ms infinite;
+  -moz-animation: glowing 1500ms infinite;
+  -o-animation: glowing 1500ms infinite;
+  animation: glowing 1500ms infinite;
+}
+a.hover:hover
+{
+  text-decoration: none;
+  color: white;
+}
+
+#remittance_data.hover tbody tr:nth-child(even):hover td{
+  background-color: #e9f5a9 !important;
+}
+ 
+#remittance_data.hover tbody tr:nth-child(odd):hover td {
+  background-color: #e9f5a9 !important;
+}
+
+
+u {
+  color:blue;
+}
+
+</style>
+
+<div class = "box box-success">
+    <div class="box-header with-border">
+    <center><h5>Reconciliation (विदेशी मुद्रा)</h5></center> <!-- <b style="float: right;margin-right: 31px;margin-top: -35px;font-size: 12px"><a href="/it/payment_advice/"><u>View Payment Advice</u></a>&nbsp;&nbsp;&nbsp;<a href="/it/rpayment_advices/"><u>Entry Payment Advice</u></a></b> -->
+    <!-- /it/payment_advice/ -->
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+    
+
+    <div class="container" style="margin-left: 33px;font-size: 12px" style="display: none;">
+      <div class="row">
+           <div class="col-xs-7" id="date_filter">
+              <label>Financial (Start Date)</label>
+              <input type="date" name="" id="start_date">
+            </div>&nbsp;&nbsp;
+            <div class="col-xs-6">
+              <label>Financial (End Date)</label>
+              <input type="date" name="" id="end_date">
+            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+             <select class="form-control col-md-3" style="font-size: 10px; height: 25px; margin-left: 12px;width: 185px" id="client_list">
+              <option value="0" style="font-size: 10px">Client Name</option>
+              {% for x in cl_array %} 
+                <option value="{{x.client_name}}" style="font-size: 10px">{{x.client_list}}</option>
+              {% endfor %}   
+            </select>
+            <button class="btn btn-info" id="btn_load_data" style="font-size: 9px;height: 25px;margin-top: -1px;margin-left: 12px;">Load</button>
+            <a href="/it/h_reconciliation/"><button class="btn btn-primary" style="font-size: 9px;height: 25px;margin-top: -1px;margin-left: 12px;">Entry Reconciliation (USD)</button></a>
+            <!-- <a href="/it/payment_advice/" target="_blank"><button class="btn btn-primary" style="font-size: 9px;height: 25px;margin-top: -1px;margin-left: 12px;">View Payment Advice</button></a> -->
+            <a href="/it/conv_rate/" target="_blank"><button class="btn btn-danger  button hover" style="font-size: 9px;height: 25px;margin-top: -1px;margin-left: 12px;">Conversion Rate</button></a>
+            <button class="btn btn-success" id="export_load_data" style="font-size: 9px;height: 25px;margin-top: -1px;margin-left: 12px;">EXPORT</button>
+            <input type="checkbox" name="Show Invoice" value="Show Invoice" id="show_invoice_tag" style="margin-left: 12px;display: none;"><div style="margin-top: 7px;display: none;">Show Invoices</div>
+        </div>
+    </div>
+
+    <div class = "col-md-12" style="height:100%">      
+    <table  class="table table-bordered hover" style="font-size: 9px;padding: 0px" id="remittance_data">
+      <thead style="background-color: #323296;color: white">
+        <tr style="font-weight: bold;">
+          <td rowspan="3">S.N.</td>
+          <td rowspan="3"></td>
+          <td rowspan="3"></td>
+          <td rowspan="3"></td>
+          <td rowspan="3">Client</td>         
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="display: none"></td>
+          <td style="display: none"></td>
+          <td style="display: none"></td>
+          <td></td>
+          <td></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+          <td class="hidden_col"></td>
+
+
+
+
+        </tr>
+        <tr>      
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>     
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td rowspan="2">Net Inward Amount Ref</td>
+          <td rowspan="2">Total Amount</td>
+          <td rowspan="2">Status</td>
+          <td rowspan="2">Bank Deduction</td>
+          <td rowspan="2">TDS Deduction</td>
+          <td colspan="3" class="hidden_col">Invoice 1</td>
+          <td colspan="3" class="hidden_col">Invoice 2</td>
+          <td colspan="3" class="hidden_col">Invoice 3</td>
+          <td colspan="3" class="hidden_col">Invoice 4</td>
+          <td colspan="3" class="hidden_col">Invoice 5</td>
+          <td colspan="3" class="hidden_col">Invoice 6</td>
+          <td colspan="3" class="hidden_col">Invoice 7</td>
+          <td colspan="3" class="hidden_col">Invoice 8</td>
+          <td colspan="3" class="hidden_col">Invoice 9</td>
+          <td colspan="3" class="hidden_col">Invoice 10</td>
+          <td colspan="3" class="hidden_col">Invoice 11</td>
+          <td colspan="3" class="hidden_col">Invoice 12</td>
+          <td colspan="3" class="hidden_col">Invoice 13</td>
+          <td colspan="3" class="hidden_col">Invoice 14</td>
+          <td colspan="3" class="hidden_col">Invoice 15</td>
+          <td colspan="3" class="hidden_col">Invoice 16</td>
+          <td colspan="3" class="hidden_col">Invoice 17</td>
+          <td colspan="3" class="hidden_col">Invoice 18</td>
+          <td colspan="3" class="hidden_col">Invoice 19</td>
+          <td colspan="3" class="hidden_col">Invoice 20</td>
+          <td colspan="3" class="hidden_col">Invoice 21</td>
+          <td colspan="3" class="hidden_col">Invoice 22</td>
+          <td colspan="3" class="hidden_col">Invoice 23</td>
+          <td colspan="3" class="hidden_col">Invoice 24</td>
+          <td colspan="3" class="hidden_col">Invoice 25</td>
+
+          <td colspan="3" class="hidden_col">Invoice 26</td>
+          <td colspan="3" class="hidden_col">Invoice 27</td>
+          <td colspan="3" class="hidden_col">Invoice 28</td>
+          <td colspan="3" class="hidden_col">Invoice 29</td>
+          <td colspan="3" class="hidden_col">Invoice 30</td>
+          <td style="display: none"></td>
+          <td style="display: none"></td>
+          <td style="display: none"></td>
+          <td class="hidden_col"></td>
+        </tr>
+        <tr>       
+          <td>Value Date</td>         
+          <td>Credit Date</td>
+          <td>Certificate No</td>
+          <td>Inward Amount</td>
+          <td>Currency</td>
+          <td style="background-color: #ffd728;color:black;">HDFC Rate</td>
+          <td style="background-color: #ffd728;color:black;">Market Rate</td>
+          <th style="background-color: #ffd728;color:black;">Difference (-)</th>
+          <td>Amount INR</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+
+          <td class="hidden_col">Service</td>
+          <td class="hidden_col">Invoice No.</td>
+          <td class="hidden_col">Amount</td>
+
+          <td style="display: none"></td>
+          <td style="display: none"></td>
+          <td style="display: none"></td>
+          <td style="display: none"></td>
+          <td class=""></td>
+        </tr>
+      </thead>
+      <tbody id="get_remittance_data">
+        
+      </tbody>
+      </table>
+    </div>
+    </div>
+</div>
+
+<div id="edit_approved" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 64%;margin-left: 150px; margin-top: 162px;">
+      <div class="modal-header">      
+        <button class="btn btn-success" id="update_approved" style="font-size: 12px">APPROVE</button>
+        <button type="button" class="close" data-dismiss="modal" style="display:;">&times;</button>
+      </div>
+      <div id="e_get_approved" style="font-size: 10px;display: none;"></div>      
+       <div class="modal-body">
+        <div class="container">
+         <div class="col-sm">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div id="get_approve_ids" style="display: none;"></div>
+                  <table>
+                    <tr>
+                    <td style="color: black;font-size: 10px">Certificate No.:</td>
+                    <th><div id="e_certificate_no_approved" style="font-size: 10px;"></div></th>
+                  </tr>
+                  <tr>
+                    <td style="color: black;font-size: 10px">Client Name:</td>
+                    <th><div id="e_client_names" style="font-size: 10px"></div></th>
+                  </tr>
+
+                   <tr>
+                    <td style="color: black;font-size: 10px">Amount INR:</td>
+                    <th><div id="e_amount_inrs" style="font-size: 10px"></div></th>
+                  </tr>
+                  </table> 
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="edit_invoice1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 150%;margin-left: -126px;">
+      <div class="modal-header">       
+        <button type="button" class="close" data-dismiss="modal" style="display:;">&times;</button>
+      </div>
+      <div id="e_get_id" style="font-size: 10px;display: none;"></div>      
+        <div class="modal-body">
+          <div class="container">
+            <div id="view_pdf"><iframe class="get_urls_invoice1" style="height:400px;width:100%;border: 0px solid white"></iframe></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div id="edit_remittance" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 250%;margin-left: -355px;">
+      <div class="modal-header">
+      <!--   <center><h1 class="modal-title" id="month_details" style="font-size: 12px;">EDIT</h1></center> -->
+        <button class="btn btn-success" id="update_remittance">UPDATE</button>
+        <button type="button" class="close" data-dismiss="modal" style="display:;">&times;</button>
+      </div>
+
+     
+      <div id="e_get_id" style="font-size: 10px;display: none;"></div>
+      
+       <div class="modal-body">
+        <div class="container">
+            <caption><h4 style="margin-top: -16px;margin-left: -17px;font-size: 12px;font-weight: bold;">Certificate Details</h4></caption>
+          <div class="row">
+            <table style="width: 100%">
+           
+              <tr style="border-top: 1px solid #e7e7e7;border-right: 5px double #e7e7e7;border-left: 5px double #e7e7e7;  padding-top: 20px;   padding-left: 20px;   padding-bottom: 20px;   padding-right: 20px;   border-radius: 20px;">
+                <td style="font-size:9px;text-align: right;border-top: 5px double #e7e7e7;border-right: 0px solid #e7e7e7;border-left:0px solid #e7e7e7;  padding-top: 11px;   padding-left: 0px;   padding-bottom: 0px;   padding-right: 0px;   border-radius: 0px;">Value Date</td>
+                <td style="border-top: 5px double #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7;  padding-top: 11px;   padding-left: 0px;   padding-bottom: 0px;   padding-right: 0px;   border-radius: 0px;"><input type="date"  class="form-control" id="e_value_date" style="font-size: 10px;;height: 27px"></td>
+                <td style="font-size:9px;white-space: nowrap;text-align: right;border-top: 5px double #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7;  padding-top: 11px;   padding-left: 0px;   padding-bottom: 0px;   padding-right: 0px;   border-radius: 20px;">Credit Date</td>
+                <td style="font-size:9px; border-top: 5px double #e7e7e7; border-right:0px solid #e7e7e7;border-left: 0px solid #e7e7e7;  padding-top: 11px;   padding-left: 0px;   padding-bottom: 0px;   padding-right: 0px;   border-radius: 0px;"><input type="date"  class="form-control" id="e_remittance_date" style="font-size: 10px;;height: 27px"></td>
+                <td style="font-size:9px;text-align: right;border-top: 5px double #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7;  padding-top: 11px;   padding-left: 0px;   padding-bottom: 0px;   padding-right: 0px;   border-radius: 0px;">Certificate No</td>
+                <td style="border-top: 5px double #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7;  padding-top: 11px;   padding-left: 0px;   padding-bottom: 0px;   padding-right: 0px;   border-radius: 0px;"><input type="text"  class="form-control" id="e_certificate_no" style="font-size: 10px;;height: 27px;" readonly="true"></td>
+                <td style="font-size:9px;white-space: nowrap;;text-align: right;border-top: 5px double #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7;  padding-top: 11px;   padding-left: 0px;   padding-bottom: 0px;   padding-right: 0px;   border-radius: 20px;">Inward Amount</td>
+                <td style="border-top: 5px double #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7;  padding-top: 11px;   padding-left: 0px;   padding-bottom: 0px;   padding-right: 11px;   border-radius: 0px;"><input type="text"  class="form-control" id="e_inward_amount" style="font-size: 10px;height: 27px;"></td>
+              </tr>
+            <tbody>
+       
+              <tr>
+                <td style="font-size:9px;text-align: right;border-top: 0px solid #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 5px double #e7e7e7;border-bottom: 5px double #e7e7e7;  padding-top: 0px;   padding-left: 0px;   padding-bottom: 11px;   padding-right: 0px;   border-radius: 0px;">Currency</td>
+                <td style="border-top: 0px solid #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7;border-bottom: 5px double #e7e7e7;   padding-top: 0px;   padding-left: 0px;   padding-bottom: 11px;   padding-right: 0px;   border-radius: 0px;"><select class="form-control" id="e_currency" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    {% for c in currency_list %}
+                    <option value="{{c.currency_name}}">{{c.currency_name}}</option>                   
+                    {% endfor %}
+                  </select></td>
+                <td style="font-size:9px;text-align: right;border-top: 0px solid #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7;border-bottom: 5px double #e7e7e7;   padding-top: 0px;   padding-left: 0px;   padding-bottom: 11px;   padding-right: 0px;   border-radius: 0px;">HDFC Rate</td>
+                <td style="border-top: 0px solid #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7; border-bottom: 5px double #e7e7e7;  padding-top: 0px;   padding-left: 0px;   padding-bottom: 11px;   padding-right: 0px;   border-radius: 0px;"><input type="text"  class="form-control" id="e_rate" style="font-size: 10px;height: 27px;background-color: #f5efce"></td>
+                <td style="font-size:9px;text-align: right;border-top: 0px solid #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7; border-bottom: 5px double #e7e7e7;  padding-top: 0px;   padding-left: 0px;   padding-bottom: 11px;   padding-right: 0px;   border-radius: 0px;">Market Rate</td>
+                <td style="border-top: 0px solid #e7e7e7;border-right: 0px solid #e7e7e7;border-left: 0px solid #e7e7e7;border-bottom: 5px double #e7e7e7;   padding-top: 0px;   padding-left: 0px;   padding-bottom: 11px;   padding-right: 0px;   border-radius: 0px;"><input type="text"  class="form-control" id="e_market_rate" style="font-size: 10px;height: 27px;background-color: #f5efce"></td>
+                <td style="font-size:9px;text-align: right;border-bottom: 5px double #e7e7e7;padding-bottom: 11px;  ">Amount INR</td>
+                <td style="border-top: 0px solid #e7e7e7;border-right: 5px double #e7e7e7;border-left: 0px solid #e7e7e7;border-bottom: 5px double #e7e7e7;  padding-top: 0px;   padding-left: 0px;   padding-bottom: 12px;   padding-right: 11px;   border-radius: 0px;"><input type="text"  class="form-control" id="e_amount_inr" style="font-size: 10px;height: 27px;" readonly="true"></td>
+              </tr>
+            
+              <tr>
+                <td><p>&nbsp;</p></td>
+                <td><p>&nbsp;</p></td>
+                <td><p>&nbsp;</p></td>
+                <td><p>&nbsp;</p></td>
+                <td><p>&nbsp;</p></td>
+                <td><p>&nbsp;</p></td>
+                <td><p>&nbsp;</p></td>
+                <td><p>&nbsp;</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <caption><h4 style="margin-top: 107px;margin-left: -815px;font-size: 12px;font-weight: bold;">Result of Calculations</h4></caption>
+          <table>            
+            <tbody>              
+              <tr style="border-top: 5px double #e7e7e7;border-right: 0px double #e7e7e7;border-left: 5px double #e7e7e7;  padding-top: 20px;   padding-left: 20px;   padding-bottom: 20px;   padding-right: 20px;   border-radius: 20px;">                
+                <td style="font-size:9px;white-space: nowrap;">Net Inward Ref</td>
+                <td style="padding-top: 12px;"><input type="text"  class="form-control" id="e_get_net_inward_amt_ref" style="font-size: 10px;height: 27px;" readonly="true"></td>
+                <td style="font-size:9px;text-align: right;">Status</td>
+                <td style="padding-top: 12px"><input type="text"  class="form-control" id="e_get_status" style="font-size: 10px;height: 27px;" readonly="true"></td>
+                <td style="font-size:9px;white-space: nowrap;">Bank Charges</td>
+                <td style="padding-top: 12px"><input type="text"  class="form-control" id="e_get_bank_deduction" style="font-size: 10px;height: 27px;"></td>
+                <td style="font-size:9px;white-space: nowrap;padding-top: 12px">TDS Deduction</td>
+                <td style="border-right: 0px double #e7e7e7;padding-top: 0px;padding-right: 0px"><input type="text"  class="form-control" id="e_tds_deducted" style="font-size: 10px;height: 27px;"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td style="border-right: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:0px solid #e7e7e7;border-top:1px solid #e7e7e7;"></td>
+              </tr>
+              <tr>
+                <td style="font-size:9px;text-align: right;border-left:5px double #e7e7e7">Client Name</td>
+                <td><select class="form-control" id="e_get_client_name" style="font-size: 10px;height: 27px;">
+                  <option value="0" style="font-size: 10px"></option>
+                  {% for xc in cl_array %}
+                    <option value="{{xc.client_name}}" style="font-size: 10px">{{xc.client_list}}</option>
+                  {% endfor %}
+                  </select>  
+                </td>
+                <td style="font-size:9px;text-align: right;white-space: nowrap;">Total Amount</td>
+                <td><input type="text"  class="form-control" id="e_get_total_amt" style="font-size: 10px;height: 27px" readonly="true"></td>
+                <td style="font-size:9px">Reference No</td>
+                <td><input type="text"  class="form-control" id="e_reference_no" style="font-size: 10px;height: 27px" readonly="true"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="border-right: 5px double #e7e7e7;"></td>
+              </tr>
+            
+            </tbody>
+            </table>
+          </div>
+          
+
+
+        
+        <div class="row"  id="get_1">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px;">Service 1</label>
+                  <select class="form-control" id="e_service_1" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>                  
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.1</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_1" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-right: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 1</label>
+                  <input type="text"  class="form-control" id="e_amount_1" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        
+
+
+         <div class="row"  id="get_2">
+            <div class="col-sm"  style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;border-right: 1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 2</label>
+                  <!-- <input type="text"  class="form-control" id="e_service_2" style="font-size: 10px;height: 27px;"> -->
+                  <select class="form-control" id="e_service_2" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.2</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_2" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 2</label>
+                  <input type="text"  class="form-control" id="e_amount_2" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        
+
+
+        <div class="row"  id="get_3">
+            <div class="col-sm"  style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 3</label>
+                  <select class="form-control" id="e_service_3" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_3" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"  style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.3</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_3" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"  style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 3</label>
+                  <input type="text"  class="form-control" id="e_amount_3" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        
+
+         <div class="row"  id="get_4">
+            <div class="col-sm"   style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 4</label>
+                  <select class="form-control" id="e_service_4" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_4" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.4</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_4" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"   style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 4</label>
+                  <input type="text"  class="form-control" id="e_amount_4" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        
+
+
+        <div class="row"  id="get_5">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 5</label>
+                  <select class="form-control" id="e_service_5" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_5" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.5</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_5" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 5</label>
+                  <input type="text"  class="form-control" id="e_amount_5" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        
+
+
+         <div class="row"  id="get_6">
+            <div class="col-sm"  style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 6</label>
+                  <select class="form-control" id="e_service_6" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_6" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.6</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_6" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 6</label>
+                  <input type="text"  class="form-control" id="e_amount_6" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        
+
+
+        <div class="row"  id="get_7">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 7</label>
+                  <select class="form-control" id="e_service_7" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+
+                  <!-- <input type="text"  class="form-control" id="e_service_7" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.7</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_7" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 7</label>
+                  <input type="text"  class="form-control" id="e_amount_7" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+       
+
+         <div class="row"  id="get_8">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 8</label>
+                  <select class="form-control" id="e_service_8" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 <!--  <input type="text"  class="form-control" id="e_service_8" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"  style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.8</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_8" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 8</label>
+                  <input type="text"  class="form-control" id="e_amount_8" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+       
+
+        <div class="row" id="get_9">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 9</label>
+                  <select class="form-control" id="e_service_9" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_9" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.9</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_9" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 9</label>
+                  <input type="text"  class="form-control" id="e_amount_9" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row"  id="get_10">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 10</label>
+                  <select class="form-control" id="e_service_10" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_10" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.10</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_10" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 10</label>
+                  <input type="text"  class="form-control" id="e_amount_10" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+             <div class="row"  id="get_11">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 11</label>
+                  <select class="form-control" id="e_service_11" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_10" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.11</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_11" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"  style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 11</label>
+                  <input type="text"  class="form-control" id="e_amount_11" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row"  id="get_12">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 12</label>
+                  <select class="form-control" id="e_service_12" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_10" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style=" border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.12</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_12" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"  style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 12</label>
+                  <input type="text"  class="form-control" id="e_amount_12" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row"  id="get_13">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 13</label>
+                  <select class="form-control" id="e_service_13" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_10" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.13</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_13" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"  style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 13</label>
+                  <input type="text"  class="form-control" id="e_amount_13" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row"  id="get_14">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 14</label>
+                  <select class="form-control" id="e_service_14" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_10" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.14</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_14" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"  style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 14</label>
+                  <input type="text"  class="form-control" id="e_amount_14" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row"  id="get_15">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 15</label>
+                  <select class="form-control" id="e_service_15" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                  <!-- <input type="text"  class="form-control" id="e_service_10" style="font-size: 10px;height: 27px;"> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.15</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_15" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"  style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 15</label>
+                  <input type="text"  class="form-control" id="e_amount_15" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+           <div class="row"  id="get_16">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 16</label>
+                  <select class="form-control" id="e_service_16" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.16</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_16" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"   style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 16</label>
+                  <input type="text"  class="form-control" id="e_amount_16" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+           <div class="row"  id="get_17">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 17</label>
+                  <select class="form-control" id="e_service_17" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.17</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_17" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"  style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 17</label>
+                  <input type="text"  class="form-control" id="e_amount_17" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+           <div class="row"  id="get_18">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 18</label>
+                  <select class="form-control" id="e_service_18" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.18</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_18" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"   style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 18</label>
+                  <input type="text"  class="form-control" id="e_amount_18" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+           <div class="row"  id="get_19">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 19</label>
+                  <select class="form-control" id="e_service_19" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.19</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_19" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"   style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 19</label>
+                  <input type="text"  class="form-control" id="e_amount_19" style="font-size: 10px;height: 27p;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+           <div class="row"  id="get_20">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 20</label>
+                  <select class="form-control" id="e_service_20" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.20</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_20" style="font-size: 10px;height: 27p;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"   style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 20</label>
+                  <input type="text"  class="form-control" id="e_amount_20" style="font-size: 10px;height: 27p;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row"  id="get_21">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 21</label>
+                  <select class="form-control" id="e_service_21" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.21</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_21" style="font-size: 10px;height: 27p;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"   style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 21</label>
+                  <input type="text"  class="form-control" id="e_amount_21" style="font-size: 10px;height: 27p;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row"  id="get_22">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 22</label>
+                  <select class="form-control" id="e_service_22" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.22</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_22" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"   style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 22</label>
+                  <input type="text"  class="form-control" id="e_amount_22" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row"  id="get_23">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 23</label>
+                  <select class="form-control" id="e_service_23" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.23</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_23" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"  style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 23</label>
+                  <input type="text"  class="form-control" id="e_amount_23" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row"  id="get_24">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 24</label>
+                  <select class="form-control" id="e_service_24" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.24</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_24" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm"   style="border-right:5px double #e7e7e7; border-bottom:1px solid #e7e7e7;border-left:1px solid #e7e7e7;border-top:1px solid #e7e7e7;">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 24</label>
+                  <input type="text"  class="form-control" id="e_amount_24" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row"  id="get_25">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 25</label>
+                  <select class="form-control" id="e_service_25" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.25</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_25" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:5px double #e7e7e7">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 25</label>
+                  <input type="text"  class="form-control" id="e_amount_25" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row"  id="get_26">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 26</label>
+                  <select class="form-control" id="e_service_26" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.26</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_26" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:5px double #e7e7e7">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 26</label>
+                  <input type="text"  class="form-control" id="e_amount_26" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row"  id="get_27">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 27</label>
+                  <select class="form-control" id="e_service_27" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.27</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_27" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:5px double #e7e7e7">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 27</label>
+                  <input type="text"  class="form-control" id="e_amount_27" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row"  id="get_28">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 28</label>
+                  <select class="form-control" id="e_service_28" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.28</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_28" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:5px double #e7e7e7">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 28</label>
+                  <input type="text"  class="form-control" id="e_amount_28" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row"  id="get_29">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 29</label>
+                  <select class="form-control" id="e_service_29" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.29</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_29" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 1px solid #e7e7e7;border-right:5px double #e7e7e7">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 29</label>
+                  <input type="text"  class="form-control" id="e_amount_29" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row"  id="get_30">
+            <div class="col-sm" style="border-left: 5px double #e7e7e7;border-bottom: 5px double #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 30</label>
+                  <select class="form-control" id="e_service_30" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>
+                 
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 5px double #e7e7e7;border-right:1px solid #e7e7e7">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.30</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_30" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-sm" style="border-left: 0px double #e7e7e7;border-bottom: 5px double #e7e7e7;border-right:5px double #e7e7e7">
+                <div class="col-md-5">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 30</label>
+                  <input type="text"  class="form-control" id="e_amount_30" style="font-size: 10px;height: 27px;margin-top: -28px; margin-left: 68px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-sm">
+                <div class="col-md-12">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px;margin-left: -17px;">Remarks</label>
+                  <textarea type="text" class="form-control" id="e_remarks" style="font-size: 10px;height: 80px;margin-left: -18px;"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+       
+
+          <div class="modal-body">
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="refresh" style="cursor: pointer">Close</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<style type="text/css">
+  textarea {
+   resize: none;
+}
+
+
+
+</style>
+
+
+<script type="text/javascript">
+
+
+
+//$('#e_get_client_name').select2();
+$('.select2-selection__rendered').css('font-size','10px');
+$('.select2-container').css('width','190px');
+
+
+
+$('#update_remittance').click(function(){
+  if('{{login_user}}'=='gmadam'){
+    $(this).text('Approved');
+    checked_approved = 'approved';
+  }else{
+    $(this).text('Update');
+    checked_approved = 0;
+  }
+
+  var e_get_id                  = $('#e_get_id').html();
+  var e_get_client_name         = $('#e_get_client_name').val();
+  var e_remittance_date         = $('#e_remittance_date').val();
+  var e_value_date              = $('#e_value_date').val();
+  var e_certificate_no          = $('#e_certificate_no').val();
+  var e_inward_amount           = $('#e_inward_amount').val();
+  var e_currency                = $('#e_currency').val();
+  var e_rate                    = $('#e_rate').val();
+  var e_market_rate             = $('#e_market_rate').val();
+  var e_amount_inr              = $('#e_amount_inr').val();
+  var e_get_net_inward_amt_ref  = $('#e_get_net_inward_amt_ref').val();
+  var e_get_status              = $('#e_get_status').val();
+  var e_get_total_amt           = $('#e_get_total_amt').val();
+  var e_get_bank_deduction      = $('#e_get_bank_deduction').val();
+  var e_service_1               = $('#e_service_1').val();
+  var e_invoice_no_1            = $('#e_invoice_no_1').val();
+  var e_amount_1                = $('#e_amount_1').val();
+  var e_service_2               = $('#e_service_2').val();
+  var e_invoice_no_2            = $('#e_invoice_no_2').val();
+  var e_amount_2                = $('#e_amount_2').val();
+  var e_service_3               = $('#e_service_3').val();
+  var e_invoice_no_3            = $('#e_invoice_no_3').val();
+  var e_amount_3                = $('#e_amount_3').val();
+  var e_service_4               = $('#e_service_4').val();
+  var e_invoice_no_4            = $('#e_invoice_no_4').val();
+  var e_amount_4                = $('#e_amount_4').val();
+  var e_service_5               = $('#e_service_5').val();
+  var e_invoice_no_5            = $('#e_invoice_no_5').val();
+  var e_amount_5                = $('#e_amount_5').val();
+  var e_service_6               = $('#e_service_6').val();
+  var e_invoice_no_6            = $('#e_invoice_no_6').val();
+  var e_amount_6                = $('#e_amount_6').val();
+  var e_service_7               = $('#e_service_7').val();
+  var e_invoice_no_7            = $('#e_invoice_no_7').val();
+  var e_amount_7                = $('#e_amount_7').val();
+  var e_service_8               = $('#e_service_8').val();
+  var e_invoice_no_8            = $('#e_invoice_no_8').val();
+  var e_amount_8                = $('#e_amount_8').val();
+  var e_service_9               = $('#e_service_9').val();
+  var e_invoice_no_9            = $('#e_invoice_no_9').val();
+  var e_amount_9                = $('#e_amount_9').val();
+  var e_service_10              = $('#e_service_10').val();
+  var e_invoice_no_10           = $('#e_invoice_no_10').val();
+  var e_amount_10               = $('#e_amount_10').val();
+
+  var e_service_11              = $('#e_service_11').val();
+  var e_invoice_no_11           = $('#e_invoice_no_11').val();
+  var e_amount_11               = $('#e_amount_11').val();
+
+  var e_service_12              = $('#e_service_12').val();
+  var e_invoice_no_12           = $('#e_invoice_no_12').val();
+  var e_amount_12               = $('#e_amount_12').val();
+
+  var e_service_13              = $('#e_service_13').val();
+  var e_invoice_no_13           = $('#e_invoice_no_13').val();
+  var e_amount_13               = $('#e_amount_13').val();
+
+  var e_service_14              = $('#e_service_14').val();
+  var e_invoice_no_14           = $('#e_invoice_no_14').val();
+  var e_amount_14               = $('#e_amount_14').val();
+
+  var e_service_15              = $('#e_service_15').val();
+  var e_invoice_no_15           = $('#e_invoice_no_15').val();
+  var e_amount_15               = $('#e_amount_15').val();
+
+  var e_service_16              = $('#e_service_16').val();
+  var e_invoice_no_16           = $('#e_invoice_no_16').val();
+  var e_amount_16               = $('#e_amount_16').val();
+
+  var e_service_17              = $('#e_service_17').val();
+  var e_invoice_no_17           = $('#e_invoice_no_17').val();
+  var e_amount_17               = $('#e_amount_17').val();
+
+  var e_service_18              = $('#e_service_18').val();
+  var e_invoice_no_18           = $('#e_invoice_no_18').val();
+  var e_amount_18               = $('#e_amount_18').val();
+
+  var e_service_19              = $('#e_service_19').val();
+  var e_invoice_no_19           = $('#e_invoice_no_19').val();
+  var e_amount_19               = $('#e_amount_19').val();
+
+  var e_service_20              = $('#e_service_20').val();
+  var e_invoice_no_20           = $('#e_invoice_no_20').val();
+  var e_amount_20               = $('#e_amount_20').val();
+
+  var e_service_21              = $('#e_service_21').val();
+  var e_invoice_no_21           = $('#e_invoice_no_21').val();
+  var e_amount_21               = $('#e_amount_21').val();
+
+  var e_service_22              = $('#e_service_22').val();
+  var e_invoice_no_22           = $('#e_invoice_no_22').val();
+  var e_amount_22               = $('#e_amount_22').val();
+
+  var e_service_23              = $('#e_service_23').val();
+  var e_invoice_no_23           = $('#e_invoice_no_23').val();
+  var e_amount_23               = $('#e_amount_23').val();
+
+  var e_service_24              = $('#e_service_24').val();
+  var e_invoice_no_24           = $('#e_invoice_no_24').val();
+  var e_amount_24               = $('#e_amount_24').val();
+
+  var e_service_25              = $('#e_service_25').val();
+  var e_invoice_no_25           = $('#e_invoice_no_25').val();
+  var e_amount_25               = $('#e_amount_25').val();
+
+  var e_service_26              = $('#e_service_26').val();
+  var e_invoice_no_26           = $('#e_invoice_no_26').val();
+  var e_amount_26               = $('#e_amount_26').val();
+
+  var e_service_27              = $('#e_service_27').val();
+  var e_invoice_no_27           = $('#e_invoice_no_27').val();
+  var e_amount_27               = $('#e_amount_27').val();
+
+  var e_service_28              = $('#e_service_28').val();
+  var e_invoice_no_28           = $('#e_invoice_no_28').val();
+  var e_amount_28               = $('#e_amount_28').val();
+
+  var e_service_29              = $('#e_service_29').val();
+  var e_invoice_no_29           = $('#e_invoice_no_29').val();
+  var e_amount_29               = $('#e_amount_29').val();
+
+  var e_service_30              = $('#e_service_30').val();
+  var e_invoice_no_30           = $('#e_invoice_no_30').val();
+  var e_amount_30               = $('#e_amount_30').val();
+
+  var e_reference_no            = $('#e_reference_no').val();
+  var e_tds_deducted            = $('#e_tds_deducted').val();
+
+  $.ajax({
+    url : "/it/update_remittance_list/",
+    type : "POST",
+    dataType : "json",
+    data : {
+      'e_get_id'                    : JSON.stringify(e_get_id),
+      'e_value_date'                : JSON.stringify(e_value_date),
+      'e_get_client_name'           : JSON.stringify(e_get_client_name),
+      'e_remittance_date'           : JSON.stringify(e_remittance_date),
+      'e_certificate_no'            : JSON.stringify(e_certificate_no),
+      'e_inward_amount'             : JSON.stringify(e_inward_amount),
+      'e_currency'                  : JSON.stringify(e_currency),
+      'e_rate'                      : JSON.stringify(e_rate),
+      'e_market_rate'               : JSON.stringify(e_market_rate),
+      'e_amount_inr'                : JSON.stringify(e_amount_inr),
+      'e_get_net_inward_amt_ref'    : JSON.stringify(e_get_net_inward_amt_ref),
+      'e_get_status'                : JSON.stringify(e_get_status),
+      'e_get_total_amt'             : JSON.stringify(e_get_total_amt),
+      'e_get_bank_deduction'        : JSON.stringify(e_get_bank_deduction),
+      'e_service_1'                 : JSON.stringify(e_service_1),
+      'e_invoice_no_1'              : JSON.stringify(e_invoice_no_1),
+      'e_amount_1'                  : JSON.stringify(e_amount_1),
+      'e_service_2'                 : JSON.stringify(e_service_2),
+      'e_invoice_no_2'              : JSON.stringify(e_invoice_no_2),
+      'e_amount_2'                  : JSON.stringify(e_amount_2),
+      'e_service_3'                 : JSON.stringify(e_service_3),
+      'e_invoice_no_3'              : JSON.stringify(e_invoice_no_3),
+      'e_amount_3'                  : JSON.stringify(e_amount_3),
+      'e_service_4'                 : JSON.stringify(e_service_4),
+      'e_invoice_no_4'              : JSON.stringify(e_invoice_no_4),
+      'e_amount_4'                  : JSON.stringify(e_amount_4),
+      'e_service_5'                 : JSON.stringify(e_service_5),
+      'e_invoice_no_5'              : JSON.stringify(e_invoice_no_5),
+      'e_amount_5'                  : JSON.stringify(e_amount_5),
+      'e_service_6'                 : JSON.stringify(e_service_6),
+      'e_invoice_no_6'              : JSON.stringify(e_invoice_no_6),
+      'e_amount_6'                  : JSON.stringify(e_amount_6),
+      'e_service_7'                 : JSON.stringify(e_service_7),
+      'e_invoice_no_7'              : JSON.stringify(e_invoice_no_7),
+      'e_amount_7'                  : JSON.stringify(e_amount_7),
+      'e_service_8'                 : JSON.stringify(e_service_8),
+      'e_invoice_no_8'              : JSON.stringify(e_invoice_no_8),
+      'e_amount_8'                  : JSON.stringify(e_amount_8),
+      'e_service_9'                 : JSON.stringify(e_service_9),
+      'e_invoice_no_9'              : JSON.stringify(e_invoice_no_9),
+      'e_amount_9'                  : JSON.stringify(e_amount_9),
+      'e_service_10'                : JSON.stringify(e_service_10),
+      'e_invoice_no_10'             : JSON.stringify(e_invoice_no_10),
+      'e_amount_10'                 : JSON.stringify(e_amount_10),
+
+      'e_service_11'                : JSON.stringify(e_service_11),
+      'e_invoice_no_11'             : JSON.stringify(e_invoice_no_11),
+      'e_amount_11'                 : JSON.stringify(e_amount_11),
+      'e_service_12'                : JSON.stringify(e_service_12),
+      'e_invoice_no_12'             : JSON.stringify(e_invoice_no_12),
+      'e_amount_12'                 : JSON.stringify(e_amount_12),
+      'e_service_13'                : JSON.stringify(e_service_13),
+      'e_invoice_no_13'             : JSON.stringify(e_invoice_no_13),
+      'e_amount_13'                 : JSON.stringify(e_amount_13),
+      'e_service_14'                : JSON.stringify(e_service_14),
+      'e_invoice_no_14'             : JSON.stringify(e_invoice_no_14),
+      'e_amount_14'                 : JSON.stringify(e_amount_14),
+      'e_service_15'                : JSON.stringify(e_service_15),
+      'e_invoice_no_15'             : JSON.stringify(e_invoice_no_15),
+      'e_amount_15'                 : JSON.stringify(e_amount_15),
+      'e_service_16'                : JSON.stringify(e_service_16),
+      'e_invoice_no_16'             : JSON.stringify(e_invoice_no_16),
+      'e_amount_16'                 : JSON.stringify(e_amount_16),
+      'e_service_17'                : JSON.stringify(e_service_17),
+      'e_invoice_no_17'             : JSON.stringify(e_invoice_no_17),
+      'e_amount_17'                 : JSON.stringify(e_amount_17),
+      'e_service_18'                : JSON.stringify(e_service_18),
+      'e_invoice_no_18'             : JSON.stringify(e_invoice_no_18),
+      'e_amount_18'                 : JSON.stringify(e_amount_18),
+      'e_service_19'                : JSON.stringify(e_service_19),
+      'e_invoice_no_19'             : JSON.stringify(e_invoice_no_19),
+      'e_amount_19'                 : JSON.stringify(e_amount_19),
+      
+      'e_service_20'                : JSON.stringify(e_service_20),
+      'e_invoice_no_20'             : JSON.stringify(e_invoice_no_20),
+      'e_amount_20'                 : JSON.stringify(e_amount_20),
+
+      'e_service_21'                : JSON.stringify(e_service_21),
+      'e_invoice_no_21'             : JSON.stringify(e_invoice_no_21),
+      'e_amount_21'                 : JSON.stringify(e_amount_21),
+
+      'e_service_22'                : JSON.stringify(e_service_22),
+      'e_invoice_no_22'             : JSON.stringify(e_invoice_no_22),
+      'e_amount_22'                 : JSON.stringify(e_amount_22),
+
+      'e_service_23'                : JSON.stringify(e_service_23),
+      'e_invoice_no_23'             : JSON.stringify(e_invoice_no_23),
+      'e_amount_23'                 : JSON.stringify(e_amount_23),
+
+      'e_service_24'                : JSON.stringify(e_service_24),
+      'e_invoice_no_24'             : JSON.stringify(e_invoice_no_24),
+      'e_amount_24'                 : JSON.stringify(e_amount_24),
+
+      'e_service_25'                : JSON.stringify(e_service_25),
+      'e_invoice_no_25'             : JSON.stringify(e_invoice_no_25),
+      'e_amount_25'                 : JSON.stringify(e_amount_25),     
+
+      'e_service_26'                : JSON.stringify(e_service_26),
+      'e_invoice_no_26'             : JSON.stringify(e_invoice_no_26),
+      'e_amount_26'                 : JSON.stringify(e_amount_26),
+
+      'e_service_27'                : JSON.stringify(e_service_27),
+      'e_invoice_no_27'             : JSON.stringify(e_invoice_no_27),
+      'e_amount_27'                 : JSON.stringify(e_amount_27),
+
+      'e_service_28'                : JSON.stringify(e_service_28),
+      'e_invoice_no_28'             : JSON.stringify(e_invoice_no_28),
+      'e_amount_28'                 : JSON.stringify(e_amount_28),
+
+      'e_service_29'                : JSON.stringify(e_service_29),
+      'e_invoice_no_29'             : JSON.stringify(e_invoice_no_29),
+      'e_amount_29'                 : JSON.stringify(e_amount_29),
+
+      'e_service_30'                : JSON.stringify(e_service_30),
+      'e_invoice_no_30'             : JSON.stringify(e_invoice_no_30),
+      'e_amount_30'                 : JSON.stringify(e_amount_30),
+
+      'e_reference_no'              : JSON.stringify(e_reference_no),  
+      'e_tds_deducted'              : JSON.stringify(e_tds_deducted),
+      'chk_approved'                : JSON.stringify(checked_approved),
+    },
+    success : function(obj){
+
+      if(obj=='done'){
+        alert('Done')
+      }
+    },
+    error: function(err){      
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+})
+
+
+
+  
+$('#get_1').change(function(){
+  e_service = $('#e_service_1').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_1').val();
+  get_call(e_service,e_invoice,'1',e_currency);
+
+  
+})
+
+$('#get_2').change(function(){
+  e_service = $('#e_service_2').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_2').val();
+  get_call(e_service,e_invoice,'2',e_currency);
+  
+})
+
+
+$('#get_3').change(function(){
+  e_service = $('#e_service_3').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_3').val();
+  get_call(e_service,e_invoice,'3',e_currency);
+})
+
+
+$('#get_4').change(function(){
+  e_service = $('#e_service_4').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_4').val();
+  get_call(e_service,e_invoice,'4',e_currency);
+})
+
+
+$('#get_5').change(function(){
+  e_service = $('#e_service_5').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_5').val();
+  get_call(e_service,e_invoice,'5',e_currency);
+})
+
+
+$('#get_6').change(function(){
+  e_service = $('#e_service_6').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_6').val();
+  get_call(e_service,e_invoice,'6',e_currency);
+})
+
+
+$('#get_7').change(function(){
+  e_service = $('#e_service_7').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_7').val();
+  get_call(e_service,e_invoice,'7',e_currency);
+})
+
+
+$('#get_8').change(function(){
+  e_service = $('#e_service_8').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_8').val();
+  get_call(e_service,e_invoice,'8',e_currency);
+})
+
+
+$('#get_9').change(function(){
+  e_service = $('#e_service_9').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_9').val();
+  get_call(e_service,e_invoice,'9',e_currency);
+})
+
+
+$('#get_10').change(function(){
+  e_service = $('#e_service_10').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_10').val();
+  get_call(e_service,e_invoice,'10',e_currency);
+  
+})
+
+
+$('#get_11').change(function(){
+  e_service = $('#e_service_11').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_11').val();
+  get_call(e_service,e_invoice,'11',e_currency);
+  
+})
+
+$('#get_12').change(function(){
+  e_service = $('#e_service_12').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_12').val();
+  get_call(e_service,e_invoice,'12',e_currency);
+  
+})
+
+
+$('#get_13').change(function(){
+  e_service = $('#e_service_13').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_13').val();
+  get_call(e_service,e_invoice,'13',e_currency);
+  
+})
+
+
+$('#get_14').change(function(){
+  e_service = $('#e_service_14').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_14').val();
+  get_call(e_service,e_invoice,'14',e_currency);
+  
+})
+
+
+$('#get_15').change(function(){
+  e_service = $('#e_service_15').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_15').val();
+  get_call(e_service,e_invoice,'15',e_currency);
+  
+})
+
+$('#get_16').change(function(){
+  e_service = $('#e_service_16').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_16').val();
+  get_call(e_service,e_invoice,'16',e_currency);
+  
+})
+
+$('#get_17').change(function(){
+  e_service = $('#e_service_17').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_17').val();
+  get_call(e_service,e_invoice,'17',e_currency);
+  
+})
+
+$('#get_18').change(function(){
+  e_service = $('#e_service_18').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_18').val();
+  get_call(e_service,e_invoice,'18',e_currency);
+  
+})
+
+$('#get_19').change(function(){
+  e_service = $('#e_service_19').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_19').val();
+  get_call(e_service,e_invoice,'19',e_currency);
+  
+})
+
+$('#get_20').change(function(){
+  e_service = $('#e_service_20').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_20').val();
+  get_call(e_service,e_invoice,'20',e_currency);
+  
+})
+
+$('#get_21').change(function(){
+  e_service = $('#e_service_21').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_21').val();
+  get_call(e_service,e_invoice,'21',e_currency);
+  
+})
+
+$('#get_22').change(function(){
+  e_service = $('#e_service_22').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_22').val();
+  get_call(e_service,e_invoice,'22',e_currency);
+  
+})
+
+$('#get_23').change(function(){
+  e_service = $('#e_service_23').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_23').val();
+  get_call(e_service,e_invoice,'23',e_currency);
+  
+})
+
+$('#get_24').change(function(){
+  e_service = $('#e_service_24').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_24').val();
+  get_call(e_service,e_invoice,'24',e_currency);
+  
+})
+
+$('#get_25').change(function(){
+  e_service = $('#e_service_25').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_25').val();
+  get_call(e_service,e_invoice,'25',e_currency);
+  
+})
+
+
+$('#get_26').change(function(){
+  e_service   = $('#e_service_26').val();
+  e_currency  = $('#e_currency').val();
+  e_invoice   = $('#e_invoice_no_26').val();
+  get_call(e_service,e_invoice,'26',e_currency);
+  
+})
+
+$('#get_27').change(function(){
+  e_service   = $('#e_service_27').val();
+  e_currency  = $('#e_currency').val();
+  e_invoice   = $('#e_invoice_no_27').val();
+  get_call(e_service,e_invoice,'27',e_currency);
+  
+})
+
+$('#get_28').change(function(){
+  e_service   = $('#e_service_28').val();
+  e_currency  = $('#e_currency').val();
+  e_invoice   = $('#e_invoice_no_28').val();
+  get_call(e_service,e_invoice,'28',e_currency);
+  
+})
+
+$('#get_29').change(function(){
+  e_service   = $('#e_service_29').val();
+  e_currency  = $('#e_currency').val();
+  e_invoice   = $('#e_invoice_no_29').val();
+  get_call(e_service,e_invoice,'29',e_currency);  
+})
+
+$('#get_30').change(function(){
+  e_service   = $('#e_service_30').val();
+  e_currency  = $('#e_currency').val();
+  e_invoice   = $('#e_invoice_no_30').val();
+  get_call(e_service,e_invoice,'30',e_currency);
+  
+})
+
+
+function get_call(e_service,e_invoice,n,e_currency){
+  $.ajax({
+    url : "/it/calculation_remittance/",
+    type : "GET",
+    dataType : "json",
+    data : {
+      'n'           : JSON.stringify(n),
+      'e_service'   : JSON.stringify(e_service),
+      'e_invoice'   : JSON.stringify(e_invoice),
+      'e_currency'  : JSON.stringify(e_currency),
+    },
+    success : function(obj){      
+      $('#e_amount_'+obj['sno']).val(obj['amount']);      
+    },
+    error: function(err){      
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+}
+
+
+$(document).ready(function(){
+  if('{{login_user}}'=='gmadam'){
+    //load_remittance();
+  }else{
+    load_remittance();
+  }
+ 
+})
+ 
+
+
+  $('#btn_load_data').click(function(){  
+    load_remittance(); 
+    if('{{login_user}}'=='gmadam'){
+      $('.approvess').css('display','')
+    }
+   
+    
+  })
+
+  if (!$.fn.DataTable.isDataTable('#remittance_data')){
+   // var table = $('#remittance_data').DataTable();
+    $('#remittance_data tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+
+  }
+
+function load_remittance(){
+
+  $('#loader').css('display',''); 
+   var st        = $('#start_date').val();
+   var et        = $('#end_date').val();
+   var cl_name   = $('#client_list').val();
+   var proj_name = $( "#client_list option:selected" ).text();  
+
+   if ($.fn.DataTable.isDataTable('#remittance_data')){
+    $('#remittance_data').DataTable().destroy();
+  }
+ 
+  $.ajax({
+    url  : '/it/filter_remiitance_data/',
+    type : 'GET',
+    dataType :'JSON',
+    data:{
+      'st_date'   : JSON.stringify(st),           
+      'et_date'   : JSON.stringify(et),
+      'cl_name'   : JSON.stringify(cl_name),
+      'proj_name' : JSON.stringify(proj_name),
+      'log_user'  : '{{login_user}}',
+    },
+    success:function(obj){      
+
+      if(st=='' && et==''){
+        $('#end_date').val(obj['current_financial']);
+        $('#start_date').val(obj['previous_financial']);
+      }else{
+        $('#end_date').val(et);
+        $('#start_date').val(st);
+      }
+    
+
+      if(obj['invoice_array'].length==0){
+        alert('No Data Available')
+        // swal("Info","No Data Available",'info');
+        $('#loader').css('display','none'); 
+        //location.href = "/it/reconciliation/";  
+      }
+
+     $('#loader').css('display','none');
+     $('#get_remittance_data').empty();
+
+     for(var i=0;i<obj['invoice_array'].length;i++){
+        try{
+          round_diff = obj['invoice_array'][i]['b_diff'].toFixed(1);
+        }catch(err){
+          
+      }
+
+      //console.log(obj['invoice_array'][i]['invoice_no20'])btn_text
+
+      $('#get_remittance_data').append('<tr style="white-space: nowrap;background-color:'+(obj['invoice_array'][i]['bg_color'])+'"><td>'+(i+1)+'</td><td><button class="btn '+obj['invoice_array'][i]['color_codes']+' approvess" id="get_approved" style="font-size: 8px; cursor: pointer;" data-toggle="modal" data-target="#edit_approved" value='+obj['invoice_array'][i]['certificate_no']+','+obj['invoice_array'][i]['client_name']+','+obj['invoice_array'][i]['inward_amount']+','+obj['invoice_array'][i]['get_id']+'>'+obj['invoice_array'][i]['btn_text']+'</button></td><td id="'+(obj['invoice_array'][i]['get_id'])+'"><b class="btn_edit_remittance" style="font-size: 10px;color:green;cursor: pointer;" data-toggle="modal" data-target="#edit_remittance" id="'+(obj['invoice_array'][i]['get_id'])+'"><u>'+(obj['invoice_array'][i]['curr_tag'])+'</u></b></td><td><b class="btn_delete" style="font-size: 10px;color:red;cursor: pointer;" id="'+(obj['invoice_array'][i]['get_id'])+'"><u>DELETE</u></b></td><td class="get_id" style="display: none">'+(obj['invoice_array'][i]['get_id'])+'</td><td class="get_client_name" style="text-transform: capitalize;">'+(obj['invoice_array'][i]['client_name'])+'</td><td class="get_value_date" style="display:none">'+(obj['invoice_array'][i]['value_date'])+'</td><td>'+(obj['invoice_array'][i]['value_dates'])+'</td><td class="get_remittance_date" style="display: none;">'+(obj['invoice_array'][i]['remit_date'])+'</td><td style="text-transform: capitalize;">'+(obj['invoice_array'][i]['format_date'])+'</td> <td class="get_certificate_no">'+(obj['invoice_array'][i]['certificate_no'])+'</td><td class="get_inward_amount"><b>'+(obj['invoice_array'][i]['inward_amount'])+'</b></td> <td class="get_currency">'+(obj['invoice_array'][i]['currency'])+'</td> <td class="get_rate">'+(obj['invoice_array'][i]['rate'])+'</td><td class="get_market_rate" style="background-color:'+(obj['invoice_array'][i]['color_codess'])+'">'+(obj['invoice_array'][i]['market_rate'])+'</td><td style=background-color:#f7f2d5>'+round_diff+'</td><td class="get_amount_inr">'+(obj['invoice_array'][i]['amount_inr'])+'</td><td class="get_net_inward_amt_ref">'+(obj['invoice_array'][i]['net_inward_amt_ref'])+'</td><td class="get_total_amt">'+(obj['invoice_array'][i]['total_amount'])+'</td><td class="get_status">'+(obj['invoice_array'][i]['status'])+'</td><td class="get_bank_deduction" style="background-color:'+(obj['invoice_array'][i]['chargs_color'])+'">'+(obj['invoice_array'][i]['bank_deduction'])+'</td><td class="get_tds_deducteds" style="background-color:'+(obj['invoice_array'][i]['chargs_colorx'])+'">'+(obj['invoice_array'][i]['tds_deducted'])+'</td><td class="get_service1">'+(obj['invoice_array'][i]['service1'])+'</td><td class="get_invoice_no_1"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no1']+' class="edit1">'+(obj['invoice_array'][i]['invoice_no1'])+'</u></td><td class="get_amount1">'+(obj['invoice_array'][i]['amount1'])+'</td><td class="get_service2">'+(obj['invoice_array'][i]['service2'])+'</td><td class="get_invoice_no_2"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no2']+' class="edit2">'+(obj['invoice_array'][i]['invoice_no2'])+'</u></td><td class="get_amount2">'+(obj['invoice_array'][i]['amount2'])+'</td><td class="get_service3">'+(obj['invoice_array'][i]['service3'])+'</td> <td class="get_invoice_no_3"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no3']+' class="edit3">'+(obj['invoice_array'][i]['invoice_no3'])+'</u></td><td class="get_amount3">'+(obj['invoice_array'][i]['amount3'])+'</td><td class="get_service4">'+(obj['invoice_array'][i]['service4'])+'</td><td class="get_invoice_no_4"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no4']+' class="edit4">'+(obj['invoice_array'][i]['invoice_no4'])+'</u></td><td class="get_amount4">'+(obj['invoice_array'][i]['amount4'])+'</td><td class="get_service5">'+(obj['invoice_array'][i]['service5'])+'</td><td class="get_invoice_no_5"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no5']+' class="edit5">'+(obj['invoice_array'][i]['invoice_no5'])+'</u></td><td class="get_amount5">'+(obj['invoice_array'][i]['amount5'])+'</td><td class="get_service6">'+(obj['invoice_array'][i]['service6'])+'</td><td class="get_invoice_no_6"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no6']+' class="edit6">'+(obj['invoice_array'][i]['invoice_no6'])+'</u></td><td class="get_amount6">'+(obj['invoice_array'][i]['amount6'])+'</td><td class="get_service7">'+(obj['invoice_array'][i]['service7'])+'</td><td class="get_invoice_no_7"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no7']+' class="edit7">'+(obj['invoice_array'][i]['invoice_no7'])+'</u></td><td class="get_amount7">'+(obj['invoice_array'][i]['amount7'])+'</td><td class="get_service8">'+(obj['invoice_array'][i]['service8'])+'</td><td class="get_invoice_no_8"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no8']+' class="edit8">'+(obj['invoice_array'][i]['invoice_no8'])+'</u></td><td class="get_amount8">'+(obj['invoice_array'][i]['amount8'])+'</td><td class="get_service9">'+(obj['invoice_array'][i]['service9'])+'</td><td class="get_invoice_no_9"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no9']+' class="edit9">'+(obj['invoice_array'][i]['invoice_no9'])+'</u></td><td class="get_amount9">'+(obj['invoice_array'][i]['amount9'])+'</td><td class="get_service10">'+(obj['invoice_array'][i]['service10'])+'</td><td class="get_invoice_no_10"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no10']+' class="edit10">'+(obj['invoice_array'][i]['invoice_no10'])+'</u></td><td class="get_amount10">'+(obj['invoice_array'][i]['amount10'])+'</td><td class="get_service11">'+(obj['invoice_array'][i]['service11'])+'</td><td class="get_invoice_no_11"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no11']+' class="edit11">'+(obj['invoice_array'][i]['invoice_no11'])+'</u></td><td class="get_amount11">'+(obj['invoice_array'][i]['amount11'])+'</td><td class="get_service12">'+(obj['invoice_array'][i]['service12'])+'</td><td class="get_invoice_no_12"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no12']+' class="edit12">'+(obj['invoice_array'][i]['invoice_no12'])+'</u></td><td class="get_amount12">'+(obj['invoice_array'][i]['amount12'])+'</td><td class="get_service13">'+(obj['invoice_array'][i]['service13'])+'</td><td class="get_invoice_no_13"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no13']+' class="edit13">'+(obj['invoice_array'][i]['invoice_no13'])+'</u></td><td class="get_amount13">'+(obj['invoice_array'][i]['amount13'])+'</td><td class="get_service14">'+(obj['invoice_array'][i]['service14'])+'</td><td class="get_invoice_no_14"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no14']+' class="edit14">'+(obj['invoice_array'][i]['invoice_no14'])+'</u></td><td class="get_amount14">'+(obj['invoice_array'][i]['amount14'])+'</td><td class="get_service15">'+(obj['invoice_array'][i]['service15'])+'</td><td class="get_invoice_no_15"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no15']+' class="edit15">'+(obj['invoice_array'][i]['invoice_no15'])+'</u></td><td class="get_amount15">'+(obj['invoice_array'][i]['amount15'])+'</td><td class="get_service16">'+(obj['invoice_array'][i]['service16'])+'</td><td class="get_invoice_no_16"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no16']+' class="edit16">'+(obj['invoice_array'][i]['invoice_no16'])+'</u></td><td class="get_amount16">'+(obj['invoice_array'][i]['amount16'])+'</td><td class="get_service17">'+(obj['invoice_array'][i]['service17'])+'</td><td class="get_invoice_no_17"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no17']+' class="edit17">'+(obj['invoice_array'][i]['invoice_no17'])+'</u></td><td class="get_amount17">'+(obj['invoice_array'][i]['amount17'])+'</td><td class="get_service18">'+(obj['invoice_array'][i]['service18'])+'</td><td class="get_invoice_no_18"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no18']+' class="edit18">'+(obj['invoice_array'][i]['invoice_no18'])+'</u></td><td class="get_amount18">'+(obj['invoice_array'][i]['amount18'])+'</td><td class="get_service19">'+(obj['invoice_array'][i]['service19'])+'</td><td class="get_invoice_no_19"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no19']+' class="edit19">'+(obj['invoice_array'][i]['invoice_no19'])+'</u></td><td class="get_amount19">'+(obj['invoice_array'][i]['amount19'])+'</td><td class="get_service20">'+(obj['invoice_array'][i]['service20'])+'</td><td class="get_invoice_no_20"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no20']+' class="edit20">'+(obj['invoice_array'][i]['invoice_no20'])+'</u></td><td class="get_amount20">'+(obj['invoice_array'][i]['amount20'])+'</td><td class="get_service21">'+(obj['invoice_array'][i]['service21'])+'</td><td class="get_invoice_no_21"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no21']+' class="edit21">'+(obj['invoice_array'][i]['invoice_no21'])+'</u></td><td class="get_amount21">'+(obj['invoice_array'][i]['amount21'])+'</td><td class="get_service22">'+(obj['invoice_array'][i]['service22'])+'</td><td class="get_invoice_no_22"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no22']+' class="edit22">'+(obj['invoice_array'][i]['invoice_no22'])+'</u></td><td class="get_amount22">'+(obj['invoice_array'][i]['amount22'])+'</td><td class="get_service23">'+(obj['invoice_array'][i]['service23'])+'</td><td class="get_invoice_no_23"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no23']+' class="edit23">'+(obj['invoice_array'][i]['invoice_no23'])+'</u></td><td class="get_amount23">'+(obj['invoice_array'][i]['amount23'])+'</td><td class="get_service24">'+(obj['invoice_array'][i]['service24'])+'</td><td class="get_invoice_no_24"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no24']+' class="edit24">'+(obj['invoice_array'][i]['invoice_no24'])+'</u></td><td class="get_amount24">'+(obj['invoice_array'][i]['amount24'])+'</td><td class="get_service25">'+(obj['invoice_array'][i]['service25'])+'</td><td class="get_invoice_no_25"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no25']+' class="edit25">'+(obj['invoice_array'][i]['invoice_no25'])+'</u></td><td class="get_amount25">'+(obj['invoice_array'][i]['amount25'])+'</td>  <td class="get_service26">'+(obj['invoice_array'][i]['service26'])+'</td><td class="get_invoice_no_26"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no26']+' class="edit26">'+(obj['invoice_array'][i]['invoice_no26'])+'</u></td><td class="get_amount26">'+(obj['invoice_array'][i]['amount26'])+'</td><td class="get_service27">'+(obj['invoice_array'][i]['service27'])+'</td><td class="get_invoice_no_27"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no27']+' class="edit27">'+(obj['invoice_array'][i]['invoice_no27'])+'</u></td><td class="get_amount27">'+(obj['invoice_array'][i]['amount27'])+'</td><td class="get_service28">'+(obj['invoice_array'][i]['service28'])+'</td><td class="get_invoice_no_28"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no28']+' class="edit28">'+(obj['invoice_array'][i]['invoice_no28'])+'</u></td><td class="get_amount28">'+(obj['invoice_array'][i]['amount28'])+'</td><td class="get_service29">'+(obj['invoice_array'][i]['service29'])+'</td><td class="get_invoice_no_29"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no29']+' class="edit29">'+(obj['invoice_array'][i]['invoice_no29'])+'</u></td><td class="get_amount29">'+(obj['invoice_array'][i]['amount29'])+'</td><td class="get_service30">'+(obj['invoice_array'][i]['service30'])+'</td><td class="get_invoice_no_30"><u data-toggle="modal" data-target="#edit_invoice1" style="cursor:pointer" id='+obj['invoice_array'][i]['get_id']+' name='+obj['invoice_array'][i]['invoice_no30']+' class="edit30">'+(obj['invoice_array'][i]['invoice_no30'])+'</u></td><td class="get_amount30">'+(obj['invoice_array'][i]['amount30'])+'</td>     <td class="get_reference_no" style="display: none">'+(obj['invoice_array'][i]['gt_reference_no'])+'</td><td class="get_remarks">'+(obj['invoice_array'][i]['remarks'])+'</td></tr>')        
+     }
+
+
+
+
+ 
+      $('.approvess').click(function(){
+        var datas = $(this).attr('value');
+        split_datas = datas.split(',');
+        $('#e_certificate_no_approved').html(split_datas[0]);
+        $('#e_client_names').html(split_datas[1]);
+        $('#e_amount_inrs').html(split_datas[2]);
+        $('#get_approve_ids').html(split_datas[3]);        
+      })
+
+
+      if('{{login_user}}'=='gmadam'){
+        $('.approvess').css('display','');
+        $('.btn_delete').css('display','none');
+      }
+
+      if('{{login_user}}'=='anuragt'){
+        $('.approvess').css('display','');
+        $('.btn_delete').css('display','');
+      }
+
+      if('{{login_user}}'=='arti'){
+        $('.approvess').css('display','none');
+        $('.btn_delete').css('display','none');
+      }
+
+      if('{{login_user}}'=='vasudha'){
+        $('.approvess').css('display','none');
+        $('.btn_delete').css('display','none');
+      }
+
+       if('{{login_user}}'=='abhishek'){
+        $('.approvess').css('display','none');
+        $('.btn_delete').css('display','none');
+      }
+
+     // else{
+     //    $('.approvess').css('display','none');
+     //    $('.btn_delete').css('display','done');
+     //  }
+
+      for(var t=1;t<31;t++){
+       $('.edit'+t).click(function(){
+          var ids  = $(this).attr('id');
+          var invc = $(this).attr('name');         
+          $.ajax({
+          url  : '/it/get_pdf_viewerx/',
+          type : 'GET',
+          dataType :'JSON',
+          data:{
+            'ids'  : ids,
+            'invc' : invc,          
+          },
+          success:function(obj){
+            console.log(obj)
+            $('.get_urls_invoice1').attr('src',obj)
+           
+          },
+          error:function(err){            
+            console.log(JSON.stringify(err,null,4));
+          }
+        })
+       })
+     }
+
+    //$('#e_get_client_name').val(obj['invoice_array'][0]['client_name']);
+
+    $('.btn_delete').click(function(){
+    var del_id = $(this).attr('id');
+    var result = confirm("Want to Delete?");
+    if (result==true)
+    {
+        var result2 = confirm("Want to Delete?");
+        if (result2==true)
+        {
+          var get_id_for_delete = $(this).attr('id');
+          $.ajax({
+          url  : '/it/delete_remiitance/',
+          type : 'GET',
+          dataType :'JSON',
+          data:{
+            'del_id' : del_id,           
+          },
+          success:function(obj){
+            if(obj=='done'){
+              var btn = "button";
+              swal({
+                title : "<b><font color='red'>Successfully deleted</b>",
+                text  : '<button type="' + btn + '" id="btnA" >OK</button>',
+                html  : true,
+                type  : "info",
+                showConfirmButton: false
+              });
+
+              $(document).on('click', "#btnA", function(){
+                window.location.href=window.location.href;
+              });
+            }
+          },
+
+          error:function(err){            
+            console.log(JSON.stringify(err,null,4));
+          }
+        })
+      }
+    }
+  })
+         
+
+
+$(".btn_edit_remittance").click(function() {    
+  var get_id                  =  $(this).closest("tr").find(".get_id").text();  
+  var get_client_name         =  $(this).closest("tr").find(".get_client_name").text();
+  var get_value_date          =  $(this).closest("tr").find(".get_value_date").text();
+  var get_remittance_date     =  $(this).closest("tr").find(".get_remittance_date").text();
+  var get_certificate_no      =  $(this).closest("tr").find(".get_certificate_no").text();
+  var get_inward_amount       =  $(this).closest("tr").find(".get_inward_amount").text();
+  var get_currency            =  $(this).closest("tr").find(".get_currency").text();
+  var get_rate                =  $(this).closest("tr").find(".get_rate").text();
+  var get_market_rate         =  $(this).closest("tr").find(".get_market_rate").text();
+  var get_amount_inr          =  $(this).closest("tr").find(".get_amount_inr").text();
+  var get_net_inward_amt_ref  =  $(this).closest("tr").find(".get_net_inward_amt_ref").text();
+  var get_total_amt           =  $(this).closest("tr").find(".get_total_amt").text();
+  var get_status              =  $(this).closest("tr").find(".get_status").text();
+  var get_bank_deduction      =  $(this).closest("tr").find(".get_bank_deduction").text();
+  var get_service1            =  $(this).closest("tr").find(".get_service1").text();
+  var get_invoice_no_1        =  $(this).closest("tr").find(".get_invoice_no_1").text();
+  var get_amount1             =  $(this).closest("tr").find(".get_amount1").text();
+  var get_service2            =  $(this).closest("tr").find(".get_service2").text();
+  var get_invoice_no_2        =  $(this).closest("tr").find(".get_invoice_no_2").text();
+  var get_amount2             =  $(this).closest("tr").find(".get_amount2").text();
+  var get_service3            =  $(this).closest("tr").find(".get_service3").text();
+  var get_invoice_no_3        =  $(this).closest("tr").find(".get_invoice_no_3").text();
+  var get_amount3             =  $(this).closest("tr").find(".get_amount3").text();
+  var get_service4            =  $(this).closest("tr").find(".get_service4").text();
+  var get_invoice_no_4        =  $(this).closest("tr").find(".get_invoice_no_4").text();
+  var get_amount4             =  $(this).closest("tr").find(".get_amount4").text();
+  var get_service5            =  $(this).closest("tr").find(".get_service5").text();
+  var get_invoice_no_5        =  $(this).closest("tr").find(".get_invoice_no_5").text();
+  var get_amount5             =  $(this).closest("tr").find(".get_amount5").text();
+  var get_service6            =  $(this).closest("tr").find(".get_service6").text();
+  var get_invoice_no_6        =  $(this).closest("tr").find(".get_invoice_no_6").text();
+  var get_amount6             =  $(this).closest("tr").find(".get_amount6").text();
+  var get_service7            =  $(this).closest("tr").find(".get_service7").text();
+  var get_invoice_no_7        =  $(this).closest("tr").find(".get_invoice_no_7").text();
+  var get_amount7             =  $(this).closest("tr").find(".get_amount7").text();
+  var get_service8            =  $(this).closest("tr").find(".get_service8").text();
+  var get_invoice_no_8        =  $(this).closest("tr").find(".get_invoice_no_8").text();
+  var get_amount8             =  $(this).closest("tr").find(".get_amount8").text();
+  var get_service9            =  $(this).closest("tr").find(".get_service9").text();
+  var get_invoice_no_9        =  $(this).closest("tr").find(".get_invoice_no_9").text();
+  var get_amount9             =  $(this).closest("tr").find(".get_amount9").text();
+  var get_service10           =  $(this).closest("tr").find(".get_service10").text();
+  var get_invoice_no_10       =  $(this).closest("tr").find(".get_invoice_no_10").text();
+  var get_amount10            =  $(this).closest("tr").find(".get_amount10").text();
+  var get_service11           =  $(this).closest("tr").find(".get_service11").text();
+  var get_invoice_no_11       =  $(this).closest("tr").find(".get_invoice_no_11").text();
+  var get_amount11            =  $(this).closest("tr").find(".get_amount11").text();
+  var get_service12           =  $(this).closest("tr").find(".get_service12").text();
+  var get_invoice_no_12       =  $(this).closest("tr").find(".get_invoice_no_12").text();
+  var get_amount12            =  $(this).closest("tr").find(".get_amount12").text();
+  var get_service13           =  $(this).closest("tr").find(".get_service13").text();
+  var get_invoice_no_13       =  $(this).closest("tr").find(".get_invoice_no_13").text();
+  var get_amount13            =  $(this).closest("tr").find(".get_amount13").text();
+  var get_service14           =  $(this).closest("tr").find(".get_service14").text();
+  var get_invoice_no_14       =  $(this).closest("tr").find(".get_invoice_no_14").text();
+  var get_amount14            =  $(this).closest("tr").find(".get_amount14").text();
+  var get_service15           =  $(this).closest("tr").find(".get_service15").text();
+  var get_invoice_no_15       =  $(this).closest("tr").find(".get_invoice_no_15").text();
+  var get_amount15            =  $(this).closest("tr").find(".get_amount15").text();
+  var get_service16           =  $(this).closest("tr").find(".get_service16").text();
+  var get_invoice_no_16       =  $(this).closest("tr").find(".get_invoice_no_16").text();
+  var get_amount16            =  $(this).closest("tr").find(".get_amount16").text();
+  var get_service17           =  $(this).closest("tr").find(".get_service17").text();
+  var get_invoice_no_17       =  $(this).closest("tr").find(".get_invoice_no_17").text();
+  var get_amount17            =  $(this).closest("tr").find(".get_amount17").text();
+  var get_service18           =  $(this).closest("tr").find(".get_service18").text();
+  var get_invoice_no_18       =  $(this).closest("tr").find(".get_invoice_no_18").text();
+  var get_amount18            =  $(this).closest("tr").find(".get_amount18").text();
+  var get_service19           =  $(this).closest("tr").find(".get_service19").text();
+  var get_invoice_no_19       =  $(this).closest("tr").find(".get_invoice_no_19").text();
+  var get_amount19            =  $(this).closest("tr").find(".get_amount19").text();
+  var get_service20           =  $(this).closest("tr").find(".get_service20").text();
+  var get_invoice_no_20       =  $(this).closest("tr").find(".get_invoice_no_20").text();
+  var get_amount20            =  $(this).closest("tr").find(".get_amount20").text();
+  var get_service21           =  $(this).closest("tr").find(".get_service21").text();
+  var get_invoice_no_21       =  $(this).closest("tr").find(".get_invoice_no_21").text();
+  var get_amount21            =  $(this).closest("tr").find(".get_amount21").text();
+  var get_service22           =  $(this).closest("tr").find(".get_service22").text();
+  var get_invoice_no_22       =  $(this).closest("tr").find(".get_invoice_no_22").text();
+  var get_amount22            =  $(this).closest("tr").find(".get_amount22").text();
+  var get_service23           =  $(this).closest("tr").find(".get_service23").text();
+  var get_invoice_no_23       =  $(this).closest("tr").find(".get_invoice_no_23").text();
+  var get_amount23            =  $(this).closest("tr").find(".get_amount23").text();
+  var get_service24           =  $(this).closest("tr").find(".get_service24").text();
+  var get_invoice_no_24       =  $(this).closest("tr").find(".get_invoice_no_24").text();
+  var get_amount24            =  $(this).closest("tr").find(".get_amount24").text();
+  var get_service25           =  $(this).closest("tr").find(".get_service25").text();
+  var get_invoice_no_25       =  $(this).closest("tr").find(".get_invoice_no_25").text();
+  var get_amount25            =  $(this).closest("tr").find(".get_amount25").text();
+  var get_service26           =  $(this).closest("tr").find(".get_service26").text();
+  var get_invoice_no_26       =  $(this).closest("tr").find(".get_invoice_no_26").text();
+  var get_amount26            =  $(this).closest("tr").find(".get_amount26").text();
+  var get_service27           =  $(this).closest("tr").find(".get_service27").text();
+  var get_invoice_no_27       =  $(this).closest("tr").find(".get_invoice_no_27").text();
+  var get_amount27            =  $(this).closest("tr").find(".get_amount27").text();
+  var get_service28           =  $(this).closest("tr").find(".get_service28").text();
+  var get_invoice_no_28       =  $(this).closest("tr").find(".get_invoice_no_28").text();
+  var get_amount28            =  $(this).closest("tr").find(".get_amount28").text();
+  var get_service29           =  $(this).closest("tr").find(".get_service29").text();
+  var get_invoice_no_29       =  $(this).closest("tr").find(".get_invoice_no_29").text();
+  var get_amount29            =  $(this).closest("tr").find(".get_amount29").text();
+  var get_service30           =  $(this).closest("tr").find(".get_service30").text();
+  var get_invoice_no_30       =  $(this).closest("tr").find(".get_invoice_no_30").text();
+  var get_amount30            =  $(this).closest("tr").find(".get_amount30").text();
+
+
+
+  var get_reference_no        =  $(this).closest("tr").find(".get_reference_no").text();
+  var get_remarks             =  $(this).closest("tr").find(".get_remarks").text(); 
+  var get_tds_deducteds       =  $(this).closest("tr").find(".get_tds_deducteds").text();
+  var current_users           = '{{login_user}}';
+
+
+  
+  get_remittance_details(get_id,get_client_name,get_remittance_date,get_certificate_no,get_inward_amount,get_currency,get_rate,get_amount_inr,get_net_inward_amt_ref,get_total_amt,get_status,get_bank_deduction,get_service1,get_invoice_no_1,get_amount1,get_service2,get_invoice_no_2,get_amount2,get_service3,get_invoice_no_3,get_amount3,get_service4,get_invoice_no_4,get_amount4,get_service5,get_invoice_no_5,get_amount5,get_service6,get_invoice_no_6,get_amount6,get_service7,get_invoice_no_7,get_amount7,get_service8,get_invoice_no_8,get_amount8,get_service9,get_invoice_no_9,get_amount9,get_service10,get_invoice_no_10,get_amount10,get_reference_no,get_remarks,get_service11,get_invoice_no_11,get_amount11,get_service12,get_invoice_no_12,get_amount12,get_service13,get_invoice_no_13,get_amount13,get_service14,get_invoice_no_14,get_amount14,get_service15,get_invoice_no_15,get_amount15,get_tds_deducteds,get_market_rate,get_value_date,get_service16,get_invoice_no_16,get_amount16,get_service17,get_invoice_no_17,get_amount17,get_service18,get_invoice_no_18,get_amount18,get_service19,get_invoice_no_19,get_amount19,get_service20,get_invoice_no_20,get_amount20,get_service21,get_invoice_no_21,get_amount21,get_service22,get_invoice_no_22,get_amount22,get_service23,get_invoice_no_23,get_amount23,get_service24,get_invoice_no_24,get_amount24,get_service25,get_invoice_no_25,get_amount25,get_service26,get_invoice_no_26,get_amount26,get_service27,get_invoice_no_27,get_amount27,get_service28,get_invoice_no_28,get_amount28,get_service29,get_invoice_no_29,get_amount29,get_service30,get_invoice_no_30,get_amount30,current_users);
+
+});
+
+
+  //if (!$.fn.DataTable.isDataTable('#remittance_data'))
+   // { 
+     
+      table = $('#remittance_data').DataTable({
+      scrollY:"600px",
+      scrollX:true,
+      scrollCollapse:true,
+      paging:false,
+
+
+      
+    });
+
+    $('#remittance_data').DataTable().search( '' ).draw();
+    $(".dataTable").css("margin-bottom","0px");   
+   // }   
+
+
+
+
+
+  },
+
+  error:function(err){
+    
+      console.log(JSON.stringify(err,null,4));
+    }
+  })
+}
+
+
+
+function get_remittance_details(get_id,get_client_name,get_remittance_date,get_certificate_no,get_inward_amount,get_currency,get_rate,get_amount_inr,get_net_inward_amt_ref,get_total_amt,get_status,get_bank_deduction,get_service1,get_invoice_no_1,get_amount1,get_service2,get_invoice_no_2,get_amount2,get_service3,get_invoice_no_3,get_amount3,get_service4,get_invoice_no_4,get_amount4,get_service5,get_invoice_no_5,get_amount5,get_service6,get_invoice_no_6,get_amount6,get_service7,get_invoice_no_7,get_amount7,get_service8,get_invoice_no_8,get_amount8,get_service9,get_invoice_no_9,get_amount9,get_service10,get_invoice_no_10,get_amount10,get_reference_no,get_remarks,get_service11,get_invoice_no_11,get_amount11,get_service12,get_invoice_no_12,get_amount12,get_service13,get_invoice_no_13,get_amount13,get_service14,get_invoice_no_14,get_amount14,get_service15,get_invoice_no_15,get_amount15,get_tds_deducteds,get_market_rate,get_value_date,get_service16,get_invoice_no_16,get_amount16,get_service17,get_invoice_no_17,get_amount17,get_service18,get_invoice_no_18,get_amount18,get_service19,get_invoice_no_19,get_amount19,get_service20,get_invoice_no_20,get_amount20,get_service21,get_invoice_no_21,get_amount21,get_service22,get_invoice_no_22,get_amount22,get_service23,get_invoice_no_23,get_amount23,get_service24,get_invoice_no_24,get_amount24,get_service25,get_invoice_no_25,get_amount25,get_service26,get_invoice_no_26,get_amount26,get_service27,get_invoice_no_27,get_amount27,get_service28,get_invoice_no_28,get_amount28,get_service29,get_invoice_no_29,get_amount29,get_service30,get_invoice_no_30,get_amount30,current_users){
+
+
+$('#e_rate').change(function(){
+  var r       = $(this).val(); 
+  var dt      = $('#e_get_net_inward_amt_ref').val();
+  var inr_amttt = parseFloat(r)*parseFloat(dt);
+  $('#e_amount_inr').val(inr_amttt.toFixed(1));//get_amount_inr
+
+})
+
+if(current_users=='gmadam'){
+  $('#update_remittance').text("Approve");
+}else{
+  $('#update_remittance').text("Update");
+}
+
+$('#e_get_id').html(get_id);
+$('#e_get_client_name').val(get_client_name);
+$('#e_remittance_date').val(get_remittance_date);
+$('#e_value_date').val(get_value_date);
+$('#e_certificate_no').val(get_certificate_no);
+$('#e_inward_amount').val(get_inward_amount);
+$('#e_currency').val(get_currency);
+$('#e_rate').val(get_rate);
+var inr_amttt = parseFloat(get_inward_amount)*parseFloat(get_rate);
+$('#e_amount_inr').val(inr_amttt.toFixed(1));//get_amount_inr
+$('#e_get_net_inward_amt_ref').val(get_net_inward_amt_ref);
+$('#e_get_status').val(get_status);
+$('#e_get_total_amt').val(get_total_amt);
+
+$('#e_market_rate').val(get_market_rate);
+
+if(get_bank_deduction!='' && get_bank_deduction!='null'){
+  $('#e_get_bank_deduction').val(get_bank_deduction);  
+}else{
+  $('#e_get_bank_deduction').val(0);  
+}
+
+if(get_invoice_no_1!='null'){
+  g_invoice_1 = get_invoice_no_1;
+}else{
+  g_invoice_1 = ''
+}
+
+if(get_invoice_no_2!='null'){
+  g_invoice_2 = get_invoice_no_2;
+}else{
+  g_invoice_2 = ''
+}
+
+if(get_invoice_no_3!='null'){
+  g_invoice_3 = get_invoice_no_3;
+}else{
+  g_invoice_3 = ''
+}
+
+if(get_invoice_no_4!='null'){
+  g_invoice_4 = get_invoice_no_4;
+}else{
+  g_invoice_4 = ''
+}
+
+if(get_invoice_no_5!='null'){
+  g_invoice_5 = get_invoice_no_5;
+}else{
+  g_invoice_5 = ''
+}
+
+if(get_invoice_no_6!='null'){
+  g_invoice_6 = get_invoice_no_6;
+}else{
+  g_invoice_6 = ''
+}
+
+if(get_invoice_no_7!='null'){
+  g_invoice_7 = get_invoice_no_7;
+}else{
+  g_invoice_7 = ''
+}
+
+if(get_invoice_no_8!='null'){
+  g_invoice_8 = get_invoice_no_8;
+}else{
+  g_invoice_8 = ''
+}
+
+if(get_invoice_no_9!='null'){
+  g_invoice_9 = get_invoice_no_9;
+}else{
+  g_invoice_9 = ''
+}
+
+if(get_invoice_no_10!='null'){
+  g_invoice_10 = get_invoice_no_10;
+}else{
+  g_invoice_10 = ''
+}
+
+if(get_invoice_no_11!='null'){
+  g_invoice_11 = get_invoice_no_11;
+}else{
+  g_invoice_11 = ''
+}
+
+if(get_invoice_no_12!='null'){
+  g_invoice_12 = get_invoice_no_12;
+}else{
+  g_invoice_12 = ''
+}
+
+if(get_invoice_no_13!='null'){
+  g_invoice_13 = get_invoice_no_13;
+}else{
+  g_invoice_13 = ''
+}
+
+if(get_invoice_no_14!='null'){
+  g_invoice_14 = get_invoice_no_14;
+}else{
+  g_invoice_14 = ''
+}
+
+if(get_invoice_no_15!='null'){
+  g_invoice_15 = get_invoice_no_15;
+}else{
+  g_invoice_15 = ''
+}
+
+if(get_invoice_no_16!='null'){
+  g_invoice_16 = get_invoice_no_16;
+}else{
+  g_invoice_16 = ''
+}
+
+if(get_invoice_no_17!='null'){
+  g_invoice_17 = get_invoice_no_17;
+}else{
+  g_invoice_17 = ''
+}
+
+if(get_invoice_no_18!='null'){
+  g_invoice_18 = get_invoice_no_18;
+}else{
+  g_invoice_18 = ''
+}
+
+if(get_invoice_no_19!='null'){
+  g_invoice_19 = get_invoice_no_19;
+}else{
+  g_invoice_19 = ''
+}
+
+if(get_invoice_no_20!='null'){
+  g_invoice_20 = get_invoice_no_20;
+}else{
+  g_invoice_20 = ''
+}
+
+if(get_invoice_no_21!='null'){
+  g_invoice_21 = get_invoice_no_21;
+}else{
+  g_invoice_21 = ''
+}
+
+if(get_invoice_no_22!='null'){
+  g_invoice_22 = get_invoice_no_22;
+}else{
+  g_invoice_22 = ''
+}
+
+if(get_invoice_no_23!='null'){
+  g_invoice_23 = get_invoice_no_23;
+}else{
+  g_invoice_23 = ''
+}
+
+if(get_invoice_no_24!='null'){
+  g_invoice_24 = get_invoice_no_24;
+}else{
+  g_invoice_24 = ''
+}
+
+if(get_invoice_no_25!='null'){
+  g_invoice_25 = get_invoice_no_25;
+}else{
+  g_invoice_25 = ''
+}
+
+
+if(get_invoice_no_26!='null'){
+  g_invoice_26 = get_invoice_no_26;
+}else{
+  g_invoice_26 = ''
+}
+
+
+if(get_invoice_no_27!='null'){
+  g_invoice_27 = get_invoice_no_27;
+}else{
+  g_invoice_27 = ''
+}
+
+if(get_invoice_no_28!='null'){
+  g_invoice_28 = get_invoice_no_28;
+}else{
+  g_invoice_28 = ''
+}
+
+if(get_invoice_no_29!='null'){
+  g_invoice_29 = get_invoice_no_29;
+}else{
+  g_invoice_29 = ''
+}
+
+if(get_invoice_no_30!='null'){
+  g_invoice_30 = get_invoice_no_30;
+}else{
+  g_invoice_30 = ''
+}
+
+
+
+
+
+$('#e_service_1').val(get_service1);
+$('#e_invoice_no_1').val(g_invoice_1);
+$('#e_amount_1').val(Math.round(get_amount1));
+$('#e_service_2').val(get_service2);
+$('#e_invoice_no_2').val(g_invoice_2);
+$('#e_amount_2').val(Math.round(get_amount2));
+$('#e_service_3').val(get_service3);
+$('#e_invoice_no_3').val(g_invoice_3);
+$('#e_amount_3').val(Math.round(get_amount3));
+$('#e_service_4').val(get_service4);
+$('#e_invoice_no_4').val(g_invoice_4);
+$('#e_amount_4').val(Math.round(get_amount4));
+$('#e_service_5').val(get_service5);
+$('#e_invoice_no_5').val(g_invoice_5);
+$('#e_amount_5').val(Math.round(get_amount5));
+$('#e_service_6').val(get_service6);
+$('#e_invoice_no_6').val(g_invoice_6);
+$('#e_amount_6').val(Math.round(get_amount6));
+$('#e_service_7').val(get_service7);
+$('#e_invoice_no_7').val(g_invoice_7);
+$('#e_amount_7').val(Math.round(get_amount7));
+$('#e_service_8').val(get_service8);
+$('#e_invoice_no_8').val(g_invoice_8);
+$('#e_amount_8').val(Math.round(get_amount8));
+$('#e_service_9').val(get_service9);
+$('#e_invoice_no_9').val(g_invoice_9);
+$('#e_amount_9').val(Math.round(get_amount9));
+$('#e_service_10').val(get_service10);
+$('#e_invoice_no_10').val(g_invoice_10);
+$('#e_amount_10').val(Math.round(get_amount10));
+
+$('#e_service_11').val(get_service11);
+$('#e_invoice_no_11').val(g_invoice_11);
+$('#e_amount_11').val(Math.round(get_amount11));
+
+$('#e_service_12').val(get_service12);
+$('#e_invoice_no_12').val(g_invoice_12);
+$('#e_amount_12').val(Math.round(get_amount12));
+
+$('#e_service_13').val(get_service13);
+$('#e_invoice_no_13').val(g_invoice_13);
+$('#e_amount_13').val(Math.round(get_amount13));
+
+$('#e_service_14').val(get_service14);
+$('#e_invoice_no_14').val(g_invoice_14);
+$('#e_amount_14').val(Math.round(get_amount14));
+
+$('#e_service_15').val(get_service15);
+$('#e_invoice_no_15').val(g_invoice_15);
+$('#e_amount_15').val(Math.round(get_amount15));
+
+$('#e_service_16').val(get_service16);
+$('#e_invoice_no_16').val(g_invoice_16);
+$('#e_amount_16').val(Math.round(get_amount16));
+
+$('#e_service_17').val(get_service17);
+$('#e_invoice_no_17').val(g_invoice_17);
+$('#e_amount_17').val(Math.round(get_amount17));
+
+$('#e_service_18').val(get_service18);
+$('#e_invoice_no_18').val(g_invoice_18);
+$('#e_amount_18').val(Math.round(get_amount18));
+
+$('#e_service_19').val(get_service19);
+$('#e_invoice_no_19').val(g_invoice_19);
+$('#e_amount_19').val(Math.round(get_amount19));
+
+$('#e_service_20').val(get_service20);
+$('#e_invoice_no_20').val(g_invoice_20);
+$('#e_amount_20').val(Math.round(get_amount20));
+
+$('#e_service_21').val(get_service21);
+$('#e_invoice_no_21').val(g_invoice_21);
+$('#e_amount_21').val(Math.round(get_amount21));
+
+$('#e_service_22').val(get_service22);
+$('#e_invoice_no_22').val(g_invoice_22);
+$('#e_amount_22').val(Math.round(get_amount22));
+
+$('#e_service_23').val(get_service23);
+$('#e_invoice_no_23').val(g_invoice_23);
+$('#e_amount_23').val(Math.round(get_amount23));
+
+$('#e_service_24').val(get_service24);
+$('#e_invoice_no_24').val(g_invoice_24);
+$('#e_amount_24').val(Math.round(get_amount24));
+
+$('#e_service_25').val(get_service25);
+$('#e_invoice_no_25').val(g_invoice_25);
+$('#e_amount_25').val(Math.round(get_amount25));
+
+$('#e_service_26').val(get_service26);
+$('#e_invoice_no_26').val(g_invoice_26);
+$('#e_amount_26').val(Math.round(get_amount26));
+
+$('#e_service_27').val(get_service27);
+$('#e_invoice_no_27').val(g_invoice_27);
+$('#e_amount_27').val(Math.round(get_amount27));
+
+$('#e_service_28').val(get_service28);
+$('#e_invoice_no_28').val(g_invoice_28);
+$('#e_amount_28').val(Math.round(get_amount28));
+
+$('#e_service_29').val(get_service29);
+$('#e_invoice_no_29').val(g_invoice_29);
+$('#e_amount_29').val(Math.round(get_amount29));
+
+$('#e_service_30').val(get_service30);
+$('#e_invoice_no_30').val(g_invoice_30);
+$('#e_amount_30').val(Math.round(get_amount30));
+
+$('#e_reference_no').val(get_reference_no);
+$('#e_remarks').val(get_remarks);
+
+
+if(get_tds_deducteds!=''){
+  $('#e_tds_deducted').val(get_tds_deducteds);
+  }else{
+    $('#e_tds_deducted').val(0);
+  }
+}
+
+$('#client_list').select2();
+
+$('#export_load_data').click(function(){
+    $("#loader").css("display", "");
+    var remittance_details  = $('#remittance_data').tableToJSON();
+    var client_name         = $('#client_list').val();
+    var start_date          = $('#start_date').val();
+    var end_date            = $('#end_date').val();
+   // var proj_name           = $('#client_list').val($(this).find("option:selected").attr("title")); 
+    var proj_name           = $( "#client_list option:selected" ).text();   
+    
+    $.ajax({
+      url  : '/it/export_remiitance_data/',
+      type : 'POST',
+      dataType :'JSON',
+      data:{
+        'remittance_details' : JSON.stringify(remittance_details),  
+        'client_name'        : JSON.stringify(client_name),
+        'start_date'         : JSON.stringify(start_date),
+        'end_date'           : JSON.stringify(end_date),
+        'proj_name'          : JSON.stringify(proj_name),
+      },
+      success:function(obj){
+          
+        $("#loader").css("display", "none");
+        location.href = "/it/export_reconciliation_download/";     
+
+      },
+
+      error:function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    })
+})
+
+
+jQuery.fn.load = function(callback) {  $(window).on("load", callback) };
+
+
+
+$('#update_approved').click(function(){
+
+  var _approve_ids     = $('#get_approve_ids').html();
+  var _certificate_no  = $('#e_certificate_no_approved').html();
+  var _client_names    = $('#e_client_names').html();
+  var _amount_inrs     = $('#e_amount_inrs').html();
+  $('#update_approved').text('Approved')
+  $.ajax({
+      url  : '/it/submit_approved_details/',
+      type : 'GET',
+      dataType :'JSON',
+      data:{
+        '_approve_ids'    : JSON.stringify(_approve_ids),  
+        '_certificate_no' : JSON.stringify(_certificate_no),
+        '_client_names'   : JSON.stringify(_client_names),
+        '_amount_inrs'    : JSON.stringify(_amount_inrs),        
+      },
+
+      success:function(obj){          
+        alert('Approved');
+         
+
+      },
+
+      error:function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    })
+})
+
+
+for(var t=1;t<31;t++){
+  $('#e_amount_'+t).css('color','blue');
+  $('#e_invoice_no_'+t).css('color','blue');
+  $('#e_service_'+t).css('color','blue');
+
+  $('#e_amount_'+t).css('font-weight','bold');
+  $('#e_invoice_no_'+t).css('font-weight','bold');
+  $('#e_service_'+t).css('font-weight','bold');
+
+}
+
+
+
+
+//$('.hidden_col').hide();
+
+// var isCheckedWithGlobalVariable = false;
+// document.getElementById('show_invoice_tag').onclick = function() {
+//     if (this.checked == true) {       
+//       isCheckedWithGlobalVariable = true;
+//       $('.hidden_col').show();
+//     }
+//     if (this.checked == false) {
+//       $('.hidden_col').hide();
+//     }
+// };
+
+</script>
+
+
+
+{% endblock %}

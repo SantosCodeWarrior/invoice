@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body">
+        <h3>Master Tracker</h3>
+      </div>  
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body">
+        <div class="input-group input-daterange" >
+        <input type="text" id="start_date" class="form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="From:">    
+        <div class="input-group-addon"><font color="#e9ecef">--- to --- </font></div>
+        <input type="text" id="end_date" class="form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="To:">
+    </div>
+      </div>  
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body">
+        <table id="invoice_tracker" class="table table-condensed table-striped">
+          <thead>
+            <tr>
+              <th><font color="black">S.No</font></th>
+              <th><font color="black">Invoice No.</font></th>
+              <th><font color="black">Invoice Dated</font></th>
+              <th><font color="black">Vessel Name</font></th>
+              <th><font color="black">Voyage No</font></th>
+              <th><font color="black">Voyage Manager</font></th>
+              <th><font color="black">Received Date</font></th>
+              <th><font color="black">Client</font></th>
+              <th><font color="black">Period</font></th>          
+              <th><font color="black">Proj.Name</font></th> 
+              <th><font color="black">View</font></th>          
+            </tr>
+          </thead>
+          {% for x in invoice_list %}       
+          <tr style="color:{{x.colors}}">
+            <td>{{forloop.counter}}</td>
+            <td>{{x.invoice_no}}</td>
+            <td style="white-space:nowrap">{{x.invoice_date|date:"d-M-Y"}}</td>
+            <td style="white-space:nowrap">{{x.ship_name}}</td>
+            <td style="white-space:nowrap">{{x.voyage_no|default_if_none:""}}</td>
+            <td style="white-space:nowrap">{{x.vm_name}}</td>
+            <td style="white-space:nowrap">{{x.receive_date|date:"d-M-Y"}}</td>
+            <td style="white-space:nowrap">{{x.client_name}}</td>
+            <td style="white-space:nowrap">{{x.period}}</td>
+            <td style="text-transform:capitalize"><center><i class="fa {{x.icons_cancel}}"></i></center></td>
+            <td style="text-transform:capitalize">{{x.proj_name}}</td>        
+            <td><a href="{{x.url_pdf}}" target="_blank"><img src="/static/img/pdf.png" width="50" height="50"></a></td>
+          {% endfor %}
+          </tr>      
+        </table>   
+      </div>  
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,1813 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css">
+
+
+
+<style type="text/css">
+  [type=checkbox]:checked + span:before {
+  content: '\2714';
+  position: absolute;
+  top: -5px;
+  left: 0;
+}
+
+.select2-results{
+  font-size: 12px;
+}
+</style>
+
+<div class="container">
+  <div class="col-md-4">
+    <div class="box">
+      <div class="box-body">
+        <p style="font-size: 14px">Generator</p>
+      </div>  
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="container">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body">
+      <a href="#" class="btn btn-info " style="float:right;cursor: pointer;"><span class="fa fa-refresh"></span> Refresh</a>
+
+      </div>  
+    </div>
+  </div>
+</div> -->
+
+<style type="text/css">
+ /* #boss_start_date .ui-datepicker-calendar {
+    display: none;
+  }*/
+</style>
+
+<div class="container">
+  <div class="container">
+    <div class="col-md-12">
+     <!--  <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center> -->
+      <div class="row">
+          <div class="col-md-2">
+            <select class="form-control" id="proj_list" style="margin-left: -16px;">
+              <option value="0">Proj.Name</option>
+              <option value="BOSS">BOSS</option>
+              <option value="CHM">CHM</option>
+            </select>
+          </div>
+         
+          <div class="col-md-2" style="font-size: 12px">
+            <select class="form-control chosen-select col-md-12" id="client_list" style="display:none;font-size: 12px !important;"></select>
+          </div>
+
+          <div class="col-md-3">
+            <select class="form-control" id="billing_type" style="margin-left: -16px;display: none;font-size: 12px">
+              <option value="-1">Billing Type</option>
+              <option value="voyage_eop">Voyage EOP</option>
+              <option value="monthly_prorated">Monthly Prorated</option>
+              <option value="monthly_flat">Monthly Flat</option>
+            </select>
+          </div>
+
+
+          <div class="col-md-3">
+            <select class="form-control chosen-select col-md-12" id="pool_list" style="display:none;font-size: 12px"></select>
+          </div>
+          <!-- <button id="open_pop_button" class="btn btn-info" style="cursor: pointer;display: none"><font color="white">Change Invoice Date</font></button> -->
+          
+          <label id="datePicker_tag" style="display: none;font-size: 14px">Invoice Date</label>
+          <input type="text" id="datePicker" class="col-md-2 form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="dd/mm/yyyy" style="display: none">            
+        </div>
+      </div>
+    </div>
+</div>
+
+<p></p>
+
+<style type="text/css">
+  #datePicker_tag {
+    margin-top: -23px;
+    margin-right: -90px;
+  }
+</style>
+
+<div class="container">
+  <div class="col-md-12">
+    <p id="date_select_label" style="display:none;font-size: 12px";>Date Select</p>
+    <p id="month_select_label" style="display:none;color:grey;font-size:13px;margin-top: 12px">Vessel to be selected for the Previous Month</p>  
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body">
+        <div class="input-group input-daterange" id="date_filter" style="display: none;margin-top: -17px" >        
+        <input type="text" id="start_date" class="form-control date-range-filter col-md-3" data-date-format="yyyy-mm-dd" placeholder="dd-mm-yyyy">        
+        <input type="text" id="end_date" class="form-control date-range-filter col-md-3" data-date-format="yyyy-mm-dd" placeholder="dd-mm-yyyy">
+        <input type="text" id="rate_update" placeholder="Rate Exchange" style="display: none;"><i style="color:grey;size:12px;text-align: middle;margin-left: -108px;margin-top: -21px;" id="exchange_logo">Exchange Rate</i>&nbsp;
+        <button class="btn btn-primary" style="cursor: pointer;display: none;width: 98px;font-size: 12px" id="submit_invoice">Load</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-info" style="cursor: pointer;display: none;background-color: #28a745;font-size: 12px" id="refresh_details">Refresh</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-info" style="cursor: pointer;display: none;background-color: #28a745;font-size: 12px" id="export_summary_reports">Summary Report</button>
+        <!-- <button class="btn btn-danger" style="cursor: pointer;display:none;font-size: 12px" id="export_dsr" onClick="click()"></button> -->
+        <button type="button" onClick="onClick()" class="btn btn-danger" style="cursor: pointer;display:none;font-size: 12px" id="export_dsr" >Export DSR</button>
+        <a id="clicks" style="display: none;">0</a>
+        <a href="https://chm.bwesglobal.com" target="_blank">
+          <button class="btn btn-info" style="cursor: pointer;display: none" id="">VIEW HEATBANK</button>
+        </a>
+      </div>
+      </div>  
+    </div>
+    <!--  <i style="font-size: 10px">Vessel <sup class="Counter" style="font-size: 12px">total invoice[s]</sup></i> -->
+    <br>
+    <p style="font-size: 12px;color:#444;">Please ensure that <b><a href="https://aboss.bwesglobal.com/vast/data_entry_ship/" target="_blank"><u>account tab</u></a></b> for the vessel(s) are entered.It affects the count of vessel(s)<sup class="Counter" style="font-size: 12px;font-weight: bold"></sup>/voyages(s) which are listing for re billing from <b>BOSS/CHM.</b><p style="font-size: 10px;color:red;margin-top: -19px;">Invoice will be submitted, but the address and account tab will not be done correctly until you enter the address on<b style="color:blue"> CHM / BOSS</b></p>
+     
+  </div>
+</div>
+
+<script type="text/javascript">
+
+    var clicks = 0;
+    function onClick() {
+      clicks += 1;
+      document.getElementById("clicks").innerHTML = clicks;
+    };
+
+
+
+  $(function(){
+    $("#datePicker").datepicker();  
+
+  });
+
+  $('#refresh_details').click(function(){
+      location.href= '/it/generator/';
+      // $('#client_list').hide();
+      // $('#vessel_details').hide();
+      // $('#vessel_details_wrapper').hide()
+      // $('#submit').hide();
+      // $('#ship_details').hide();
+      // $('#ship_details_wrapper').hide();
+      // $('#start_date').hide();
+      // $('#rate_update').hide();
+      // $('#pool_list').hide();
+      // $('#exchange_logo').hide();
+      // $('#month_select_label').hide();
+  })
+
+  $('#submit_invoice').click(function(){
+    load();
+  })
+
+</script>
+
+
+<style type="text/css">
+  .dataTables_filter{
+    float:right;
+  }
+</style>
+
+<center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+<div class="">
+  <div class="col-md-12">
+    <table id="ship_details" class="table table-striped table-bordered bootstrap-datatable" style="display:none;font-size: 12px">
+      <thead>
+        <tr>
+          <th style="white-space:nowrap;background-color: #28a745;color:white"><input id="checkall" type="checkbox" onClick="toggle(this)"/></th>
+          <th style="white-space:nowrap;background-color: #28a745;color:white">S.No</th>
+          <th style="white-space:nowrap;background-color: #28a745;color:white">Ship Name</th>
+          <th style="white-space:nowrap;background-color: #28a745;color:white;display: none;" class='billing_days_1'>Billing Days</th>
+          <th style="white-space:nowrap;background-color: #28a745;color:white;display: none;" class='vm_name_1'>voyage Manager</th>
+          <th style="white-space:nowrap;background-color: #28a745;color:white;display: none;" class='report_id_1'>Report ID</th>
+          <th style="white-space:nowrap;background-color: #28a745;color:white;display: none;" class='account_tab_1'>Account Tab</th>         
+          <th style="white-space:nowrap;background-color: #28a745;color:white;display: none" class='port_name_1'>Port Name (From)</th> 
+          <th style="white-space:nowrap;background-color: #28a745;color:white;display: none" class='port_name_2'>Port Name (To)</th> 
+          <th style="white-space:nowrap;background-color: #28a745;color:white;display: none;" class='start_date_a'>Start Date</th> 
+          <th style="white-space:nowrap;background-color: #28a745;color:white;display: none" class='end_date_a'>End Date</th>        
+          <th style="white-space:nowrap;background-color: #28a745;color:white;display: none" class='billing_amount'>Amount</th>        
+        </tr>
+      </thead>      
+      <tbody id="ship_address"></tbody>
+    </table>
+  </div>
+</div>  
+
+
+<center><i id="loaderx" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+
+<div class="">
+  <div class="col-md-12">
+      <!-- <div class="row"> -->
+        <!-- <div class="col-xs-3"> -->
+          <table id="vessel_details" class="table table-striped table-bordered bootstrap-datatable" style="display:none;font-size: 12px">
+            <thead>
+              <tr>          
+                <th style="white-space:nowrap;background-color: #28a745;color:white"><input id="checkallw" type="checkbox" onClick="toggle(this)"/></th>        
+                <th style="white-space:nowrap;background-color: #28a745;color:white">S.No</th>
+                <th style="white-space:nowrap;background-color: #28a745;color:white">Ship Name</th>  
+                <th style="white-space:nowrap;background-color: #28a745;color:white">Voyage No</th> 
+                <th style="white-space:nowrap;background-color: #28a745;color:white">Disch Date</th> 
+                <th style="white-space:nowrap;background-color: #28a745;color:white">Last DHT Date</th>    
+                <th style="white-space:nowrap;background-color: #28a745;color:white;display: none">Voyage ID</th>                 
+                <th style="white-space:nowrap;background-color: #28a745;color:white;">VM Name</th>                       
+                <th style="white-space:nowrap;background-color: #28a745;color:white;">Disch Port</th> 
+                <th style="white-space:nowrap;background-color: #28a745;color:white;display: none" class="account_section">Account Tab</th>   
+                <th style="white-space:nowrap;background-color: #28a745;color:white;">Nomination Date</th>
+                <th style="white-space:nowrap;background-color: #28a745;color:white;">Book Name</th>
+                <th style="white-space:nowrap;background-color: #28a745;color:white;">Status</th>
+                <th style="white-space:nowrap;background-color: #28a745;color:white;">Voyage ID</th>
+              </tr>
+            </thead>
+            
+            <tbody id="chm_list"></tbody>
+          </table>  
+          
+          <!--  
+          <table id="poompuhar_details" class="table table-striped table-bordered bootstrap-datatable" style="display:none">
+            <thead>
+              <tr>          
+                <th style="white-space:nowrap;background-color: #2FDAFC;color:white"><input id="checkallx" type="checkbox" onClick="toggle(this)"/></th>        
+                <th style="white-space:nowrap;background-color: #2FDAFC;color:white">S.No</th>
+                <th style="white-space:nowrap;background-color: #2FDAFC;color:white">Ship Name</th>  
+                <th style="white-space:nowrap;background-color: #2FDAFC;color:white">Passage</th>
+                <th style="white-space:nowrap;background-color: #2FDAFC;color:white">Cost</th>
+                <th style="white-space:nowrap;background-color: #2FDAFC;color:white;">Report ID</th>
+                  
+              </tr>
+            </thead>
+            <tbody id="poom_list"></tbody>
+          </table>
+          -->
+          <p></p>  <p></p>                     
+      
+          <button class="btn btn-info col-md-12" id="submit" style="display: none;margin-left:0px;cursor: pointer;background-color: #28a745">Generate</button>  
+          
+   
+
+  </div>
+</div>
+
+<div id="popup" title="Select Invoice Date" style="display: none;">
+  <div>
+    <input type="text" id="datePicker" placeholder="Invoice Date" class="col-md-12">
+    <button class="btn btn-primary btn-xs" style="cursor: pointer" id="modify_invoice_date">Submit</button>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  function check_element(item){
+  index = selection_array.indexOf(item)
+  return index
+}
+</script>
+
+
+<script type="text/javascript">
+  $('#proj_list').click(function(){    
+    var project =  $('#proj_list').val();
+    if(project==0){
+    }
+    else if(project=='BOSS'){
+      $('#export_summary_reports').css('display','');
+       
+    }
+    else if(project=='CHM'){
+      $('#export_summary_reports').css('display','none');
+    }
+  })
+
+  
+
+
+  $(document).on('change','#proj_list',function(){  
+    $('#loader').css('display','');
+    $('#date_filter').css('display','none');     
+    var proj_name = $('#proj_list').val();   
+    // $('#vessel_details').empty();
+    // $('#poompuhar_details').empty();
+    // $('#ship_address').empty();
+    if(proj_name=='BOSS')
+    {      
+      $('#cal_logo_start').css('display','none');
+      $('#start_date').css('display','none');
+      $('.ui-datepicker-calendar').css('display','none');    
+      $('#end_date').css('display','none');
+      $('#cal_logo_end').css('display','none');
+      $("#start_date").datepicker();
+      $('#billing_type').css('display','');
+
+    }else if(proj_name=='CHM'){
+      $("#start_date").datepicker();
+      $("#end_date").datepicker();
+      $('#end_date').css('display','');
+      $('#cal_logo_end').css('display','');  
+      //$('#view_heatbank').css('display','');
+      $('#billing_type').css('display','none');
+
+   }
+
+
+    $.ajax({
+      url: '/it/get_proj_name_list/',
+      dataType: 'JSON',
+      type: 'GET',
+      data:
+      { 
+        'proj_name' :  proj_name,
+      },
+      success : function(obj){
+        $('#loader').css('display','none');
+        $('#client_list').css('display','');
+        $('#date_filter').css('display','none');  
+        $('#client_list').empty();
+        $('#client_list').append('<option value ="0">Client Name</option>')
+        for(var i = 0; i < obj['client_name_chm'].length; i++){
+          $('#client_list').append('<option value ="'+obj['client_name_chm'][i]['client_name']+'">'+obj['client_name_chm'][i]['client_name']+'</option>')
+        }
+
+        $("#client_list").select2();
+        for(var j = 0; j < obj['client_name_boss'].length; j++){
+          $('#client_list').append('<option value ="'+obj['client_name_boss'][j]['client_name']+'" name='+obj['client_name_boss'][j]['client_name']+'>'+obj['client_name_boss'][j]['client_name']+'</option>')
+        }
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }        
+    });
+  });
+
+
+var lastday = function(y,m){
+return  new Date(y, m, 0).getDate();
+}
+  
+  
+
+  $(document).on('change','#client_list',function(){
+    var proj_name = $('#proj_list').val();
+
+  var sa      = '';
+  var date1   = new Date();
+  var day1    = date1.getDate();
+ 
+  if(proj_name=='BOSS'){
+    var month1  = date1.getMonth()+1;
+    var month2  = date1.getMonth();
+    var year1   = date1.getFullYear();
+  }else{
+    var month1  = date1.getMonth();
+    var month2  = date1.getMonth();
+    var year1   = date1.getFullYear();
+  }
+  if (month1 < 10) month1 = "0" + month1;
+  if (day1 < 10) day1 = "0" + day1;
+  var today1        = year1 + "-" + month1 + "-" + day1;
+  last_days         = (lastday(year1,month1))
+  last_dayx         = (lastday(year1,month2))
+  first_date        = (month1)+'/01/'+year1;  
+  last_date         = (month1)+'/'+last_days+'/'+year1;   
+if(month1=='00'){
+  first_date =  '12/01/'+parseInt(year1-1);
+  last_date  = '12/31/'+parseInt(year1-1);
+}else{
+  first_date = first_date
+  last_date  = last_date
+}
+  
+ 
+  
+  var manual_date   = last_date; //'08/31/2021'; 
+  if (month2=='00'){
+   get_invoice_date =  '12/01/'+parseInt(year1-1);
+  }else{
+    get_invoice_date  = (month2)+'/'+last_dayx+'/'+year1;
+  }
+
+  
+
+  //$('#datePicker').val(get_invoice_date) 
+    var sd = $(this).val();
+    $('#submit_invoice').css('display','');
+    //$('#vessel_details').empty();
+    $('#loader').css('display',''); 
+    $('#date_filter').css('display','none');
+    $('#rate_update').css('display','');   
+    var client_list = $('#client_list').val();   
+    var proj_name   = $('#proj_list').val();    
+    if(proj_name=='BOSS'){
+      $('#date_select_label').css('display','none');
+      $('#month_select_label').css('display','');  
+      $('#start_date').css('display','');
+      $('#cal_logo_start').css('display','');      
+    }else if(proj_name=='CHM'){    
+      $('#date_select_label').css('display','');   
+      $('#month_select_label').css('display','none'); 
+      $('#start_date').css('display','');
+      $('#loader').css('display','');
+    }
+
+        $.ajax({
+          url: '/it/get_pool_list/',
+          dataType: 'JSON',
+          type: 'GET',
+          data:
+          { 
+            'client_list' : client_list,
+            'proj_name'   : proj_name,
+          },
+          success : function(obj){          
+            //console.log(JSON.stringify(obj,null,4))
+            if(proj_name=='BOSS')
+            {
+              
+              $('#pool_list').html('');
+
+              $('#datePicker_tag').css('display','');
+              $('#datePicker').css('display','');
+              $('#refresh_details').css('display','');
+              var date  = new Date();
+              var day   = date.getDate();
+              var month = date.getMonth() + 1;
+              var year  = date.getFullYear();
+              if (month < 10) month = "0" + month;
+              if (day < 10) day = "0" + day;
+              var today = year + "-" + month + "-" + day;
+
+              document.getElementById('datePicker').value = get_invoice_date;//today;
+              
+
+              $('#start_date').val(manual_date) 
+             // $('#start_date').val('04/30/2023')                    
+              //$('#pool_list').append('<option value ="'+obj['ship_pool_boss'][0]['ship_class']+'">'+obj['ship_pool_boss'][0]['ship_class']+'</option>')
+              //load();             
+              // $('#loaderx').css('display','');              
+              $('#date_filter').css('display','');
+              if (client_list=='Poompuhar Shipping Corporation Limited' || client_list=='Reliance'  || client_list=='Oldendorff' || client_list=='Dynacom' || client_list=='E-Ships'){              
+                $('#pool_list').css('display','none');
+              }else{
+                $('#pool_list').css('display','');
+                $('#pool_list').empty();
+                $('#pool_list').append('<option value ="0">Account Tab</option>')
+              }              
+                
+                  
+              for(var c=0;c<obj['ship_pool_boss'].length;c++){            
+                $('#pool_list').append('<option value ="'+obj['ship_pool_boss'][c]['ship_class']+'">'+obj['ship_pool_boss'][c]['ship_class']+'</option>')     
+                $('#rate_update').val(obj['ship_pool_boss'][0]['client_rate_boss']);
+                  if(obj['ship_pool_boss'][0]['proj_name']=='BOSS' && obj['ship_pool_boss'][0]['curr_type']=='INR'){
+                    $('#rate_update').css('display','');
+                    $('#exchange_logo').css('display','');
+                  }
+                  else if(obj['ship_pool_boss'][0]['proj_name']=='BOSS' && obj['ship_pool_boss'][0]['curr_type']=='USD'){
+                    $('#rate_update').css('display','none');
+                    $('#exchange_logo').css('display','none');
+                  }
+                  $('#loader').css('display','none');                 
+                }
+              }
+
+          
+          if(proj_name=='CHM')
+          {           
+            $('#datePicker_tag').css('display','');
+            $('#datePicker').css('display','');
+            var date = new Date();
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+            var today = year + "-" + month + "-" + day;
+            document.getElementById('datePicker').value = manual_date;//today;; 
+
+
+
+
+            $('#start_date').val(first_date);  //obj['chm_start_date']
+            $('#end_date').val(last_date); // obj['chm_end_date']
+
+           //$('#start_date').val('04/01/2023');  //obj['chm_start_date']
+           // $('#end_date').val('40/30/2023'); // obj['chm_end_date']
+           
+           
+            //load();          
+            $('#loaderx').css('display','none'); 
+             $('#loader').css('display','none');        
+            $('#date_filter').css('display','');           
+            if(client_list!='Navig8' || client_list!='Stena Weco' || client_list!='Stena Bulk' || client_list!='Navig8 Chemical')
+            {               
+                
+              $('#pool_list').css('display','none');
+              $('#pool_list').empty();
+              for(var v=0;v<obj['ship_pool_chm'].length;v++)
+              {                           
+                $('#pool_list').append('<option value ="'+obj['ship_pool_chm'][v]['pool_name']+'">'+obj['ship_pool_chm'][v]['pool_name']+'</option>')                
+              }                
+              
+              if (obj['ship_pool_chm'][0]['proj_name']=='CHM' && obj['ship_pool_chm'][0]['curr_type']=='USD')
+              {                
+                $('#rate_update').css('display','none');
+                $('#exchange_logo').css('display','none');
+                $('#rate_update').val(obj['ship_pool_chm'][0]['client_rate_chm']);
+              }
+
+              if (obj['ship_pool_chm'][0]['proj_name']=='CHM' && obj['ship_pool_chm'][0]['curr_type']=='INR')
+              {
+                $('#rate_update').css('display','');
+                $('#exchange_logo').css('display','');
+                $('#rate_update').val(obj['ship_pool_chm'][0]['client_rate_chm']);
+              }
+            }
+          }
+
+          if(proj_name=='CHM')
+          {  
+
+            $('#datePicker_tag').css('display','');
+            $('#datePicker').css('display','');
+            $('#refresh_details').css('display','');
+            $('#export_dsr').css('display','');
+            var date = new Date();
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();           
+            if (month < 10) month = "0" + month;
+            if (day < 10) day = "0" + day;
+            var today = year + "-" + month + "-" + day;
+            document.getElementById('datePicker').value =  manual_date;//today;; //manual_date;//today;; 
+
+            $('#start_date').val(first_date);  //obj['chm_start_date']
+            $('#end_date').val(last_date); // obj['chm_end_date']
+
+          
+               
+            $('#date_filter').css('display','');           
+            if(client_list=='Navig8' || client_list=='Stena Weco' || client_list=='stena bulk')
+            {   
+              $('#pool_list').empty();
+              for(var v=0;v<obj['ship_pool_chm'].length;v++)
+              {
+                $('#pool_list').css('display','');                     
+                $('#pool_list').append('<option value ="'+obj['ship_pool_chm'][v]['pool_name']+'">'+obj['ship_pool_chm'][v]['pool_name']+'</option>')
+                if(obj['ship_pool_chm'][0]['proj_name']=='CHM' && obj['ship_pool_chm'][0]['curr_type']=='USD')
+                {
+                  $('#rate_update').css('display','none');
+                  $('#exchange_logo').css('display','none');
+                  $('#rate_update').val(obj['ship_pool_chm'][0]['client_rate_chm']);
+                }
+                if(obj['ship_pool_chm'][0]['proj_name']=='CHM' && obj['ship_pool_chm'][0]['curr_type']=='INR')
+                {
+                  $('#rate_update').css('display','');
+                  $('#exchange_logo').css('display','');
+                  $('#rate_update').val(1);
+                }
+              }            
+            }            
+          }
+       },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+        $('#loader').css('display','none'); 
+        swal('Info','Please ','error');
+        $('#vessel_details').empty();
+      }
+    }); 
+  });
+
+  $(document).on('change','#pool_list',function(){ 
+   //$('#loaderx').css('display','');
+  // $('#date_filter').css('display','none');
+  // load();
+  });
+
+
+$('#date_filter').change(function(){   //date_filter
+  var start       = $('#start_date').val();
+  var end         = $('#end_date').val();
+  var cproj_name  = $('#proj_list').val();
+  var pool        = $('#pool_list').val();
+  var client_name = $('#client_list').val();
+                      
+                              
+  if(cproj_name=='BOSS'){
+    //if(client_name=='Reliance' || client_name=='Shell'){
+   // if(client_name=='Shell'){
+     // if(pool==0){
+     //   swal("Error",'Select Pool',"error");
+     //   return 0;
+     //   $('#loader').css('display','none');  
+     //   $('#loaderx').css('display','none');        
+    //  }
+     if(start=='' && end==''){
+        $('#date_filter').css('display','');
+        $('#vessel_details').css('display','none');
+        $('#ship_details').css('display','');   
+       
+     // } 
+    }
+    else{
+     // load();
+    }
+
+    //load();    
+  }else if(cproj_name=='CHM'){
+    if(end!=''){
+     // $('#loader').css('display','');
+      $('#vessel_details').css('display','');
+      $('#ship_details').css('display','none');
+     
+    }
+   // load();
+  }
+})
+
+
+
+
+$('#proj_list').change(function(){
+    var ch = $('#proj_list').val();   
+    if(ch=='BOSS'){
+      $('#vessel_details').css('display','none');
+      $('.dataTables_filter').css('display','none');
+      $('#ship_details').css('display','none');
+     // $('#vessel_details').css('display','none');
+
+   }
+
+    else if(ch=='CHM'){
+      $('#vessel_details').css('display','none');
+      $('.dataTables_filter').css('display','');  
+      $('#ship_details').css('display','none');    
+      $('#start_date').datepicker();    
+   }
+})
+
+$(document).on('change','#date_filter',function(){ //date_filter
+ var ch = $('#proj_list').val();
+ if(ch=='BOSS'){
+  var start_dtt  = $('#start_date').val(); 
+  //$('#loader').css('display','');
+  $('#ship_address').empty();  
+  $('#submit').css('display','none');
+  $('#datePicker').css('display',''); 
+  $('#datePicker_tag').css('display','');
+  $('#refresh_details').css('display',''); 
+  $('#ship_details').css('display','none');
+  if(start_dtt!=''){
+   // $('#loader').css('display','');
+   // $('#loaderx').css('display','none');    
+    //load();  
+    $('#ship_details').css('display','none');
+  }
+ }
+ else if(ch=='CHM'){  
+  $('#datePicker').css('display',''); 
+  $('#datePicker_tag').css('display',''); 
+  $('#refresh_details').css('display','');
+  $('#chm_list').empty();
+ }
+  
+  var date = new Date();
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+  if (month < 10) month = "0" + month;
+  if (day < 10) day = "0" + day;
+  var today = year + "-" + month + "-" + day;
+  document.getElementById('datePicker').value  = get_invoice_date;//today;
+
+})
+ 
+function load(){
+  $('#loader').css('display','');
+  if ($.fn.DataTable.isDataTable('#ship_details')){
+    $('#ship_details').DataTable().destroy();
+  }
+
+  if ($.fn.DataTable.isDataTable('#vessel_details')){
+    $('#vessel_details').DataTable().destroy();
+  }
+
+  $('#billing_type').change(function(){
+    $('#billing_type').css('background-color','white');
+  })
+
+
+  var client_name = $('#client_list').val();  
+  var start       = $('#start_date').val();
+  var end         = $('#end_date').val(); 
+  var vessel_type = $('#pool_list').val();
+  var proj_name   = $('#proj_list').val();
+  var bill_type   = $('#billing_type').val();
+
+  if(proj_name=='BOSS'){
+    if(bill_type=='-1'){
+      alert("Please Select the Billing Type");
+      $('#loader').css('display','none');
+      $('#billing_type').css('background-color','red');
+      return 0;
+    }
+  }else{
+
+  }
+  
+
+  $.ajax({
+    url: '/it/get_data/',
+    dataType: 'JSON',
+    type: 'POST',
+    data:
+    { 
+      'client_name' : JSON.stringify(client_name),
+      'start_date'  : JSON.stringify(start),
+      'end_date'    : JSON.stringify(end),
+      'vessel_type' : JSON.stringify(vessel_type),
+      'proj_name'   : JSON.stringify(proj_name),
+      'bill_type'   : JSON.stringify(bill_type),
+    },
+    success:function(obj){
+
+      // if(obj['check_all_vessels']==0){
+      //    swal("Info","No data available.Kindly generate Fetch API [BOSS] for this Client","info"); 
+      //    swal({
+      //   title: '<i></i>Kindly generate <a href="http://172.16.5.103:8000/it/filter_for_json_data/" target="_blank"><u style="color:#ADD8E6">Fetch API [BOSS]</u></a> for this '+client_name+'',
+      //   type: 'info',
+      //   html:
+      //     'You can use <b>bold text</b>, ' +
+      //     '<a href="//github.com">links</a> ' +
+      //     'and other HTML tags',
+      //   showCloseButton: true,
+    
+      //   focusConfirm: false,
+     
+      // })
+         
+      // }
+      var rowCount = JSON.stringify(obj['chm_array'].length);
+      if(rowCount==0){
+        swal('Info','No records available','info');
+      }
+      //swal('Info','No Data available','info');
+      $('#loader').css('display','none'); 
+      if ($.fn.DataTable.isDataTable('#ship_details')){
+        $('#ship_details').DataTable().destroy();  
+        $('#loader').css('display','none');    
+          
+      }
+      if ($.fn.DataTable.isDataTable('#vessel_details')){
+        $('#vessel_details').DataTable().destroy();       
+      }
+
+        $('#loaderx').css('display','none');    
+ 
+      if(obj=='error'){
+        var objDate = new Date(start),
+        locale = "en-us",
+        month = objDate.toLocaleString(locale, { month: "long" });
+        year  = objDate.toLocaleString(locale, { year: "numeric" });
+
+        dt = 'Invoice already submitted for the month of '+month+' '+year
+        swal("Info",dt,"info");
+        $('#loader').css('display','none');
+      }
+
+
+      $('#date_filter').css('display','');
+      $('#invoice_tracker').css('display','none')
+      $('#ship_address').empty();
+      $('#chm_list').empty();    
+      var ct = 0;
+
+     
+     
+      
+        for(var i=0;i<obj['whole_details'].length;i++){ 
+          //var count_name = repeatStringNumTimes(obj['whole_details'][i]['ship_name'],i);
+
+          $('#ship_address').append('<tr class="'+obj['whole_details'][i]['space_vessel']+'"><td><input type="checkbox" name="selected" class="single_select" id="'+obj['whole_details'][i]['ship_name']+'" onchange="checkboxes()"></center></td><td>'+(i+1)+'</td><td><u><a href='+obj['whole_details'][i]['url']+' target="_blank">'+obj['whole_details'][i]['ship_name']+'</a></u></td><td class="'+obj['whole_details'][i]['report_id']+' billing_days_1" style="display:'+obj['whole_details'][i]['none']+'">'+obj['whole_details'][i]['billing_days']+'</td><td class="'+obj['whole_details'][i]['report_id']+' vm_name_1" style="display:'+obj['whole_details'][i]['none']+'">'+obj['whole_details'][i]['vm_name']+'</td><td class="'+obj['whole_details'][i]['report_id']+' report_id_1" style="display:'+obj['whole_details'][i]['none']+'">'+obj['whole_details'][i]['report_id']+'</td><td class="'+obj['whole_details'][i]['report_id']+' account_tab_1" style="display:'+obj['whole_details'][i]['none']+'">'+obj['whole_details'][i]['report_id']+'</td><td class="'+obj['whole_details'][i]['report_id']+' port_name_1" style="display:'+obj['whole_details'][i]['none']+'">'+obj['whole_details'][i]['port_name1']+'</td><td class="'+obj['whole_details'][i]['report_id']+' port_name_2" style="display:'+obj['whole_details'][i]['none']+'">'+obj['whole_details'][i]['port_name2']+'</td><td class="'+obj['whole_details'][i]['report_id']+' start_date_a" style="display:'+obj['whole_details'][i]['none']+'">'+obj['whole_details'][i]['start_date']+'</td><td class="'+obj['whole_details'][i]['report_id']+' end_date_a" style="display:'+obj['whole_details'][i]['none']+'">'+obj['whole_details'][i]['end_date']+'</td><td class="'+obj['whole_details'][i]['report_id']+' billing_amount" style="display:'+obj['whole_details'][i]['none']+'">'+obj['whole_details'][i]['billing_amt']+'</td></tr>')
+            $('#ship_details').css('display','');
+            $('#vessel_details').css('display','none');
+            $('#submit').css('display','');
+
+            if(obj['whole_details'][i]['bill_type']=='monthly_flat'){
+                // $('.vm_name_1').css('display','none')            
+                // $('.port_name_1').css('display','') //jab summary na nikalna ho toh display:none rahega, otherwise display:"" hoga
+                // $('.port_name_2').css('display','none') //jab summary na nikalna ho toh display:none rahega, otherwise display:"" hoga
+                // $('.start_date_a').css('display','none')
+                // $('.end_date_a').css('display','')
+                // $('.report_id_1').css('display','none')    
+                      
+            if(client_name=='Oldendorff'){
+
+                $('.billing_amount').css('display','')
+                $('.port_name_1').css('display','none')
+                $('.billing_days_1').css('display','')
+                $('.end_date_a').css('display','none')
+                $('.account_tab_1').css('display','none')  
+              }
+
+             else if(client_name=='Clearlake'){
+
+                $('.billing_amount').css('display','none')
+                $('.port_name_1').css('display','none')
+                $('.billing_days_1').css('display','none')
+                $('.end_date_a').css('display','none')
+                $('.account_tab_1').css('display','none')  
+              }
+
+            else if(client_name=='Dynacom'){
+                $('.billing_amount').css('display','')
+                $('.port_name_1').css('display','none')
+                $('.billing_days_1').css('display','none')
+                $('.end_date_a').css('display','none')
+                $('.account_tab_1').css('display','none')  
+              }
+
+            else{
+                $('.vm_name_1').css('display','none')            
+                $('.port_name_1').css('display','') //jab summary na nikalna ho toh display:none rahega, otherwise display:"" hoga
+                $('.port_name_2').css('display','none') //jab summary na nikalna ho toh display:none rahega, otherwise display:"" hoga
+                $('.start_date_a').css('display','none')
+                $('.end_date_a').css('display','')
+                $('.report_id_1').css('display','none')    
+            }
+
+
+           /* else{
+                $('.billing_days_1').css('display','')
+                $('.account_tab_1').css('display','none')
+                $('.billing_amount').css('display','')
+                $('.port_name_1').css('display','')                
+                $('.end_date_a').css('display','')
+                 
+              }   */             
+            }
+
+            if(obj['whole_details'][i]['bill_type']=='monthly_prorated'){
+              $('.vm_name_1').css('display','none')            
+              $('.port_name_1').css('display','') //jab summary na nikalna ho toh display:none rahega, otherwise display:"" hoga
+              $('.port_name_2').css('display','') //jab summary na nikalna ho toh display:none rahega, otherwise display:"" hoga
+              $('.start_date_a').css('display','')
+              $('.end_date_a').css('display','')
+              $('.report_id_1').css('display','none')            
+              $('.billing_amount').css('display','none')
+              $('.billing_days_1').css('display','')
+              $('.account_tab_1').css('display','none')                
+            }
+
+            if(obj['whole_details'][i]['bill_type']=='voyage_eop'){
+              $('.vm_name_1').css('display','none')            
+              $('.port_name_1').css('display','') //jab summary na nikalna ho toh display:none rahega, otherwise display:"" hoga
+              $('.port_name_2').css('display','') //jab summary na nikalna ho toh display:none rahega, otherwise display:"" hoga
+              $('.start_date_a').css('display','none')
+              $('.end_date_a').css('display','none')
+              $('.report_id_1').css('display','')            
+              $('.billing_amount').css('display','')
+              $('.billing_days_1').css('display','none')
+              $('.account_tab_1').css('display','none')                
+            }
+
+            var ship_name      = obj['whole_details'][i]['space_vessel'];
+            var ship_class     = obj['whole_details'][i]['account_tab'];
+            var start_date_for = start;           
+            //get_boss_invoice_details(ship_name,ship_class,start_date_for,client_name);           
+          }
+        //}
+      
+
+      if(proj_name=='BOSS')
+      {
+        if (!$.fn.DataTable.isDataTable('#ship_details'))
+        {
+          table = $('#ship_details').DataTable({
+            "scrollY"         : '300px',
+            "bPaginate"       : false,
+            "scrollX"         : false,
+            "scrollCollapse"  : true,
+            "bFilter"         : true,
+            'paging'          : false,
+            'info'            : false,
+            "ordering"        : true
+           });
+          
+          $('#ship_details').DataTable().search( '' ).draw();
+          $(".dataTable").css("margin-bottom","0px");
+        }
+
+    // }
+    }  
+    else
+    {
+      for(var j=0;j<obj['chm_array'].length;j++){
+         if(obj['chm_array'][j]['edit_reasons']!=null && obj['chm_array'][j]['edit_reasons']!='None'){
+            reason_status = obj['chm_array'][j]['edit_reasons'];
+            background_color = "#f58d82";
+         }else{
+            reason_status = ""
+            background_color = "";
+        } 
+
+       // console.log(obj['chm_array'][j]['last_dht_date'])
+
+        $('#chm_list').append('<tr style="font-size:12px;background-color:'+background_color+'" class="'+obj['chm_array'][j]['mix_vessel']+' num_'+obj['chm_array'][j]['s_no']+' roll_'+obj['chm_array'][j]['s_no']+'" style="color:'+obj['chm_array'][j]['missing_color']+'"><td><input type="checkbox" onchange="checkboxes()" name="selected" id='+obj['chm_array'][j]['voyage_id']+' class="single_select"></center></td><td>'+(j+1)+'</td><td><a href="'+obj['chm_array'][j]['alert_href']+'" target="_blank" '+obj['chm_array'][j]['alert_active']+'><a href="https://chm.bwesglobal.com/hb/view_edit_ir/?voy_id='+obj['chm_array'][j]['voyage_id']+'" target="_blank"><u>'+obj['chm_array'][j]['ship_name']+'</a></u></td><td>'+obj['chm_array'][j]['voyage_no']+'</td><td>'+obj['chm_array'][j]['disch_date']+'</td><td>'+obj['chm_array'][j]['last_dht_date']+'</td><td style="display:none">'+obj['chm_array'][j]['voyage_id']+'</td><td>'+obj['chm_array'][j]['vm_name']+'</td><td style="display:">'+obj['chm_array'][j]['disch_port']+'</td><td style="display:none" class="account_section">'+obj['chm_array'][j]['account_slab']+'</td><td>'+obj['chm_array'][j]['format_fin_date']+'</td><td>'+obj['chm_array'][j]['other_book_name']+'</td><td>'+reason_status+'</td><td>'+obj['chm_array'][j]['voyage_id']+'</td></tr>')
+        $('#submit').css('display','');
+        $('#ship_details').css('display','none');
+        $('#vessel_details').css('display','');
+
+        if(client_name=='Shell NWE'){
+          $('.account_section').css('display','');
+        }else{
+          $('.account_section').css('display','');
+        }
+
+        //console.log(obj['chm_array'][j]['cancel_vessel']);
+              
+          var cancel_shipname  = obj['chm_array'][j]['cancel_vessel'];
+          var cancel_voyno     = obj['chm_array'][j]['cancel_voyage_no'];
+          var cancel_vessel    = obj['chm_array'][j]['cancelo'];         
+          
+          var shipname = obj['chm_array'][j]['ship_name'];
+          var voyno    = obj['chm_array'][j]['voyage_no'];
+          var sno      = obj['chm_array'][j]['s_no']; 
+          var sno      = obj['chm_array'][j]['s_no']; 
+          // alert(cancel_shipname);
+          get_invoice_details(shipname,voyno,sno,cancel_shipname,cancel_voyno,cancel_vessel,client_name);
+          
+          
+          
+          // var shipname = obj['chm_array'][j]['ship_name'];
+          // var voyno    = obj['chm_array'][j]['voyage_no'];
+          // var sno      = obj['chm_array'][j]['s_no']; 
+          // get_invoice_details(shipname,voyno,sno);
+      }
+
+      
+
+      if (!$.fn.DataTable.isDataTable('#vessel_details'))
+      {
+        // $('#vessel_details thead th').on('click', '#checkall', function(e){
+        //     e.stopPropagation();
+        // });
+
+        if(proj_name=='CHM'){
+          if ($.fn.DataTable.isDataTable('#vessel_details')){
+            $('#vessel_details').DataTable().destroy();
+          }
+
+          //$('#vessel_details').DataTable().fixedHeader.adjust();
+          table = $('#vessel_details').DataTable({
+            "scrollY"         : '300px',
+            "bPaginate"       : false,
+            "scrollX"         : false,
+            "scrollCollapse"  : true,
+            "bFilter"         : true,
+            'paging'          : false,
+            'info'            : false,
+            "ordering"        : false
+          });
+
+
+          //$('#vessel_body_filter').hide();
+          $('#vessel_details').DataTable().search( '' ).draw();
+          $(".dataTable").css("margin-bottom","0px");
+        }
+      }
+    }
+  },
+    error : function(err){
+      $('#loader').css('display','none');
+      console.log(JSON.stringify(err,null,4));
+     //swal('Info','No Data available','info');
+    }
+  });
+}
+
+merge = 0;
+$('#submit').click(function(){
+  var project           = $('#proj_list').val();
+  var merge_client_list = $('#client_list').val();
+  var pro_name          = $('#proj_list').val();
+
+  if(pro_name=='BOSS')
+  {
+    get_all_value();
+  }
+  else if(pro_name=='CHM'){
+    get_all_value(); 
+  }
+})
+
+function checkboxes(){
+    var inputElems = document.getElementsByTagName("input"),
+    count = 0;
+    for (var i=0; i<inputElems.length; i++) {
+      var checsked = $("input:checked").length;
+      $('.Counter').text(checsked);      
+  }}
+
+
+function repeatStringNumTimes(str, num) { 
+
+  return str;
+}
+
+</script>
+
+
+<script type="text/javascript">
+  function get_all_value(){  
+  $(".single_select").each(function(){ 
+
+    if($(this).is(':checked')==true)
+    {            
+      if (check_element($(this).attr('id'))==-1)
+      {
+        selection_array.push($(this).attr('id')); 
+      }
+    }
+    else
+    {
+      index = selection_array.indexOf($(this).attr('id'))
+      if (index!=-1)
+      {
+        selection_array.splice(index,1);
+
+      }
+    }
+  })
+
+  /*if(client_name=='Shell'){
+    label_show = 'Check Account Tab in Ship Entry on BOSS'
+    $('#label_show').html(label_show);
+    $('#label_show').css('display','');
+  }else{
+    $('#label_show').css('display','none');
+  }
+*/
+
+  var project_name    = $('#proj_list').val();
+  if(project_name=='BOSS'){
+    var startdate    = $('#start_date').val();
+    var enddate      = $('#end_date').val();
+    var client_name  = $('#client_list').val();  
+    var vessel_type  = $('#pool_list').val();
+    var proj_name    = $('#proj_list').val();
+
+
+    if(client_name!='Poompuhar Shipping Corporation Limited'){
+     var ship_details_table = $('#ship_details').tableToJSON();
+    }
+    if(client_name=='Clearlake'){
+     var ship_details_table = $('#clearlake_details').tableToJSON();
+    }
+    if(client_name=='Poompuhar Shipping Corporation Limited'){
+     var ship_details_table = $('#poompuhar_details').tableToJSON();
+    }
+    
+    if(client_name=='Poompuhar Shipping Corporation Limited'){
+      var ship_details_table = $('#poompuhar_details').tableToJSON();      
+    } 
+
+     if(client_name=='Ultranav'){
+      var ship_details_table = $('#poompuhar_details').tableToJSON();      
+    } 
+    
+    else{
+      var ship_details_table = $('#ship_details').tableToJSON();
+    }
+    var invoice_date = $('#datePicker').val();
+    var date  = new Date(invoice_date);
+    var day   = date.getDate();
+    var month = date.getMonth() + 1;
+    var year  = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var update_in_date = year + "-" + month + "-" + day;
+    
+    $('.ui-datepicker-calendar').css('display','none');    
+    $('#loader').css('display','');
+
+    total_vessel = (selection_array.length);
+
+
+
+    //if (client_name=='Poompuhar Shipping Corporation Limited'){
+    //  var table         = document.getElementById("poompuhar_details");      
+    //} 
+
+    //else if(client_name=='Clearlake'){
+    //  var table = document.getElementById("clearlake_details");      
+   // }
+    
+   // else{
+      var table = document.getElementById("ship_details");   
+      var table = document.getElementById("vessel_details");   
+   // }
+
+
+     var totalRowCount = 0;
+      var rowCount    = 0;
+      var table       = document.getElementById("ship_details");
+      var rows        = table.getElementsByTagName("tr")
+      for (var i = 0; i < rows.length; i++) {
+          totalRowCount++;
+          if (rows[i].getElementsByTagName("td").length > 0) {
+              rowCount++;
+          }
+      }
+        // var message = "Total Row Count: " + totalRowCount;
+        // message += "\nRow Count: " + rowCount;
+        // alert(message);
+
+    
+      var totalRowCount = table.rows.length; // 5
+      var tbodyRowCount = rowCount//table.tBodies[0].rows.length; // 3
+      var olden_table   = ship_details_table;//$('.billing_days_1').val();
+      
+      //console.log(tbodyRowCount)
+     
+
+    $.ajax({
+      url: '/it/submit_selected_boss/',
+      type: 'POST',
+      dataType: 'JSON',
+      data:{      
+        'start_date'          : JSON.stringify(startdate),
+        'end_date'            : JSON.stringify(enddate),
+        'client_name'         : JSON.stringify(client_name),
+        'vessel_type'         : JSON.stringify(vessel_type),
+        'proj_name'           : JSON.stringify(proj_name),
+        'selection_array'     : JSON.stringify(selection_array),
+        'ship_details_table'  : JSON.stringify(ship_details_table),
+        'update_invoice_date' : JSON.stringify(update_in_date),
+        'total_vessel'        : JSON.stringify(total_vessel),
+        'tbodyRowCount'       : JSON.stringify(tbodyRowCount),
+        'billing_no_day'      : JSON.stringify(olden_table),
+      },
+      success: function(obj){
+        //console.log(obj);
+        var proj_name1   = obj['proj_name'];
+        var currency1    = obj['currency'];
+        var invoice_date = obj['invoice_date']; 
+        
+        
+        if(client_name=='Poompuhar Shipping Corporation Limited')
+        {
+          down_template(client_name);
+       }else if(client_name=='Clearlake'){
+          down_template(client_name);
+       }
+       else if(client_name=='Shell'){
+          down_template(client_name);
+       }
+          
+        $('#loader').css('display','');
+        $('#submit').css('display','');
+        if(obj=='error'){
+          swal("Error",'Already submitted',"error");
+          $('#loader').css('display','none');
+        }
+        
+        if(obj['msg']=="done")
+        {
+          $.ajax({
+            url      : '/it/generate_invoice_pdf/',
+            type     : 'GET',
+            dataType : 'JSON',
+            data:{                 
+               
+            },
+            success: function(obj)
+            {
+              
+              swal({
+                  title: 'Invoice',
+                  text: "Invoice successfully generated.Please wait for going to Tracker.",
+                  type: 'success',
+                  showConfirmButton:false,
+                  confirmButtonText: 'Yes, delete it!'
+                })
+              
+             // swal("Success",'Invoice successfully generated.Please wait for going to Tracker.',"success");
+              $('#loader').css('display','none');    
+              $('#submit').css('display','none');
+              $('#ship_details').css('display','none');
+              $('#datePicker').css('display','none');
+              $('#datePicker_tag').css('display','none'); 
+             
+             if(proj_name1=='BOSS' && currency1=='USD'){
+                location.href = '/it/boss_tracker/?generated_invoice_date='+invoice_date+'&currency='+currency1+'&proj_name='+proj_name1+''
+              } 
+              else if(proj_name1=='BOSS' && currency1=='INR'){
+                location.href = '/it/inr_tracker/?generated_invoice_date='+invoice_date+'&currency='+currency1+'&proj_name='+proj_name1+''
+              }
+            },
+
+            error: function(err){
+              console.log(JSON.stringify(err,null,4));
+            }
+          });
+        }
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+}
+
+  else if (project_name=='CHM'){
+    var start_dt     = $('#start_date').val();
+    var end_dt       = $('#end_date').val();
+    var vessel_det   = $('#vessel_details').tableToJSON();
+    var client_lt    = $('#client_list').val();
+    var proname      = $('#proj_list').val();
+    var vessel_type  = $('#pool_list').val();
+    $('#loader').css('display','');
+    var invoice_date = $('#datePicker').val();
+    var date         = new Date(invoice_date);
+    var day          = date.getDate();
+    var month        = date.getMonth() + 1;
+    var year         = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var update_invoice_date = year + "-" + month + "-" + day;
+   
+   
+    $.ajax({
+      url: '/it/combined_tracker/',
+      type: 'POST',
+      dataType: 'JSON',
+      data:{
+        'merge'               : 0,//merge,
+        'selection_array'     : JSON.stringify(selection_array),
+        'start_dt'            : JSON.stringify(start_dt),
+        'end_dt'              : JSON.stringify(end_dt),
+        'client_lt'           : JSON.stringify(client_lt),
+        'proj_name'           : JSON.stringify(proname),
+        'vessel_det'          : JSON.stringify(vessel_det),
+        'vessel_type'         : JSON.stringify(vessel_type),
+        'update_invoice_date' : JSON.stringify(update_invoice_date),
+
+      },
+
+      success: function(obj){
+       
+        $('#loader').css('display','');
+        if(obj=='error'){
+          swal('Error','Invoice already generated','error');        
+        }
+        if(obj=="done")
+        {
+          $.ajax({
+            url: '/it/submit_dsr_invoice/',
+            type: 'GET',
+            dataType: 'JSON',
+            data:{
+              'merge'               : merge, 
+              'proj_name'           : JSON.stringify(client_lt),
+              'vessel_type'         : JSON.stringify(vessel_type),
+              'update_invoice_date' : JSON.stringify(update_invoice_date),     
+              //'tbodyRowCount'       : JSON.stringify(tbodyRowCount),         
+            },
+            success: function(obj){
+
+                var proj_name1   = obj['proj_name'];
+                var currency1    = obj['currency'];
+                var invoice_date = obj['invoice_date'];
+               
+                $('#loader').css('display','');
+                $.ajax({
+                url      : '/it/chm_generate_invoice_pdf/',
+                type     : 'GET',
+                dataType : 'JSON',
+                data:{
+                  'merge' : merge,
+                },
+                success: function(obj)
+                {
+                 // console.log(obj)
+                    
+                  $('#loader').css('display','none');
+                  //swal('Succeess','Invoice successfully generated.Please wait for going to Tracker.','success');
+                  swal({
+                    title: 'Invoice',
+                    text: "Invoice successfully generated.Please wait for going to Tracker.",
+                    type: 'success',
+                    showConfirmButton:false,
+                    confirmButtonText: 'Yes, delete it!'
+                  })
+                  $('#chm_list').css('display','none');
+                  $('#datePicker').css('display','none');
+                  $('#datePicker_tag').css('display','none');
+                  if(proj_name1=='CHM' && currency1=='USD'){
+                    location.href = '/it/chm_tracker/?generated_invoice_date='+invoice_date+'&currency='+currency1+'&proj_name='+proj_name1+'';
+                  }else if(proj_name1=='CHM' && currency1=='INR'){
+                    location.href = '/it/inr_tracker/?generated_invoice_date='+invoice_date+'&currency='+currency1+'&proj_name='+proj_name1+'';
+                  }
+                },
+                error: function(err){
+                  swal("Info",'Invoice already submitted','info');
+                  $('#chm_list').css('display','none');
+                  // var row_chm_count = $('#chm_list tr').length;
+                  // alert(row_chm_count);
+                  console.log(JSON.stringify(err,null));
+                }
+              });
+            },
+            error: function(err){
+              console.log(JSON.stringify(err,null));
+            }
+          }); 
+       }
+      },
+      error: function(err){
+        console.log(JSON.stringify(err,null));
+      }
+    });
+  }
+}
+
+
+selection_array=[]
+function getcheckboxes() {
+    var node_list  = document.getElementsByTagName('input');
+    var checkboxes = [];
+    for (var i = 0; i < node_list.length; i++)
+    {
+      var node = node_list[i];
+
+      if (node.getAttribute('type') == 'checkbox')
+      {
+        checkboxes.push(node);
+      }
+    }
+  return checkboxes;
+}
+
+function toggle(source) {
+$(function (){
+    $("#checkall").change(function () {
+        if ($("#checkall").is(':checked')) {
+          $(".single_select").prop("checked", true);
+          var count = $("[type='checkbox']:checked").length;
+          $('.Counter').html(count-1);
+        } else {
+          $(".single_select").prop("checked", false);            
+          selection_array=[] 
+          $('.Counter').html("");         
+        }        
+    });
+  });
+
+$("#checkallw").change(function () {
+        if ($("#checkallw").is(':checked')) {
+          $(".single_select").prop("checked", true);            
+        } else {
+          $(".single_select").prop("checked", false);            
+          selection_array=[]
+        }        
+    }); 
+
+$("#checkallx").change(function () {
+  if ($("#checkallx").is(':checked')) {
+    $(".single_select").prop("checked", true);            
+  }else{
+    $(".single_select").prop("checked", false);            
+    selection_array = []
+  }        
+}); 
+
+$("#checkallxx").change(function () {
+    if ($("#checkallxx").is(':checked')) {
+      $(".single_select").prop("checked", true);            
+    } else {
+      $(".single_select").prop("checked", false);            
+      selection_array=[]
+    }        
+  }); 
+}
+
+
+function  get_invoice_details(shipname,voyno,sno,cancel_shipname,cancel_voyno,cancel_vessel,client_name){    
+    var pool_list = $('#pool_list').val();
+    $.ajax({
+      url      : '/it/vaild_invoice_details/',
+      type     : 'POST',
+      dataType : 'JSON',
+      data:{
+        'vessel_name'     : shipname,  
+        'voyage_no'       : voyno,
+        'sno'             : sno, 
+        'cancel_shipname' : cancel_shipname,
+        'cancel_voyno'    : cancel_voyno,
+        'cancel_vessel'   : cancel_vessel,
+        'client_name'     : client_name,
+        'vessel_type'     : pool_list,
+      },
+      success: function(obj){
+        //console.log(obj);        
+       // console.log(JSON.stringify(obj['icon']));
+        // if(obj['already']!=''){          
+          
+        //   $(".num_"+sno).css('display','none');
+        //   $(".num_"+sno).remove();
+         
+        // }                
+        // if(obj['display_button']=="none")
+        // { 
+            
+        //   $(".num_"+sno).css('display','none');
+        //   $(".num_"+sno).remove();
+        //   var row_chm_count = $('#chm_list tr').length;  
+          
+        //   $('.'+obj['mix_vessel']).remove();
+        //   if(row_chm_count==0){            
+        //     swal('Info','Invoice already submitted','info');
+        //     $('#submit').css('display','none');            
+        //   }
+        // } 
+
+        if (obj['icon']=='none'){
+          $(".roll_"+sno).css('display','none');
+          $(".roll_"+sno).remove();
+          var row_chm_count = $('#chm_list tr').length;
+          if(row_chm_count==0){
+            swal('Info',obj['msg'],'info');
+          }
+        }
+      },
+      error: function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+  });        
+}
+
+function  get_boss_invoice_details(ship_name,ship_class,start_date_for,client_name){
+  //console.log(ship_name,ship_class,start_date_for,client_name)
+  $.ajax({
+    url: '/it/vaild_boss_invoice_details/',
+    type: 'POST',
+    dataType: 'JSON',
+    data:{
+      'ship_name'     : JSON.stringify(ship_name),
+      'ship_class'    : JSON.stringify(ship_class),
+      'start_date_for': start_date_for,
+      'client_name'   : JSON.stringify(client_name),
+    },
+    success: function(obj){
+     // console.log('.'+obj['shipname'] + ' odd')
+      if(obj['display_button']=='none'){          
+       $("."+obj['shipname']).remove();        
+       $("."+obj['shipname']).css('display','none');
+        var rowCount = $('#ship_address tr').length;         
+          if(rowCount==0){
+            var objDate = new Date(start_date_for),
+            locale = "en-us",
+            month  = objDate.toLocaleString(locale, { month: "long" });
+            year   = objDate.toLocaleString(locale, { year: "numeric" });        
+            dt     = 'Invoice already submitted for the month of '+month+' '+year;  
+            swal("Info",dt,"info");
+            $('#submit').css('display','none');
+            //$('#checkall').css('display','none');
+        } 
+      }else{
+        $("."+obj['shipname']).css('display','none');       
+            
+       }
+    },
+    error: function(err){
+      //alert(JSON.stringify(err,null,4));
+    }
+  });        
+}
+
+
+function  get_poompuhar_invoice_details(voyage_id,start,ship_name,client_name,start_date_for){ 
+   $.ajax({
+    url: '/it/vaild_poompuhar_invoice_details/',
+    type: 'POST',
+    dataType: 'JSON',
+    data:{
+      'ship_name'   : JSON.stringify(ship_name),
+      'client_name' : JSON.stringify(client_name),
+      'voyage_id'   : JSON.stringify(voyage_id),
+      'start_dtt'   : JSON.stringify(start),
+    },
+    success: function(obj){
+      if(obj['display_button']=='none'){          
+       $("."+obj['shipname']).remove();        
+       $("."+obj['shipname']).css('display','none');
+        var rowCount = $('#poom_list tr').length;   
+        
+          if(rowCount==0){
+            var objDate = new Date(start_date_for),
+            locale = "en-us",
+            month  = objDate.toLocaleString(locale, { month: "long" });
+            year   = objDate.toLocaleString(locale, { year: "numeric" });        
+            dt     = 'Invoice already submitted for the month of '+month+' '+year;  
+            swal("Info",dt,"info");
+            $('#submit').css('display','none');
+            //$('#checkall').css('display','none');
+        } 
+      }else{
+        $("."+obj['shipname']).css('display','none');         
+      }
+    
+
+      // if(obj['msg']=='yes'){
+      //   $("."+obj['shipname']).remove();        
+      //   $("."+obj['shipname']).css('display','none');
+      //   var objDate = new Date(start),
+      //   locale = "en-us",
+      //   month  = objDate.toLocaleString(locale, { month: "long" });
+      //   year   = objDate.toLocaleString(locale, { year: "numeric" });        
+      //   dt     = 'Invoice already submitted for the month of '+month+' '+year;  
+      //  // swal("Info",dt,"info");
+      //   $('#submit').css('display','none');
+      //   $('#poompuhar_details').hide();        
+      // }else{
+      //   $('#poompuhar_details').show();   
+      // }  
+      
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });        
+}
+
+
+$('#rate_update').change(function(){
+  var rate      = $('#rate_update').val();
+  var client_lt = $('#client_list').val();
+  var proj_name = $('#proj_list').val();
+  $.ajax({
+    url      : '/it/update_rate_exchange/',
+    type     : 'GET',
+    dataType : 'JSON',
+    data:{
+      'rate'      : rate,        
+      'client_lt' : client_lt,
+      'proj_name' : proj_name,        
+    },
+    success: function(obj){
+       
+    },
+    error: function(err){
+      
+    }
+  });
+})
+
+</script>
+
+<style type="text/css">
+  a { 
+    color: inherit;
+  }
+</style>
+
+<script type="text/javascript">
+  $('#datePicker').change(function(){
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    var chk_bill_date = year + "-" + month + "-" + day;
+
+    var invoice_date = $('#datePicker').val();
+    var date1 = new Date(invoice_date);
+    var day1 = date1.getDate();
+    var month1 = date1.getMonth() + 1;
+    var year1 = date1.getFullYear();
+    if (month1 < 10) month1 = "0" + month1;
+    if (day1 < 10) day1 = "0" + day1;
+    var chk_invoice_date = year1 + "-" + month1 + "-" + day1;
+
+    if(chk_bill_date==chk_invoice_date){
+      swal("Info","No change, Your invoice date will get Current Date.",'info')
+    }else{
+      swal("Succeess","Your invoice date changed.",'info')
+    }
+   
+    $("#popup").dialog("close");
+  })
+
+
+var kalaent_name =  $('#client_list').val();
+function down_template(kalaent_name){
+
+ if(kalaent_name=='Poompuhar Shipping Corporation Limited')
+  {
+    ulr = '/it/template_download/'
+ }else if(kalaent_name=='Clearlake'){
+    url = '/it/other_template_download/'
+ }
+ else if(kalaent_name=='Shell'){
+    url = '/it/shell_template_download/'
+ }
+ 
+ else{
+  
+    $.ajax({
+      url      : url,
+      type     : 'GET',
+      dataType : 'JSON',
+      data:{                 
+        'client_name' : client_name
+      },
+      success: function(obj)
+      {
+       
+      },
+      
+      error: function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  }
+}
+
+
+function  get_clearlake_invoice_details(ship_name,start,client_name){
+  $.ajax({
+    url: '/it/vaild_clearlake_invoice_details/',
+    type: 'POST',
+    dataType: 'JSON',
+    data:{
+      'ship_name' : JSON.stringify(ship_name),
+      'start_dtt' : JSON.stringify(start),
+      'client_name' : JSON.stringify(client_name),
+    },
+    success: function(obj){     
+      if(obj['display_button']=='none'){          
+       $("."+obj['shipname']).remove();        
+       $("."+obj['shipname']).css('display','none');
+        var rowCount = $('#ship_address tr').length;         
+          if(rowCount==0){
+            var objDate = new Date(start_date_for),
+            locale = "en-us",
+            month  = objDate.toLocaleString(locale, { month: "long" });
+            year   = objDate.toLocaleString(locale, { year: "numeric" });        
+            dt     = 'Invoice already submitted for the month of '+month+' '+year;  
+            swal("Info",dt,"info");
+            $('#submit').css('display','none');            
+        } 
+      }else{
+        $("."+obj['shipname']).css('display','none');
+       }      
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });     
+}
+
+
+function get_apeejay_invoice_details(vessel_name,start,client_name){   
+   $.ajax({
+    url: '/it/vaild_apeejay_invoice_details/',
+    type: 'POST',
+    dataType: 'JSON',
+    data:{
+      'vessel_name' : JSON.stringify(vessel_name),
+      'start_dtt'   : JSON.stringify(start),
+      'client_name' : JSON.stringify(client_name),
+    },
+    success: function(obj){      
+     if(obj['display_button']=='none'){          
+       $("."+obj['shipname']).remove();        
+       $("."+obj['shipname']).css('display','none');
+        var rowCount = $('#ship_address tr').length;        
+          if(rowCount==0){           
+            var objDate = new Date(start),
+            locale = "en-us",
+            month  = objDate.toLocaleString(locale, { month: "long" });
+            year   = objDate.toLocaleString(locale, { year: "numeric" });        
+            dt     = 'Invoice already submitted for the month of '+month+' '+year;           
+            swal("Info",dt,"info");
+            $('#submit').css('display','none');            
+        } 
+      }else{
+        $("."+obj['shipname']).css('display','none');    
+      }
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });        
+}
+
+$('#export_summary_reports').click(function(){
+  var track_details = $('#ship_details').tableToJSON();
+  var client_name   = $('#client_list').val();
+  $("#loader").css("display", "");
+  $.ajax({
+    url: '/it/export_summary_report/',
+    type: 'POST',
+    dataType: 'JSON',
+    data:{
+      'track_details' : JSON.stringify(track_details),
+      'client_name'   : JSON.stringify(client_name),      
+    },
+    success: function(obj){
+      $("#loader").css("display", "none");
+      if(obj=="done"){
+      var btn = "button";
+      swal({
+        title : "<b>Export successfully completed</b>",
+        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+        html  : true,
+        type : 'success',
+        showConfirmButton: false
+      });
+      $(document).on('click', "#btnA", function(){
+        location.href = "/it/export_summary_invoice";
+      });
+      }    
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+
+$('#export_dsr').click(function(){
+  $("#loader").css("display", ""); 
+  var start_dt     = $('#start_date').val();
+  var end_dt       = $('#end_date').val();
+  var client_lt    = $('#client_list').val();
+  var proname      = $('#proj_list').val();
+  var vessel_type  = $('#pool_list').val();
+  var clicks       = $('#clicks').html();
+  
+
+ 
+  $.ajax({
+    url: '/it/export_dsr_details/',
+    type: 'GET',
+    dataType: 'JSON',
+    data:{
+      'proj_name'   : 'CHM',  
+      'start_dtt'   : JSON.stringify(start_dt),
+      'end_dtt'     : JSON.stringify(end_dt),
+      'client_lt'   : JSON.stringify(client_lt),
+      'proj_name'   : JSON.stringify(proname), 
+      'vessel_type' : JSON.stringify(vessel_type),  
+      'clicks'      : clicks,
+    },
+    success: function(obj){
+      $("#loader").css("display","none");
+      alert('Done')
+      location.href = "/it/export_dsr_download";
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends "admin.html" %}
+{% block content %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/handsontable-master/handsontable.full.js"></script>
+
+
+<style>
+  .dataTable thead th{
+    text-align: center;
+    color : white;
+    background-color : #99d6F0;
+    font-size:1.1em;
+
+
+  }
+  .datatable td{
+    font-size: 1.1em;
+  }
+  .even{
+    background-color:#def0f9 ! important;
+  }
+  .even .sorting_1{
+    background-color:#def0f9 ! important;
+  }
+.odd .sorting_1{
+    background-color:#f9f9f9 ! important;
+}
+</style>
+
+<div class="col-md-12">
+<h2>CHM Price List</h2>
+  <div class="box">
+    <div class="box-body">
+      <button id="save_client" class="btn btn-success col-md-9">Submit</button>
+    </div>
+  </div>
+</div>
+<p></p>
+  <div class="col-md-12">    
+    <div class="form-group" style="height:100%;overflow-y:auto;overflow-x:auto;">
+      <div id="view_data" ></div>
+    </div>
+  </div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+  var invoice_on = 0;
+  var invoice_table_container = document.getElementById("view_data");
+  var invoice_on = new Handsontable(invoice_table_container, {
+  colHeaders   : ['ID','Client Name','Project Name','Currency Type','Duration','Price','Price Type','Rate','Customer GSTIN'],
+  
+  columns:
+  [
+    {data : 'id'},
+    {data : 'client_name'},
+    {data : 'proj_name',type: 'dropdown',source: ['CHM','BOSS']},
+    {data : 'curr_type',type: 'dropdown',source:['USD','INR']},
+    {data : 'dur_type',type: 'dropdown',source:['M/V','Monthwise','Voyagewise']},
+    {data : 'price'},
+    {data : 'price_type'},
+    {data : 'rate'},
+    {data : 'tin_number'},
+  ],
+
+    cells: function (row, col, prop) {
+      var cellProperties = {}
+      if( col === 0 ) {
+        cellProperties.readOnly = true;
+      }     
+      return cellProperties;
+    }       
+  });
+  
+    $.ajax({
+        url      : '/it/load_client/',
+        type     : 'GET',
+        dataType : 'JSON',
+        data:{
+          
+        },
+        success: function(obj){ 
+          invoice_on.loadData(obj['cl_list']);
+          var table_container = invoice_on.getData();
+          get_saving(table_container);
+          update_saving(table_container);
+        },
+        error: function(err){
+        alert(JSON.stringify(err,null,4))
+      }
+    });
+});
+
+
+function get_saving(table_container){
+   $.ajax({
+        url      : '/it/load_fetching_data/',
+        type     : 'POST',
+        dataType : 'JSON',
+        data:{
+          'table_container' : JSON.stringify(table_container),
+        },
+        success: function(obj){ 
+          
+        },
+        error: function(err){
+          alert(JSON.stringify(err,null,4))
+        }
+      });
+
+}
+
+function update_saving(table_container)
+{
+  
+  $('#save_client').click(function(){
+  $.ajax({
+      url      : '/it/update_client_details/',
+      type     : 'POST',
+      dataType : 'JSON',
+      data:{
+        'table_container' : JSON.stringify(table_container),
+      },
+      success: function(obj){ 
+        if(obj=='done'){
+          alert('Done');
+        }
+      },
+      error: function(err){
+        alert(JSON.stringify(err,null,4))
+      }
+    });
+  })
+}
+</script>
+
+
+{% endblock %}

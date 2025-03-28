@@ -1,0 +1,500 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+
+
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css" rel="stylesheet">
+
+
+<style type="text/css">
+  .dataTables_info{
+    display: none;
+  }
+
+.select2-results{
+  font-size: 12px;
+}
+
+textarea {
+  resize: none;
+}
+</style>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-12">
+          <b>PID Advice</b><br>&nbsp;
+          <table style="border-collapse: collapse;border-color: white;font-size: 10px;">
+            <tr>
+              <td>Date</td>
+              <td><input type="date" name="" id="n_date" class="form-control" style="font-size: 10px"></td>
+              
+              <td>FCY Amount</td>
+              <td><input type="number" name="" id="n_amount" class="form-control" style="font-size: 10px;width: 203px"></td>
+
+              <td>PID No</td>
+              <td><input type="text" name="" id="n_inwardno" class="form-control" style="font-size: 10px;width: 150px"></td>
+              </tr>
+              <tr>
+              
+              <td>Remarks</td>
+              <td><textarea type="number" name="" id="n_remarks" class="form-control" style="font-size: 10px;width: 169px"></textarea></td>
+             
+              <td style="text-align: right;">Client Name</td>
+              <td>
+                <select class="form-control col-md-12" style="width: 204px;font-size: 10px;" id="get_client_details">
+                  <option value="0"></option>
+                  {% for c in client_array %}
+                    <option>{{c.client}}</option>
+                  {% endfor %}
+                </select>
+              </td>
+              <td style="text-align: right;">Currency Type</td>
+              <td><input type="text" class="form-control" style="font-size: 10px;width: 169px;" id="currency_type"></td>
+               <td style="text-align: right;">Rate</td>
+              <td><input type="text" name="" class="form-control" style="font-size: 10px;width: 150px;" id="rate"></td>
+              </tr>
+             
+
+              
+              <tr>
+              <td><button class="btn btn-success" style="font-size: 10px;;cursor: pointer;" id="submit_advice">Submit</button></td>
+              </tr>
+            </tbody>
+          </table>
+         
+
+          <table class="display" style="font-size: 12px;margin-left: 15px;" id="get_amt_details">
+            <thead>
+              <tr style="white-space: nowrap;">
+                <th style="background-color:#28a745;color:white">S.No</th>
+                <th style="display:none"></th>
+                <th style="background-color:#28a745;color:white">Txn Date</th>
+                <th style="background-color:#28a745;color:white">FCY Amount</th>               
+                <th style="background-color:#28a745;color:white">PID No.</th>
+                <th style="background-color:#28a745;color:white">Client Name</th>
+                <th style="background-color:#28a745;color:white">Currency Type</th>
+                <th style="background-color:#28a745;color:white">Rate</th> 
+                <th style="background-color:#28a745;color:white">Remarks</th>
+                <th style="background-color:#28a745;color:white"></th>
+                <th style="background-color:#28a745;color:white"></th> 
+                <th style="background-color:#28a745;color:white"></th>
+                <th style="background-color:#28a745;color:white"></th>
+                <th style="display:none"></th>
+
+              </tr>
+            </thead>
+            {% for x in view_arr %}
+            <tr style="white-space: nowrap;font-size: 10px">
+              <td id="n_idx">{{x.id}}</td>
+              <td id="n_txn_date" style="display: none">{{x.cal_date}}</td>
+              <td>{{x.txn_date|date:"d-b-Y"}}</td>
+              <td id="g_amount">{{x.amount}}</td>
+              <td id="n_inward_no">{{x.inward_no}}</td>
+              <td id="n_client">{{x.client}}</td>
+              <td id="n_currency">{{x.currency}}</td>
+              <td id="n_rate">{{x.rate}}</td>
+              <td title="{{x.remarks}}">{{x.remarks|truncatechars:23}}</td>
+              <td><b style="font-size: 10px;cursor: pointer"><a href="/it/upload_files/?info={{x.inward_no}}" target="_blank"><span style="color:black;display: none;">UPLOAD</span></a></b></td>
+              <td><b class="pid_get_edit" data-toggle="modal" data-target="#myModal" id="{{x.id}},{{x.remarks}},{{x.amount}},{{x.inward_no}},{{x.client}},{{x.rate}},{{x.currency}},{{x.cal_date}}"><u style="cursor: pointer">EDIT</u></b></td>
+              <td><b class="get_delete" style="font-size: 10px;cursor: pointer" id="{{x.id}}"><u>DELETE</u></b></td>
+              <td><b class="get_view_details" id="get_view" name="{{x.id}}" style="display: {{x.show_icon}};cursor: pointer;" data-toggle="modal" data-target="#myModals"><u>VIEW</u></b></td>
+              <td id="g_remarks" title="{{x.remarks}}" style="display: none">{{x.remarks}}</td>
+            {% endfor %}
+            </tr>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="myModals" class="modal fade" role="dialog" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"  style="font-size: 15px">Remittance Details</h5>        
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div id="get_ids" style="display: none"></div>
+
+      <div class="modal-body">
+        <div class="input-group" style="width: 100%">
+          <img id="show_pngs">
+        </div> 
+
+      <!--
+        <div class="modal-body">
+          <div class="modal-footer">             
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="refresh" style="cursor: pointer;font-size: 10px">Close</button>
+          </div>
+        </div> 
+      -->
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog" style="font-size: 12px">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 100%;font-size: 10px">
+      <div class="modal-header">
+        <h5 class="modal-title"  style="font-size: 15px">Payment Advices [Edit]</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div id="get_ids" style="display: none"></div>
+
+      <div class="modal-body">
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Txn Date</span>
+          <input id="e_txn_date" type="date" class="form-control col-md-12" style="font-size: 10px">
+        </div> 
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">FCY Amount</span>
+          <input id="e_amount" type="number" class="form-control col-md-12"  style="font-size: 10px">
+        </div> 
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Inward/Reference No.</span>
+          <input id="e_inward_no" type="text" class="form-control col-md-12"  style="font-size: 10px">
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Client Name</span>         
+          <select class="form-control col-md-12" style="width: 204px;font-size: 10px;" id="e_client">
+            <option value="0"></option>
+            {% for c in client_array %}
+              <option value="{{c.cl_name}}" id="clcl">{{c.client}}</option>
+            {% endfor %}
+          </select>
+        </div> 
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Currency Type</span>
+          <input class="form-control col-md-12" type="text" id="e_currency_type" style="font-size: 10px" disabled="enabled">
+        </div>  
+
+         <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Rate</span>
+          <input type="text" name="" class="form-control col-md-12" id="e_rate" style="font-size: 10px">
+        </div>  
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Field (70 and 72)</span>
+          <textarea id="e_remarks" type="text" class="form-control col-md-12"  style="font-size: 10px"></textarea>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-footer">
+             <button type="button" class="btn btn-success" data-dismiss="modal" id="btn_pid_update" style="cursor: pointer;font-size:10px">UPDATE</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="refresh" style="cursor: pointer;font-size:10px">Close</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+
+$('#get_client_details').change(function(){
+  var cl_det          = $(this).val();
+  var cl_split        = cl_det.split('-');
+  var get_client_name = cl_split[0];
+  var get_proj_name   = cl_split[1];
+
+
+  $.ajax({
+    url: '/it/pid_get_currncy_type/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    {      
+      'get_proj_name'   : JSON.stringify(get_proj_name),
+      'get_client_name' : JSON.stringify(get_client_name),
+    },
+    success: function(obj){
+      $('#currency_type').val(obj);
+    },
+    error : function(err){
+      
+      alert(JSON.stringify(err,null,4));
+    }
+   });
+})
+
+
+$(document).ready(function () {
+  $('#get_amt_details').DataTable({
+    scrollY: '400px',
+    scrollCollapse: true,
+    paging: false,
+    paging: false,
+    ordering: false,
+    info: false,
+    fixedHeader: true,
+    scrollX: true,
+  });
+});
+
+
+$('.pid_get_edit').click(function(){ 
+  var get_id        = $(this).attr('id'); 
+  var split_get_id  = get_id.split(',');
+  var idx           = split_get_id[0];
+  var rem           = split_get_id[1];
+  var amt           = split_get_id[2];
+  var inwardn       = split_get_id[3];
+  var client        = split_get_id[4];
+  var rate          = split_get_id[5];
+  var curren        = split_get_id[6];
+  var txt_dt        = split_get_id[7];
+  //alert(get_id)
+
+
+  $('#e_amount').val(amt);
+  $('#e_client').val(client);
+  $('#e_currency_type').val(curren);
+  $('#e_inward_no').val(inwardn);
+  $('#e_txn_date').val(txt_dt);
+  $('#e_remarks').val(rem);
+  $('#get_ids').html(idx);
+  $('#e_rate').val(rate);
+  
+})
+
+$('#btn_pid_update').click(function(){
+  var x_amount    = $('#e_amount').val();
+  var x_client    = $('#e_client').val();
+  var x_currency  = $('#e_currency_type').val();
+  var x_inward_no = $('#e_inward_no').val();
+  var x_txn_date  = $('#e_txn_date').val();
+  var x_remarks   = $('#e_remarks').val();
+  var x_idx       = $('#get_ids').html();
+  var x_rate      = $('#e_rate').val();
+  $.ajax({
+    url: '/it/pid_edit_advice/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    {      
+      'x_idx'             : JSON.stringify(x_idx), 
+      'x_rate'            : JSON.stringify(x_rate),
+      'x_date'            : JSON.stringify(x_txn_date),
+      'x_amount'          : JSON.stringify(x_amount),
+      'x_remarks'         : JSON.stringify(x_remarks), 
+      'x_inwardno'        : JSON.stringify(x_inward_no),      
+      'x_client_name'     : JSON.stringify(x_client),
+      'x_currency_type'   : JSON.stringify(x_currency),
+    },
+    success: function(obj){
+       if(obj=='done'){
+        var btn = "button";
+        swal({
+          title : "<b>PID advices successfully submitted</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          window.location.reload();
+        });
+       
+      }
+
+      if(obj=='error'){
+        var btn = "button";
+        swal({
+          title : "<b>Ops,Cannot change</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          window.location.reload();
+        });
+       
+      }
+    },
+    error : function(err){
+      
+      alert(JSON.stringify(err,null,4));
+    }
+   });
+
+
+})
+
+// function get_update(x_amount,x_client,x_currency,x_inward_no,x_txn_date,x_remarks,x_idx){
+ 
+// }
+
+$('.get_delete').click(function(){
+  var get_id = $(this).attr('id');
+  var result = confirm("Want to delete?");
+    if (result==true)
+    {
+      var result2 = confirm("Want to delete?");
+      if (result2==true)
+      {
+
+        $.ajax({
+          url: '/it/pid_delete_advice/',
+          dataType: 'JSON',
+          type: 'GET',
+          data:
+          {      
+            'get_id'  : JSON.stringify(get_id),
+          },
+          success: function(obj){
+             if(obj=='done'){
+              var btn = "button";
+              swal({
+                title : "<b>PID advices successfully deleted</b>",
+                text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+                html  : true,
+                type  : "info",
+                showConfirmButton: false
+              });
+              $(document).on('click', "#btnA", function(){
+                window.location.reload();
+              });
+             
+            }
+          },
+          error : function(err){
+            
+            alert(JSON.stringify(err,null,4));
+          }
+         });
+      }
+   }
+})
+
+
+
+
+$('#submit_advice').click(function(){
+  var n_date          = $('#n_date').val();
+  var n_amount        = $('#n_amount').val();
+  var n_inwardno      = $('#n_inwardno').val();
+  var n_client_name   = $('#get_client_details').val();
+  var n_currency_type = $('#currency_type').val();
+  var n_remarks       = $('#n_remarks').val();
+  var get_amt_details = $('#get_amt_details').val();  
+  var n_rate          = $('#rate').val();
+  alert(n_rate);
+
+  $.ajax({
+    url: '/it/pid_submit_advice/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    {      
+      'n_date'            : JSON.stringify(n_date),
+      'n_amount'          : JSON.stringify(n_amount),
+      'n_inwardno'        : JSON.stringify(n_inwardno),
+      'n_client_name'     : JSON.stringify(n_client_name),
+      'n_currency_type'   : JSON.stringify(n_currency_type),
+      'n_remarks'         : JSON.stringify(n_remarks),  
+      'n_rate'            : JSON.stringify(n_rate),    
+    },
+    success: function(obj){
+       if(obj=='done'){
+        var btn = "button";
+        swal({
+          title : "<b>PID advices successfully submitted</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          window.location.reload();
+        });
+       
+      }
+    },
+    error : function(err){
+      
+      alert(JSON.stringify(err,null,4));
+    }
+   });
+})
+
+
+$('.get_view_details').click(function(){
+  var id = $(this).attr("name");
+
+   $.ajax({
+    url: '/it/get_upload_file_name/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    {      
+      'get_id' : JSON.stringify(id),      
+    },
+    success: function(obj){ 
+     
+      $('#show_pngs').attr('src',(obj['show_png']));
+      $('.modal-content').css('width', obj['w']);
+      $('.modal-content').css('height',obj['h']);
+
+      //$('.modal-content')
+      //$("#show_pngs").html('<img src="' + obj + '" />');
+
+    },
+    error : function(err){      
+      //alert(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+
+$('#get_client_details').select2();
+
+$('#e_client').change(function(){
+  var client_name = $(this).val();
+  var proj_name   = $('#e_client option:selected').text();
+
+  $.ajax({
+    url: '/it/get_client_currency_handler/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    {      
+      'client_name' : client_name, 
+      'proj_name'   : proj_name,         
+    },
+    success: function(obj){    
+     $('#e_currency_type').val(obj);
+
+    },
+    error : function(err){      
+      //alert(JSON.stringify(err,null,4));
+    }
+  });
+})
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% block content %}    
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<style type="text/css">
+	textarea {
+   resize: none;
+}
+
+.handsontable {
+  font-size: 12px !important;
+}
+
+.tooltip {
+  height: 30px;
+  color: orange;
+  background: #fff;
+  border: 2px solid #dedede;
+  line-height: 30px;
+  margin: 0 10px;
+  box-shadow: 2px 2px 5px #ddd;
+  z-index: 200;
+}
+
+
+</style>
+
+<script type="text/javascript">
+  $(function(){
+    $("#invoice_date").datepicker();
+	$("#period_date").datepicker();
+  });
+
+
+</script>
+
+
+<div class="container">
+	<div class="col-md-12">
+		<h4>CHM DSR</h4>    
+    	<center><i id="loaders" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+    	<div class = "col-md-12" style="height:100%">
+    		<input type="date" name="" style="font-size: 12px" id="start_date"><input type="date" name="" style="font-size: 12px" id="end_date">
+
+        <div class = 'handsontable' style="height: 400px; overflow: auto; margin-top : 30px;" data-originalstyle="height: 300px; overflow: auto"  id="network_speed_list"></div>
+        <button class="btn btn-success" id="btn_load_data" style = "margin : 20px;font-size: 10px" id = "tab_type"  data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading">Load Report Type</button>
+    </div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	var data = [
+		{
+			s_no :'',
+			vessel:'',			
+			voyage_no : '',
+			pic : '',
+			client : '',
+			disch_port : '',
+			disch_datex : '',
+			nomination_date : '',
+			status: '',	
+			start_dht : '',
+			last_dht : '',
+			generated : '',
+			f_reasons : '',
+
+
+		}
+	];
+    container     = document.getElementById('network_speed_list');
+  	var tab_table = new Handsontable(container, {
+    
+    minSpareRows: 4,
+    colHeaders: true,
+    stretchH: 'all',
+    colHeaders: [ 'S.No','Vessel','Voy.No','PIC','Client','Disch.Port','Disch.Date','Nomination Date','Status','Start DHT','End DHT','Generated or Not?','Remarks'],
+    contextMenu: true,
+    columnSorting: true,
+    columns: [
+    	{	data: "s_no",
+	    	type : 'text',			
+		    readOnly: true,		    
+		},
+ 
+	    {
+	    	data: "vessel",
+	    	type : 'text',
+	    	
+	    },
+
+	    {
+	    	data: "voyage_no",
+	    	type : 'text',
+	    	
+	    },
+
+	    {
+	    	data: "pic",
+	    	type : 'text',
+	    	
+	    },
+
+     	{
+	    	data: "client",
+	    	type : 'text',
+	    	
+	    },
+
+	     {
+	    	data: "disch_port",
+	    	type : 'text',
+	    	
+	    },
+	    {
+	    	data: "disch_datex",
+	    	type : 'text',
+	    	
+	    },
+
+	    {
+	    	data: "nomination_date",
+	    	type : 'text',
+	    	
+	    },
+
+	    {
+	    	data: "status",
+	    	type : 'text',
+	    	
+	    },
+
+	    {
+	    	data: "start_dht",
+	    	type : 'text',
+	    	
+	    },
+
+	    {
+	    	data: "last_dht",
+	    	type : 'text',
+	    	
+	    },
+
+	    {
+	    	data: "generated",
+	    	type : 'text',
+	    	
+	    },
+
+	     {
+	    	data: "f_reasons",
+	    	type : 'text',
+	    	
+	    }
+	    
+
+	  ],
+	  
+	  data: data,
+  });
+
+
+$("#btn_load_data").click(function(){
+	get_reports();
+})
+
+$('#hot-display-license-info').css('display','none');
+
+function get_reports(){
+	var start_date = $('#start_date').val();
+	var end_date   = $('#end_date').val();
+
+	$("#loaders").css('display','');
+	$.ajax({
+		url : "/it/dsr_list/",
+		type : "POST",
+
+		dataType : "json",
+		data : { 
+			'end_date'   : JSON.stringify(end_date),
+			'start_date' : JSON.stringify(start_date),
+		},
+		success : function(obj_data){
+			$("#loaders").css('display','none');
+		 	//console.log(JSON.stringify(obj_data, null, 4));
+		 	
+		 	tab_table.loadData(obj_data['single_array']);
+			
+		},
+		error: function(err){
+			console.log(JSON.stringify(err,null,4));
+		}
+	});	
+}
+
+
+$('#start_date').change(function(){
+	var sdate = $(this).val();
+	cv = (sdate).split('-');
+	month = cv[1];
+	years = cv[0];
+	gmonth = (lastday(years,month));
+	get_date = years+'-'+month+'-'+gmonth;
+	$('#end_date').val(get_date)
+})
+
+
+
+var lastday = function(y, m){    
+    return new Date(y, m, 0).getDate();
+}
+
+</script>
+    
+{% endblock %}
+  

@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+
+
+
+
+<style type="text/css">
+  .handsontable td {
+    font-size: 10px;
+  }
+
+  .handsontable table thead th{       
+    font-size:10px;
+  }
+
+.select2 {
+  font-size: 10px;
+}
+
+.select2-dropdown {
+  font-size: 10px;
+}
+</style>
+
+<div class="container">
+  <div class=""> 
+    <div class="">         
+        <select class="form-control" style="width: 530px;font-size: 10px" id="client_array">
+          <option value="0">Client Name</option>
+          {% for c in client_list %}
+          <option value="{{c.clients}}">{{c.clients}}</option>
+          {% endfor %}
+        </select>
+        <select  id="get_date" style="font-size: 12px;width: 125px;margin-top: -33px;margin-left: 542px;" class="form-control"></select>
+        <button class="btn btn-primary" id="get_data" style="font-size: 12px;   height: 38px;    margin-top: -63px;    margin-left: 676px;">LOAD</button><button class="btn btn-danger" id="export_data" style="font-size: 12px;   height: 38px;    margin-top: -111px;    margin-left: 738px;">EXPORT</button><center style="margin-top: -69px;margin-left: 411px;"><i id="loader" class="fa fa-spinner fa-spin fa-3x" style="color:brown;display:none;"></i></center>
+        <br><br><br>
+        <div style="border: 3px solid #e8e8e1;height: 40px; border-radius: 5px; margin-left: -68px; width: 103%;display: none" id="show_total">
+          <table  style="width: 100%;">
+            <tr>
+            <th style="text-align: right;">Total Invoice Amount : </th>
+            <th><div id="aim_total_amount"></div></th>
+            <th>&nbsp;</th>       
+            <th>&nbsp;</th>        
+            <th>&nbsp;</th>       
+            <th>&nbsp;</th>       
+            <th>&nbsp;</th>       
+            <th>&nbsp;</th>       
+            <th>&nbsp;</th>       
+            <th>&nbsp;</th>       
+            <th style="text-align: right;">Total Remittance Amount : </th>
+            <th><div id="remittance_total_amount"></div></th>
+          </tr>
+          </table>            
+        </div>
+
+
+        <div style=" position: absolute; margin-left: -97px;">   
+          <div class = 'handsontable col-md-12' data-original  id = "aim_list" style="display: none;"></div> 
+        </div>
+
+        <div style="overflow-x: scroll;overflow-y: scroll;width: 63%;margin-left: 452px;">
+          <div class = 'handsontable col-md-12' data-original  id = "ledger_list" style="display: none;"></div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+  function get_ledger(){
+
+ $("#aim_list").empty()
+  container = document.getElementById('aim_list');
+  rob1 = [];
+  rob1 = {   
+    'invoice_no'    : '',
+    'invoice_date'  : '',
+    'services'      : '',
+    'currency'      : '', 
+    'usd_amt'       : '',
+  };
+
+  colHeaders = ['Invoice No.','Invoice Date','Service','Currency','Amount USD']
+  columns    = 
+  [   
+    {data : 'invoice_no',type:'text'},
+    {data : 'invoice_date',type:'date'},
+    {data : 'services',type:'text'},
+    {data : 'currency',type:'text'},
+    {data : 'usd_amt', type: 'text'},  
+   
+  ]
+
+  VA_table66  = new Handsontable(container,{
+    data                : rob1,
+    colHeaders          : colHeaders,    
+    columns             : columns,
+    height:             ' 554', 
+    rowHeaders          : true,      
+    contextMenu         : true,
+    columnSorting       : true,  
+    colWidths           : [100,150,50,100,100,100],
+  });
+
+
+
+  $("#ledger_list").empty()
+  container = document.getElementById('ledger_list');
+  rob = [];
+  rob = { 
+    'credit_date'   : '',
+    'service1'      : '',
+    'payment_firc'  : '',
+    'service1'      : '',
+    'inward_amt'    : '',
+    'status'        : '',
+
+  };
+
+
+  colHeaders = ['Credit Date','Payment FIRC No.','Currency','Service','Amount USD','Status']
+
+  columns    = 
+  [       
+    {data : 'credit_date',type:'date',renderer: bgColors},
+    {data : 'payment_firc',type:'text',renderer: bgColors},
+    {data : 'currency1',type:'text',renderer: bgColors},
+    {data : 'service1',type:'text',renderer: bgColors},
+    {data : 'inward_amt',type:'text',renderer: bgColors},
+    {data : 'status',type:'text',renderer: bgColors},
+  ]
+
+
+
+  VA_table6  = new Handsontable(container,{
+    data                : rob,
+    colHeaders          : colHeaders,    
+    columns             : columns,
+    height:             ' 554',
+    rowHeaders          : true,      
+    contextMenu         : true,
+    columnSorting       : true,  
+    colWidths           : [100,150,50,100,100,100],
+  });
+
+ 
+
+}
+
+get_ledger();
+
+$('#get_data').click(function(){
+  var client_ids = $('#client_array').val();
+  var fin_date   = $('#get_date').val();
+  $('#loader').css('display','');
+  if(fin_date=='Financial Year'){
+    alert("Please Select Financial Year");
+    $('#loader').css('display','none');
+    return 0;
+  }
+  $.ajax({
+    url : "/it/ledger_datas",
+    type : "GET",
+    dataType : "json",
+    data : { 
+     'fin_date'     : fin_date,
+     'client_ids'   : client_ids,
+    },
+    success : function(obj_data){
+      $('#aim_list').css('display','');
+      $('#ledger_list').css('display','');
+      $('#show_total').css('display','');
+      VA_table6.loadData(obj_data['invoice_arr']);
+      VA_table66.loadData(obj_data['ledger_list']);
+      try{
+        $('#remittance_total_amount').html(obj_data['invoice_arr'][0]['remitt_amt'].toFixed(0));   
+      }catch(err){
+        alert('इसका पैसा नहीं मिला, इसको फिर चेक करना पड़ेगा')
+      }   
+      $('#aim_total_amount').html(obj_data['all_usd_amt'].toFixed(0));
+
+      $('#loader').css('display','none');     
+
+    },
+    error: function(err){
+    console.log(JSON.stringify(err,null,4))
+    $('#loader').css('display','none');
+     
+    }
+  });
+})
+
+function bgColors(instance, td, row, col, prop, value, cellProperties) {
+  Handsontable.renderers.TextRenderer.apply(this, arguments);
+  var data = instance.getData();    
+  td.style.backgroundColor = '#c5e4fa'; 
+};
+
+
+$('#client_array').select2();
+var mySelect = $('#get_date');
+var startYear = 2026;
+var prevYear = 2025;
+ mySelect.append(
+    $('<option>Financial Year</option>').val("Financial Year")
+  );
+for (var i = 0; i < 5; i++) {
+  startYear = startYear - 1;
+  prevYear = prevYear -1;
+  mySelect.append(
+    $('<option></option>').val(prevYear + "-" + startYear).html(prevYear + "-" + startYear)
+  );
+}
+
+
+$('#export_data').click(function(){
+  var remittance_data = VA_table6.getData();
+  var invoice_data    = VA_table66.getData();
+  var client_name     = $('#client_array').val();
+  var fin_date        = $('#get_date').val();
+  $('#loader').css('display','');     
+  $.ajax({
+    url : "/it/export_ledger_data",
+    type : "POST",
+    dataType : "json",
+    data : { 
+      'invoice_data'    : JSON.stringify(invoice_data),
+      'remittance_data' : JSON.stringify(remittance_data),
+      'client_name'     : JSON.stringify(client_name),
+      'fin_date'        : JSON.stringify(fin_date),
+    },
+    success : function(obj_data){
+      $('#loader').css('display','none');     
+      location.href = "/it/export_legder_download/";
+
+    },
+    error: function(err){
+     console.log(JSON.stringify(err,null,4))
+      $('#loader').css('display','none');
+     
+    }
+  });
+})
+
+
+</script>
+
+
+
+{% endblock %}

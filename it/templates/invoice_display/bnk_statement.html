@@ -1,0 +1,580 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/fixedColumns.dataTables.min.css"> -->
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+
+<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+
+<!-- <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<link href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css"> -->
+
+
+<script src="https://docs.handsontable.com/pro/1.7.4/bower_components/handsontable-pro/dist/handsontable.full.min.js"></script>
+<link type="text/css" rel="stylesheet" href="https://docs.handsontable.com/pro/1.7.4/bower_components/handsontable-pro/dist/handsontable.full.min.css">
+
+
+
+
+
+
+<style type="text/css">
+.hot-display-license-info{
+    display: none;
+  }
+
+ 
+ .dataTables_scrollHeadInner {
+  margin-left: 37px;
+ }
+
+ .dataTables_info{
+  display: none;
+ }
+
+
+ .dataTables_scrollHead{
+  margin-left: -37px;
+ }
+
+</style>
+
+
+
+<script type="text/javascript">
+function submittab(){
+  // var data      = tab_table.getData();  
+  // data          = tab_table.getData();  
+  // data_cleaned  = [];
+  // var i         = 0;
+  // while(true){
+  //   if(data[i]['name'] != null ){    
+  //     data_cleaned.push(data[i]['name']);
+  //     i++;
+  //   }
+  //   else{
+  //     break;
+  //   }
+  // }
+
+  $.ajax({
+    url : "/it/bank_entry_inr/",
+    type : "GET",
+    dataType : "json",
+    data: {
+      tabs_name: JSON.stringify(data),        
+      csrfmiddlewaretoken: ''
+    },
+    success : function(obj_data){        
+      alert(JSON.stringify(obj_data,null,4));
+     if(obj_data=='done'){
+        var btn = "button";
+        swal({
+          title : "<b>Bank Statement successfully updated</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          window.location.reload();
+        });
+       
+      }
+
+      
+      //get_reports()
+    },
+    error : function(err){       
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+}
+</script>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-12">
+          <div class = "box box-success">
+              <div class="box-header with-border">
+              <center>Bank Statement Entry (INR)</center>
+              <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+              <div class = "col-md-12" style="height:100%">
+                <div class = 'handsontable' style="height: 100px; overflow: auto; margin-top : 30px;" data-originalstyle="height: 300px; overflow: auto"  id="bank_statement_list"></div>
+                  
+                  <button class="btn btn-success col-md-3" style = "margin : 0px;cursor: pointer;font-size: 10px;display:''" id = "tab_type" onclick = "submittab()" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading">Submit Report Type (INR)</button>                
+              </div>    
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered" style="font-size: 12px;" id="get_bank_statement">
+        <thead style="background-color: #1e7e34;color: white;">
+          <tr>
+            <th></th>
+            <th></th> 
+            <th style="display: none">id</th> 
+            <th style="display: none">txn_date</th> 
+            <th>S.N.</th>
+            <th>Txt Date</th>
+            <th>Descs.</th>
+            <th>Amount INR</th>
+            <th>Reference No</th>
+            <th>Reference</th> 
+          </tr>
+        </thead>    
+      <tbody>
+        <tr>
+        {% for x in bnk_array %}
+          <td class="get_edit" data-toggle="modal" data-target="#myModal" id=""><u style="cursor: pointer;color: #28a745;font-weight: bold">EDIT</u></td>
+          <td class="get_delete" style="font-size: 10px;cursor: pointer" id="{{x.id}}"><u style="color: red;font-weight: bold">DELETE</u></td>
+          <td class="get_id"  style="display: none">{{x.id}}</td>
+          <td class="get_txn_date"  style="display: none">{{x.stxn_date}}</td>
+          <td>{{forloop.counter}}</td>
+          <td style="">{{x.gt_tx_date}}</td>
+          <td style="" class="get_descs">{{x.descs}}</td>
+          <td style="" class="get_amt_inr">{{x.amount_inr}}</td>
+          <td style="" class="get_reference_no">{{x.reference_no}}</td>
+          <td style="" class="get_referencez">{{x.referencez}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog" style="font-size: 12px">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 100%;font-size: 10px">
+      <div class="modal-header">
+        <h5 class="modal-title"  style="font-size: 15px">Bank Statement [Edit]</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div id="get_idx" style="display: none"></div>
+
+      <div class="modal-body">
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Txn Date</span>
+          <input id="e_txn_date" type="date" class="form-control col-md-12" style="font-size: 10px">
+        </div> 
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Descs</span>
+          <input id="e_descs" type="text" class="form-control col-md-12"  style="font-size: 10px">
+        </div> 
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Amount INR.</span>
+          <input id="e_amount_inr" type="text" class="form-control col-md-12"  style="font-size: 10px">
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Reference No </span>         
+          <input id="e_reference_no" type="text" class="form-control col-md-12"  style="font-size: 10px">
+        </div> 
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:35%;font-size: 10px">Reference</span>
+          <input id="e_referencez" type="text" class="form-control col-md-12"  style="font-size: 10px">
+        </div>        
+
+        <div class="modal-body">
+          <div class="modal-footer">
+             <button type="button" class="btn btn-success" data-dismiss="modal" id="btn_update" style="cursor: pointer;font-size: 10px">UPDATE</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="refresh" style="cursor: pointer;font-size: 10px">Close</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  var data = [
+    {
+      id              : false,
+      s_no            : '',
+      txn_date        : '',
+      descs           : '',
+      amt_inr         : '',
+      d_c             : '',
+      reference_no    : '',
+      referencez      : '',
+      bank_name       : 'HDFC',      
+      amount_balance  : '',
+      link            : '',
+    }
+  ];
+  
+  container     = document.getElementById('bank_statement_list');
+  var tab_table = new Handsontable(container, {
+    minSpareRows  : 1,   
+    rowHeaders    : true,
+    dropdownMenu  : true,
+    filters       : true,
+    columnSorting : true,  
+    stretchH      : 'all',
+
+    colHeaders    : ['','Txn Date','Transaction Description','Amount (INR)','Reference No','Reference','Bank','','ID'],
+    contextMenu   : true,
+    
+    hiddenColumns: {      
+     columns: [6,7]
+    },
+
+    columns: [
+    {
+        data: "id",
+        type:'checkbox',          
+      },
+
+      {
+        data: "txn_date",
+        type: 'date',
+        dateFormat: 'DD-MM-YYYY',
+        renderer: colorRenderer3,
+      },
+
+      {
+        data: "descs",
+        type: 'text',
+        renderer: colorRenderer3,
+      },
+
+      {
+        data: "amt_inr",
+        type: 'text',
+        renderer: colorRenderer3,
+      },
+
+       {
+        data: "reference_no",
+        type: 'text',
+        renderer: colorRenderer3,
+      }, 
+
+      {
+        data: "referencez",
+        type: 'text',
+        renderer: colorRenderer3,
+      },  
+
+      
+
+     
+      {
+        data: "bank_name",
+        type: 'text',
+        renderer: colorRenderer3,
+      },
+
+      {
+        renderer : "html",
+        data: "html",
+        readOnly: true,       
+      },
+
+       {
+        data: "s_no",       
+        readOnly: true,
+        renderer: colorRenderer3,
+      },
+    ],
+    data: data,
+  });
+
+//get_reports();
+$('#hot-display-license-info').css('display','none');
+
+// function get_reports(){
+//   $('#loader').css('display','')
+//   $.ajax({
+//     url : "/it/other_bank_details/",
+//     type : "POST",
+
+//     dataType : "json",
+//     data : { 
+      
+//     },
+//     success : function(obj_data){     
+//       $('#loader').css('display','none') 
+//      //  if(obj_data['bnk_array'].length>0)
+//      //  {
+//      //   tab_table.loadData(obj_data['bnk_array']);        
+//      //  }
+//      // else
+//      // {
+//      //    tab_table.loadData(obj_data['bnk_array']);      
+//      // }
+//     },
+//     error: function(err){
+//       alert(JSON.stringify(err,null,4));
+//     }
+//   }); 
+// }
+
+a=0;
+function colorRenderer3(instance, td, row, col, prop, value, cellProperties) {
+  Handsontable.renderers.TextRenderer.apply(this, arguments);
+  var data = instance.getData();
+  var c_d  = data[row][4]; 
+  var amt  = data[row][5];
+  flag_status = ''
+try{
+  flag_status = (data[row][7].replace(/(<([^>]+)>)/gi, ""))
+}catch(err){
+
+}
+  
+};
+
+
+$('#delete_bank').click(function(){
+   var result = confirm("Want to delete?");
+    if (result==true)
+    {
+        var result2 = confirm("Want to delete?");
+        if (result2==true)
+        {
+          delete_bank_details()
+        }
+      }
+})
+
+
+
+
+function delete_bank_details(){  
+  var bank_det  = tab_table.getData();
+ 
+  $.ajax({
+    url: '/it/delete_bank_details_inr/',
+    dataType: 'JSON',
+    type: 'POST',
+    data:
+    {      
+      'bank_details' : JSON.stringify(bank_det),
+    },
+    success: function(obj){
+      
+      $("#loader").css('display','none');
+        if(obj=="delete"){
+          var btn = "button";
+          swal({
+            title : "<b>Deleted...</b>",
+            text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+            html  : true,
+            showConfirmButton: false
+          });
+          $(document).on('click', "#btnA", function(){
+          window.location.href=window.location.href;
+        });
+      }
+      if(obj=="check"){
+          var btn = "button";
+          swal({
+            title : "<b>Please Select Checkbox to delete.</b>",
+            text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+            html  : true,
+            showConfirmButton: false
+          });
+          $(document).on('click', "#btnA", function(){
+          window.location.href=window.location.href;
+        });
+      }
+    },
+    error : function(err){
+      $("#loader").css('display','none');
+      alert(JSON.stringify(err,null,4));
+    }
+   });
+  }
+
+
+
+
+// $(document).ready(function () {
+//     $('#get_bank_statement').DataTable({
+//         scrollY: '50vh',
+//         scrollCollapse: true,
+//         paging: false,
+//     });
+// });
+
+$(document).ready(function() {
+   
+
+    if(!$.fn.DataTable.isDataTable('#get_bank_statement')){     
+        table = $('#get_bank_statement').DataTable({
+        scrollY:"600px",
+        scrollX:true,
+        scrollCollapse:true,
+        paging:false,
+        Destroy:true,   
+      });
+
+      $('#get_bank_statement').DataTable().search( '' ).draw();
+      $(".dataTable").css("margin-bottom","0px");   
+    }     
+
+
+   // new $.fn.dataTable.FixedHeader( table );
+});
+
+
+$('.get_edit').click(function(){ 
+  var nget_id            = $(this).closest("tr").find(".get_id").text();
+  var nget_txn_date      = $(this).closest("tr").find(".get_txn_date").text();
+  var nget_descs         = $(this).closest("tr").find(".get_descs").text();
+  var nget_amt_inr       = $(this).closest("tr").find(".get_amt_inr").text();
+  var nget_reference_no  = $(this).closest("tr").find(".get_reference_no").text();
+  var nget_referencez    = $(this).closest("tr").find(".get_referencez").text();
+ 
+  get_edit_call(nget_id,nget_txn_date,nget_descs,nget_amt_inr,nget_reference_no,nget_referencez);
+
+})
+
+
+function get_edit_call(nget_id,nget_txn_date,nget_descs,nget_amt_inr,nget_reference_no,nget_referencez){
+  $('#get_idx').html(nget_id);
+  $('#e_txn_date').val(nget_txn_date);
+  $('#e_descs').val(nget_descs);
+  $('#e_amount_inr').val(nget_amt_inr);
+  $('#e_reference_no').val(nget_reference_no);
+  $('#e_referencez').val(nget_referencez);
+}
+
+
+$('#btn_update').click(function(){  
+  var x_txn_date        = $('#e_txn_date').val();
+  var x_descs           = $('#e_descs').val();
+  var x_amount_inr      = $('#e_amount_inr').val();
+  var x_reference_no    = $('#e_reference_no').val();
+  var x_referencez      = $('#e_referencez').val();
+  var x_idx             = $('#get_idx').html();
+ 
+
+
+  $.ajax({
+    url: '/it/update_bank_statement_inr/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    {      
+      'x_txn_date'    : JSON.stringify(x_txn_date),
+      'x_descs'       : JSON.stringify(x_descs),
+      'x_amount_inr'  : JSON.stringify(x_amount_inr),
+      'x_reference_no': JSON.stringify(x_reference_no),
+      'x_referencez'  : JSON.stringify(x_referencez),
+      'x_idx'         : JSON.stringify(x_idx), 
+      
+    },
+    success: function(obj){     
+       if(obj=='done'){
+        var btn = "button";
+        swal({
+          title : "<b>Bank Statement successfully updated</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          window.location.reload();
+        });
+       
+      }
+    },
+    error : function(err){
+      
+      console.log(JSON.stringify(err,null,4));
+    }
+   });
+})
+
+
+$('.get_delete').click(function(){  
+   var x_idx  = $(this).attr('id');   
+   var result = confirm("Want to delete?");
+    if (result==true)
+    {
+      var result2 = confirm("Want to delete?");
+      if (result2==true)
+      {
+        $.ajax({
+          url: '/it/delete_bank_statement_inr/',
+          dataType: 'JSON',
+          type: 'GET',
+          data:
+          {     
+            'x_idx' : JSON.stringify(x_idx),       
+          },
+          success: function(obj){     
+             if(obj=='done'){
+              var btn = "button";
+              swal({
+                title : "<b>Bank Statement successfully deleted</b>",
+                text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+                html  : true,
+                type  : "info",
+                showConfirmButton: false
+              });
+              $(document).on('click', "#btnA", function(){
+                window.location.reload();
+              });
+             
+            }
+          },
+          error : function(err){            
+            console.log(JSON.stringify(err,null,4));
+          }
+        });
+      }
+    }  
+})
+
+</script>
+
+
+{% endblock %}

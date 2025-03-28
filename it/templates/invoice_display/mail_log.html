@@ -1,0 +1,148 @@
+﻿{% extends "base.html" %}
+{% block content %}
+
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.0-beta.2/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+
+
+<style type="text/css">
+.table>thead:first-child>tr:first-child>td
+{
+    padding:4px;
+}
+
+.bordered>tbody>tr>td
+{
+    padding:3px;
+}
+th
+{
+    font-size:12px;
+}
+td
+{
+    font-size:12px;
+}
+.table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td
+{
+    padding:3px;
+}
+
+
+.black_overlay{
+  display  : none;
+  position : absolute;
+  top      : 0%;
+  left     : 0%;
+  width    : 0%;
+  height   : 100%;
+  background-color : transparent;
+  z-index  : 0;
+  -moz-opacity : 0.8;
+  opacity  :.80;
+  filter   : alpha(opacity=80);
+}
+
+#close_lay{
+  margin-left: auto;
+  cursor: pointer;
+  top      : 0%;
+  width    : 0%;
+  height   : 0%;
+  font-size: 12px;
+
+}
+
+.white_content {
+  display  : none;
+  position : absolute;
+  top      : 15%;
+  left     : 15%;
+  width    : 70%;
+  padding  : 16px;
+  border   : 16px solid rgb(3, 60, 115);
+  background-color : white;
+  z-index  : 1002;
+  overflow : auto;
+}
+
+#loader
+{
+    position:relative;
+    left:40%;
+    top:50%;
+}
+</style>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body">
+        <h3><font color="#FFA500"><i class="fa fa-envelope" aria-hidden="true"></i></font> Sent Details</h3>
+        <table class="table table-striped table-bordered bootstrap-datatable" id="master_table" style="border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Vessel Name</th> 
+              <th>Voy No</th>
+              <th>Invoice No</th>
+              <th>Invoice<br> Amount</th>          
+              <th>Invoice<br> Date</th>
+              <th>Client</th>
+              <th>Mail To</th>
+              <th>Mail From</th>  
+              <th>Mail Cc</th>     
+              <th>Sent <br> Date</th>
+              <th>Proj.Name</font></th>
+            </tr>
+          </thead>     
+            {% for x in mail_array %}
+             <tr style="color: {{x.header_color}}">
+                <td>{{forloop.counter}}</td>
+                <td style="white-space:nowrap">{{x.vessel_name}}</td>
+                <td>{{x.voy_no}}</td>
+                <td>{{x.invoice_no}}</td>
+                <td>{{x.invoice_amt|default_if_none:""}}</td>
+                <td style="white-space:nowrap">{{x.invoice_date|date:"d/M/Y"}}</td>          
+                <td style="white-space:nowrap">{{x.client}}</td>
+                <td>{{x.mail_to}}</td>
+                <td>{{x.mail_from}}</td>
+                <td>{{x.mail_cc}}</td> 
+                <td style="white-space:nowrap">{{x.sent_date|date:"d/M/Y"}}</td>
+                <td style="white-space:nowrap">{{x.proj_name}}</td>
+              {% endfor %}
+              </tr>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+  table = $('#master_table').DataTable({
+    "scrollY"         : '500px',
+    "bPaginate"       : false,
+    "scrollX"         : true,
+    "scrollCollapse"  : true,
+    "bFilter"         : true,
+    'paging'          : false,
+    'info'            : false,
+    "ordering"        : false
+  });
+
+  $('#master_table').DataTable().search( '' ).draw();
+  $(".dataTable").css("margin-bottom","0px");       
+  });
+</script>     
+        
+
+{% endblock %}

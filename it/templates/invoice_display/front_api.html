@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+
+
+
+<style type="text/css">
+  .loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#select2-get_client_list-container{
+  font-size: 12px;
+}
+
+.progress{
+  width: 100%;
+  margin-left: -15px; 
+}
+
+.select2-container--default .select2-selection--single{
+  height: 38px;
+}
+
+</style>
+
+<div class="container">
+  <div class="col-md-12">
+    <h4 style="text-align: center;">FETCH DATA (BOSS)</h4>
+    <div style="width: 100%; display: table;">
+      <div style="display: table-row">
+        <div style="width: 100px; display: table-cell;"> 
+          <select class="form-control chosen-select" id="get_client_list"  style="font-size: 12px">
+             <option value="0">Client Name</option>
+            {% for x in client_list %}
+              <option value="{{x.client_name}}">{{x.client_name}}</option>
+            {% endfor %}
+            </select>
+          </div>
+          <div style="width: 100px; display: table-cell;"><select class="form-control" id="get_account_list"  style="font-size: 12px;margin-left: -73px;"></select></div>
+        <div style="width: 100px;display:table-cell;"> <input type="date" name="" class="form-control" id="finance_date"  style="font-size: 12px;width: 192px"></div>
+        <div style="width: 100px;display:table-cell;"> <button class="btn btn-success" id="btn_submit" style="cursor: pointer;font-size: 12px">Load Data</button>
+
+        </div>
+        <div style="width: 100px;display:table-cell;"> <button class="btn btn-warning" id="btn_export" style="cursor: pointer;font-size: 12px;margin-left:-59px;color:black">Export</button>
+
+        </div>
+      </div>
+    </div>
+   <!--  <center><div class="loader" style="display: none" id="loader"></div> -->
+    
+    <div class="container">
+        <div class="loading-progress" style="display: none"></div>
+    </div>
+      
+    
+    <br>
+
+    <div style="width: 600px; display: table-cell;font-size: 12px"> <div class = 'handsontable htColumnHeaders col-md-12' data-original style="overflow-y: auto;overflow-x: auto;"  id = "load_api"></div> </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+$("#get_client_list").select2();
+
+var today = new Date();
+var dd    = String(today.getDate()).padStart(2, '0');
+var mm    = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy  = today.getFullYear();
+today = yyyy + '-' + mm + '-' + '01';
+$('#finance_date').val(today)
+
+$("#load_api").empty()
+  container = document.getElementById('load_api');
+  rob = [];
+  rob = {   
+    'ship_name' : '',
+    'acc_tab'   : '',   
+  };
+
+  colHeaders = ['Ship Name','Account Tab']
+  columns    = [{data : 'ship_name'},{data : 'acc_tab'}]
+
+  tab_table  = new Handsontable(container,{
+    data                : rob,
+    colHeaders          : colHeaders,    
+    columns             : columns,
+    minSpareRows        : 2,
+    rowHeaders          : true,  
+    contextMenu         : true, 
+    colWidths           : 390, 
+    fixedRowsTop: 0,
+
+  });
+
+
+$('#btn_submit').click(function(){
+    var progress = $(".loading-progress").progressTimer({
+        timeLimit: 20,
+        onFinish: function () {
+            //alert('completed!');
+        }
+    });
+
+    $('.loading-progress').css('display','');
+    var clientID = $('#get_client_list').val();
+    var fin_date = $('#finance_date').val();
+    var acc_list = $('#get_account_list').val();
+   $.ajax({
+    url: '/it/get_vessel_list/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    { 
+      'clientID' : clientID,
+      'fin_date' : fin_date,
+      'acc_list' : acc_list,
+    },
+    success : function(obj_data){
+
+     $('.loading-progress').css('display','none');
+     if(obj_data.length>0)
+      {
+        tab_table.loadData(obj_data);        
+      }
+      else
+      {
+        tab_table.loadData(obj_data);     
+      }
+    },
+    error : function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+
+  $(document).on('change','#get_client_list',function(){ 
+    var cl_namez = $('#get_client_list').val();
+      $.ajax({
+      url: '/it/get_account_list/',
+      dataType: 'JSON',
+      type: 'GET',
+      data:
+      { 
+        'cl_namez' : cl_namez,      
+      },
+      success : function(obj){
+        $('#get_account_list').empty();
+        $('#get_account_list').append('<option id="0"></option>')  
+        for(var i=0;i<obj['acc_list'].length;i++){
+          $('#get_account_list').append('<option id='+obj['acc_list'][i]['account_tab']+'>'+obj['acc_list'][i]['account_tab']+'</option>')         
+        }
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });     
+  });
+
+
+$('#btn_export').click(function(){ 
+  var progress = $(".loading-progress").progressTimer({
+        timeLimit: 5,
+        onFinish: function () {
+         //alert('completed!');
+        }
+    });
+
+    $('.loading-progress').css('display','');
+
+
+
+  var ddd = tab_table.getData(); 
+  $('#loader').css('display','');   
+     $.ajax({
+        url:'/it/export_from_api/',
+        dataType:'JSON',
+        type:'POST',
+        data:{
+          'handsondata' : JSON.stringify(ddd)      
+      },
+
+      success:function(obj){
+       $('.loading-progress').css('display','none');
+        location.href = "/it/api_invoice_export";
+      },
+      error:function(err){
+        console.log(JSON.stringify(err,null,4))
+      }
+    });
+  });
+
+
+
+
+
+</script>
+
+<script src="/static/js/static.min.js"></script>
+<script src="/static/js/jquery.progresstimer.js"></script>
+{% endblock %}

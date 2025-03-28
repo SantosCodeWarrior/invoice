@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block content %}    
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+<div class="container">
+	<div class="col-md-12"> 
+	<lable>
+     <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+		<div class="container">
+     	
+		<div style="width: 100%; display: table;">
+			<div id="get_invoice_date_1" style="font-size: 12px;margin-left: 13px;"></div>
+		    <div style="display: table-row">
+		        <div style="width: 600px; display: table-cell;font-size: 12px"> <div class = 'handsontable col-md-12' data-original style="overflow-y: auto;overflow-x: auto;"  id = "single_datas"></div> </div>
+	        	
+		    	</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+<script type="text/javascript">
+ 
+  $('#loader').css('display','');
+ 
+
+  $.ajax({
+    url: "/it/account_fetch_details/",
+    type: "POST",
+    dataType: "json",
+    data: {
+    	
+      	
+    },
+    success : function(obj_data){      
+       $('#loader').css('display','none');
+       VA_table6.loadData(obj_data['account_array']);
+       alert('dd')
+           
+    },
+    error : function(err){       
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+
+
+function get_rob(){
+	$("#single_datas").empty()
+	container = document.getElementById('single_datas');
+	rob 	  = [];
+	rob = {		
+		'ship_id'		: '',
+		'ship_name'		: '',
+		'account_tab'	: '',
+		'client_id'		: '',
+		'address'		: '',		
+	};
+
+	colHeaders = ['Ship ID','Ship Name','Account Tab','Client ID','Address','Current Date']
+	columns    = [{data : 'ship_id'},{data : 'ship_name'},{data : 'account_tab'},{data : 'client_id'},{data : 'address'}]
+	VA_table6  = new Handsontable(container,{
+		data         : rob,
+		colHeaders   : colHeaders,		
+		columns      : columns,
+		minSpareRows : 0,
+		rowHeaders   : true,	
+		contextMenu  : true,		
+	});
+}
+
+get_rob();
+
+var lastday = function(y,m){
+  return  new Date(y, m, 0).getDate();
+}
+
+var date1   = new Date();
+var day1    = date1.getDate();  
+var month1  = date1.getMonth()+1; 
+var year1   = date1.getFullYear();
+if (month1 < 10) month1 = "0" + month1;
+if (day1 < 10) day1 = "0" + day1;
+var today1  = year1 + "-" + month1 + "-" + day1;
+
+last_days          = (lastday(year1,month1))  
+first_date         = (month1)+'-01-'+year1;
+last_date          = (month1)+'-'+last_days+'-'+year1;    
+var manual_date    = last_date; 
+start_invoice_date = (month1)+'-01-'+year1;  
+end_invoice_date   = (year1)+'-'+month1+'-01';
+$('#get_date').val(end_invoice_date)
+
+
+
+$('#btn_export').click(function(){
+  var csv = VA_table6.getData();
+  $("#loader").css("display","");
+  $.ajax({
+    url: "/it/export_fetch_account_data/",
+    type: "POST",
+    dataType: "json",
+    data: {
+    	
+    },
+    success : function(obj_data){      
+       $("#loader").css("display","none");
+      alert('Done')
+      location.href = "/it/export_account_data";
+           
+    },
+    error : function(err){       
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+
+</script>
+
+{% endblock %}
+  

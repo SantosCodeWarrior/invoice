@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block content %}    
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!--   <link rel="stylesheet" href="/resources/demos/style.css"> -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<style type="text/css">
+	textarea {
+   resize: none;
+}
+
+</style>
+
+
+<div class="container">
+	<div class="col-md-12">    
+     <center><i id="loaders" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+     	<h4>For Oldendorff</h4>
+		<div style="width: 100%; display: table;">
+			<div id="get_invoice_date_1" style="font-size: 12px;margin-left: 13px;"></div>
+			<div><input type="text" id="type_invoice_no" placeholder="Type Invoice No" style="font-size: 12px;margin-left: 13px;" onchange="return ChangeValue(this);"></div>
+		    <div style="display: table-row">
+		        <div style="width: 600px; display: table-cell;font-size: 12px"> <div class = 'handsontable col-md-12' data-original style="overflow-y: auto;overflow-x: auto;"  id = "single_datas"></div> </div>
+	        	<div style="display: table-cell;">
+        						    
+		        		<p></p>
+		        	 	<div class="row">
+					      <div class="col-sm-12">
+					        <button id="update_other_invoice" class="btn btn-success btn-md center-block" style="width:105px;cursor:pointer">Submit</button>
+
+					        <div id="subtotal" style="font-size: 12px;font-weight: bold"></div>        
+					      </div>
+					    </div>
+					    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+        			</div>
+		    	</div>
+			</div>
+		</div>
+	</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 185%;margin-left: -208px;">
+      <div class="modal-header">        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">        
+        <img src="/static/img/example.png" style="height: 490px;width: 870px;">   
+        <div><img src="/static/img/sample.png" style="height: 240px;width:286px;margin-top: -565px;margin-left: 344px;"></div>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+function parseURLParams(url) {
+    var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") {
+      return;
+    }
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=");
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+        if (!parms.hasOwnProperty(n)) {
+            parms[n] = [];
+        }
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
+  }
+
+
+
+
+//var type_invoice_no = $('#type_invoice_no').val();
+
+var curr_ul     = window.location.href
+var invoices_n  = parseURLParams(curr_ul)['invoices']
+type_invoice_no = invoices_n;
+//alert(type_invoice_no);
+$('#type_invoice_no').val(invoices_n)
+$(document).ready(function(){
+//$('#type_invoice_no').blur(function(){
+  var type_invoice_no = invoices_n; //$(this).val();
+  $.ajax({
+    url : "/it/single/",
+    type : "GET",
+    dataType : "json",
+    data: {
+    	'type_invoice_no'   : JSON.stringify(invoices_n),        
+      	csrfmiddlewaretoken : ''
+    },
+    success : function(obj_data){  
+      console.log(obj_data)
+       VA_table6.loadData(obj_data['inv_det']);
+       $('#subtotal').html(obj_data['total_amt'].toFixed(1))
+       $('#get_invoice_date_1').html(obj_data['get_date'])
+     
+    },
+    error : function(err){       
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+	var lastday = function(y,m){
+		return  new Date(y, m, 0).getDate();
+	}
+
+
+	function get_rob(){
+	$("#single_datas").empty()
+	container = document.getElementById('single_datas');
+	rob = [];
+	rob = {	
+		'id'			: '',	
+		'invoice_no'	: '',
+		'ship_name'		: '',
+    	'day'  			: '',
+		'price'    		: '',	
+		'calc_price'	: 0.0,
+	};
+
+
+	colHeaders = ['ID','Invoice No','Ship Name','No.of Day','Price','Amount']
+	columns    = [{data : 'id',readOnly: true},{data : 'invoice_no',readOnly: true},{data : 'ship_name', type: 'text'},{data : 'day'},{data : 'price'},{data : 'calc_price',type:'numeric',format:'0.0',readOnly: true}]
+
+
+	VA_table6  = new Handsontable(container,{
+		data         : rob,
+		colHeaders   : colHeaders,		
+		columns      : columns,
+		minSpareRows : 0,
+		rowHeaders   : true,			
+		contextMenu  : true,
+		columnSorting: true,	
+
+	});
+
+
+
+VA_table6.updateSettings({
+	afterDocumentKeyDown:function(e){
+	var selection 	= VA_table6.getData(); 			
+	if(e.keyCode===13)
+		var datava5 = VA_table6.getData();	
+		tot_data 	= (datava5.length)
+			{
+			t=0
+			amt = 0.0
+			for (var i=0;i<(tot_data);i++){
+				//get_price=(parseFloat(selection[i]['day'])*parseFloat(selection[i]['price'])/31);
+				//datava5[i]['calc_price'] = get_price.toFixed(1);
+				amt+= parseFloat(selection[i]['calc_price']);
+			}
+		}			
+		}
+	});
+}
+
+
+	
+get_rob();
+
+var today = new Date();
+var dd    = today.getDate();
+var mm    = today.getMonth()+1; 
+var yyyy  = today.getFullYear();
+if(dd<10) 
+{
+  dd='0'+dd;
+}
+
+if(mm<10) 
+{
+  mm='0'+mm;
+}
+today = mm+'/'+dd+'/'+yyyy;
+var date1   = new Date();
+var day1    = date1.getDate();
+
+
+var month1  = date1.getMonth();
+var month2  = date1.getMonth();
+var year1   = date1.getFullYear();
+
+
+if (month1 < 10) month1 = "0" + month1;
+if (month1 < 10) month2 = "0" + month2;
+if (day1 < 10) day1 = "0" + day1;
+
+var today1  		= year1 + "-" + month1 + "-" + day1;
+last_days         = (lastday(year1,month1))
+last_dayx         = (lastday(year1,month2))
+first_date        = (month1)+'/01/'+year1;  
+last_date         = (month1)+'/'+last_days+'/'+year1;    
+var manual_date   = last_date;//'08/31/2021'; 
+get_invoice_date  = (month2)+'/'+last_dayx+'/'+year1;  
+var starting_date = month2+'/01'+'/'+year1;
+
+
+
+$('#update_other_invoice').click(function(){	
+	data2		   = VA_table6.getData();
+	$('#loaders').css('display','');
+
+	$.ajax({
+	url: '/it/update_single_invoice/',
+	dataType: 'JSON',
+	type: 'POST',
+	data:
+	{
+	  'table_details'  : JSON.stringify(data2),	 
+	},
+	success:function(obj){
+	  $('#loader').css('display','none');
+	  alert('Done');
+	  location.reload();	  
+	},
+	error:function(err){
+	  console.log(JSON.stringify(err,null,4));
+	}
+  });
+})
+
+</script>
+
+{% endblock %}
+  

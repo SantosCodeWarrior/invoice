@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+{% block content %}    
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ -->
+<script src="/static/js/jquery-1.12.4.js"></script>
+<script src="/static/js/jquery-ui.js"></script>
+
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+
+<style type="text/css">
+	.select2-results__options{
+		font-size: 10px;		
+	}
+
+
+#get_client{
+	width: 230px;
+}
+
+</style>
+
+
+
+
+<div class="container">
+	<div class="col-md-12"> 
+	<lable>
+     <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+     <p style="font-size: 14px;color: #5691f0;">जिस की बिलिंग करनी है उसके लिए अगले महीने की तारीख आएगी, आज की तारीख नहीं रखना. मान लो : आपको <b>{{month_name}}</b> का बिल निकालना है तो <b>{{next_month}}</b> की तारीख लेना होगा</p>
+
+<!--       <p style="font-size: 14px;color: #5691f0">जिस की बिलिंग करनी है उसके लिए अगले महीने की तारीख आएगी, आज की तारीख नहीं रखना. मान लो : आपको <b>November</b> का बिल निकालना है तो <b>December</b> की तारीख लेना होगा</p>
+     <p style="margin-top: -57px;color:green;display: none">جس کی بلنگ کرنی ہے اس کے اگلے مہینے کی تاریخ آئے گی، آج کی تاریخ نہیں رکھنا۔ مان لو : مان لو، آپ مئی کا بل نکالنا ہے تو جون لینا ہوگا۔</p> -->
+</p>
+     	
+	
+
+		<div class="container">
+		    <div class="row col-md-12">
+		    	<div class="col-xs-12">
+		           <input type="date" name="" class="form-control" id="get_date" style="font-size: 12px;background-color:#a4c8f5;width: 140px">
+		        </div>
+		       &nbsp;&nbsp;&nbsp;
+		        <div class="col-xs-12">
+		            <select class="form-control col-md-12" style="margin-left: 16px;font-size: 12px" id="get_client">
+		     			<option value="0">Select Client Name</option>
+		     			{% for c in cl_array %}
+		     			<option value="{{c.id}}">{{c.join_client_n}}</option>
+		     			{% endfor %}
+		     		</select>
+		        </div>
+		        <div class="col-xs-12">
+		            <select class="form-control col-md-12" style="margin-left: 16px;font-size: 12px" id="get_data">
+		     			<option value="0">Select Bill Type</option>
+		     			<option value="monthly_flat">Monthly Flat</option>
+		     			<option value="monthly_prorated">Monthly Prorated</option>
+		     			<option value="voyage_eop">Voyage EOSP</option>
+		     	</select>
+		        </div>
+		        <button id="btn_load" class="btn btn-info" style="margin-left: 41px;font-size: 12px;width: 110px">Load</button>
+		        <button id="btn_export" class="btn btn-warning" style="margin-left: 7px;font-size: 12px;width: 100px">Export</button>
+		        <button id="btn_submit" class="btn btn-primary" style="margin-left: 7px;font-size: 12px;width: 120px;display: none;">Save</button>
+		    </div>
+		</div>
+
+     	<br>
+		<div style="width: 100%; display: table;">
+			<div id="get_invoice_date_1" style="font-size: 12px;margin-left: 13px;"></div>
+		    <div style="display: table-row">
+		        <div style="width: 600px; display: table-cell;font-size: 12px"> <div class = 'handsontable col-md-12' data-original style="overflow-y: auto;overflow-x: auto;"  id = "single_datas"></div> </div>
+	        	
+		    	</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+<script type="text/javascript">
+  $('#get_data').click(function(){
+  
+})
+
+function get_rob(){
+	$("#single_datas").empty()
+	container = document.getElementById('single_datas');
+	rob 	  = [];
+	rob = {	
+		
+		'ship_name'		: '',
+		'voyage_no'		: '',
+		'account'		: '',
+		'no_of_day'		: '',
+		'first_port'	: '',
+		'start_date'	: '',
+		'last_port'		: '',
+		'end_date'		: '',
+		'client'		: '',
+		'report_id'		: '',
+	};
+
+	colHeaders = ['Ship Name','Voyage No','Account Tab','No.of Day','First Port (From)','Start Date','Last Port (To)','End Date','Client','Report ID']
+	columns    = [{data : 'ship_name'},{data : 'voyage_no'},{data : 'account'},{data : 'no_of_day'},{data : 'first_port'},{data : 'start_date'},{data : 'last_port'},{data : 'end_date'},{data : 'client'},{data : 'report_id'}]
+	VA_table6  = new Handsontable(container,{
+		data         : rob,
+		colHeaders   : colHeaders,		
+		columns      : columns,
+		minSpareRows : 0,
+		rowHeaders   : true,	
+		contextMenu  : true,
+		columnSorting: true,
+		
+	});
+}
+
+get_rob();
+
+
+var lastday = function(y,m){
+  return  new Date(y, m, 0).getDate();
+}
+
+var date1   = new Date();
+var day1    = date1.getDate();  
+var month1  = date1.getMonth()+1; 
+var year1   = date1.getFullYear();
+if (month1 < 10) month1 = "0" + month1;
+if (day1 < 10) day1 = "0" + day1;
+var today1  = year1 + "-" + month1 + "-" + day1;
+
+last_days          = (lastday(year1,month1))  
+first_date         = (month1)+'-01-'+year1;
+last_date          = (month1)+'-'+last_days+'-'+year1;    
+var manual_date    = last_date; 
+start_invoice_date = (month1)+'-01-'+year1;  
+end_invoice_date   = (year1)+'-'+month1+'-01';
+$('#get_date').val(end_invoice_date);
+
+$('#btn_export').click(function(){
+	var cl = $('#get_client').val();
+	var gt_ft_date = $('#get_date').val();
+	
+	if(cl==0){
+		alert('Please Select Client & Billing Type');
+		return 0;
+		$('#get_client').focus();
+		$('#get_client').css('background-color','red')
+	}
+	
+	var csv = VA_table6.getData();
+	  $("#loader").css("display","");
+	  $.ajax({
+	    url: "/it/export_fetch_api_data/",
+	    type: "POST",
+	    dataType: "json",
+	    data: {
+	    	'csv_data'   : JSON.stringify(csv),   
+	    	'gt_ft_date' : JSON.stringify(gt_ft_date), 	
+	      	csrfmiddlewaretoken: ''
+	    },
+	    success : function(obj_data){      
+	       $("#loader").css("display","none");
+	      alert('Done')
+	      location.href = "/it/export_api_data";
+	           
+	    },
+	    error : function(err){       
+	      console.log(JSON.stringify(err,null,4));
+	    }
+	});
+})
+
+$('#get_client').select2();
+
+$('#select2-get_client-container').css('font-size','12px')
+
+$('#btn_load').click(function(){
+	loads_data()
+})
+
+function loads_data(){
+	$('#loader').css('display','');
+  	var ft_data = $('#get_data').val();
+
+	var get_ft_date = $('#get_date').val();
+	var client_id = $('#get_client').val();
+	if(client_id==0){
+	 	alert('Please select Client');
+	  	$('#loader').css('display','none');
+	  	return 0;
+	}
+
+	if(ft_data==0){
+		alert('Please Select Billing Type');
+	  	$('#loader').css('display','none');
+		return 0;	
+	}
+
+  	$.ajax({
+		url: "/it/client_fetch_data/",
+	    type: "POST",
+	    dataType: "json",
+	    data: {
+	    	'ft_data'   	: ft_data,
+	    	'get_ft_date' 	: get_ft_date,
+	    	'client_id' 	: client_id,
+	      	csrfmiddlewaretoken: ''
+	    },
+	    success : function(obj_data){
+	       if(obj_data['voyage_array']==""){
+	       	$('#loader').css('display','none');
+	       	alert('No record Available');	       
+	       	location.reload();
+
+	       }else{
+		    $('#loader').css('display','none');
+		    VA_table6.loadData(obj_data['voyage_array']);
+		   }
+	           
+	    },
+	    error : function(err){       
+	      console.log(JSON.stringify(err,null,4));
+	    }
+	});
+}
+
+$('#btn_submit').click(function(){
+	$('#loader').css('display','');
+	$.ajax({
+		url: "/it/save_client_fetch_data/",
+	    type: "POST",
+	    dataType: "json",
+	    data: {
+	    	
+	      	csrfmiddlewaretoken: ''
+	    },
+	    success : function(obj_data){
+	      if(obj_data=='done'){
+	      	$('#loader').css('display','none');
+	      	alert('Save data')
+	      }
+	    },
+	    error : function(err){       
+	      console.log(JSON.stringify(err,null,4));
+	    }
+	});
+})
+
+
+
+// function colorRenderer3(instance, td, row, col, prop, value, cellProperties) {    
+//     Handsontable.renderers.TextRenderer.apply(this, arguments);
+//     var data      = instance.getData();
+//     var valueAtC  = data[row]['account'];//data[row][1];    
+//     //var cli_name = data[row]['account'];
+//     td.style.backgroundColor = '#FFFFFF';
+//     if (valueAtC==null) {
+//       td.style.backgroundColor = '#FF0000';
+//     } else {
+//       td.style.backgroundColor = '#FFFFFF';
+//     }
+//     return td;
+//   };
+
+
+</script>
+
+{% endblock %}
+  

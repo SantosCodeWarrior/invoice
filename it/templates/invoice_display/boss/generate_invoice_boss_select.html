@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+        <title>Editable Invoice</title>
+        <link rel='stylesheet' type='text/css' href='/static/1/css/style.css' />
+        <link rel='stylesheet' type='text/css' href='/static/1/css/print.css' media="print"/>
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+     
+    </head>
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+  $( function() {
+    $( "#invoice_date" ).datepicker();
+  } );
+  </script>
+
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<body>
+  <div id="page-wrap">    
+      <!-- <INPUT type="button" value="Add Row" class="btn btn-warning" onclick="addRow('dataTable')"/> -->
+      <INPUT type="button" class="btn btn-danger" value="Delete Row" onclick="deleteRow('dataTable')"/>
+      <form action="" method="post" enctype="multipart/form-data">      
+      <div style="clear:both"></div>
+       <div id="customer">          
+          <table id="meta">
+            <tr>
+              <td class="meta-head">Invoice Date</td>
+              <td id="invoicedate"><input type="text" id="invoice_date" value="{{select_array.0.invoice_date|date:"Y-m-d"}}">             
+              </td>
+            </tr>
+
+            <tr>
+              <td class="meta-head" style="white-space: nowrap">Invoice Number</td>
+              <td id="{{select_array.0.invoice_no}}">{{select_array.0.invoice_no}}</td>
+            </tr>
+
+            <!-- <tr>
+              <td class="meta-head">Voyage Manager</td>
+              <td id="vm_name" style="text-transform: capitalize;">{{vessel.0.vm_name}}</td>
+            </tr> -->
+
+            <tr>
+              <td class="meta-head" style="white-space: nowrap">Blue Water GSTIN:</td>
+              <td id="bluewater_tin" >{{gstin}}</td>
+            </tr>
+
+            <!-- <tr>
+              <td class="meta-head">Remarks</td>
+              <td id="remark" >Invoices for period of July and August 2017</td>
+            </tr> -->
+
+          </table>
+      </div> 
+
+      <div id="client" style="display:none">{{select_array.0.client_name}}</div>
+        <TABLE id="dataTable" width="350px" border="1" style="border-collapse:collapse;" class="invoice_details">
+        <tr>
+          <th></th>
+          <th>Sr. No</th>
+          <th>Service Details</th>
+          <th>Vessel</th>        
+          <th>Qty</th>
+          <th>Rate</th>
+          <th>INR-USD</th>        
+          <th formula="rate*qty*price"summary="sum">Amount (Rs.)</th>         
+          <th style="display: none">Vessel</th>
+          <th style="display: none">Qty1</th>
+          <th style="display: none">Rate1</th>
+          <th style="display: none">INR-USD1</th>        
+          <th style="display: none">Amount1</th> 
+          <th style="display: none">Months</th> 
+          <th style="display: none">VM Name</th>   
+          <th style="display: none">Voyage No</th>   
+        </tr>
+        {% for x in select_array%}   
+        <tr>
+          <td><INPUT type="checkbox" name="chk[]"/></td>
+          <td class="{{forloop.counter}}"><a href="{{x.href}}" target="_blank" style='cursor:pointer;'>{{forloop.counter}}</a> </td>
+          <td><INPUT type="text" name="item[]" value="BlueWater Optimum Speed Service (BOSS)" size="47"/> </td>
+          <td><INPUT type="text" name="vessel[]" value="{{x.ship_name}}" size="10" style="color:{{x.colors}}"/> </td>
+          <td class="calc_qty"><INPUT type="text" id="qty1" name="qty[]" size="4" value="1"> </td>
+          <td class="calc_price"><INPUT type="text" id="price1" name="price[]" value="{{x.price}}" size="6"/> </td>
+          <td class="calc_rate"><INPUT type="text" id="rate1" name="rate[]" value="{{x.rate}}" size="4"> </td>
+          <td><INPUT type="text" class="calc_amount" id="amount1" name="amount[]" size="5" value="{{x.amount}}"> </td>
+          <td style="display:none">{{x.ship_name}}</td>
+          <td style="display:none">{{x.price}}</td>
+          <td style="display:none">{{x.rate}}</td>
+          <td style="display:none">{{x.amount}}</td>
+          <td style="display:none">{{x.month}}</td>
+          <td style="display:none">{{x.month}}</td>
+          <td style="display:none">{{x.vm_name}}</td>
+          <td style="display:none">{{x.voyage_no}}</td>
+          {% endfor %}     
+        </tr>
+
+        </TABLE>
+        <!--  total: <input type="text" readonly="readonly" id="total" /><br/> -->
+        <!-- <input type="button" value="Total" onclick="totalIt()" /> -->
+        </form>         
+          <button id="submit" class="col-md-12 btn btn-success" {{disable}}>Submit</button>
+        <br>
+        <!-- <div id="terms">
+          <h5>Terms</h5>
+          <textarea id="remark"></textarea>
+        </div> -->
+    </div>
+  </body>
+</html>
+
+<script>  
+    var tt      = document.getElementById('invoice_date').value;//new Date
+    var client  = $('#client').text();
+    var date    = new Date(tt);
+    var newdate = new Date(date);
+    if(client=='Shell'){
+      newdate.setDate(newdate.getDate() + 60);
+    }
+    else{
+      newdate.setDate(newdate.getDate() + 30);
+    }
+
+    var dd = newdate.getDate();
+    var mm = ("0" + (newdate.getMonth() + 1)).slice(-2)
+    var y  = newdate.getFullYear();
+    var someFormattedDate = y + '-' + mm + '-' + dd;    
+    $('#calc_due_date').text(someFormattedDate);
+    var todaysDate = new Date();
+
+function convertDate(date) {
+  var yyyy = date.getFullYear().toString();
+  var mm   = (date.getMonth()+1).toString();
+  var dd   = date.getDate().toString();
+  var mmChars = mm.split('');
+  var ddChars = dd.split('');
+  return yyyy + '-' + (mmChars[1]?mm:"0"+mmChars[0]) + '-' + (ddChars[1]?dd:"0"+ddChars[0]);
+}
+
+ var ddate = (convertDate(todaysDate));
+ $('#invoice_date').val(ddate); 
+ $('#invoice_date').css('text-align','right');
+  </script>
+
+  <script type="text/javascript">
+    $('#submit').click(function(){      
+      var items        = $('.invoice_details').tableToJSON();     
+      var invoice_no   = '{{select_array.0.invoice_no}}';
+      var invoice_date = $('#invoice_date').val();
+      var client_name  = $('#client').text();
+      //console.log(JSON.stringify(items));
+      
+      $.ajax({
+      url: '/it/submit_invoice_boss_selected/',
+      dataType: 'JSON',
+      type: 'POST',
+      data:{
+        'items'        : JSON.stringify(items), 
+        'invoice_no'   : JSON.stringify(invoice_no),
+        'invoice_date' : JSON.stringify(invoice_date),  
+        'client_name'  : JSON.stringify(client_name),          
+      },
+
+      success : function(obj){       
+        var btn = "button";
+         swal({
+          title : "<b>Invoice completed.</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+            
+          });
+        
+      },
+      error : function(err){
+        alert(JSON.stringify(err));
+      }
+    });
+  })
+
+
+function calc(idx) {  
+  var price = parseFloat(document.getElementById("rate"+idx).value)*parseFloat(document.getElementById("qty"+idx).value)*parseFloat(document.getElementById("price"+idx).value);
+  document.getElementById("amount"+idx).value= isNaN(price)?"0.00":price.toFixed(2);   
+}
+
+
+function totalIt() {
+  var qtys = document.getElementsByName("qty[]");  
+  var total=0;
+  for (var i=1;i<=qtys.length;i++) {
+    calc(i);    
+    var price = parseFloat(document.getElementById("price"+i).value);
+    total+=isNaN(price)?0:price;
+  }
+  document.getElementById("total").value=isNaN(total)?"0.00":total.toFixed(2);                        
+}      
+
+window.onload=function() {
+  for(var i=1;i<10;i++)
+  {
+    document.getElementsByName("qty[]")[0].onkeyup=function() {calc(1)};
+    document.getElementsByName("rate[]")[0].onkeyup=function() {calc(1)};
+    document.getElementsByName("price[]")[0].onkeyup=function() {calc(1)};
+  }
+}
+
+
+var rowCount =0;
+  function addRow(tableID) {
+      var table = document.getElementById(tableID);
+      var rowCount = table.rows.length;
+      var row = table.insertRow(rowCount);
+
+      var cell1 = row.insertCell(0);
+      var element1 = document.createElement("input");
+      element1.type = "checkbox";
+      element1.name = "chk[]";
+      cell1.appendChild(element1);
+
+      var cell2 = row.insertCell(1);
+      cell2.innerHTML = rowCount;
+
+      var cell3         = row.insertCell(2);
+      var element3      = document.createElement("input");
+      element3.type     = "text";
+      element3.value    = "BlueWater Optimum Speed Service (BOSS)";
+      element3.size     = "47";
+      element3.name     = "item[]";
+      element3.required = "required";
+      cell3.appendChild(element3);
+
+      var cell4 = row.insertCell(3);
+      var element4 = document.createElement("input");
+      element4.type = "text";
+      element4.size = "9";
+      element4.name = "vessel[]";
+      element4.required = "required";
+      cell4.appendChild(element4);
+
+      var cell5         = row.insertCell(4);
+      var element5      = document.createElement("input");
+      element5.type     = "text";
+      element5.size     = "4";        
+      element5.name     = "qty[]";
+      element5.id       = "qty"+rowCount;
+      element5.onkeyup  = function() {calc(rowCount);}        
+      cell5.appendChild(element5);
+
+      var cell6         = row.insertCell(5);
+      var element6      = document.createElement("input");
+      element6.type     = "text";
+      element6.size     = "6";
+      element6.value    = "1400";
+      element6.name     = "rate[]";
+      element6.id       = "rate"+rowCount;
+      element6.onkeyup  = function() {calc(rowCount);}
+      cell6.appendChild(element6);
+
+      var cell7         = row.insertCell(6);
+      var element7      = document.createElement("input");
+      element7.type     = "text";
+      element7.size     = "4";
+      element7.value    = "64.08";
+      element7.name     = "price[]";
+      element7.id       = "price"+rowCount
+      element7.onkeyup  = function() {calc(rowCount);}
+      cell7.appendChild(element7);
+
+      var cell8         = row.insertCell(7);
+      var element8      = document.createElement("input");
+      element8.type     = "text";
+      element8.size     = "4";
+      element8.name     = "amount[]";
+      element8.id       = "amount"+rowCount
+      cell8.appendChild(element8);
+  }
+
+  function deleteRow(tableID) {
+      try {
+      var table = document.getElementById(tableID);
+      var rowCount = table.rows.length;
+
+      for(var i=0; i<rowCount; i++) {
+          var row = table.rows[i];
+          var chkbox = row.cells[0].childNodes[0];
+          if(null != chkbox && true == chkbox.checked) {
+              table.deleteRow(i);
+              rowCount--;
+              i--;
+          }
+      }
+      }catch(e) {
+        alert(e);
+      }
+  }
+  </script>      
+  </body>
+</html>
+
+
+
+
+{% endblock %}

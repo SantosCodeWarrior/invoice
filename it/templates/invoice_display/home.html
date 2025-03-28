@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/handsontable-master/handsontable.full.js"></script>
+
+
+
+
+<br><br>
+
+<div class="container">
+	<div class="">
+		<div class="col-md-12">		
+			<center><img src="/static/img/invoice.png"></center>
+				<br>
+				<div style="font-size: 12px">
+				<CENTER>
+				<!-- <div>Total BOSS Client : {{boss}}</div>
+				<div>Total CHM Client  : {{chm}}</div> -->
+				</CENTER>
+				</div>
+	  		
+	  	</div>
+	</div>
+<br>
+
+<center>
+	<div class="col-md-8 col-md-9" style="display: {{show_table}}" id="today_generated_invoice">
+	    <center style="font-size: 10px"><caption>Today's Generated Invoice(s)</caption></center>
+	     <table class="table table-striped table-bordered table-sm" id="curr_table_details" style="font-size: 10px">
+	      <thead style="background-color: #17a2b8;color:white;font-size: 10px">
+	        <th>S No</th>
+	        <th>Invoice No</th>
+	        <th>Client Name</th>
+	        <th>Proj.Name</th>
+	        <th>Entry Date</th>
+	      </thead>       
+	     <tbody>
+	      {% for c in curr_array %}
+	      <tr>
+	        <td>{{forloop.counter}}</td>
+	        <td>{{c.invoice_no}}</td>
+	        <td>{{c.client_name}}</td>
+	        <td>{{c.proj_name}}</td>
+	        <td>{{c.invoice_date}}</td>
+	      {% endfor %}
+	      </tr>       
+	     </tbody>
+	     </table>
+	    </div>
+	  </div>
+	</div>
+</center>
+{% endblock %}

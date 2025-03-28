@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="https://handsontable.com/static/css/main.css"> -->
+    <script src="https://handsontable.com/docs/6.0.1/scripts/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handsontable-pro@6.0.1/dist/handsontable.full.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable-pro@6.0.1/dist/handsontable.full.min.css">
+
+<style type="text/css">
+  .hot-display-license-info{
+    display: none;
+  }
+
+
+  .handsontable TR:nth-child(1) TH {
+  font-size: 12px;
+  
+}
+
+</style>
+
+<script type="text/javascript">
+function submittab(){
+  var data      = tab_table.getData();  
+  data          = tab_table.getData();  
+  data_cleaned  = [];
+  var i         = 0;
+  while(true){
+    if(data[i]['name'] != null ){    
+      data_cleaned.push(data[i]['name']);
+      i++;
+    }
+    else{
+      break;
+    }
+  }
+
+ $('#loader').css('display','');
+  $.ajax({
+    url : "/it/client_list/",
+    type : "POST",
+    dataType : "json",
+    data: {
+      tabs_name: JSON.stringify(data),        
+      csrfmiddlewaretoken: ''
+    },
+    success : function(obj_data){ 
+      alert('Done')
+      $('#loader').css('display','none');     
+      get_reports()
+    },
+    error : function(err){       
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+}
+
+
+
+</script>
+
+<div class = "box box-success">
+    <div class="box-header with-border">
+    <center>NEW ACCOUNT NAME & ADDRESS</center>
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+    <div class = "col-md-12" style="height:100%">
+      <div class = 'handsontable' style="height: 400px; overflow: auto; margin-top : 30px;" data-originalstyle="height: 300px; overflow: auto"  id="get_client_data"></div>
+        <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <button class="btn btn-primary col-md-6" style = "margin : 0px;cursor: pointer;font-size: 10px" id = "tab_type" onclick = "submittab()" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading">SUBMIT (API JSON DATA)</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 50%;margin-left: 183px;">
+      <div class="modal-header">
+       
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="refresh" style="cursor: pointer">Close</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  currency_l=[];
+
+  var data = [
+    {      
+      s_no          : '',
+      client_name   : '',
+      ship_name     : '',
+      get_address   : '',
+      account_tab   : '',
+
+      
+    }
+  ];
+  
+  container     = document.getElementById('get_client_data');
+  var tab_table = new Handsontable(container, {
+    minSpareRows  : 200,   
+    dropdownMenu  : true,
+    filters       : true,
+    columnSorting : true,    
+    stretchH      : 'all',    
+    colHeaders    : ['S.N.','Client Name','Ship Name','Address','Account Name'],    
+    contextMenu   : true,
+    hiddenColumns:{
+      columns   : [],
+      indicators: true
+    },
+   
+    columns: [    
+    {
+      data: "s_no",
+      type: 'text', 
+    },
+
+    {
+      data: "client_name",
+      type:'text',      
+    },
+
+    {
+      data: "ship_name",
+      type: 'text',
+    },
+
+     {
+      data: "get_address",
+      type:'text', 
+    },
+
+    {
+      data: "account_tab",
+      type:'text', 
+    },
+
+        
+    ],
+    data: data,
+  });
+
+
+
+get_reports();
+$('#hot-display-license-info').css('display','none');
+$('#loader').css('display','');
+
+function get_reports(){
+  
+  $.ajax({
+    url : "/it/account_log/",
+    type : "POST",
+
+    dataType : "json",
+    data : {
+   
+      
+    },
+    success : function(obj_data){      
+      $('#loader').css('display','none');
+      tab_table.loadData(obj_data['account_array']);
+       
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  }); 
+}
+
+
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends "admin.html" %}
+{% block content %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/handsontable-master/handsontable.full.js"></script>
+
+
+<style>
+  .dataTable thead th{
+    text-align: center;
+    color : white;
+    background-color : #99d6F0;
+    font-size:1.1em;
+
+
+  }
+  .datatable td{
+      font-size: 1.1em;
+  }
+  .even{
+      background-color:#def0f9 ! important;
+  }
+  .even .sorting_1{
+      background-color:#def0f9 ! important;
+  }
+.odd .sorting_1{
+ background-color:#f9f9f9 ! important;
+}
+</style>
+
+
+<!-- <div class="col-md-10">
+  <div class="box">
+    <div class="box-body">
+      <button id="save_client" class="btn btn-success col-md-7" style="display:none">Submit</button>
+    </div>
+  </div>
+</div> -->
+
+
+  <div class="col-md-12 form-group">
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+    <h2> CHM Data</h2>
+    <div class="form-group" style="height:100%;overflow-y:auto;overflow-x:auto;">
+      <div id="fetch_data"></div>
+    </div>
+  </div>
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  load_client();
+});
+
+function load_client(){
+  var invoice_on = 0;
+  $('#fetch_data').css('display','none');
+  $('#loader').css('display','');
+  $('#save_client').css('display','none');
+  var invoice_table_container = document.getElementById("fetch_data");
+  var invoice_on = new Handsontable(invoice_table_container, {    
+  colHeaders   : ['ID','Client Name','Project Name','Currency Type','Duration','Price','Price Type','Rate'],
+
+  columns: 
+  [
+    {data : 'num'},  
+    {data : 'client_name'},
+    {data : 'proj_name'},    
+    {data : 'curr_type'},    
+    {data : 'dur_type'},    
+    {data : 'client_price'},    
+    {data : 'price_type'},    
+    {data : 'price_rate'},    
+  ], 
+
+    cells: function (row, col, prop) {
+      var cellProperties = {}
+      if(col === 0 || col === 1 || col === 2 || col === 3 || col === 4 || col === 5 || col === 6 || col === 7) {
+        cellProperties.readOnly = true;
+
+      }     
+      return cellProperties;
+      }       
+  });
+  
+    $.ajax({
+        url      : '/it/fetching_data_from_api/',
+        type     : 'GET',
+        dataType : 'JSON',
+        data:{
+          
+        },
+        success: function(obj){         
+          $('#fetch_data').css('display','');
+          $('#loader').css('display','none'); 
+          $('#save_client').css('display','');        
+          invoice_on.loadData(obj['cl_array']);
+          var table_container = invoice_on.getData();
+          get_saving(table_container);         
+          // var ship_details = obj['finance_array'];
+          // get_ship_details(ship_details);   
+
+        },
+        error: function(err){
+         // alert(JSON.stringify(err,null,4))
+        }
+    });
+}
+
+function get_saving(table_container){
+   $.ajax({
+        url      : '/it/saving_fetching_data/',
+        type     : 'POST',
+        dataType : 'JSON',
+        data:{
+          'table_container' : JSON.stringify(table_container),
+        },
+        success: function(obj){ 
+          
+        },
+        error: function(err){
+          
+        }
+      });
+
+}
+
+
+// function get_ship_details(ship_details){ 
+//    $.ajax({
+//         url      : '/it/get_ship_list/',
+//         type     : 'POST',
+//         dataType : 'JSON',
+//         data:{
+//           'ship_details' : JSON.stringify(ship_details),
+//         },
+//         success: function(obj){ 
+          
+//         },
+//         error: function(err){
+        
+//         }
+//       });
+// }
+
+
+</script>
+
+
+{% endblock %}

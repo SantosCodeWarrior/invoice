@@ -1,0 +1,300 @@
+{% extends "admin.html" %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+ <link rel="stylesheet" type="text/css" href="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+
+
+
+
+<center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+<div class="col-md-12" >   
+	<h3 id="header"><center>Pool Master</center></h3>	
+	<div class="container">
+	    <div class="row">
+	        <div class="col-md-10" >
+	        	<div class="input-group">
+			      <span class="input-group-addon" style="width:20%">Proj.Name</span>			    
+			      <select class="form-control chosen-select" id="proj_list">
+	                  <option value=0>Select Pool Name</option>	                  
+	                  <option value="BOSS">BOSS</option>
+	                  <option value="CHM">CHM</option>	                
+	                </select>	  
+			    </div>  
+			    <p></p>
+	        	<div class="form-group" id="chm_client_list" style="display: none">	                
+	                <select class="form-control chosen-select" id="c_client_list">
+	                  <option value=0>Select Client Name</option>
+	                  {%for cl in client_list%}
+	                  	 <option value={{cl.client_name}}>{{cl.client_name}}</option>
+	                 {%endfor%}
+	                </select>	               
+	            </div>
+
+	            <div class="form-group" id="boss_client_list"  style="display: none">	                
+	                <select class="form-control chosen-select" id="b_client_list">
+	                  <option value=0>Select Client Name</option>
+	                  {%for cl in boss_client_list%}
+	                  	 <option value={{cl.client_name}}>{{cl.client_name}}</option>
+	                 {%endfor%}
+	                </select>	               
+	            </div>
+
+	            
+	            <div class="input-group">
+			      <span class="input-group-addon" style="width:20%">Address</span>			    
+			      <!-- <textarea cols="90"  id="address" style="resize:none";></textarea> -->
+			      <input id="address" type="text" class="form-control col-md-9">
+			    </div>
+
+			    <div class="input-group">
+			      <span class="input-group-addon" style="width:20%">E-Mail</span>
+			      <input id="e_mail" type="email" class="form-control col-md-9">
+			    </div>
+
+			    <div class="input-group">
+			      <span class="input-group-addon" style="width:20%">E-Mail (CC)</span>
+			      <input id="e_mail_cc" type="email" class="form-control col-md-9">
+			    </div> 
+
+			   
+			    <div class="input-group" id="chm_pool_name" style="display: none">
+			       <span class="input-group-addon" style="width:20%">Pool Name</span>			    
+			       <!-- <input id="e_pool_name" type="text" class="form-control col-md-9"> -->
+			        <select class="form-control chosen-select" id="e_pool_name">
+	                  <option value=0>Select Pool Name</option>
+	                  {%for pl in pool_details%}
+	                  	<option value={{pl.pool_name}}>{{pl.pool_name}}</option>
+	                 {%endfor%}
+	                </select>	 
+			    </div>  
+
+			     <div class="input-group" id="boss_pool_name" style="display: none">
+			      <span class="input-group-addon" style="width:20%">Pool Name</span>			    
+			       <!-- <input id="e_pool_name" type="text" class="form-control col-md-9"> -->
+			       <select class="form-control chosen-select" id="e_pool_name">
+	                  <option value=0>Select Pool Name</option>
+	                  {%for bl in boss_pol_list%}
+	                  	 <option value={{bl.pool_name}}>{{bl.pool_name}}</option>
+	                 {%endfor%}
+	                </select>	 
+			    </div>  
+			    
+
+			    <p></p>
+				<button class="btn btn-success" id="submit_invoice">Submit</button>
+	        </div>	       
+	    </div>
+	</div>	
+</div>
+<p></p>
+<div class="col-md-12">
+	<div class="container">
+	    <div class="row">
+	    	<table id="pool_tracker" class="table table-striped table-bordered bootstrap-datatable ">
+				<thead>
+					<tr>
+						<th><font color="black">S.No</font></th>
+			        	<th><font color="black">Pool Name</font></th>
+			        	<th><font color="black">Address</font></th>
+			        	<th><font color="black">Email</font></th>
+			        	<th><font color="black">Email (CC)</font></th>			        	
+						<th><font color="black">Client</font></th>						
+						<th><font color="black">Edit</font></th>						
+					</tr>
+				</thead>
+				{% for pl in pool_list%}
+				<tr>
+					<td>{{forloop.counter}}</td>
+					<td>{{pl.pool_name}}</td>
+					<td>{{pl.address}}</td>
+					<td>{{pl.email}}</td>
+					<td>{{pl.email_cc}}</td>
+					<td>{{pl.client_name}}</td>
+					<td><button class="btn btn-info pool_lt" value="{{pl.pool_id}},{{pl.pool_name}},{{pl.email}},{{pl.email_cc}},{{pl.client_name}}" id="{{pl.address}}" data-toggle="modal" data-target="#myModal">Edit</button></td>
+				{% endfor %}
+				</tr>
+		    </table>	              
+	    </div>
+	</div>	
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">    
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Address</h4>
+        <button type="button" class="close" id="close_modal" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+      	<div class="form-group">
+	        <label>Client Name</label>
+	        <div id="e_client_id"></div>
+	        <input type="text" class="form-control" id="e_client_name" >
+	    </div>
+
+	    <div class="form-group">
+	        <label>Pool Name</label>	        
+	        <input type="text" class="form-control" id="e_pl_name" >
+	    </div>
+	    <div class="form-group">
+	        <label>Address</label>
+	        <input type="text" class="form-control" id="e_address" >
+	    </div>
+	    <div class="form-group">
+	        <label>E-Mail</label>
+	        <input type="text" class="form-control" id="e_mai" >
+	    </div>
+	    <div class="form-group">
+	        <label>E-Mail CC</label>
+	        <input type="text" class="form-control" id="e_mail_c" >
+	    </div>   
+
+       	<div class="form-group">	            
+            <button type="button" class="btn btn-primary" id="update_invoice">Submit</button>
+        </div>
+    	</div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	$('#submit_invoice').click(function(){	
+		var proj_naem = $('#proj_list').val();
+		if(proj_naem=='BOSS'){
+			var client_name = $('#select2-b_client_list-container').html();
+		}else if(proj_naem=='CHM'){
+			var client_name = $('#select2-c_client_list-container').html();	
+		}	
+		var address 	= $('#address').val();
+		var e_mail 	 	= $('#e_mail').val();
+		var e_mail_cc 	= $('#e_mail_cc').val();
+		var e_pool_name = $('#e_pool_name').val();	
+		var proj_name   = $('#proj_list').val();
+
+		$.ajax({
+	      url      : '/it/submit_pool_master/',
+	      type     : 'POST',
+	      dataType : 'JSON',
+	      data:{
+	        'e_client_name' : JSON.stringify(client_name),
+			'e_address'	    : JSON.stringify(address),
+			'e_mail'	    : JSON.stringify(e_mail),
+			'e_mail_cc'	    : JSON.stringify(e_mail_cc),
+			'e_pool_name'   : JSON.stringify(e_pool_name),
+			'e_proj_name'   : JSON.stringify(proj_name),
+	      },
+	      success: function(obj){     
+			swal('Success','Pool master successfully submitted','success');	        
+	      },
+	      error: function(err){
+	        alert(JSON.stringify(err,null,4));
+	    }
+	  });
+	})
+
+	
+	
+
+
+
+$('#update_invoice').click(function(){
+	var clientID 	= $('#e_client_id').val();
+	var pool_name 	= $('#e_pl_name').val();
+	var address 	= $('#e_address').val();
+	var smail   	= $('#e_mai').val();
+	var mail_cc 	= $('#e_mail_c').val();
+	$.ajax({
+	      url      : '/it/update_pool_master/',
+	      type     : 'POST',
+	      dataType : 'JSON',
+	      data:{
+	        'clientID' : JSON.stringify(clientID),
+			'pool_name': JSON.stringify(pool_name),
+			'address'  : JSON.stringify(address),
+			'mail'	   : JSON.stringify(smail),
+			'mail_cc'  : JSON.stringify(mail_cc),
+	      },
+	      success: function(obj){     
+			swal('Success','Pool master successfully updated..','success');	        
+	      },
+	      error: function(err){
+	        alert(JSON.stringify(err,null,4));
+	    }
+	  });
+})
+
+$('.pool_lt').click(function(){
+	var address    	= $(this).attr('id');
+	var pll 		= $(this).attr('value');
+	var pool_split 	= pll.split(',');
+	var pool_id    	= pool_split[0];
+	var m_pool_name = pool_split[1];	
+	var email 	   	= pool_split[2];
+	var email_cc   	= pool_split[3];
+	var cl_name    	= pool_split[4];
+	
+	$('#e_client_id').val(pool_id);
+	$('#e_client_name').val(cl_name);
+	$('#e_pl_name').val(m_pool_name);
+	$('#e_address').val(address);
+	$('#e_mai').val(email);
+	$('#e_mail_c').val(email_cc);
+
+})
+
+$(document).ready(function(){
+
+	
+
+	$('#pool_tracker').dataTable({
+	"scrollY"        : '300px',
+    "bPaginate"       : false,
+    "scrollX"         : true,
+    "scrollCollapse"  : false, 
+    "bFilter"         : true,
+    paging: false,
+    info: false
+  });
+})
+
+
+
+
+
+$(document).on('change','#proj_list',function(){
+var proj_name = $('#proj_list').val();
+
+if(proj_name=='CHM'){
+	$('#boss_client_list').css('display','none');
+	$('#chm_client_list').css('display','');	
+	$('#c_client_list').select2();
+	$('#chm_pool_name').css('display','');	
+	$('#boss_pool_name').css('display','none');	
+
+}else if(proj_name=='BOSS'){
+	$('#boss_client_list').css('display','');
+	$('#chm_client_list').css('display','none');
+	$('#b_client_list').select2();	
+	$('#chm_pool_name').css('display','none');	
+	$('#boss_pool_name').css('display','');	
+	}
+
+});
+
+</script>
+
+
+
+
+{% endblock %}

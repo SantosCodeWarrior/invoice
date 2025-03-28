@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="/static/js/sweetconsole.log.min.css">
+<script type="text/javascript" src="/static/js/sweetconsole.log.min.js"></script> -->
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+<script>
+$(function(){
+   $("#start_date").datepicker();
+   $("#end_date").datepicker();
+});
+</script>
+
+<div class="container">
+  	<div class="col-md-12">
+    	<div class="box">
+  			<h3>INVOICE RAISED SUMMARY</h3>
+  			<br>
+  			<div class="container" style="display: none">
+			    <div class="row">
+			        <div class="col-xs-6">
+			            <input type="text" id="start_date" placeholder="Start Date">&nbsp;To&nbsp;
+			        </div>
+			        <div class="col-xs-6">
+			            <input type="text" id="end_date" placeholder="End Date">
+			        </div>
+			    </div>
+			</div>
+			<br>
+			<div style="overflow-x: scroll;height: 400px;overflow-y: auto;">
+			<table id="raise_tracker" class="table table-condensed table-striped" style="font-size: 12px;">
+				<thead>
+				  <tr>
+				    <th rowspan="2">Client</th>
+				    <th rowspan="2">Currency</th>
+				    <th rowspan="2">Service</th>
+				    {% for x in inv_date%}
+				    	<th colspan="4"><center>{{x.inv_date|date:"M/y"}}</center></th>				    
+					{% endfor %}				  	
+				  </tr>
+				  
+				  <tr>
+				    <td>Previous B/F</td>
+				    <td>Raised</td>
+				    <td>Received</td>
+				    <td>C/F</td>
+				  </tr>				
+				</thead>
+
+				{% for i in all_invoice %}
+				<tr>
+					<td>{{i.client_name}}</td>
+					<td>{{i.currency_type}}</td>
+					<td>{{i.proj_name}}</td>
+					<td></td>
+					<td>{{i.tot_amount}}</td>					
+				{% endfor %}
+				</tr>
+			</table>
+			</div>
+			
+			
+			
+  			<!-- <button id="export" class="btn btn-warning" style="cursor: pointer;color:white">EXPORT</button> -->
+  			<center><img src="/static/img/loading.gif" style="color:brown;display:none;" id="loader"></center>
+  		</div>
+  	</div>
+</div>
+
+
+<style type="text/css">
+	.table {
+    width: 35%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+</style>
+
+<script type="text/javascript">
+$('#export').click(function(){
+	var start_date 	= $('#start_date').val();
+	var end_date 	= $('#end_date').val();	
+	//var sdate 		= document.getElementById("start_date").value; 
+	//var edate 		= document.getElementById("end_date").value;
+	/*if(start_date=='' || end_date == ''){
+		alert('Please Select Date');
+		return;
+	}
+   */
+  
+	$('#loader').css('display','');
+	$.ajax({
+          url  : '/it/invoice_raise_summary/',
+          type : 'POST',
+          dataType :'JSON',
+          data:{
+        //  'sdate' : start_date,
+          // 'edate' : end_date,
+          },
+          success:function(obj){
+            $('#loader').css('display','none');
+          },
+
+          error:function(err){
+          	$('#loader').css('display','none');
+            console.log(JSON.stringify(err,null,4));
+          }
+        })
+ }) 
+
+
+
+</script>
+
+{% endblock %}

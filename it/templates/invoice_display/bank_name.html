@@ -1,0 +1,354 @@
+{% extends "base.html" %}
+{% block content %}
+
+   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">   
+
+
+   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+   
+   
+
+<style type="text/css">
+  textarea {
+  resize: none;
+}
+
+tbody {  
+  overflow-x: scroll;
+}
+
+.dataTables_info{
+  display: none;
+}
+
+table th {
+  text-align: right;
+}
+
+input[type="text"]
+{
+    font-size:10px;
+} 
+</style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+   new DataTable('#table_bank_details', {
+    scrollX: true,
+    scrollY: 300,
+    paging: false,
+});
+})
+ 
+
+  
+
+</script>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+  
+      <div style="overflow-y: scroll;">
+      <table style="border-collapse: collapse;font-size: 12px;border: 0px solid white;" border="1" class="">
+        <thead>
+          <th>Client</th>      
+          <th>Bank Name 1</th>
+          <th>Bank's Address 1</th>
+          <th>Account Name 1</th>
+          <th>Account Number 1</th>
+          <th>Swift Code 1</th>
+
+          <th style="background-color:#bef5b3">Bank Name 2</th>
+          <th style="background-color:#bef5b3">Bank's Address 2</th>
+          <th style="background-color:#bef5b3">Account Name 2</th>
+          <th style="background-color:#bef5b3">Account Number 2</th>
+          <th style="background-color:#bef5b3">Swift Code 2</th>
+        </thead>
+        <tr>
+          <td>
+            <select class="form-control" style="font-size: 10px;width: 142px;">
+              <option id="0">Select Client Name</option>
+              {% for c in cl_list %}
+              <option value="{{c.id}}">{{c.client_name}}</option>
+              {% endfor %}
+            </select>
+          </td>
+
+          
+          <td><input type="text" name="" style="height: 36px"></td>
+          <td><textarea type="text" name="" style="height: 36px;margin-top: 6px;"></textarea></td>
+          <td><input type="text" name="" style="height: 36px"></td>
+          <td><input type="text" name="" style="height: 36px"></td>
+          <td><input type="text" name="" style="height: 36px"></td>
+
+          <td style="background-color:#bef5b3"><input type="text" name="" style="height: 36px"></td>
+          <td style="background-color:#bef5b3"><textarea type="text" name="" style="height: 36px;margin-top: 6px;"></textarea></td>
+          <td style="background-color:#bef5b3"><input type="text" name="" style="height: 36px"></td>
+          <td style="background-color:#bef5b3"><input type="text" name="" style="height: 36px"></td>
+          <td style="background-color:#bef5b3"><input type="text" name="" style="height: 36px"></td>
+        </tr>      
+      </table>
+    </div>
+      <button class="btn btn-success" id="submit_bank_details" style="font-size: 12px">SUBMIT</button>
+    </div>
+    <br>
+
+
+    <table style="font-size: 10px;border: 0px solid white;width: 100%" class="display" id="table_bank_details"> 
+        <thead>
+          <tr>
+          <th style="display: none;"></th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;"></th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">S.N.</th>
+          <th style="display: none;"></th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Client</th>      
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Bank Name 1</th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Bank's Address 1</th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Account Name 1</th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Account Number 1</th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Swift Code 1</th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Proj.Name 1</th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Contact No.1</th>
+
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Bank Name 2</th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Bank's Address 2</th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Account Name 2</th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Account Number 2</th>
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Swift Code 2</th>  
+          <th style="background-color: rgb(40, 167, 69);color:white;white-space: nowrap;">Other</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for e in bnk_list %}
+        <tr>
+          <td style="display: none;" class="g_id">{{e.id}}</td>
+          <td><button type="button" class="btn btn-success edit" data-toggle="modal" data-target="#exampleModal"  style="font-size: 10px">Edit</button></td>
+          <td>{{forloop.counter}}</td>
+          <td style="display: none;" class="g_client_id">{{e.client_id}}</td>
+          <td style="white-space: nowrap;" class="g_client_name">{{e.client_name|default_if_none:""}}</td>
+          <td class="g_bank_name1">{{e.bank_name|default_if_none:""}}</td>
+          <td class="g_bank_address1">{{e.bank_address1|default_if_none:""}}</td>
+          <td class="g_account_name1">{{e.account_name1|default_if_none:""}}</td>
+          <td class="g_account_no1">{{e.account_no1|default_if_none:""}}</td>
+          <td class="g_swift_code1">{{e.swift_code1|default_if_none:""}}</td>
+          <td class="g_proj_name">{{e.proj_name|default_if_none:""}}</td>
+          <td class="g_contact_no1">{{e.contact_no1|default_if_none:""}}</td>
+
+          <td class="g_bank_name2">{{e.bank_name2|default_if_none:""}}</td>
+          <td class="g_bank_address2">{{e.bank_address2|default_if_none:""}}</td>
+          <td class="g_account_name2">{{e.account_name2|default_if_none:""}}</td>
+          <td class="g_account_no2">{{e.account_no2|default_if_none:""}}</td>
+          <td class="g_swift_code2">{{e.swift_code2|default_if_none:""}}</td> 
+          <td class="g_contact_no2">{{e.contact_no2|default_if_none:""}}</td>       
+          {% endfor %}
+        </tr>
+      </tbody>
+      </table>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Bank's Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="group-control">
+          <table class="" style="font-size: 10px">
+            <thead>
+              <div id="e_id"></div>
+              <tr>
+                <th>Client Name</th>
+                <td>
+                  <select class="form-control" style="font-size: 10px;width: 142px;" id="e_client_name">
+                  <option id="0">Select Client Name</option>
+                  {% for c in cl_list %}
+                  <option value="{{c.id}}">{{c.client_name}}</option>
+                  {% endfor %}
+                </select>
+
+                 <!--  <input type="text" name="" class="form-control" id="e_client_name" style="width:195%"> -->
+                </td>
+              </tr>
+
+              <tr>
+                <th>Bank Name 1</th>
+                <td><input type="text" name="" class="form-control" id="e_bank_name1" style="width:195%"></td>
+              </tr>
+
+              <tr>
+                <th>Bank Address 1</th>
+                <td><input type="text" name="" class="form-control" id="e_bank_address1" style="width:195%"></td>
+              </tr>
+
+              <tr>
+                <th>Account Name 1</th>
+                <td><input type="text" name="" class="form-control" id="e_account_name1" style="width:195%"></td>
+              </tr>
+
+              <tr>
+                <th>Account No. 1</th>
+                <td><input type="text" name="" class="form-control" id="e_account_no1" style="width:195%"></td>
+              </tr>
+
+              <tr>
+                <th>Contact No.1</th>
+                <td><input type="text" name="" class="form-control" id="e_contact_no1" style="width:195%"></td>
+              </tr>
+
+              <tr>
+                <th>Swift Code 1</th>
+                <td><input type="text" name="" class="form-control" id="e_swift_code1" style="width:195%"></td>
+              </tr>
+
+             
+              <tr>
+                <th>Bank Name 2</th>
+                <td><input type="text" name="" class="form-control" id="e_bank_name2" style="width:195%"></td>
+              </tr>
+
+              <tr>
+                <th>Bank Address 2</th>
+                <td><input type="text" name="" class="form-control" id="e_bank_address2" style="width:195%"></td>
+              </tr>
+
+              <tr>
+                <th>Account Name 2</th>
+                <td><input type="text" name="" class="form-control"  id="e_account_name2" style="width:195%"></td>
+              </tr>
+
+              <tr>
+                <th>Account No. 2</th>
+                <td><input type="text" name="" class="form-control" id="e_account_no2" style="width:195%"></td>
+              </tr>
+
+              <tr>
+                <th>Contact No.2</th>
+                <td><input type="text" name="" class="form-control" id="e_contact_no2" style="width:195%"></td>
+              </tr>
+
+              <tr>
+                <th>Swift Code 2</th>
+                <td><input type="text" name="" class="form-control" id="e_swift_code2" style="width:195%"></td>
+              </tr>
+
+            </thead>
+          </table>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="display: none;">Close</button>
+        <button type="button" class="btn btn-primary" style="font-size: 10px" id="update_details">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $('.edit').click(function(){
+    var g_id              = $(this).closest("tr").find(".g_id").text();
+    var g_client_name     = $(this).closest("tr").find(".g_client_name").text();
+    var g_bank_name1      = $(this).closest("tr").find(".g_bank_name1").text();
+    var g_bank_address1   = $(this).closest("tr").find(".g_bank_address1").text();
+    var g_account_name1   = $(this).closest("tr").find(".g_account_name1").text();
+    var g_account_no1     = $(this).closest("tr").find(".g_account_no1").text();
+    var g_swift_code1     = $(this).closest("tr").find(".g_swift_code1").text();
+    var g_proj_name       = $(this).closest("tr").find(".g_proj_name").text();
+    var g_bank_name2      = $(this).closest("tr").find(".g_bank_name2").text();
+    var g_bank_address2   = $(this).closest("tr").find(".g_bank_address2").text();
+    var g_account_name2   = $(this).closest("tr").find(".g_account_name2").text();
+    var g_account_no2     = $(this).closest("tr").find(".g_account_no2").text();
+    var g_swift_code2     = $(this).closest("tr").find(".g_swift_code2").text();
+    var g_client_id       = $(this).closest("tr").find(".g_client_id").text();
+    var e_contact_no1     = $(this).closest("tr").find(".e_contact_no1").text();
+    var e_contact_no2     = $(this).closest("tr").find(".e_contact_no2").text();
+
+    
+
+
+    get_calling_bank(g_id,g_client_name,g_bank_name1,g_bank_address1,g_account_name1,g_account_no1,g_swift_code1,g_proj_name,g_bank_name2,g_bank_address2,g_account_name2,g_account_no2,g_swift_code2,g_client_id,e_contact_no1,e_contact_no2);
+  })
+
+
+  function get_calling_bank(g_id,g_client_name,g_bank_name1,g_bank_address1,g_account_name1,g_account_no1,g_swift_code1,g_proj_name,g_bank_name2,g_bank_address2,g_account_name2,g_account_no2,g_swift_code2,g_client_id,e_contact_no1,e_contact_no2){
+    $('#e_client_name').val(g_client_id);
+    $('#e_bank_name1').val(g_bank_name1);
+    $('#e_bank_address1').val(g_bank_address1);
+    $('#e_account_name1').val(g_account_name1);
+    $('#e_account_no1').val(g_account_no1);
+    $('#e_swift_code1').val(g_swift_code1);
+    $('#e_bank_name2').val(g_account_name2);
+    $('#e_bank_address2').val(g_account_no2);
+    $('#e_account_name2').val(g_bank_address2);
+    $('#e_account_no2').val();
+    $('#e_swift_code2').val(g_swift_code2);
+    $('#e_id').val(g_id);
+    $('#e_contact_no1').val(e_contact_no1);
+    $('#e_contact_no2').val(e_contact_no2);
+   
+  }
+
+
+
+  $('#update_details').click(function(){
+
+  var e_id            = $('#e_id').val();
+  var e_client_name   = $('#e_client_name').val();
+  var e_bank_name1    = $('#e_bank_name1').val();
+  var e_bank_address1 = $('#e_bank_address1').val();
+  var e_account_no1   = $('#e_account_no1').val();
+  var e_account_name1 = $('#e_account_name1').val();
+  var e_account_no1   = $('#e_account_no1').val();
+  var e_swift_code1   = $('#e_swift_code1').val();
+  var e_bank_name2    = $('#e_bank_name2').val();
+  var e_bank_address2 = $('#e_bank_address2').val();
+  var e_account_name2 = $('#e_account_name2').val();
+  var e_account_no2   = $('#e_account_no2').val();
+  var e_swift_code2   = $('#e_swift_code2').val();
+
+  $.ajax({
+    url: '/it/update_bank_entry/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    {  
+    'e_id'             : JSON.stringify(e_id),
+    'e_client_name'    : JSON.stringify(e_client_name),
+    'e_bank_name1'     : JSON.stringify(e_bank_name1),
+    'e_bank_address1'  : JSON.stringify(e_bank_address1),
+    'e_account_no1'    : JSON.stringify(e_account_no1),
+    'e_account_name1'  : JSON.stringify(e_account_name1),
+    'e_account_no1'    : JSON.stringify(e_account_no1),
+    'e_swift_code1'    : JSON.stringify(e_swift_code1),
+    'e_bank_name2'     : JSON.stringify(e_bank_name2),
+    'e_bank_address2'  : JSON.stringify(e_bank_address2),
+    'e_account_name2'  : JSON.stringify(e_account_name2),
+    'e_account_no2'    : JSON.stringify(e_account_no2),
+    'e_swift_code2'    : JSON.stringify(e_swift_code2),
+    },
+
+    success : function(obj){ 
+      if(obj=='done'){
+        alert('Successfully updated');
+        }
+      
+    },
+    error : function(err){
+      console.log(JSON.stringify(err,null,4));
+    }        
+  });
+})
+
+</script>
+
+{% endblock %}

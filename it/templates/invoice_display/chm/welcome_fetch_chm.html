@@ -1,0 +1,213 @@
+{% extends "admin.html" %}
+{% block content %}
+
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+ <link rel="stylesheet" type="text/css" href="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<p></p>
+<center><i id="loader" class="fa fa-cog fa-spin fa-4x fa-fw" style="color:orange;display:none;"></i></center>
+
+
+<table id="vessel_details" class="table table-striped table-bordered bootstrap-datatable" >
+    <thead>
+      <tr>        
+        <th><font color="black">S.No</font></th>
+        <th><font color="black">Client Name</font></th>
+        <th><font color="black">Proj.Name</font></th>
+        <th><font color="black">Currency Type</font></th>
+        <th><font color="black">Duration</font></th>
+        <th><font color="black">Price</font></th>
+        <th><font color="black">Price Type</font></th>
+        <th><font color="black">Rate</font></th>  
+        <th><font color="black">Customer GSTIN</font></th>  
+        <th><font color="black">Edit</font></th>          
+      </tr>
+    </thead>
+   {% for x in chm_append %}
+   <tr>
+    <td>{{forloop.counter}}</td>
+    <td>{{x.client_name}}</td>
+    <td>{{x.proj_name}}</td>
+    <td>{{x.curr_type}}</td>
+    <td>{{x.dur_type}}</td>
+    <td>{{x.client_price}}</td>
+    <td>{% if x.merge_type == 1 %}<select class="form-control" ><option value="1-2">1-2</option><option value="3-5">3-5</option><option value="6-8">6-8</option></select>{% else %} {% endif %}</td>
+    <td>{{x.price_rate}}</td>
+    <td>{{x.tin_number|default_if_none:""}}</td>
+    <td id="{{x.client_id}}" value="{{x.client_name}},{{x.proj_name}},{{x.dur_type}},{{x.curr_type}},{{x.client_price}},{{x.price_rate}},{{x.tin_number}},{{x.merge_type}}" class="select_client"><button class="btn btn-success" data-toggle="modal" data-target="#myModal"><font color="white">Edit</font></button></td>
+   {% endfor %}
+   </tr>
+  </table>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">    
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Address</h4>
+        <button type="button" class="close" id="close_modal" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label>Client Name</label>
+            <div id="e_id" style="display: none"></div>
+            <input type="text" class="form-control" id="e_client_name" >
+        </div>
+        <div class="form-group">
+            <label>Proj Type</label>
+            <select class="form-control" id="select_proj_name_type"><!--   -->
+               <option value="CHM">CHM</option>
+               <option value="BOSS">BOSS</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Currency Type</label>
+            <select class="form-control" id="select_usd_inr_type">               
+               <option value="USD">USD</option>
+               <option value="INR">INR</option>
+            </select>
+        </div>
+       
+        <div class="form-group">
+            <label>Duration Type</label>
+            <select class="form-control" id="select_duration_type">
+               <option value="Voyagewise">Voyagewise</option>
+               <option value="Monthwise">Monthwise</option>
+            </select>
+        </div>
+
+       <div class="form-group">
+            <label>Price Type</label>
+            <select class="form-control" id="select_price_type">
+               <option value="0">None</option>
+               <option value="1-2">1-2</option>
+               <option value="3-5">3-5</option>
+               <option value="6-8">6-8</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Price</label>
+            <input type="text" class="form-control" id="e_price_c">
+        </div>
+
+        <div class="form-group">
+            <label>Rate</label>
+            <input type="text" class="form-control" id="e_rate_c">
+        </div>
+
+         <div class="form-group">
+            <label>Customer GSTIN</label>
+            <input type="text" class="form-control" id="e_customer_gstin_c">
+        </div>
+
+           <div class="form-group">             
+                <button type="button" class="btn btn-primary" id="update_invoice">Submit</button>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        table = $('#vessel_details').DataTable({
+        "scrollY"        : '500px',
+        "bPaginate"       : false,
+        "scrollX"         : true,
+        "scrollCollapse"  : false, 
+        "bFilter"         : true,
+        paging: false,
+        info: false
+      });
+      
+      $('#vessel_details').DataTable().search( '' ).draw();
+      $(".dataTable").css("margin-bottom","0px");   
+    })
+
+
+
+    $(".select_client").click(function(){
+       var id = $(this).attr('id');    
+       var array = $(this).attr('value');
+       var ship   = array.split(',');
+       var client_name = ship[0];
+       var proj_type = ship[1];
+       var dur_type = ship[2];
+       var curr_type = ship[3];
+       var price = ship[4];
+       var rate = ship[5];
+       var tin_number = ship[6];
+       var merge_type = ship[7];
+       $('#e_id').html(id);
+       $('#e_client_name').val(client_name);
+       $('#select_proj_name_type').val(curr_type);
+       $('#e_rate_c').val(rate);
+       $('#e_customer_gstin_c').val(tin_number);       
+       $('#select_duration_type').val(dur_type);
+       $('#e_price_c').val(price);
+     
+            
+  
+
+$('#update_invoice').click(function(){   
+   var price_type_c  = $('#select_price_type').val();
+   var _client_name  = $('#e_client_name').val();
+   var e_rate_c      = $('#e_rate_c').val();
+   var customer_no   = $('#e_customer_gstin_c').val();
+   var duration_name = $('#select_duration_type').val();
+   var clientID      = $('#e_id').html();
+   var e_price_c     = $('#e_price_c').val();
+   var usd_inr       = $('#select_usd_inr_type').val();   
+   var e_proj_name   = $('#select_proj_name_type').val();
+   
+   
+   $.ajax({
+   url: '/it/update_client_details/',
+   dataType: 'JSON',
+   type: 'POST',
+   data:
+    { 
+        'e_client_name' : _client_name,
+        'e_rate_c'      : e_rate_c,
+        'customer_no'   : customer_no,
+        'duration_name' : duration_name,
+        'clientID'      : clientID,
+        'e_price_c'     : e_price_c,
+        'price_type_c'  : price_type_c,
+        'usd_inr'       : usd_inr,  
+        'proj_name'     : e_proj_name, 
+    },
+    success : function(obj){ 
+     //swal("Success","Client successfully updated","success");
+     alert('Client successfully updated');
+
+    },
+      error : function(err){
+        alert(JSON.stringify(err,null));
+    }
+    });
+  })
+})
+
+
+
+
+
+
+
+    
+</script>
+
+
+
+
+{% endblock %}

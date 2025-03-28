@@ -1,0 +1,491 @@
+{% extends "base.html" %}
+{% block content %}    
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!--   <link rel="stylesheet" href="/resources/demos/style.css"> -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<style type="text/css">
+	textarea {
+   resize: none;
+}
+
+
+.tooltip {
+  height: 30px;
+  color: orange;
+  background: #fff;
+  border: 2px solid #dedede;
+  line-height: 30px;
+  margin: 0 10px;
+  box-shadow: 2px 2px 5px #ddd;
+  z-index: 200;
+}
+</style>
+
+<script type="text/javascript">
+  $(function(){
+    $("#invoice_date").datepicker();
+	$("#period_date").datepicker();
+  });
+</script>
+
+<br>
+<!-- <center style="font-size: 10px;font-weight: bold;color:red">Manual Entry (Poompuhar/TANGEDCO Passage (B),Report ID (C), Otherwise keep 0 in this column)</center> -->
+<!-- <button  type="button"  class="btn btn-warning" style="float: right;margin-right: 141px;margin-top: -40px;cursor: pointer;font-size: 12px" data-toggle="modal" data-target="#exampleModal" >View Example</button> -->
+<div style="float: right;margin-right: 286px;margin-top:-40px;font-size: 12px;display: none;">New Client</div><input type="checkbox" name="New Client" id="other_client" value="New Client" style="float: right;margin-right: 269px;margin-top:-38px;display: none;">
+
+<div class="container">
+	<div class="col-md-12">
+	
+    <textarea id="address" style="border:solid 1px grey;margin-left: 15px;width: 877px;height: 91px;" placeholder="Enter Address"></textarea>
+     <center><i id="loaders" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+    <table border="1" style="font-size: 10px;margin-left: 15px;">
+		<thead>
+		  <tr>
+		    <th>Project Name</th>
+		    <th>Currrency Type</th>
+		    <th>Invoice #</th>
+		    <th>Client Name</th>
+		    <th id="show_pool_name">Account Tab </th>
+		    <th>GTIN No.</th>
+		    <th>V Manager</th>
+		    <th>Entry Date</th>
+		    <th>Period Date</th>
+		    <!-- <th>Amt. Due</th> -->
+		  </tr>
+		</thead>
+		<tbody style="font-size: 9px">
+		  <tr>
+		    <td><select class="form-control" id="select_proj_type" style="width: 84px;font-size: 10px">
+		      <option value="0">SELECT</option>
+		      <option value="BOSS">BOSS</option>
+		      <option value="CHM">CHM</option>
+		    </select></td>
+		    
+		    <td> <select class="form-control" id="select_currency" style="width: 100px;font-size: 10px">
+		      <option value="0">SELECT</option>
+		      <option value="USD">USD</option>
+		      <option value="INR">INR</option>
+		    </select></td>
+		    <td><input type="text" id="edit_invoice_no" style="text-align: right;width: 64px;font-size: 10px;height: 38px;"></td>
+		    <td><select id="client_list" class="form-control" style="width: 135px;font-size: 10px;display: "></select><input type="text" value="" id="edit_client_name" style="text-align: right;width: 164px;font-size: 10px;height: 38px;display: none"></td>
+		    <td><center><i id="loader" class="fa fa-spinner fa-spin fa-2x" style="color:brown;display:none;"></i></center>
+			<select class="form-control chosen-select" id="select_pool_name" style="display:none; text-align: left;width: 200px;font-size: 10px;height: 38px;"></select></td>
+		    <td><input type="text" name="" value="" id="edit_customer_gtin_no" style="text-align: right;width: 64px;font-size: 12px;height: 38px;"></td>
+		    <td><input type="text" name="" value="" id="edit_vm_name" style="text-align: right;width: 64px;font-size: 12px;height: 38px;"></td>
+		    <td><input type="text" id="invoice_date" value="" style="text-align: right;width: 70px;font-size: 12px;height: 38px;"></td>
+		    <td><input type="text" id="period_date" value="" style="text-align: right;width: 70px;font-size: 12px;height: 38px;"></td>
+		    <!-- <td class="total-value" style="white-space: nowrap"></td>     -->
+		  </tr>
+		</tbody>
+		</table>	
+
+
+
+		<div style="width: 100%; display: table;">
+		    <div style="display: table-row">
+		        <div style="width: 600px; display: table-cell;font-size: 12px"> <div class = 'handsontable col-md-12' data-original style="overflow-y: auto;overflow-x: auto;"  id = "invoice_entry"></div> </div>
+	        	<div style="display: table-cell;">
+        						    
+		        		<p></p>
+		        	 	<div class="row">
+					      <div class="col-sm-12">
+					        <button id="submit_other_invoice" class="btn btn-success btn-md center-block" style="width:105px;cursor:pointer">Submit</button>
+
+					        <div id="subtotal" style="font-size: 12px;font-weight: bold"></div>        
+					      </div>
+					    </div>
+					    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+        			</div>
+		    	</div>
+			</div>
+		</div>
+	</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 185%;margin-left: -208px;">
+      <div class="modal-header">        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">        
+        <img src="/static/img/example.png" style="height: 490px;width: 870px;">   
+        <div><img src="/static/img/sample.png" style="height: 240px;width:286px;margin-top: -565px;margin-left: 344px;"></div>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+	var lastday = function(y,m){
+		return  new Date(y, m, 0).getDate();
+	}
+
+
+	function get_rob(){
+	$("#invoice_entry").empty()
+	container = document.getElementById('invoice_entry');
+	rob = [];
+	rob = {
+		'vessel' 	  : '',	
+		'voy_no' 	  : '',
+		'load_port'	  : '',
+    	'load_date'   : '',
+		'disch_port'  : '',	
+    	'disch_date'  : '',
+		'qty'    	  : '',
+		'rate' 		  : '',
+		'amount' 	  : 0.0,	
+	};
+
+	colHeaders = ['Vessel','Voy No','Load Port','Date','Discharge Port','Date','Qty. (Days)','Rate','Amount']
+	columns    = [{data : "vessel"},{data : 'voy_no'},{data : 'load_port'},{data : 'load_date',type : 'date',dateFormat: 'DD/MM/YYYY'},{data : 'disch_port'},{data : 'disch_date',type : 'date',dateFormat: 'DD/MM/YYYY'},{data : 'qty'},{data : 'rate'},{data : 'amount'}]
+
+	VA_table6  = new Handsontable(container,{
+		data         : rob,
+		colHeaders   : colHeaders,
+		columns      : columns,
+		minSpareRows : 10,
+		rowHeaders   : true,
+		contextMenu  : true,
+		afterGetColHeader: function(index, TH) {
+        if (index === 1 && TH) {
+		  TH.children[0].title = ''
+        }
+
+        if (index === 2 && TH) {
+		  TH.children[0].title = ''
+        }
+     }
+	});
+
+	VA_table6.updateSettings({
+ 		afterDocumentKeyDown:function(e){
+ 			var selection = VA_table6.getData();	
+ 			if(e.keyCode===13)
+ 			{
+ 				var datava5      = VA_table6.getData();	
+ 				t=0
+ 				for (var i=0;i<200;i++){
+	 				amount  		 = parseFloat(selection[i]['rate'])*parseFloat(selection[i]['qty']);
+	 				datava5[i]['amount'] = amount.toFixed(2);
+
+	 				if(datava5[i]['amount']=='NaN' || selection[i]['rate']=='NaN' || selection[i]['qty']=='NaN')
+ 					{
+ 						VA_table6.loadData(0);
+ 					}else{
+		 				t+=amount
+		 				$('#subtotal').text(t);
+
+ 						VA_table6.loadData(datava5);
+ 					}
+	 			}
+ 			}
+ 		}
+ 	});
+}
+
+get_rob();
+$('#select_currency').change(function(){
+  var type = $(this).val();
+  var proj_name = $('#select_proj_type').val();
+  if(type=='USD'){
+    var type = 'USD';
+    $('#show_customer_tin_no').css('display','none');
+  }else if(type=='INR'){
+    var type = 'INR';
+    $('#show_customer_tin_no').css('display','');
+  }
+ 
+ $.ajax({
+    url: '/it/get_other_invoice/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    { 
+      'type'      : type,
+      'proj_name' : proj_name,
+    },
+    success : function(obj){
+      $('#client_list').empty();
+      $('#edit_invoice_no').val(obj['get_invoice'][0]['invoice_no']);
+      $('#client_list').append('<option id="0">Client Name</option>')
+      for(var i=0;obj['cl_array'].length;i++){
+      	$('#client_list').append('<option id='+obj['cl_array'][i]['id']+'>'+obj['cl_array'][i]['client_name']+'</option>')
+      }
+    },
+    error : function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+var today = new Date();
+var dd    = today.getDate();
+var mm    = today.getMonth()+1; 
+var yyyy  = today.getFullYear();
+if(dd<10) 
+{
+  dd='0'+dd;
+}
+
+if(mm<10) 
+{
+  mm='0'+mm;
+}
+today = mm+'/'+dd+'/'+yyyy;
+//$('#invoice_date').val(today);
+
+
+$('#select_proj_type').change(function(){
+  $('#edit_invoice_no').val('');
+  $('#select_currency').val('');
+})
+
+
+
+  var date1   = new Date();
+  var day1    = date1.getDate();
+ 
+  
+    var month1  = date1.getMonth();
+    var month2  = date1.getMonth();
+    var year1   = date1.getFullYear();
+
+
+  if (month1 < 10) month1 	= "0" + month1;
+  if (month1 < 10) month2 	= "0" + month2;
+  if (day1 < 10) day1 		= "0" + day1;
+
+
+  var today1  		= year1 + "-" + month1 + "-" + day1;
+  last_days         = (lastday(year1,month1))
+  last_dayx         = (lastday(year1,month2))
+  first_date        = (month1)+'/01/'+year1;  
+  last_date         = (month1)+'/'+last_days+'/'+year1;    
+  var manual_date   = last_date;//'08/31/2021'; 
+  get_invoice_date  = (month2)+'/'+last_dayx+'/'+year1;  
+  var starting_date = month2+'/01'+'/'+year1;
+  $('#invoice_date').val(get_invoice_date);
+  $('#period_date').val(starting_date);
+  
+
+$('#submit_other_invoice').click(function(){
+	var cl_name 	= $('#edit_client_name').val();
+	var cl_name2 	= $('#client_list').val();
+	var vl 			= $('#select_proj_type').val();
+	var inv 		= $('#edit_invoice_no').val();
+	var sc 			= $('#select_currency').val();
+	var cl 			= $('#client_list').val();
+	var vm_name     = $('#edit_vm_name').val();
+	
+	if(vl==0){
+		alert('Please Select all Fields');
+		$('#select_proj_type').css('background-color','red');
+		return 0;
+	}
+	if(inv==0){
+		alert('Please Select all Fields');
+		$('#edit_invoice_no').css('background-color','red');
+		return 0;
+	}
+
+	if(sc==0){
+		alert('Please Select all Fields');
+		$('#select_currency').css('background-color','red');
+		return 0;
+	}
+
+	if(cl==0){
+		alert('Please Select all Fields');
+		$('#client_list').css('background-color','red');
+		return 0;
+	}
+
+	if(vm_name==0){
+		alert('Please Select all Fields');
+		$('#edit_vm_name').css('background-color','red');
+		return 0;
+	}
+
+	if(cl_name!=''){
+		client_name = cl_name
+	}else{
+		client_name = cl_name2
+	}
+
+	//$('#loader').css('display','');
+	data2		   = VA_table6.getData();
+	var invoice_no = $('#edit_invoice_no').val(); 
+	var proj_name  = $('#select_proj_type').val(); 
+	var curr_type  = $('#select_currency').val();
+	var vm_name    = $('#edit_vm_name').val();
+	var in_date    = $('#invoice_date').val();
+	var period_dat = $('#period_date').val();//$('#period_date').val();
+	var cl_name    = client_name;//$('#edit_client_name').val();
+	var gtin_no    = $('#edit_customer_gtin_no').val();
+	var address    = $('#address').val();
+	var pool_name  = $('#select_pool_name').val();
+	subtotal 	   = $('#subtotal').html();
+	
+	
+	$.ajax({
+	url: '/it/submit_chm_invoice_alag/',
+	dataType: 'JSON',
+	type: 'POST',
+	data:
+	{
+	  'table_details'  : JSON.stringify(data2),
+	  'invoice_no'     : invoice_no,
+	  'proj_name'      : proj_name,
+	  'curr_type'      : curr_type,
+	  'vm_name'        : vm_name,
+	  'in_date'        : in_date,
+	  'cl_name'        : cl_name,
+	  'gtin_no'        : gtin_no,
+	  'address'        : address,
+	  'pool_name'      : pool_name,
+	  'period_dat'     : period_dat,
+	  'subtotal'       : subtotal,
+	},
+	success:function(obj){
+	  $('#loader').css('display','none');
+	  alert('Done');
+	  //location.reload();	  
+	},
+	error:function(err){
+	  console.log(JSON.stringify(err,null,4));
+	}
+  });
+})
+
+$('#select_currency').change(function(){
+	$('#select_currency').css('background-color','white');
+})
+$('#select_proj_type').change(function(){
+	$('#select_proj_type').css('background-color','white');
+})
+
+$('#edit_client_name').change(function(){	
+	var cl_name    = $(this).val();	
+	if(cl_name=='Shell' || cl_name =='shell'){
+		$('#show_pool_name').css('display','');
+		//$('#loader').css('display','');
+		$('#select_pool_name').css('display','');
+		$('#edit_vm_name').css('background-color','white');
+	}else{
+		$('#show_pool_name').css('display','none');		
+		$('#select_pool_name').css('display','none');
+		$('#edit_vm_name').css('background-color','white');
+		return;
+	}	
+})
+
+
+
+$('#client_list').change(function(){
+	var cl_name  = $(this).val();
+	var proj_name  = $('#select_proj_type').val(); 
+	var curr_type  = $('#select_currency').val();
+	$('#loader').css('display','');
+	$.ajax({
+	url: '/it/get_pool_details/',
+	dataType: 'JSON',
+	type: 'GET',
+	data:
+	{
+		'cl_name' : cl_name,
+		'proj_name' : proj_name,
+		'curr_type' : curr_type,
+ 	},
+	success : function(obj){
+		$('#loader').css('display','none');
+		$('#select_pool_name').css('display','');
+	 	$('#select_pool_name').empty();
+
+		$('#select_pool_name').append('<option value ="0">Account Tab</option>');
+  		for(var i=0;i<obj.length;i++){
+  			$('#select_pool_name').append('<option id='+obj[i]['ship_class']+'>'+obj[i]['ship_class']+'</option>')
+  		}	  
+	},
+	error : function(err){
+	  console.log(JSON.stringify(err,null,4));
+	}
+  });
+})
+
+
+$('#other_client').change(function() {
+    if ($('#other_client').prop('checked')) {
+        $('#client_list').css('display','none');
+		$('#edit_client_name').css('display','');		
+    } else {
+       $('#client_list').css('display','');
+	   $('#edit_client_name').css('display','none');
+    }
+});
+
+
+$('#select_pool_name').change(function(){
+	var pl_name    = $(this).val();
+	var cl_name1   = $('#client_list').val();
+	var proj_name  = $('#select_proj_type').val(); 
+	var curr_type  = $('#select_currency').val();
+	var pool_name  = $('#select_pool_name').val();
+	$('#loaders').css('display','');
+	$.ajax({
+		url: '/it/get_address_details/',
+		dataType: 'JSON',
+		type: 'GET',
+		data:
+		{
+		 	'cl_name' 	: JSON.stringify(cl_name1),
+		 	'proj_name' : JSON.stringify(proj_name),
+		 	'curr_type' : JSON.stringify(curr_type),
+		 	'pool_name' : JSON.stringify(pool_name),
+	 	},
+		success : function(obj){
+			if(obj['get_array'][0]['address']=='no'){
+				alert("Please Check Address");
+				$('#address').val("");
+				$('#loaders').css('display','none');
+				$('#address').focus();
+				return 0;
+			}
+
+			$('#loaders').css('display','none');
+			//console.log(obj['get_array'][0]['address'])
+			$('#address').val(obj['get_array'][0]['address'])  //.split(",").join("\n")
+			$('#edit_vm_name').val(obj['get_array'][0]['vm_name'])  //.split(",").join("\n")
+		},
+		error : function(err){
+		  console.log(JSON.stringify(err,null,4));
+		  
+		}
+	});
+})
+
+
+</script>
+
+{% endblock %}
+  

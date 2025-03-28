@@ -1,0 +1,868 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/handsontable-master/handsontable.full.js"></script>
+
+
+
+<style type="text/css">
+.modal-dialog {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-content {
+  height: auto;
+  min-height: 100%;
+  border-radius: 0;
+
+}
+
+.table>thead:first-child>tr:first-child>td
+{
+    padding:4px;
+}
+
+.bordered>tbody>tr>td
+{
+    padding:3px;
+}
+th
+{
+    font-size:12px;
+}
+td
+{
+    font-size:12px;
+}
+.table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td
+{
+    padding:3px;
+}
+
+
+
+.white_content {
+  display  : none;
+  position : absolute;
+  top      : 10%;
+  left     : 23%;
+  width    : 70%;
+  padding  : 16px;
+  border   : 16px solid rgb(3, 60, 115);
+  background-color : white;
+  z-index  : 1002;
+  overflow : auto;
+}
+
+.modal-megamenu {
+  width:100%;
+  height:100%;
+}
+
+.modal-body {
+  max-height:500px;
+  overflow:auto;
+}
+
+
+#loader
+{
+  position:relative;
+  left:40%;
+  top:50%;
+}
+
+.dataTables_info {
+  display: none;
+}
+
+</style>
+
+
+  
+    <h2> <center><img src="/static/pdf/boss.png" style="width: 53px;height: 53px">&nbsp;&nbsp;Welcome to Automated Invoice Module (AIM)  <img src="/static/pdf/chm.png" style="width: 53px;height: 53px"></center></h2>
+    <p></p><p></p><br><br>
+ <!--    <div class="content-wrapper"> -->
+      <div class="container-fluid">
+         <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-3">
+          <div class="card text-white bg-primary o-hidden h-100">
+            <div class="card-body">
+              <div class="card-body-icon">
+                <i class="fa fa-fw fa-comments"></i>
+              </div>
+              <div class="mr-5">List of All generated Invoice(s):<br>{{total_invoice_counter}} Invoice(s)</div>
+            </div>
+            <!-- <div class="panel-footer" data-toggle="modal" data-target="#myModal" id="generated_invoice"> -->
+              <a class="card-footer text-white clearfix small z-1" href="#">
+                <span class="float-left" data-toggle="modal" data-target="#myModal" id="generated_invoice">Click here to view the list</span>
+                <span class="float-right">
+                  <i class="fa fa-arrow-circle-right"></i>
+                </span>
+              </a>
+           <!--  </div> -->
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6 mb-3">
+          <div class="card text-white bg-success o-hidden h-100">
+            <div class="card-body">
+              <div class="card-body-icon">
+                <i class="fa fa-fw fa-list"></i>
+              </div>
+              <div class="mr-5">List of Settled Invoice(s) <br><b>CHM </b> {{chm_total_paid}} Paid<br> <b>BOSS </b>{{boss_total_paid}} Paid</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+              <span class="float-left" data-toggle="modal" data-target="#myModal" id="get_paid_invoice">Click here to view the list</span>
+              <span class="float-right">
+                <i class="fa fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6 mb-3">
+          <div class="card text-white bg-warning o-hidden h-100">
+            <div class="card-body">
+              <div class="card-body-icon">
+                <i class="fa fa-fw fa-shopping-cart"></i>
+              </div>
+             <div class="mr-5">List of Pending Invoice(s)<br><b>CHM </b> {{unpaid_chm_total_paid}} Pending<br> <b>BOSS </b>{{unpaid_boss_total_paid}} Pending</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+              <span class="float-left" data-toggle="modal" data-target="#myModal" id="get_pending_invoice">Click here to view the list</span>
+              <span class="float-right">
+                <i class="fa fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+
+
+        <div class="col-xl-3 col-sm-6 mb-3">
+          <div class="card text-white bg-danger o-hidden h-100">
+            <div class="card-body">
+              <div class="card-body-icon">
+                <i class="fa fa-fw fa-support"></i>
+              </div>
+              <div class="mr-5">List of Cancelled Invoice(s)<br><b>CHM </b> {{total_cancel_chm}}<br> <b>BOSS </b>{{total_invoice_of_boss}}</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+              <span class="float-left" data-toggle="modal" data-target="#myModal" id="get_cancelled_invoice">Click here to view the list</span>
+              <span class="float-right">
+                <i class="fa fa-arrow-circle-right"></i>
+              </span>
+            </a>
+          </div>
+        </div>
+
+<div class="container">
+  <div class="modal" data-backdrop="static" data-keyboard="false" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <center>
+      <div class="modal-content" style="padding-top:60px;width: 260%;height: 645px;">
+        <div class="modal-header">
+         <button type="button" class="btn btn-default" data-dismiss="modal" id="close_modal" style="float:right;cursor: pointer">Close</button>    
+          <h4 class="modal-title"></h4>
+          </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <h3>INR</h3>
+                <table class="table table-striped table-bordered" id="invoice_tracker">
+                <thead>
+                  <tr>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">S.No</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice No.</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice Dated</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Vessel Name</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Voyage No</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Voyage Manager</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Disch.Port</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Disch.Date</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Client</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice<br>Amount<br></font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Proj Name</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Status*</font></center></th>                 
+                  </tr>
+                </thead>
+              
+                <tbody id="invoice_details" class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" ></tbody>   
+              </table>
+              </div>
+              
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <h3>USD</h3>
+              <table class="table table-striped table-bordered" id="invoice_tracker_usd">
+              <thead>
+                <tr>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">S.No</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice No.</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice Dated</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Vessel Name</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Voyage No</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Voyage Manager</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Disch.Port</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Disch.Date</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Client</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice Amount</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Proj Name</font></center></th>
+                  <th style="background-color: rgb(3,60,115);"><center><font color="white">Status*</font></center></th>
+                </tr>                
+              </thead>
+
+              <tbody id="invoice_details_usd" class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" ></tbody>   
+              </table>
+              </div>
+              
+           
+         </center>
+        <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>       
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="row">
+    <div class="col-md-3 col-md-3">
+      <div class="card text-white bg-dark o-hidden h-100" style="width: 100%">
+        <div class="card-body">
+          <div class="card-body-icon">
+            <i class="fa fa-fw fa-window-close"></i>
+          </div>
+          <div class="mr-5">List of Deleted Invoice(s):<br>{{total_deleted_invoice}} Invoice(s)</div>
+        </div>           
+          <a class="card-footer text-white clearfix small z-1" href="#">
+            <span class="float-left" data-toggle="modal" data-target="#mydel_invoice" id="deleted_invoice_list">Click here to view the list</span>
+            <span class="float-right">
+              <i class="fa fa-arrow-circle-right"></i>
+            </span>
+          </a>        
+      </div>
+    </div>
+
+
+
+    <div class="col-md-8 col-md-9" style="display: {{show_table}}" id="today_generated_invoice">
+    <center><caption>Today's Generated Invoice(s)</caption></center>
+     <table class="table table-striped table-bordered table-sm" id="curr_table_details">
+      <thead style="background-color: #17a2b8;color:white">
+        <th>S No</th>
+        <th>Invoice No</th>
+        <th>Client Name</th>
+        <th>Proj.Name</th>
+      </thead>       
+     <tbody>
+      {% for c in curr_array %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{c.invoice_no}}</td>
+        <td>{{c.client_name}}</td>
+        <td>{{c.proj_name}}</td>
+      {% endfor %}
+      </tr>       
+     </tbody>
+     </table>
+    </div>
+  </div>
+
+
+
+<div class="container">
+  <div class="modal" data-backdrop="static" data-keyboard="false" id="mydel_invoice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <center>
+      <div class="modal-content" style="padding-top:60px;width: 260%;height: 645px;">
+        <div class="modal-header">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="close_modal" style="float:right;cursor: pointer">Close</button>    
+          <h4 class="modal-title"></h4>
+          </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <h3>INR</h3>
+                <table class="table table-striped table-bordered" id="del_tracker_inr">
+                <thead>
+                  <tr>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">S.No</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice No.</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice Dated</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Vessel Name</font></center></th>                    
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Client</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice<br>Amount<br></font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Proj Name</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Status*</font></center></th>                  
+                  </tr>
+                </thead>
+                <tbody id="del_invoice_inr" class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" ></tbody>   
+              </table>
+              </div>
+              
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <h3>USD</h3>
+              <table class="table table-striped table-bordered" id="del_tracker_usd">
+              <thead>
+                <tr>
+                <th style="background-color: rgb(3,60,115);"><center><font color="white">S.No</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice No.</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice Dated</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Vessel Name</font></center></th>                   
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Client</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Invoice<br>Amount<br></font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Proj Name</font></center></th>
+                    <th style="background-color: rgb(3,60,115);"><center><font color="white">Status*</font></center></th>              
+                </tr>
+              </thead>
+              <tbody id="del_invoice_usd" class="table table-striped table-bordered bootstrap-datatable datatable responsive dataTable" ></tbody>   
+              </table>
+            </div>           
+          </center>
+        <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>       
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  $("#deleted_invoice_list").click(function(){
+    $("#loader").css("display", "");
+    $(".modal-title").html("List of Deleted Invoice(s)");
+    if ($.fn.DataTable.isDataTable('#del_tracker_usd')){
+        $('#del_tracker_usd').DataTable().destroy();
+        $('#del_invoice_usd').empty();
+
+       }
+
+    if ($.fn.DataTable.isDataTable('#del_tracker_inr')){
+        $('#del_tracker_inr').DataTable().destroy();
+        $('#del_invoice_inr').empty();
+        
+       }
+      
+    $.ajax({
+      url:"/it/total_deleted_chm_usd/",
+      type:'POST',
+      dataType:'JSON',
+      data: {
+      },
+    success:function(obj){
+      $("#loader").css("display", "none");
+        $("#del_invoice_usd").empty();
+        //console.log(obj['del_details']);
+        for(var i=0;i<obj['del_details'].length;i++){
+         
+          $("#del_invoice_usd").append('<tr><td><center>'+(i+1)+'</center></td><td><center>'+obj['del_details'][i]['invoice_no']+'</center></td><td><center>'+obj['del_details'][i]['gen_datex']+'</center></td><td><center>'+obj['del_details'][i]['vessel_name']+'</center></td><td><center>'+obj['del_details'][i]['client_name']+'</center></td><td><center>'+obj['del_details'][i]['price']+'</center></td><td><center>'+obj['del_details'][i]['proj_name']+'</center></td><td><center><b><font color="red">'+obj['del_details'][i]['status']+'</font></b></center></td></tr>')
+        }
+
+        $('#mydel_invoice').on('shown.bs.modal',function (){
+          $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+        });
+        
+        
+        var table = $('#del_tracker_usd').DataTable({
+          "scrollY": 300,
+          "scrollX": true,
+          "pageLength": 25,
+          "bSort": true,
+          "bFilter" : true,
+          "ordering": true,
+          "bAutoWidth": true,         
+          "orderClasses": false,
+          "scrollCollapse": true,
+           "bPaginate": false,
+
+        });
+
+        $('#del_tracker_usd').DataTable().search( "" ).draw();
+        $(".dataTable").css("margin-bottom","0px");
+    },
+    error:function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+
+    $.ajax({
+      url:"/it/total_deleted_inr/",
+      type:'POST',
+      dataType:'JSON',
+      data: {
+      },
+    success:function(obj){
+        $("#loader").css("display", "none");
+        $("#del_invoice_inr").empty();       
+        for(var jj=0;jj<obj['del_details'].length;jj++){
+         
+          $("#del_invoice_inr").append('<tr><td><center>'+(jj+1)+'</center></td><td><center>'+obj['del_details'][jj]['invoice_nox']+'</center></td><td><center>'+obj['del_details'][jj]['gen_datexx']+'</center></td><td><center>'+obj['del_details'][jj]['vessel_namex']+'</center></td><td><center>'+obj['del_details'][jj]['client_namex']+'</center></td><td><center>'+obj['del_details'][jj]['pricex']+'</center></td><td><center>'+obj['del_details'][jj]['proj_namex']+'</center></td><td><center><font color="red"><b>'+obj['del_details'][jj]['statusx']+'</b></font></center></td></tr>')
+        }
+
+        $('#mydel_invoice').on('shown.bs.modal',function (){
+          $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+        });
+        
+        
+        var table = $('#del_tracker_inr').DataTable({
+          "scrollY": 300,
+          "scrollX": true,
+          "pageLength": 25,
+          "bSort": true,
+          "bFilter" : true,
+          "ordering": true,
+          "bAutoWidth": true,         
+          "orderClasses": false,
+          "scrollCollapse": true,
+          "bPaginate": false,
+        });
+
+        $('#del_tracker_inr').DataTable().search( "" ).draw();
+        $(".dataTable").css("margin-bottom","0px");
+    },
+    error:function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  });
+</script>
+
+
+
+<style type="text/css">
+  .floatedTable {
+            float:left;
+        }
+        .inlineTable {
+            display: inline-block;
+        }
+</style>
+
+<div style="display: none">
+<div class="col-md-12">        
+  <div class="card mb-3">
+    <div class="card-header bg-info o-hidden h-100">
+      <i class=""><font color="white">Total Amount received : <b> Rs.{{total_invoice|floatformat:"0"}}</b></font></i> </div>
+  
+    </div>
+  </div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+  $("#generated_invoice").click(function(){
+    $("#loader").css("display", "");
+    $("#loader_usd").css("display", "");
+    $(".modal-title").html("List of All Invoice(s) - Unpaid/paid/Cancelled");
+    if($.fn.DataTable.isDataTable('#invoice_tracker')){
+        $('#invoice_tracker').DataTable().destroy();
+        $('#invoice_details').empty();
+      }
+
+    if($.fn.DataTable.isDataTable('#invoice_tracker_usd')){
+        $('#invoice_tracker_usd').DataTable().destroy();
+        $('#invoice_details_usd').empty();  
+      }
+      
+    $.ajax({
+      url:"/it/total_generated_chm_boss/",
+      type:'POST',
+      dataType:'JSON',
+      data: {
+      },
+    success:function(obj){
+      $("#loader").css("display", "none");      
+        $("#invoice_details").empty();
+        for(var i=0;i<obj['invoice_array'].length;i++){
+          if(obj['invoice_array'][i]['disch_port']==null){
+            disch_port = ''
+          }else{
+            disch_port = obj['invoice_array'][i]['disch_port'];
+          }
+          $("#invoice_details").append('<tr style="background-color:'+obj['invoice_array'][i]['color']+';color:'+obj['invoice_array'][i]['font_color']+'"><td><center>'+obj['invoice_array'][i]['s_no']+'</center></td><td><center>'+obj['invoice_array'][i]['invoice_no']+'</center></td><td><center>'+obj['invoice_array'][i]['invoice_date']+'</center></td><td><center>'+obj['invoice_array'][i]['ship_name']+'</center></td><td><center>'+obj['invoice_array'][i]['voyage_no']+'</center></td><td><center>'+obj['invoice_array'][i]['vm_manager']+'</center></td><td><center>'+disch_port+'</center></td><td><center>'+obj['invoice_array'][i]['disch_date']+'</center></td><td><center>'+obj['invoice_array'][i]['client_name']+'</center></td><td><center>'+obj['invoice_array'][i]['invoice_amount']+'</center></td><td><center>'+obj['invoice_array'][i]['proj_name']+'</center></td><td><center>'+obj['invoice_array'][i]['status']+'</center></td></tr>')
+        }
+
+        $('#myModal').on('shown.bs.modal',function (){
+          $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+        });
+        
+        
+        var table = $('#invoice_tracker').DataTable({
+          "scrollY": 300,
+          "scrollX": true,
+          "pageLength": 25,
+          "bSort": true,
+          "bFilter" : true,
+          "ordering": true,
+          "bAutoWidth": true,         
+          "orderClasses": false,
+          "scrollCollapse": true,
+          "bPaginate": false,
+
+        });
+
+        $('#invoice_tracker').DataTable().search( "" ).draw();
+        $(".dataTable").css("margin-bottom","0px");
+    },
+    error:function(err){
+        alert(JSON.stringify(err,null,4));
+      }
+    });
+
+    ///////////////////////////////////////////////////////////
+    $.ajax({
+      url:"/it/total_generated_usd_only/",
+      type:'POST',
+      dataType:'JSON',
+      data : {
+      },
+    success:function(obj){
+        $("#loader").css("display", "none");
+        $("#invoice_details_usd").empty();
+        for(var j=0;j<obj['invoice_array'].length;j++){
+          $("#invoice_details_usd").append('<tr style="background-color:'+obj['invoice_array'][j]['color']+';color:'+obj['invoice_array'][j]['font_color']+'"><td><center>'+obj['invoice_array'][j]['s_no']+'</center></td><td><center>'+obj['invoice_array'][j]['invoice_no']+'</center></td><td><center>'+obj['invoice_array'][j]['invoice_date']+'</center></td><td><center>'+obj['invoice_array'][j]['ship_name']+'</center></td><td><center>'+obj['invoice_array'][j]['voyage_no']+'</center></td><td><center>'+obj['invoice_array'][j]['vm_manager']+'</center></td><td><center>'+obj['invoice_array'][j]['disch_port']+'</center></td><td><center>'+obj['invoice_array'][j]['disch_date']+'</center></td><td><center>'+obj['invoice_array'][j]['client_name']+'</center></td><td><center>'+obj['invoice_array'][j]['invoice_amount']+'</center></td><td><center>'+obj['invoice_array'][j]['proj_name']+'</center></td><td><center>'+obj['invoice_array'][j]['status']+'</center></td></tr>')
+        }
+
+        $('#myModal').on('shown.bs.modal',function (){
+          $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+        });
+        
+        
+        var table = $('#invoice_tracker_usd').DataTable({
+          "scrollY": 300,
+          "scrollX": true,
+          "pageLength": 25,
+          "bSort": true,
+          "bFilter" : true,
+          "ordering": true,
+          "bAutoWidth": true,
+          "scrollCollapse": true,
+          "orderClasses": false,
+          "bPaginate": false,
+        });
+
+        $('#invoice_tracker_usd').DataTable().search( "" ).draw();
+        $(".dataTable").css("margin-bottom","0px");
+    },
+    error:function(err){
+        alert(JSON.stringify(err,null,4));
+      }
+    });
+    ///////////////////////////////
+  });
+
+$("#get_paid_invoice").click(function(){
+  $("#loader").css("display", "");
+  $(".modal-title").html("List of Invoice(s) for which payment has been received");
+  if($.fn.DataTable.isDataTable('#invoice_tracker')){
+    $('#invoice_tracker').DataTable().destroy();
+    $('#invoice_details').empty();       
+  }
+
+  if ($.fn.DataTable.isDataTable('#invoice_tracker_usd')){
+      $('#invoice_tracker_usd').DataTable().destroy();
+      $('#invoice_details_usd').empty();        
+    }
+      
+    $.ajax({
+      url:"/it/total_paid_invoice/",
+      type:'POST',
+      dataType:'JSON',
+      data:{
+      },
+      success:function(obj){
+        $("#loader").css("display", "none");
+        $("#invoice_details").empty();
+        for(var jj=0;jj<obj['invoice_array'].length;jj++){
+          $("#invoice_details").append('<tr style="background-color:'+obj['invoice_array'][jj]['color']+';color:'+obj['invoice_array'][jj]['font_color']+'"><td><center>'+obj['invoice_array'][jj]['s_no']+'</center></td><td><center>'+obj['invoice_array'][jj]['invoice_no']+'</center></td><td><center>'+obj['invoice_array'][jj]['invoice_date']+'</center></td><td><center>'+obj['invoice_array'][jj]['ship_name']+'</center></td><td><center>'+obj['invoice_array'][jj]['voyage_no']+'</center></td><td><center>'+obj['invoice_array'][jj]['vm_manager']+'</center></td><td><center>'+obj['invoice_array'][jj]['disch_port']+'</center></td><td><center>'+obj['invoice_array'][jj]['disch_date']+'</center></td><td><center>'+obj['invoice_array'][jj]['client_name']+'</center></td><td><center>'+obj['invoice_array'][jj]['invoice_amount']+'</center></td><td><center>'+obj['invoice_array'][jj]['proj_name']+'</center></td><td><center>'+obj['invoice_array'][jj]['status']+'</center></td></tr>')
+        }
+
+        $('#myModal').on('shown.bs.modal',function (){
+          $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+        });
+
+        var table = $('#invoice_tracker').DataTable({
+          "scrollY": 300,
+          "scrollX": true,
+          "bSort": true,
+          "bFilter" : true,
+          "ordering": true,
+          "bAutoWidth": true,
+          "scrollCollapse": true,
+          "orderClasses": false,
+           "bPaginate": false,
+
+        });
+        $('#invoice_tracker').DataTable().search( "" ).draw();
+        $(".dataTable").css("margin-bottom","0px");
+      },
+      error:function(err){
+          alert(JSON.stringify(err,null,4));
+        }
+      });
+
+      $.ajax({
+      url:"/it/total_paid_invoice_usd_only/",
+      type:'POST',
+      dataType:'JSON',
+      data:{
+      },
+      success:function(obj){
+        $("#loader").css("display", "none");
+        $("#invoice_details_usd").empty();
+        for(var z=0;z<obj['invoice_array'].length;z++){
+          $("#invoice_details_usd").append('<tr style="background-color:'+obj['invoice_array'][z]['color']+';color:'+obj['invoice_array'][z]['font_color']+'"><td><center>'+obj['invoice_array'][z]['s_no']+'</center></td><td><center>'+obj['invoice_array'][z]['invoice_no']+'</center></td><td><center>'+obj['invoice_array'][z]['invoice_date']+'</center></td><td><center>'+obj['invoice_array'][z]['ship_name']+'</center></td><td><center>'+obj['invoice_array'][z]['voyage_no']+'</center></td><td><center>'+obj['invoice_array'][z]['vm_manager']+'</center></td><td><center>'+obj['invoice_array'][z]['disch_port']+'</center></td><td><center>'+obj['invoice_array'][z]['disch_date']+'</center></td><td><center>'+obj['invoice_array'][z]['client_name']+'</center></td><td><center>'+obj['invoice_array'][z]['invoice_amount']+'</center></td><td><center>'+obj['invoice_array'][z]['proj_name']+'</center></td><td><center>'+obj['invoice_array'][z]['status']+'</center></td></tr>')
+        }
+
+        $('#myModal').on('shown.bs.modal',function (){
+          $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+        });
+
+        // var table = $('#invoice_tracker_usd').DataTable({
+        //   "scrollY": 300,
+        //   "scrollX": true,
+        //   "bSort": true,
+        //   "bFilter" : true,
+        //   "ordering": true,
+        //   "bAutoWidth": true,
+        //   "scrollCollapse": true,
+        //   "orderClasses": false,
+        //   "bPaginate": false,
+
+        // });
+       // $('#invoice_tracker_usd').DataTable().search( "" ).draw();
+        //$(".dataTable").css("margin-bottom","0px");
+      },
+      error:function(err){
+          alert(JSON.stringify(err,null,4));
+        }
+      });
+
+
+    });
+
+
+
+$("#get_pending_invoice").click(function(){
+ $("#loader").css("display", "");
+ $(".modal-title").html("List of Invoice(s) for which payment has not been received");
+ $(".modal-title").css('text-align','center');
+  if ($.fn.DataTable.isDataTable('#invoice_tracker')){
+      $('#invoice_tracker').DataTable().destroy();
+      $('#invoice_details').empty();
+     }
+
+     if ($.fn.DataTable.isDataTable('#invoice_tracker_usd')){
+        $('#invoice_tracker_usd').DataTable().destroy();
+        $('#invoice_details_usd').empty();
+        
+       }
+      
+    $.ajax({
+      url:"/it/total_pending_invoice/",
+      type:'POST',
+      dataType:'JSON',
+      data:{
+      },
+      success:function(obj){
+        $("#loader").css("display", "none");
+        $("#invoice_details").empty();
+        for(var j=0;j<obj['invoice_array'].length;j++){
+          if(obj['invoice_array'][j]['disch_port']==null){
+            disch_port = ''
+          }else{
+            disch_port = obj['invoice_array'][j]['disch_port'];
+          }
+          $("#invoice_details").append('<tr style="background-color:'+obj['invoice_array'][j]['color']+';color:'+obj['invoice_array'][j]['font_color']+'"><td><center>'+obj['invoice_array'][j]['s_no']+'</center></td><td><center>'+obj['invoice_array'][j]['invoice_no']+'</center></td><td><center>'+obj['invoice_array'][j]['invoice_date']+'</center></td><td><center>'+obj['invoice_array'][j]['ship_name']+'</center></td><td><center>'+obj['invoice_array'][j]['voyage_no']+'</center></td><td><center>'+obj['invoice_array'][j]['vm_manager']+'</center></td><td><center>'+disch_port+'</center></td><td><center>'+obj['invoice_array'][j]['disch_date']+'</center></td><td><center>'+obj['invoice_array'][j]['client_name']+'</center></td><td><center>'+obj['invoice_array'][j]['invoice_amount']+'</center></td><td><center>'+obj['invoice_array'][j]['proj_name']+'</center></td><td><center>'+obj['invoice_array'][j]['status']+'</center></td></tr>')
+        }
+
+        $('#myModal').on('shown.bs.modal',function (){
+          $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+        });
+
+        var table = $('#invoice_tracker').DataTable({
+          "scrollY": 300,
+          "scrollX": true,
+          "pageLength": 25,
+          "bSort": true,
+          "bFilter" : true,
+          "ordering": true,
+          "bAutoWidth": true,
+          "scrollCollapse": true,
+          "orderClasses": false,
+          "bPaginate": false,
+
+        });
+        $('#invoice_tracker').DataTable().search( "" ).draw();
+        $(".dataTable").css("margin-bottom","0px");
+      },
+      error:function(err){
+          alert(JSON.stringify(err,null,4));
+        }
+      });
+
+
+      $.ajax({
+      url:"/it/total_pending_invoice_usd_only/",
+      type:'POST',
+      dataType:'JSON',
+      data:{
+      },
+      success:function(obj){
+        $("#loader").css("display", "none");
+        $("#invoice_details_usd").empty();
+        for(var jx=0;jx<obj['invoice_array'].length;jx++){
+          $("#invoice_details_usd").append('<tr style="background-color:'+obj['invoice_array'][jx]['color']+';color:'+obj['invoice_array'][jx]['font_color']+'"><td><center>'+obj['invoice_array'][jx]['s_no']+'</center></td><td><center>'+obj['invoice_array'][jx]['invoice_no']+'</center></td><td><center>'+obj['invoice_array'][jx]['invoice_date']+'</center></td><td><center>'+obj['invoice_array'][jx]['ship_name']+'</center></td><td><center>'+obj['invoice_array'][jx]['voyage_no']+'</center></td><td><center>'+obj['invoice_array'][jx]['vm_manager']+'</center></td><td><center>'+obj['invoice_array'][jx]['disch_port']+'</center></td><td><center>'+obj['invoice_array'][jx]['disch_date']+'</center></td><td><center>'+obj['invoice_array'][jx]['client_name']+'</center></td><td><center>'+obj['invoice_array'][jx]['invoice_amount']+'</center></td><td><center>'+obj['invoice_array'][jx]['proj_name']+'</center></td><td><center>'+obj['invoice_array'][jx]['status']+'</center></td></tr>')
+        }
+
+        $('#myModal').on('shown.bs.modal',function (){
+          $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+        });
+
+        var table = $('#invoice_tracker_usd').DataTable({
+          "scrollY": 300,
+          "scrollX": true,
+          "pageLength": 25,
+          "bSort": true,
+          "bFilter" : true,
+          "ordering": true,
+          "bAutoWidth": true,
+          "scrollCollapse": true,
+          "orderClasses": false,
+          "bPaginate": false,
+
+        });
+        $('#invoice_tracker_usd').DataTable().search( "" ).draw();
+        $(".dataTable").css("margin-bottom","0px");
+      },
+      error:function(err){
+          alert(JSON.stringify(err,null,4));
+        }
+      });
+
+
+
+
+
+
+    });
+
+
+$("#get_cancelled_invoice").click(function(){
+  $("#loader").css("display", "");
+  $(".modal-title").html("List of Cancelled Invoice(s)");
+  if ($.fn.DataTable.isDataTable('#invoice_tracker')){
+    $('#invoice_tracker').DataTable().destroy();
+    $('#invoice_details').empty();
+  }
+
+   if ($.fn.DataTable.isDataTable('#invoice_tracker_usd')){
+    $('#invoice_tracker_usd').DataTable().destroy();
+    $('#invoice_details_usd').empty();
+  }
+      
+    $.ajax({
+      url:"/it/total_cancelled_invoice/",
+      type:'POST',
+      dataType:'JSON',
+      data:{
+      },
+      success:function(obj){
+        $("#loader").css("display", "none");
+        $("#invoice_details").empty();
+        for(var j=0;j<obj['invoice_array'].length;j++){
+          $("#invoice_details").append('<tr style="background-color:'+obj['invoice_array'][j]['color']+';color:'+obj['invoice_array'][j]['font_color']+'"><td><center>'+obj['invoice_array'][j]['s_no']+'</center></td><td><center>'+obj['invoice_array'][j]['invoice_no']+'</center></td><td><center>'+obj['invoice_array'][j]['invoice_date']+'</center></td><td><center>'+obj['invoice_array'][j]['ship_name']+'</center></td><td><center>'+obj['invoice_array'][j]['voyage_no']+'</center></td><td><center>'+obj['invoice_array'][j]['vm_manager']+'</center></td><td><center>'+obj['invoice_array'][j]['disch_port']+'</center></td><td><center>'+obj['invoice_array'][j]['disch_date']+'</center></td><td><center>'+obj['invoice_array'][j]['client_name']+'</center></td><td><center>'+obj['invoice_array'][j]['invoice_amount']+'</center></td><td><center>'+obj['invoice_array'][j]['proj_name']+'</center></td><td><center>'+obj['invoice_array'][j]['status']+'</center></td></tr>')
+        }
+
+        $('#myModal').on('shown.bs.modal',function (){
+          $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+        });
+
+        var table = $('#invoice_tracker').DataTable({
+          "scrollY": 300,
+          "scrollX": true,
+          "bSort": true,
+          "bFilter" : true,
+          "ordering": true,
+          "bAutoWidth": true,
+          "scrollCollapse": true,
+          "orderClasses": false,
+          "bPaginate": false,
+        });
+
+        $('#invoice_tracker').DataTable().search( "" ).draw();
+        $(".dataTable").css("margin-bottom","0px");
+      },
+      error:function(err){
+          alert(JSON.stringify(err,null,4));
+        }
+      });
+
+
+    $.ajax({
+      url:"/it/total_cancelled_invoice_usd_only/",
+      type:'POST',
+      dataType:'JSON',
+      data:{
+      },
+      success:function(obj){
+        $("#loader").css("display", "none");
+        $("#invoice_details_usd").empty();
+        for(var jc=0;jc<obj['invoice_array'].length;jc++){
+          $("#invoice_details_usd").append('<tr style="background-color:'+obj['invoice_array'][jc]['color']+';color:'+obj['invoice_array'][jc]['font_color']+'"><td><center>'+obj['invoice_array'][jc]['s_no']+'</center></td><td><center>'+obj['invoice_array'][jc]['invoice_no']+'</center></td><td><center>'+obj['invoice_array'][jc]['invoice_date']+'</center></td><td><center>'+obj['invoice_array'][jc]['ship_name']+'</center></td><td><center>'+obj['invoice_array'][jc]['voyage_no']+'</center></td><td><center>'+obj['invoice_array'][jc]['vm_manager']+'</center></td><td><center>'+obj['invoice_array'][jc]['disch_port']+'</center></td><td><center>'+obj['invoice_array'][jc]['disch_date']+'</center></td><td><center>'+obj['invoice_array'][jc]['client_name']+'</center></td><td><center>'+obj['invoice_array'][jc]['invoice_amount']+'</center></td><td><center>'+obj['invoice_array'][jc]['proj_name']+'</center></td><td><center>'+obj['invoice_array'][jc]['status']+'</center></td></tr>')
+        }
+
+        $('#myModal').on('shown.bs.modal',function (){
+          $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+        });
+
+        var table = $('#invoice_tracker_usd').DataTable({
+          "scrollY": 300,
+          "scrollX": true,
+          "bSort": true,
+          "bFilter" : true,
+          "ordering": true,
+          "bAutoWidth": true,
+          "scrollCollapse": true,
+          "orderClasses": false,
+          "bPaginate": false,
+        });
+
+        $('#invoice_tracker_usd').DataTable().search( "" ).draw();
+        $(".dataTable").css("margin-bottom","0px");
+      },
+      error:function(err){
+          alert(JSON.stringify(err,null,4));
+        }
+      });
+    });
+
+
+
+var table = $('#curr_table_details').dataTable({
+          "scrollY": 100,
+          "scrollX": true,
+          "pageLength": 25,
+          "bSort": false,
+          "bFilter" : false,
+          "ordering": false,
+          "bAutoWidth": false,
+          "scrollCollapse": false,
+          "orderClasses": false,
+          "bPaginate": false,
+        });
+</script>
+
+
+
+
+
+{% endblock %}

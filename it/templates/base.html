@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Welcome to Automated Invoice Module</title>  
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">  
+  <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">  
+  <link href="/static/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">  
+  <link href="/static/css/sb-admin.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+
+
+
+  
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+{%block nav_bar%}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="#"><b style="color:orange">{{login_user}}</b>@Invoice </a><br>
+    <a href="/it/welcome/"><u style="color:yellow;">Click here to return to the homepage</u></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <i class="fa fa-sign-out" aria-hidden="true" style="float: right;font-size: 17px;color:yellow" class="btn btn-success"><a href="/it/user_logout" style="color:orange">LOGOUT</a></i>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        
+       <div id="login_array" style="display: none">{{login_user}}</div><!-- <a href="/it/home"><i class="fa fa-home fa-lg" aria-hidden="true" ></i></a>
+ -->
+<!-- 
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components"  id="show_data10"> 
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text">Entry</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents2">
+            <li>
+              <a href="/it/other_bank_statement/">Bank Statement</a>
+            </li>
+
+            <li>
+              <a href="/it/payment_advice/">Payment Advices</a>
+            </li>
+
+            <li>
+              <a href="/it/pid_advice/">PID Advices</a>
+            </li>
+
+            
+          </ul>
+        </li> -->
+
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels" id="show_data12">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-sitemap"></i>
+            <span class="nav-link-text">API</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseMulti">
+            <li>
+              <a href="/it/client_data/">BOSS API Client</a>
+            </li>
+            <!-- <li>
+              <a href="/it/filter_for_json_data/">BOSS API Voyage</a>
+            </li> -->
+            <!-- <li>
+              <a href="/it/load_dsr/">CHM DSR</a>
+            </li> -->
+
+            
+            <li>
+              <a href="/it/get_fetch_api/">EXPORT BOSS API</a>
+            </li>
+
+           <!--  <li>
+              <a href="/it/monthly_summary/">Monthly Summary</a>
+            </li> -->
+            
+          
+          </ul>
+        </li>
+
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data15">
+          <a class="nav-link" href="/it/master_tracker/">
+            <i class="fa fa-fw fa-newspaper-o"></i>
+            <span class="nav-balance-scale">Master Tracker</span>
+          </a>
+        </li> 
+
+
+
+
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data19">
+          <a class="nav-link" href="/it/fin_bluewater/">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-balance-scale" style="font-size: 12px">Financial Invoice No Suffix</span>
+          </a>
+        </li> 
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data2">
+          <a class="nav-link" href="/it/generator/">
+            <i class="fa fa-pencil-square-o"></i>
+            <span class="nav-balance-scale">Generator</span>
+          </a>
+        </li> 
+
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data10">
+          <a class="nav-link" href="/it/invoice_entry/">
+            <i class="fa fa-pencil-square-o"></i>
+            <span class="nav-balance-scale">Manual Entry</span>
+          </a>
+        </li> 
+
+       <!--  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#tracker" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-newspaper-o"></i>
+            <span class="nav-link-text">Tracker</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="tracker">
+            <li>
+              <a href="/it/boss_tracker/">BIM</a>
+            </li>
+
+            <li>
+              <a href="/it/chm_tracker/">HIM</a>
+            </li>            
+
+            <li>
+              <a href="/it/inr_tracker/">INR</a>
+            </li>
+
+           
+
+             <li id="">
+              <a href="/it/reconciliation/">Reconciliation (USD)</a>
+            </li>
+
+            <li id="show_data8">
+              <a href="/it/view_rec_inr/">Reconciliation (INR)</a>
+            </li>
+            
+          </ul>
+        </li> -->
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="tracker">
+          <a class="nav-link" href="/it/boss_tracker/">
+            <i class="fa fa-pencil-square-o"></i>
+            <span class="nav-balance-scale" style="color:#acf9fa">BIM</span>
+          </a>
+        </li> 
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="tracker">
+          <a class="nav-link" href="/it/chm_tracker/">
+            <i class="fa fa-pencil-square-o"></i>
+            <span class="nav-balance-scale" style="color:#acf9fa">HIM</span>
+          </a>
+        </li> 
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="tracker">
+          <a class="nav-link" href="/it/inr_tracker/">
+            <i class="fa fa-pencil-square-o"></i>
+            <span class="nav-balance-scale" style="color: #acf9fa">INR</span>
+          </a>
+        </li> 
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="tracker">
+          <a class="nav-link" href="/it/reconciliation/">
+            <i class="fa fa-pencil-square-o"></i>
+            <span class="nav-balance-scale" style="color:#acf2b9">Reconciliation (USD)</span>
+          </a>
+        </li> 
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="tracker">
+          <a class="nav-link" href="/it/view_rec_inr/">
+            <i class="fa fa-pencil-square-o"></i>
+            <span class="nav-balance-scale" style="color:#acf2b9">Reconciliation (INR)</span>
+          </a>
+        </li> 
+
+
+ 
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages"  id="show_data11">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-file"></i>
+            <span class="nav-link-text">Entry</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
+            <!-- <li>
+              <a href="/it/other_bank_statement/">Bank Statement (USD)</a>
+            </li>
+
+            <li>
+              <a href="/it/bank_statement/">Bank Statement (INR)</a>
+            </li> -->
+
+
+           <!--  <li>
+              <a href="/it/rpayment_advices/">Payment Advices Entry</a>
+            </li> -->
+
+           <!--   <li>
+              <a href="/it/payment_advice/">Payment Advices entry (USD)</a>
+            </li>
+ -->
+          
+           <!--  <li>
+              <a href="/it/pid_advice/">PID Advices Entry</a>
+            </li> -->
+
+          <!--   <li>
+              <a href="/it/reconciliation_entry/" style="white-space: nowrap;">Reconciliation Entry (USD)</a>
+            </li> -->
+
+            <li>
+              <a href="/it/h_reconciliation/" style="white-space: nowrap;">Reconciliation Entry (USD)</a>
+            </li>
+
+            <li>
+              <a  href="/it/rec_inr/">Reconciliation Entry (INR)</a>
+            </li>
+
+             <li>
+              <a  href="/it/view_boss_client/">BOSS Price</a>
+            </li>
+
+             <li>
+              <a  href="/it/view_client/">CHM Price</a>
+            </li>
+
+             <li>
+              <a  href="/it/cost_per_route/">PMS Entry</a>
+            </li>
+
+             <li>
+              <a  href="/it/chm_pool_entry/">Entity Entry</a>
+            </li>            
+          </ul>
+        </li>
+
+
+       <!--  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text">View</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+               <a href="/it/reconciliation/">Reconciliation</a>
+            </li>
+            
+          </ul>
+        </li> -->
+        
+
+
+   
+       
+
+             
+
+        
+
+
+      
+
+
+       
+
+       <!--  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="/it/chm_tracker/">
+            <i class="fa fa-bar-chart"></i>
+            <span class="nav-balance-scale">CHM (USD)</span>
+          </a>
+        </li> 
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="/it/boss_tracker/">
+            <i class="fa fa-bar-chart"></i>
+            <span class="nav-balance-scale">BOSS (USD) </span>
+          </a>
+        </li> 
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="/it/inr_tracker/">
+            <i class="fa fa-bar-chart"></i>
+            <span class="nav-balance-scale"> GST Invoices </span>
+          </a>
+        </li> -->
+
+       <!--   <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data4">
+          <a class="nav-link" href="/it/cost_per_route/">
+            <i class="fa fa-object-group"></i>
+            <span class="nav-balance-scale"> PMS </span>
+          </a>
+        </li> 
+
+
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data5">
+          <a class="nav-link" href="/it/view_boss_client/">
+            <i class="fa fa-university"></i>
+            <span class="nav-balance-scale">BOSS Price List</span>
+          </a>
+        </li> 
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data6"> 
+          <a class="nav-link" href="/it/view_client/">
+            <i class="fa fa-university"></i>
+            <span class="nav-balance-scale">CHM Price List</span>
+          </a>
+        </li> 
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data7">
+          <a class="nav-link" href="/it/chm_pool_entry/">
+            <i class="fa fa-table"></i>
+            <span class="nav-balance-scale">Entity Entry</span>
+          </a>
+        </li>  -->
+
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components" id="show_data7">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponentse" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-envelope"></i>
+            <span class="nav-link-text">E-Mail</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseComponentse">
+            <li>
+              <a href="/it/mail_tracker/">Compose</a>
+            </li>
+            <li>
+              <a href="/it/mail_log/">Sent</a>
+            </li>
+          </ul>
+        </li>
+
+       
+
+		 
+	     <!--   <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data8">
+	          <a class="nav-link" href="/it/mail_tracker/">
+	            <i class="fa fa-envelope"></i>
+	            <span class="nav-balance-scale">E-Mail</span>
+	          </a>
+	        </li> 
+
+	        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data9">
+	          <a class="nav-link" href="/it/mail_log/">
+	            <i class="fa fa-envelope"></i>
+	            <span class="nav-balance-scale">Sent</span>
+	          </a>
+	        </li>   -->
+       
+     
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="/it/update_password/">
+            <i class="fa fa-fw fa-edit"></i>
+            <span class="nav-link-text">Change Password</span>
+          </a>
+        </li>  -->
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="/it/user_logout/">
+            <i class="fa fa-fw fa-sign-out"></i>
+            <span class="nav-link-text">Sign out</span>
+          </a>
+        </li>
+     </ul>
+
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      
+
+    </div>
+  </nav>
+  {%endblock%}
+
+  {%block wrapper%}
+  <div class="content-wrapper">
+    {% block content %}{% endblock %}
+    
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <img src="/static/1/img/1.png" style="width: 110px;height: 30px;"> <small>Copyright © 2020</small>         
+        </div>
+
+      </div>
+    </footer>
+   
+
+    <script type="text/javascript">
+      $(window).load(function(){
+      var url = window.location.href;
+      
+      $('nav li').find('.active').removeClass('active');      
+      $('nav li a').filter(function(){
+        
+       
+        return this.href == url;
+      }).parent().addClass('active');
+  });
+
+  
+
+
+
+    var d = $('#login_array').html();
+    if(d=='admin'){
+      $('#show_data').css('display','');
+   
+    }if(d=='gmadam'){
+      $('#show_data').css('display','none');
+      for(i=1;i<=19;i++){
+      	$('#show_data'+i).css('display','none');      
+    }
+  }
+
+var urlx = window.location.href;
+slipx = (urlx.split('/'));
+nav_name = (slipx[4]);
+
+if(nav_name=='boss_tracker'){  
+  $('#tracker').show();  
+}
+if(nav_name=='chm_tracker'){
+  $('#tracker').show();  
+}
+
+if(nav_name=='inr_tracker'){
+  $('#tracker').show();  
+}
+
+if(nav_name=='reconciliation'){
+  $('#tracker').show();  
+}
+
+if(nav_name=='reconciliation_inr'){
+  $('#tracker').show();  
+}
+
+
+
+if(nav_name=='client_data'){
+  $('#collapseMulti').show();  
+}
+
+if(nav_name=='load_dsr'){
+  $('#collapseMulti').show();  
+}
+
+
+
+if(nav_name=='filter_for_json_data'){
+  $('#collapseMulti').show();  
+}
+
+if(nav_name=='get_fetch_api'){
+  $('#collapseMulti').show();  
+}
+
+if(nav_name=='monthly_summary'){
+  $('#collapseMulti').show();  
+}
+
+
+
+if(nav_name=='other_bank_statement'){
+  $('#collapseExamplePages').show();  
+}
+
+if(nav_name=='bank_statement'){
+  $('#collapseExamplePages').show();  
+}
+
+
+
+if(nav_name=='rpayment_advices'){
+  $('#collapseExamplePages').show();  
+}
+
+
+
+// if(nav_name=='pid_advice'){
+//   $('#collapseExamplePages').show();  
+// }
+
+// if(nav_name=='pid_advice'){
+//   $('#collapseExamplePages').show();  
+// }
+
+if(nav_name=='reconciliation_entry'){
+  $('#collapseExamplePages').show();  
+}
+
+if(nav_name=='reconciliation_inr_entry'){
+  $('#collapseExamplePages').show();  
+}
+
+if(nav_name=='view_boss_client'){
+  $('#collapseExamplePages').show();  
+}
+
+if(nav_name=='view_client'){
+  $('#collapseExamplePages').show();  
+}
+
+if(nav_name=='cost_per_route'){
+  $('#collapseExamplePages').show();  
+}
+
+if(nav_name=='chm_pool_entry'){
+  $('#collapseExamplePages').show();  
+}
+
+if(nav_name=='reconciliation'){
+  $('#collapseComponents').show();  
+}
+
+if(nav_name=='mail_tracker'){
+  $('#collapseComponentse').show();  
+}
+
+if(nav_name=='mail_log'){
+  $('#collapseComponentse').show();  
+}
+
+if(nav_name=='payment_advice'){
+  $('#tracker').show();  
+}
+
+</script>
+
+
+
+
+   
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>    
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>    
+    <script src="/static/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="/static/vendor/datatables/dataTables.bootstrap4.js"></script>    
+    <script src="/static/js/sb-admin.min.js"></script>
+
+        
+
+    
+    <style type="text/css">
+      .navbar-toggler:focus {
+        outline: 0;
+      }
+      .navbar-nav > .active {
+        color: orange!important;  
+        background-color: chartreuse; 
+      }
+      .nav-item > a:hover {
+        color: orange!important;
+      }
+
+
+      .nav.nav-treeview {
+  display: none;
+}
+
+.active {
+  display: block!important;
+}
+    </style>
+  </div>
+  
+</body>
+</html>
+  {%endblock%}
+
+
+ <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data11">
+          <a class="nav-link" href="/it/master_inv/">
+            <i class="fa fa-database"></i>
+            <span class="nav-balance-scale">Master Inward</span>
+          </a>
+        </li> -->
+
+
+           <!--      <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Example Pages">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion2">
+            <i class="fa fa-fw fa-file"></i>
+            <span class="nav-link-text">Reconciliation View</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapseExamplePages">
+            <li>
+              <a href="/it/reconciliation/">Reconciliation</a>
+            </li>
+           
+            
+          </ul>
+        </li> -->
+
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="/it/index/">
+            <i class="fa fa-credit-card"></i>
+            <span class="nav-balance-scale">Welcome</span>
+          </a>
+        </li> --> 
+        <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data1">
+          <a class="nav-link" href="/it/filter_for_json_data/"> 
+            <i class="fa fa-rss"></i>
+            <span class="nav-balance-scale">API DATA</span>
+          </a>
+        </li> -->
+
+          <!-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data10">
+          <a class="nav-link" href="/it/bank_statement/">
+            <i class="fa fa-calculator"></i>
+            <span class="nav-balance-scale">Bank Statement (SBI)</span>
+          </a>
+        </li>  -->
+
+       <!--  <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data11">
+          <a class="nav-link" href="/it/other_bank_statement/">
+            <i class="fa fa-calculator"></i>
+            <span class="nav-balance-scale">Bank Statement</span>
+          </a>
+        </li> 
+        
+        
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data12">
+          <a class="nav-link" href="/it/payment_advice/">
+            <i class="fa fa-clone"></i>
+            <span class="nav-balance-scale">Payment Advices</span>
+          </a>
+        </li>
+
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data12">
+          <a class="nav-link" href="/it/pid_advice/">
+            <i class="fa fa-database"></i>
+            <span class="nav-balance-scale">PID Advices</span>
+          </a>
+        </li> -->
+<!-- 
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard" id="show_data1">
+          <a class="nav-link" href="/it/reconciliation/"> 
+            <i class="fa fa-rss"></i>
+            <span class="nav-balance-scale">Reconciliation</span>
+          </a>
+        </li> -->

@@ -1,0 +1,156 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+
+  <script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+  <link rel='stylesheet' type='text/css' href='/static/1/css/style.css' />
+  <link rel='stylesheet' type='text/css' href='/static/1/css/print.css' media="print"/>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<div class="container" style="overflow-y: auto;overflow-x: auto;">
+  <div class="row">
+    <div class="col-md-12">
+
+      <div style="width: 600px; display: table-cell;font-size: 12px"> <div class = 'handsontable col-md-12' data-original style="overflow-y: auto;overflow-x: auto;"  id = "invoice_entry"></div> </div>
+             
+        
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  $('#select_currency').change(function(){
+  var type = $(this).val();
+  var proj_name = $('#select_proj_type').val();
+  if(type=='USD'){
+    var type = 'USD';
+    $('#show_customer_tin_no').css('display','none');
+  }else if(type=='INR'){
+    var type = 'INR';
+    $('#show_customer_tin_no').css('display','');
+  }
+ 
+ $.ajax({
+    url: '/it/get_other_invoice/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    { 
+      'type'      : type,
+      'proj_name' : proj_name,
+    },
+    success : function(obj){     
+      $('#client_list').empty();
+      $('#edit_invoice_no').val(obj['get_invoice'][0]['invoice_no']);
+      $('#client_list').append('<option id="0">Client Name</option>')
+      for(var i=0;obj['cl_array'].length;i++){
+        $('#client_list').append('<option id='+obj['cl_array'][i]['id']+'>'+obj['cl_array'][i]['client_name']+'</option>')
+      }
+      
+    },
+    error : function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+ 
+
+  var lastday = function(y,m){
+    return  new Date(y, m, 0).getDate();
+  }
+
+
+  function get_rob(){
+  $("#invoice_entry").empty()
+  container = document.getElementById('invoice_entry');
+  rob = [];
+  rob = {   
+    'vessel'     : '',
+    'voyage_no'  : '',
+    'load_port'  : '',
+    'load_date'  : '',  
+    'disch_port' : '',
+    'disch_date' : '',
+    'qty'        : 1,
+    'rate'       : 0.0,
+    'amount'     : 0.0,
+  };
+
+  colHeaders = ['Vessel','Voy No.','Load Port','Date','Discharge Port','Date','Qty. (Days)','Rate','Amount']
+  columns    = [{data : 'vessel'},{data : 'voyage_no'},{data : 'load_port'},{data : 'load_date'},{data : 'disch_port'},{data : 'disch_date'},{data : 'qty'},{data : 'rate'}, {data : 'amount'}]
+
+  // VA_table6  = new Handsontable(container,{
+  //   data         : rob,
+  //   colHeaders   : colHeaders,    
+  //   columns      : columns,
+  //   minSpareRows : 10,
+  //   rowHeaders   : true,  
+  //   contextMenu  : true,
+  //   afterGetColHeader: function(index, TH) {
+  //       if (index === 1 && TH) {
+  //     TH.children[0].title = 'For Poomphuar & TANGEDCO, otherwise keep 0'
+  //       }
+
+  //       if (index === 2 && TH) {
+  //     TH.children[0].title = 'For Poomphuar & TANGEDCO, otherwise keep 0'
+  //       }
+  //    }  
+  // });
+
+
+
+  // VA_table6.updateSettings({
+  //   afterDocumentKeyDown:function(e){
+  //     var selection = VA_table6.getData();  
+  //     if(e.keyCode===13)
+  //     {
+  //       var datava5      = VA_table6.getData(); 
+  //       t=0
+  //       for (var i=0;i<200;i++){
+  //         amount       = parseFloat(selection[i]['unit_cost'])*parseFloat(selection[i]['qty'])*parseFloat(selection[i]['rate_inr']);
+  //         datava5[i]['amount'] = amount.toFixed(2);
+
+  //         if(datava5[i]['amount']=='NaN' || selection[i]['unit_cost']=='NaN' || selection[i]['qty']=='NaN' || selection[i]['rate_inr']=='NaN')
+  //         {
+  //           VA_table6.loadData(0);
+  //         }else{
+  //           t+=amount
+  //           $('#subtotal').text("Total Amount: "+t);
+
+  //           VA_table6.loadData(datava5);
+  //         }
+  //       }
+  //     }
+  //   }
+  // });
+}
+
+get_rob();
+
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+
+<center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+<div class="col-md-12" >   
+	<h4 id="header"><center>Cost Per Route</center></h4>	
+	<div class="container">
+	    <div class="row">
+	        <div class="col-md-10">
+	        	<div class="input-group">
+			      <span class="input-group-addon" style="width:20%">Client</span>
+			      <select id="ex_client">
+			      	<option id="0">Client Name</option>
+			      	{% for w in client_array %}
+			      		<option id="{{w.client_id}}">{{w.client_name}}</option>
+			      	{% endfor %}
+			      </select>
+			      <!-- <input id="ex_client" type="text" class="form-control col-md-9"> -->
+			    </div>
+
+
+	            <div class="input-group">
+			      <span class="input-group-addon" style="width:20%">Cost</span>			    
+			      <input id="ex_cost" type="number" class="form-control col-md-9">
+			    </div>
+
+			    <div class="input-group">
+			      <span class="input-group-addon" style="width:20%">Route</span>
+			      <input id="ex_route" type="text" class="form-control col-md-9">
+			    </div>
+
+			    
+			    <p></p>
+				<button class="btn btn-success" id="submit_route">Submit</button>
+	        </div>	       
+	    </div>
+	</div>	
+
+	<div class="table-responsive">
+         <table id="cost_per_route" class="table table-bordered table-striped" style="font-size: 12px">
+        <thead>
+          <tr>           
+            <th><font color="black"><center>S.No</center></font></th>          
+            <th style="display: none;"><font color="black"><center></center></font></th>     
+            <th><font color="black"><center>Cost</center></font></th>
+            <th><font color="black"><center>Route</center></font></th> 
+            <th><font color="black"><center>Client</center></font></th>           
+            <th><font color="black"><center></center></font></th>
+            <th><font color="black"><center></center></font></th>             
+          </tr>
+        </thead>
+        {% for x in cost_array %}
+        <tr style="text-align: center">
+        	<td>{{forloop.counter}}</td>
+        	<td class="sno" style="display: none">{{x.id}}</td>
+        	<td class="cost">{{x.cost}}</td>
+        	<td class="route">{{x.route}}</td>
+        	<td class="client">{{x.client}}</td>
+        	<td class="paid"><center><button class="edit btn btn-info" data-toggle="modal" data-target="#myModal" id="{{x.id}},{{x.cost}},{{x.route}},{{x.client_id}}" style="cursor: pointer;font-size: 12px">EDIT</button></center></td>
+        	<td><center><button id="{{x.id}}" class="btn btn-danger delete" style="cursor: pointer;font-size: 12px">DELETE</button></center></td>
+
+        {% endfor %}
+        	
+        </tr>
+          
+         </table>
+      </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog" style="font-size: 12px">
+  <div class="modal-dialog" style="font-size: 12px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title">Edit Cost Route</p>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+      	<div class="input-group">
+          <span class="input-group-addon" style="width:30%">ID </span>
+          <input type="text" class="form-control col-md-4" id="e_id" readonly="readonly">
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Cost </span>
+          <input type="number" class="form-control col-md-4" id="ee_cost">
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Route </span>
+          <input type="text" class="form-control col-md-4" id="ee_route">
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Client</span>         
+          <select id="ee_client">
+	      	<option id="0">Client Name</option>	      
+	      	{% for x in client_array %}
+	      		<option id="{{x.client_id}}" selected="selected" value="{{x.client_id}}">{{x.client_name}}</option>
+	      	{% endfor %}
+	      </select>
+        </div>
+
+        <br>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" id="submit" style="cursor: pointer">SUBMIT</button>
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$('.edit').click(function(){
+	var getID 		= $(this).attr('id');
+	var split_data 	= getID.split(',');
+	idx 			= split_data[0];
+	costx 			= split_data[1];
+	routex 			= split_data[2];
+	clientx         = split_data[3];	
+
+	$('#e_id').val(idx);
+	$('#ee_cost').val(costx);
+	$('#ee_route').val(routex);
+	$('#ee_client').val(clientx);
+
+})
+
+$('#submit').click(function(){
+	var IDx 	= $('#e_id').val();
+	var cost 	= $('#ee_cost').val();
+	var route 	= $('#ee_route').val();
+	var client 	= $('#ee_client').val();
+
+	$.ajax({
+	    url  : '/it/update_cost_route/',
+	    type : 'GET',
+	    dataType :'JSON',
+	    data:{
+	      'IDx'		: JSON.stringify(IDx),
+		  'cost'	: JSON.stringify(cost),
+		  'route'	: JSON.stringify(route),
+		  'client'	: JSON.stringify(client),
+	    },
+	    success:function(obj){
+	      if(obj=='done'){	      	
+	      	var btn = "button";
+	        swal({
+	          title : "<b>Route successfully updated.</b>",
+	          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+	          html  : true,
+	          type  : "success",
+	          showConfirmButton: false
+	        });
+	        $(document).on('click', "#btnA", function(){
+	          location.href = "/it/cost_per_route";
+	        });
+	      }
+	    },
+	    error:function(err){
+	      console.log(JSON.stringify(err,null,4));
+	    }
+	  })
+	})
+
+
+
+$('#submit_route').click(function(){
+	var x_cost   = $('#ex_cost').val();
+	var x_route  = $('#ex_route').val();
+	var x_client = $('#ex_client').val()
+	
+	$.ajax({
+	    url  : '/it/submit_cost_route/',
+	    type : 'GET',
+	    dataType :'JSON',
+	    data:{	    
+		  'cost'	: JSON.stringify(x_cost),
+		  'route'	: JSON.stringify(x_route),
+		  'client'  : JSON.stringify(x_client),
+	    },
+	    success:function(obj){
+	      if(obj=='done'){	      	
+	      	var btn = "button";
+	        swal({
+	          title : "<b>Route successfully submitted.</b>",
+	          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+	          html  : true,
+	          type  : "success",
+	          showConfirmButton: false
+	        });
+	        $(document).on('click', "#btnA", function(){
+	          location.href = "/it/cost_per_route";
+	        });
+	      }
+	      if(obj=='already'){	      	
+	      	var btn = "button";
+	        swal({
+	          title : "<b>Route already submitted.</b>",
+	          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+	          html  : true,
+	          type  : "info",
+	          showConfirmButton: false
+	        });
+	        $(document).on('click', "#btnA", function(){
+	          location.href = "/it/cost_per_route";
+	        });
+	      }
+	    },
+	    error:function(err){
+	      console.log(JSON.stringify(err,null,4));
+	    }
+	  })
+})
+
+	$('.delete').click(function(){
+	var id = $(this).attr('id');
+	var result = confirm("Want to Remove?");
+    if (result==true)
+    {
+        var result2 = confirm("Want to Remove?");
+        if (result2==true)
+        {
+			$.ajax({
+			    url  : '/it/delete_cost_route/',
+			    type : 'GET',
+			    dataType :'JSON',
+			    data:{	    
+				  'delID' : JSON.stringify(id),
+				 
+			    },
+			    success:function(obj){
+		    	if(obj=='delx'){	      	
+			      	var btn = "button";
+			        swal({
+			          title : "<b>Cost successfully deleted</b>",
+			          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+			          html  : true,
+			          type  : "success",
+			          showConfirmButton: false
+			        });
+			        $(document).on('click', "#btnA", function(){
+			          location.href = "/it/cost_per_route";
+			        });
+			      }			    
+			    },
+			    error:function(err){
+			      console.log(JSON.stringify(err,null,4));
+			    }
+			  })
+			}
+		}
+	})
+
+
+
+ $(document).ready(function() {
+    $('#cost_per_route').DataTable( {
+        "scrollY":        "300px",
+        "scrollCollapse": true,
+        "paging":         false
+    });
+});
+    
+</script>
+
+{% endblock %}

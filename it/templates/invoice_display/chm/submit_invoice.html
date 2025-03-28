@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+
+<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
+
+
+<style type="text/css">
+.form-group input[type="checkbox"] {
+display: none;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span {
+    width: 20px;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span:first-child {
+    display: none;
+}
+.form-group input[type="checkbox"] + .btn-group > label span:last-child {
+    display: inline-block;   
+}
+
+.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+    display: inline-block;
+}
+.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+    display: none;   
+}
+</style>
+
+
+<div class="col-md-12">   
+	<h3>Generate Invoice</h3>	
+	<div class="container">
+	    <div class="row">
+	        <div class="col-xs-6">
+	            <div class="input-group">
+			      <span class="input-group-addon" style="width:40%">Invoice ID</span>
+			      <input id="invoice_id" type="text" class="form-control col-md-7" readonly="readonly" value="{{invoice_array.0.invoice_no}}">
+			    </div>
+	        </div>	       
+	    </div>
+	</div>
+	<p></p>
+	
+	<div class="container">
+	    <div class="row">
+	        <div class="col-xs-6">
+	            <div class="input-group">
+			      <span class="input-group-addon" style="width:40%">Vessel Name</span>
+			      <input id="ship_name" type="text" class="form-control col-md-7" value="{{invoice_array.0.ship_name}}">
+			    </div>
+
+			    <div class="input-group">
+			      <span class="input-group-addon" style="width:40%">Voyage Manager</span>
+			      <input id="vm_name" type="text" class="form-control col-md-7" value={{invoice_array.0.vm_name}}>
+			    </div>
+
+			    <div class="input-group">
+			      <span class="input-group-addon" style="width:40%">Disch Date</span>
+			      <input id="disch_date" type="text" class="form-control col-md-7" value="{{invoice_array.0.disch_date}}">
+			    </div>
+
+	        </div>
+	        <div class="col-xs-6">
+				<div class="input-group">
+				  <span class="input-group-addon" style="width:40%">Voyage No</span>
+			      <input id="voy_no" type="text" class="form-control col-md-7" value="{{voyage_no}}">
+			    </div>
+
+			    <div class="input-group">
+			      <span class="input-group-addon" style="width:40%">Disch.Port</span>
+			      <input id="disch_port" type="text" class="form-control col-md-7" value="{{invoice_array.0.disch_port}}">
+			    </div>
+
+			    <div class="input-group">
+			      <span class="input-group-addon" style="width:40%">Client</span>
+			      <input id="client_name" type="text" class="form-control col-md-7" value="{{invoice_array.0.client}}">
+			    </div>			    
+	        </div>
+	    </div>
+	</div>	
+</div>
+
+<div class="col-md-12">   
+	<p></p>
+	<div class="container">
+	    <div class="row">
+	        <div class="col-xs-6">
+	            <div class="input-group">
+			      <span class="input-group-addon" style="width:40%">Pricing Type </span>			     
+			      <select id="pricing_type" class="form-control col-md-7" style="height:35px"></select>
+			    </div>
+			    <p></p>
+			   <div class="input-group">
+				  <span class="input-group-addon" style="width:40%">Proj.Name</span>
+			      <input id="proj_name" type="text" class="form-control col-md-7" value="{{invoice_array.0.proj_name}}">
+			    </div>
+	        </div>
+
+	        <div class="col-xs-6">			    
+			    <div class="input-group">
+			      <span class="input-group-addon" style="width:40%">Price </span>			     
+			     	<input id="price" type="text" class="form-control col-md-7">
+			    </div>
+			    <p></p>
+
+			    <div class="input-group">
+				  <span class="input-group-addon" style="width:40%">Proj.Type</span>
+			      <input id="proj_type" type="text" class="form-control col-md-7" size="28">
+			    </div> 
+			    <div id="client_ID" style="display:none"></div>			    
+	        </div>	        
+	    </div>
+	</div>	
+</div>
+
+<div class="col-md-12">   
+	<p></p>
+	<div class="container">
+	    <div class="row">
+	    	<!-- <div class="input-group">
+			  <span class="input-group-addon" style="width:15%">Currency Type</span>
+		     	<select id="currency_type" class="form-control col-md-2" style="height:40px">
+		     		<option value="usd">USD</option>
+		     		<option value="inr">INR</option>
+		     	</select>
+		    </div>  -->
+
+		   	<div class="form-group">
+			  <label for="comment">Address</label>
+			  <textarea class="form-control" rows="2" cols="80" id="address">{{invoice_array.0.address}}</textarea>
+			</div>
+		</div>
+		<div class="input-group">		  
+	      <button class="btn btn-success" id="submit_invoice">Generate Invoice</button>
+	    </div> 
+	</div>	
+</div>
+
+
+
+
+
+<script type="text/javascript">
+function parseURLParams(url) {
+    var queryStart = url.indexOf("?") + 1,
+    queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+    query = url.slice(queryStart, queryEnd - 1),
+    pairs = query.replace(/\+/g, " ").split("&"),
+    parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") {
+        return;
+    }
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=");
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+        if (!parms.hasOwnProperty(n)) {
+            parms[n] = [];
+        }
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
+}
+</script>
+
+<script type="text/javascript">
+	//var curr_url  	= window.location.href
+    var vessel    	= '{{invoice_array.0.ship_name}}';//parseURLParams(curr_url)['vessel']
+    var voyage_no 	= '{{voyage_no}}';//parseURLParams(curr_url)['voy_no']
+    var vm_name    	= '{{invoice_array.0.vm_name}}';//parseURLParams(curr_url)['vm_name']
+    var disch_date  = '{{invoice_array.0.disch_date}}';//parseURLParams(curr_url)['disch_date']
+    var disch_port  = '{{invoice_array.0.disch_port}}';//parseURLParams(curr_url)['disch_port']
+    var client    	= '{{invoice_array.0.client}}';//parseURLParams(curr_url)['client']
+    var client_id  	= '{{invoice_array.0.client_id}}';//parseURLParams(curr_url)['clientID']
+    var proj_name  	= '{{invoice_array.0.proj_name}}';//parseURLParams(curr_url)['proj_name']
+    var address    	= '{{invoice_array.0.address}}';
+    
+
+    $('#vessel_name').val(vessel);
+    $('#voy_no').val(voyage_no);
+    $('#vm_name').val(vm_name);
+	$('#disch_port').val(disch_port);
+
+	$('#disch_date').val(disch_date);
+	$('#client_name').val(client);
+	$('#client_ID').html(client_id);
+
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function(){		
+		var ship_name = '{{invoice_array.0.ship_name}}';	
+		$.ajax({
+	        url:'/it/load_for_invoice_details/',
+	        type:'GET',
+	        dataType:'JSON',
+	        data:{
+	          'client_name':JSON.stringify(client),
+	          'ship_name':JSON.stringify(ship_name),
+	        },
+	        success: function(obj){	 
+	        	if (obj[0]['price_type']=="Flat")
+	        	{
+					$("#pricing_type").append('<option value="'+obj[0]['price_type']+'">'+obj[0]['price_type']+'</option>')        		        	
+				}  
+				else{     	
+	        		for(var i=0;i<obj.length+0;i++)
+			        {
+			        	$("#pricing_type").append('<option value="'+obj[i]['price_type']+'">'+obj[i]['price_type']+'</option>')
+				    }
+				}
+		         
+		        $('#price').val(obj[0]['price']);
+		        $('#proj_name').val(obj[0]['proj_name']);
+		        $('#proj_type').val(obj[0]['proj_type']);
+		        // $('#address').val(obj[0]['ship_address']);
+		        // $('#invoice_pool').val(obj[0]['pool_name']);
+		        //$('#invoice_id').val(obj[0]['invoice_no']);		       
+	        },
+	        error: function(err){
+	          alert(JSON.stringify(err,null,4))
+	        }
+	    });
+	})
+
+
+	$('#submit_invoice').click(function(){		
+		var ship_name 	= '{{invoice_array.0.ship_name}}';// parseURLParams(curr_url)['vessel'];
+		var invoice_id  = $('#invoice_id').val();		
+		var voyage_no   = $('#voy_no').val();
+		var client_name = $('#client_name').val();
+		var price_type  = $('#pricing_type').val();
+		var proj_name   = $('#proj_name').val();
+		var proj_type   = $('#proj_type ').val();
+		var addres 		= '{{invoice_array.0.address}}';
+		var price 		= $('#price').val();
+		var vm_name 	= $('#vm_name').val();
+		var client_id  	= $('#client_ID').html();
+		var disch_date  = $('#disch_date').val();
+		var disch_port  = $('#disch_port').val();
+		
+		if($('#fancy-checkbox-primary').is(":checked")){		
+		  	select_view = 1;	
+		  	//alert(select_view);
+		}
+		else{
+		  	select_view = 0;
+		  	//alert(select_view);  		  	
+		}	
+
+		$.ajax({
+	        url      : '/it/submit_invoice_details/',
+	        type     : 'GET',
+	        dataType : 'JSON',
+	        data:{
+	        	'vessel_name' : JSON.stringify(ship_name),
+	          	'invoice_id'  : JSON.stringify(invoice_id),
+				'voyage_no'   : JSON.stringify(voyage_no),
+				'client_name' : JSON.stringify(client_name),
+				'price_type'  : JSON.stringify(price_type),
+				'proj_name'   : JSON.stringify(proj_name),
+				'proj_type'   : JSON.stringify(proj_type),
+				'addres'      : JSON.stringify(addres),
+				'price'       : JSON.stringify(price),
+				'vm_name'     : JSON.stringify(vm_name),
+				'client_id'   : JSON.stringify(client_id),
+				'disch_date'  : JSON.stringify(disch_date),
+				'disch_port'  : JSON.stringify(disch_port),				
+				
+	        },
+	        success: function(obj){	
+	        	
+	        	
+	        	// console.log(obj);    	
+	       		// for(var i=0;i<obj.length;i++)
+		        // {		        	
+		        // 	$("#pricing_type").append('<option value="'+i+'">'+obj[i]['price_type']+'</option>')
+		        // }
+		        // $('#proj_name').val(obj[0]['proj_name']);
+		        // $('#proj_type').val(obj[0]['proj_type']);
+		        // $('#address').val(obj[0]['ship_address']);
+		        // $('#invoice_pool').val(obj[0]['pool_name']);
+		        // $('#invoice_id').val(obj[0]['invoice_no']); 
+
+		        $('#proj_name').val(proj_name);
+		        $('#proj_type').val(proj_type);
+		        $('#address').val(addres);
+		        //$('#invoice_pool').val(obj[0]['pool_name']);
+		        $('#invoice_id').val(invoice_id); 
+		        if(obj['disable']=='none'){
+		        	$('#submit_invoice').hide();		        	
+		        	swal('Error','Data already exists!','error');
+		        }		        
+
+		        if(obj['msg']=="done")
+		        {
+			      var btn = "button";
+			      swal({
+			        title : "<b>Invoice successfully submitted.</b>",
+			        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+			        html  : true,
+			        showConfirmButton: false
+			      });
+			      $(document).on('click', "#btnA", function(){
+			        window.location.href=window.location.href;
+			      });
+			      } 
+
+			      if (obj['hide']=='none'){		        	
+		        	$('#fancy-checkbox-primary').css('display','none');
+		        }	 
+			      
+	        },
+	        error: function(err){
+	          alert(JSON.stringify(err,null,4))
+	        }
+	      });
+
+	})
+
+
+
+$('#pricing_type').change(function(){
+	var price_type = $('#pricing_type').val();
+	var client     = '{{invoice_array.0.client}}'//parseURLParams(curr_url)['client']
+	$.ajax({
+	        url      : '/it/select_price_type/',
+	        type     : 'GET',
+	        dataType : 'JSON',
+	        data:{
+	          	'price_type'  : JSON.stringify(price_type),	
+	          	'client_name' : JSON.stringify(client),			
+	        },
+	        success: function(obj){	        	
+	       		$('#price').val(obj); 
+	        },
+	        error: function(err){
+	          alert(JSON.stringify(err,null,4))
+	        }
+	      });
+})
+
+
+
+</script>
+
+{% endblock %}

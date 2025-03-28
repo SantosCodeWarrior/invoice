@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"> -->
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css">
+
+<style type="text/css">
+  [type=checkbox]:checked + span:before {
+  content: '\2714';
+  position: absolute;
+  top: -5px;
+  left: 0;
+}
+</style>
+
+
+
+
+<div class="col-md-12 col-offset-3" >   
+  <h3 id="header"><center>Invoice No</center></h3>  
+  <div class="container">
+    <div class="row">
+        <div class="col-md-10 col-offset-3">
+          <div class="input-group">
+            <span class="input-group-addon" style="width:201px">Invoice No</span>          
+            <input type="text"  id="invoice_no" style="resize:none"; value="{{tag.0.invoice_tag}}">
+            <input type="text"  id="invoice_type1" style="resize:none"; value="{{tag.0.invoice_type}}">
+          </div>
+
+          <div class="input-group">
+            <span class="input-group-addon" style="width:201px">Invoice No</span>          
+            <input type="text"  id="invoice_no2" style="resize:none"; value="{{tag.1.invoice_tag}}">
+            <input type="text"  id="invoice_type2" style="resize:none"; value="{{tag.1.invoice_type}}">
+          </div>
+
+          <p>&nbsp;</p>
+          <button class="btn btn-success" id="submit_invoice">Submit</button>
+        </div>         
+      </div>
+  </div>  
+</div>
+
+<script type="text/javascript">
+  $('#submit_invoice').click(function(){
+    var in_no = $('#invoice_no').val();    
+    $.ajax({
+      url: '/it/update_invoice_tag/',
+      dataType: 'json',
+      type: 'get',
+      data:
+      { 
+        'in_no' : in_no,
+      },
+      success : function(obj){          
+       if(obj=='done'){
+        alert('Done')
+       }          
+      },
+      error : function(){
+
+      }
+    });
+  })
+    
+</script>
+
+
+
+
+
+
+
+
+{% endblock %}

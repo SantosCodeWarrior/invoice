@@ -1,0 +1,1413 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="/static/js/sweetconsole.log.min.css">
+<script type="text/javascript" src="/static/js/sweetconsole.log.min.js"></script> -->
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+    <script src="/static/js/sweetalert.min.js"></script>
+    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/fixedColumns.dataTables.min.css">
+
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+
+
+
+<script>
+  $(function(){
+    $("#start_date").datepicker();
+    $("#end_date").datepicker();
+
+  });
+
+
+
+</script>
+
+<style>
+  .table-downloads .checkbox input[type=checkbox]{
+    margin-left:0;
+  }
+
+
+  table.dataTable tr th.select-checkbox.selected::after {
+    content: "✔";
+    margin-top: -11px;
+    margin-left: -4px;
+    text-align: center;
+    text-shadow: rgb(176, 190, 217) 1px 1px, rgb(176, 190, 217) -1px -1px, rgb(176, 190, 217) 1px -1px, rgb(176, 190, 217) -1px 1px;
+}
+
+.dataTables_paginate {
+  display: '';
+}
+
+.dataTables_length{
+  display: none;
+}
+
+.dataTables_filter{
+
+}
+
+/*.table-responsive>.fixed-column {
+    position: absolute;
+    display: inline-block;
+    width: auto;
+    border-right: 1px solid #ddd;
+}*/
+/*@media(min-width:768px) {
+    .table-responsive>.fixed-column {
+        display: none;
+    }
+}*/
+</style>
+
+
+
+<style type="text/css">
+.table>thead:first-child>tr:first-child>td
+{
+    padding:4px;
+}
+
+.bordered>tbody>tr>td
+{
+    padding:3px;
+}
+th
+{
+    font-size:12px;
+}
+td
+{
+    font-size:12px;
+}
+.table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td
+{
+    padding:3px;
+}
+
+</style>
+
+<style type="text/css">
+
+#invoice_tracker td, th {
+  white-space: nowrap;
+  overflow: auto;
+
+}
+
+.table td, .table th {
+padding: .2rem;
+
+}
+
+.dataTables_scrollBody{
+    height: auto;
+}
+
+.DTFC_LeftBodyLiner{
+  top:-12px;
+}
+</style>
+
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body">
+        <h3>CHM (USD)</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="col-md-12">
+    <button id="refresh_button" class="btn btn-primary col-md-12" style="cursor: pointer">Refresh</button>
+    <div class="row" id="all_filter_hide">
+    <div class="col-md-5">
+      <center style="color:grey;float:left;font-size: 12px"><b>Start Date</b></center><center style="color:grey;float:right;font-size: 12px"><b>End Date</b></center>
+        <div class="form-group">
+            <div class="input-group input-daterange" >
+           <input type="text" id="start_date" class="col-md-5 form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="dd/mm/yyyy">
+            <div class="input-group-addon"><font color="">--- To --- </font></div>
+           <input type="text" id="end_date" class="col-md-5 form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="dd/mm/yyyy">
+          </div>
+        </div>
+    </div>
+
+     <div class="col-md-2">
+     <b style="color:grey;font-size: 12px">Proj.Name</b>
+        <div class="form-group">
+           <select class="form-control" id="project_list">
+          <!--     <option value=0>Proj Name</option> -->
+           <!--    <option value="all">All</option> -->
+              <!-- <option value="BOSS">BOSS</option> -->
+              <option value="CHM">CHM</option>
+            </select>
+        </div>
+    </div>
+
+     <div class="col-md-2" style="display: none" id="show_currency">
+        <b style="color:grey;font-size: 12px">Currency Type</b>
+        <div class="form-group">
+           <select class="form-control" id="usd_inr_list">
+              <!-- <option value=0>Currency</option> -->
+           <!--    <option value="all">All</option>
+              <option value="INR">INR</option> -->
+              <option value="USD">USD</option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="col-md-2" style="display: none;">
+      <div class="form-group">
+        <select class="form-control" id="client_list">
+        </select>
+      </div>
+    </div>
+
+
+    <div class="col-md-2" style="" id="show_payment_type">
+        <b style="color:grey;font-size: 12px">Invoice Status</b>
+        <div class="form-group">
+           <select class="form-control" id="paid_unpaid_list">
+              <option value=0>Type</option>
+              <option value="all">All</option>
+              <option value="Paid">Paid</option>
+              <option value="unpaid">Unpaid</option>
+              <option value="cancel">Cancel</option>
+            </select>
+        </div>
+    </div>
+
+<style type="text/css">
+  #export{
+    display: inline-block;
+    vertical-align: top;
+}
+</style>
+<div class="Container col-md-12">
+      <div class="row col-md-12">
+        <div class="col-sm-12">
+          <BUTTON class="btn btn-primary btn-md" data-toggle="modal" data-target="#deleted_invoice" id="select_deleting_invoice" style="cursor: pointer;float:right"><font color="white" size="2px"><b>Deleted Invoices</b></font></BUTTON>
+          <BUTTON class="btn btn-danger btn-md" id="export" style="cursor: pointer;float:right;margin-right: 8px;"><font color="white" size="2px"><b>EXPORT</b></font></BUTTON>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+<div class="container">
+  <div class="col-md-12">
+    <div class="form-group">
+    <!--  <b><font color="green"><i class="fa fa-circle"></i></font> Paid</b>
+     <b><font color="red"><i class="fa fa-times-circle"></i></font> Cancel</b>
+     <b><font color="black"><i class="fa fa-circle"></i></font> Unpaid</b>
+     <br> -->
+<!-- //////////////////////// -->
+   <!--   <b style="font-size:10px"><font color="black">Total TDS : <i id="sum_of_invoice_tds"></i></b><br>
+     <b style="font-size:10px"><font color="black">Total IGST@18% : <i id="sum_of_igst"></i></b><br>
+     <b style="font-size:10px"><font color="black">Total Received Amount : <i id="sum_of_received_amount"></i></b><br> -->
+     
+<!-- //////////////////////// -->
+
+     <!-- <b style="font-size:10px"><font color="black">Total Amount (USD) : <i id="sum_of_usd"></i></b><br>
+     <b style="font-size:10px"><font color="black">Total Amount (INR) : <i id="sum_of_inr"></i></b> -->
+    </div>
+  </div>
+</div>
+
+<!-- <div class="container">
+  <div class="col-md-12">
+    <p style="font-size: 12px;">
+    <input type="checkbox" checked="checked" id="ckbCheckAll"> All
+    <input type="checkbox" class="checkBox" name="client_name" checked="checked"> Client
+    <input type="checkbox" class="checkBox" name="period_name" checked="checked"> Period
+    <input type="checkbox" class="checkBox" name="tax_amt_name" checked="checked"> Taxable Amount
+    <input type="checkbox" class="checkBox" name="price_name" checked="checked"> Price
+    <input type="checkbox" class="checkBox" name="exchange_name" checked="checked"> Exchange Rate
+    <input type="checkbox" class="checkBox" name="igst_name" checked="checked"> IGST@18%
+    <input type="checkbox" class="checkBox" name="tds_name" checked="checked"> TDS
+    <input type="checkbox" class="checkBox" name="cancel_name" checked="checked"> Cancel Invoice
+    <input type="checkbox" class="checkBox" name="proj_name" checked="checked"> Proj.Name
+    <input type="checkbox" class="checkBox" name="remark_name" checked="checked"> Remarks
+    </p>
+  </div>
+</div> -->
+
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="table-responsive">
+        <table id="invoice_trackerx" class="stripe row-border order-column">
+  			<thead>
+  				<tr>
+           
+  					<th><font color="black"><center>S.No</center></font></th>
+            <th><font color="black"><center>Invoice No.</center></font></th>
+            <th><font color="black"><center>Invoice Dated</center></font></th>
+            <th><font color="black"><center>Vessel Name</center></font></th>
+            <th><font color="black"><center>Voyage No</center></font></th>
+            <th><font color="black"><center>PIC</center></font></th>
+            <th><font color="black"><center>Disch.Port</center></font></th>
+            <th><font color="black"><center>Disch.Date</center></font></th>
+            <th><font color="black"><center>Client</center></font></th>           
+            <th><font color="black"><center>Invoice Amount</center></font></th>
+  					<th><font color="black"><center>Received Date</center></font></th>
+  					<th><font color="black"><center>Pool</center></font></th>           
+  					<th><font color="black"><center>Action</center></font></th>
+            <th><font color="black"><center>Edit</center></font></th>  				
+            <th><font color="black"><center>Price Type</center></font></th>
+            <th class="remark_name"><font color="black"><center>Remarks</center></font></th>
+  				</tr>
+  			</thead>
+          <tbody id="invoice_listw"></tbody>
+  		   </table>
+      </div>
+    </div>
+  </div>
+</div>
+<p></p>
+
+
+<style type="text/css">
+  span {
+    margin-left: 17px;
+  }
+</style>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Invoice Details</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="col-md-12">
+        <!-- <input type="checkbox" id="single_method" onClick="ckChange(this)" name="progress" checked="checked"> <i style="font-size: 12px;font-weight: bold">SINGLE</i> -->
+        <input type="checkbox" class="adds" id="multiple_method" onClick="ckChange(this)" name="progress" unchecked> <i style="font-size: 12px;font-weight: bold">MULTIPLE</i>
+      </div>
+
+      <div class="col-md-12" style="display: none;" id="invoice_multiple">
+        <select multiple="multiple" id="remaining_invoice" class="col-md-12" name="product"></select>
+
+        <span>Total Amount :<b id="total_amountx"></b></span>
+
+      </div>
+      <br>
+
+
+      <div class="modal-body">
+        <div class="input-group">
+          <table id="tracker_list" class="table table-condensed table-striped">
+            <thead>
+              <tr style="display:none">
+                <th></th>
+                <th>Ship Name</th>
+              </tr>
+            </thead>
+            <tbody id="ship_details"></tbody>
+          </table>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Invoice No </span>
+          <div id="e_proj_name"></div>
+           <div id="e_id" style="display:none"></div>
+
+          <input id="e_invoice_no" type="text" class="form-control col-md-6" readonly="readonly">
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Voyage No </span>
+          <input id="e_voyage_no" type="text" class="form-control col-md-6">
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Voyage Manager </span>
+          <input id="e_vm_name" type="text" class="form-control col-md-6">
+        </div>
+
+        <div id="disch_port_display">
+          <div class="input-group">
+            <span class="input-group-addon" style="width:30%">Disch Port </span>
+            <input id="e_disch_port" type="text" class="form-control col-md-6">
+          </div>
+        </div>
+        <div id="clientID" style="display:none"></div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Received Date </span>
+          <input type="date" class="form-control col-md-5" id="e_date" >
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Total Amt.&nbsp;<i id="tag"></i>  </span>
+          <input type="number" class="form-control col-md-4" id="e_actual_amount"><b  style="font-size: 10px;color:grey;margin-top: 9px;">(A)</b>
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Received (INR) </span>
+          <input type="number" class="form-control col-md-4" id="e_received_inr" value="0.0">
+        </div>
+
+        <div id="igst_show">
+          <div class="input-group">
+            <span class="input-group-addon" style="width:30%">IGST (18%) </span>
+            <input type="number" class="form-control col-md-4" id="e_igst" value="0.0"><b  style="font-size: 10px;color:grey;margin-top: 9px;"> (B)</b>
+          </div>
+        </div>
+
+        <div id="check_tds">
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%"><b>TDS</b>   </span>
+          <input type="number" class="form-control col-md-4" id="e_tds" value="0.0"><b  style="font-size: 10px;color:grey;margin-top: 9px;">(C)</b>
+        </div>
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Bank Chrgs (INR) </span>
+          <input type="number" class="form-control col-md-4" id="e_bank_charges" value="0.0">
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Net Receipt </span>
+          <input type="number" class="form-control col-md-4" id="e_net_receipt" value="0.0">
+          <label style="font-size: 14px;color:grey;margin-top: 9px;">(A + B) - C</label>
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-addon" style="width:30%">Remarks </span>
+          <input type="text" class="form-control col-md-4" id="e_remark" value="Paid">
+        </div>
+
+        <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" id="submit" style="cursor: pointer"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="refresh" style="cursor: pointer">Close</button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="deleted_invoice" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 136%;">
+      <div class="modal-header">
+        <h4 class="modal-title">Deleted Invoices</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+         <div class="input-group">
+          <table id="pending_list" class="table table-condensed table-striped">
+            <thead>
+              <th>S.No</th>
+              <th>Invoice No.</th>
+              <th>Vessel Name</th>
+              <th>Project Type</th>
+              <th>Currency Type</th>
+              <th>Generated Invoice Date</th>
+              <th>Deleted Invoice Date</th>
+            </thead>
+
+            <tbody id="deleted_invoicexx"></tbody>
+
+          </table>
+        </div>      
+
+        <div class="modal-body">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="refresh" style="cursor: pointer">Close</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function check_element(item){
+  index=selection_array.indexOf(item)
+  return index
+}
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $("#client_list").select2();
+  $('#show_currency').show();
+});
+</script>
+
+
+<script src="/static/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/dataTables.fixedColumns.min.js"></script>
+<script src="/static/js/dataTables.scroller.min.js"></script>
+
+
+
+<script type="text/javascript">
+function SetDate()
+{
+  var date = new Date();
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+  if (month < 10) month = "0" + month;
+  if (day < 10) day = "0" + day;
+  var today = year + "-" + month + "-" + day;
+  document.getElementById('e_date').value = today;
+}
+
+ $(function(){
+    $("#e_date").datepicker({maxDate: new Date()});
+  });
+
+ $(document).ready(function(){
+  SetDate();
+  load_filter();
+ })
+
+ $('#usd_inr_list').change(function(){
+    $('#show_payment_type').show();
+    var currency_type = $('#usd_inr_list').val();
+    $.ajax({
+    url  : '/it/selected_currency_type_handler/',
+    type : 'GET',
+    dataType :'JSON',
+    data:{
+      'currency_type' : JSON.stringify(currency_type),
+    },
+    success:function(obj){
+     $('#client_list').empty();
+     $('#client_list').append('<option value="0">Client Name</option>');
+     for(var i=0;i<obj['cl_list'].length;i++){
+      $('#client_list').append('<option id='+obj['cl_list'][i]['client_name']+'>'+obj['cl_list'][i]['client_name']+'</option>')
+     }
+    },
+    error:function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  })
+
+ })
+
+$('#submit').click(function(){
+  call_submit();
+  call_multiple_generate();
+})
+
+
+  $('#e_cancel_invoice').click(function() {
+    if ($(this).is(':checked')) {
+      $('#submit').hide();
+      var result = confirm("Want to delete?");
+      if (result==true)
+      {
+        var result2 = confirm("Want to delete?");
+        if (result2==true)
+        {
+          call_submit();
+        }
+      }
+    }
+    else{
+      $('#submit').show();
+    }
+});
+
+function calc()
+{
+  $('#e_tds').change(function(){
+    tds            = 0;
+    var tds        = $('#e_tds').val();
+    var e_amount   = $('#e_actual_amount').val();
+    var net_amount = (e_amount-tds);
+    $('#e_net_receipt').val(net_amount);
+  })
+}
+
+
+function call_submit()
+{
+  $('#loader').css('display','');
+  var submit = $('#submit').text();
+  if($('#e_cancel_invoice').is(":checked"))
+  {
+    cancel=1;
+  }
+  else
+  {
+    cancel=0;
+  }
+
+  var invoice_no     = $('#e_invoice_no').val();
+  var amount         = $('#e_actual_amount').val();
+  var payment_status = $('#e_remark').val();
+  var client_ID      = $('#clientID').html();
+  var rec_date       = $('#e_date').val();
+  var e_received_inr = $('#e_received_inr').val();
+  var e_bank_charges = $('#e_bank_charges').val();
+  var e_tds          = $('#e_tds').val();
+  var e_net_receipt  = $('#e_net_receipt').val();
+  var e_proj_namex   = $('#e_proj_name').val();
+  var e_id           = $('#e_id').val();
+
+  $.ajax({
+    url  : '/it/paid_invoice_list/',
+    type : 'GET',
+    dataType :'JSON',
+    data:{
+      'invoice_no'     : invoice_no,
+      'invoice_cancel' : cancel,
+      'invoice_amount' : e_net_receipt,//amount,
+      'payment_status' : payment_status,
+      'client_id'      : client_ID,
+      'rec_date'       : rec_date,
+      'submit_id'      : submit,
+      'e_received_inr' : e_received_inr,
+      'e_bank_charges' : e_bank_charges,
+      'e_tds'          : e_tds,
+      'e_proj_namex'   : e_proj_namex,
+      'e_id'           : e_id,
+    },
+    success:function(obj){
+      $('#loader').css('display','none');
+
+      if(obj['msg']=='cancel'){
+        var btn = "button";
+        swal({
+          title : "<b>Invoice successfully cancelled</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          location.href = "/it/chm_tracker";
+        });
+        $('#submit').text(obj['caption']);
+        $('#loader').css('display','');
+      }
+
+      if(obj['msg']=='ok'){
+        var btn = "button";
+        swal({
+          title : "<b>Invoice successfully paid</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "success",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          location.href = "/it/chm_tracker";
+        });
+        $('#submit').text(obj['caption']);
+        $('#loader').css('display','');
+      }
+
+      if(obj['checkbutton']=='Unpaid'){
+       var btn = "button";
+        swal({
+          title : "<b>Invoice successfully changed</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          location.href = "/it/chm_tracker";
+        });
+         $('#submit').text(obj['caption']);
+      }
+    },
+    error:function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  })
+}
+
+$(document).on('change','#start_date',function(){
+//  load_filter();
+})
+
+$(document).on('change','#end_date',function(){
+  load_filter();
+})
+
+
+$(document).on('change','#client_list',function(){
+ // load_filter();
+})
+
+$(document).on('change','#project_list',function(){ 
+
+ 
+// try{
+//  var curr_url  = window.location.href 
+//  var generated_invoice_date = parseURLParams(curr_url)['generated_invoice_date']
+//  if(generated_invoice_date!=''){
+//    location.href = '/it/boss_chm_tracker/';
+//    var projx     = $('#project_list').val();   
+//    load_filter(projx);
+//   }
+//  }catch(err){
+     
+// }
+  load_filter();  
+  var proj = $('#project_list').val(); 
+
+})
+
+$(document).on('change','#usd_inr_list',function(){
+  load_filter();
+})
+
+$(document).on('change','#paid_unpaid_list',function(){
+  load_filter();
+})
+
+
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+current_date = mm + '/' + dd + '/' + yyyy;
+
+           
+/* $('#project_list').val('CHM'); 
+var proj_list  = 'CHM';      */   
+
+$('#start_date').val('04/01/2019');  
+$('#end_date').val(current_date); 
+
+function load_filter(projx){  
+  //console.log(projx);
+  $('#loader').css('display','');
+  var start_date    = $('#start_date').val();
+  var end_date      = $('#end_date').val();
+  var client_list   = $('#select2-client_list-container').html();
+  var chk_proj_name = $('#project_list').val();
+  
+
+try{
+  var curr_url  = window.location.href
+  var url_currency  = parseURLParams(curr_url)['currency'] 
+  var url_currrency_type = url_currency;
+  }catch (err){
+
+  } 
+
+  payment_status = '';
+  
+  
+
+  if ($.fn.DataTable.isDataTable('#invoice_trackerx')){
+    $('#invoice_trackerx').DataTable().destroy();
+  }
+
+
+var chk_proj =  $('#project_list').val();
+if(chk_proj==0){
+  $('#project_list').val('CHM'); 
+  var proj_list  = 'CHM';  
+}else{
+  var proj_list  = $('#project_list').val();
+}
+
+
+  try{
+    var curr_url  = window.location.href
+    var generated_invoice_date  = parseURLParams(curr_url)['generated_invoice_date']  
+    var generated_currency      = parseURLParams(curr_url)['currency']  
+    var generated_proj_name     = parseURLParams(curr_url)['proj_name']
+
+
+    if(generated_proj_name=='CHM'){
+      if(chk_proj_name==0){
+        $('#project_list').val('CHM'); 
+        var proj_list  = 'CHM';   
+      }else  if(generated_proj_name=='CHM'){
+        $('#project_list').val('CHM'); 
+        var proj_list  = 'CHM';           
+      }
+    }   
+
+    $('#all_filter_hide').hide();
+    $('#refresh_button').show();
+    $('#refresh_button').click(function(){
+        location.href = '/it/chm_tracker/';
+    })
+   
+    //query = "AND ins.invoice_date='"+generated_invoice_date+"'"
+   
+    }catch(err){
+      query = "";
+      $('#refresh_button').hide();
+    }   
+
+  //var proj_list  = 'CHM';   
+  var pad_list = $('#paid_unpaid_list').val();
+  $.ajax({
+    url  : '/it/filter_chm_invoice_tracker/',
+    type : 'POST',
+    dataType :'JSON',
+    data:{
+      'start_date'      : JSON.stringify(start_date),
+      'end_date'        : JSON.stringify(end_date),
+      'client_list'     : JSON.stringify(client_list),
+      'project_list'    : JSON.stringify(proj_list),
+      'usd_inr_list'    : JSON.stringify(usd_inr_list),
+      'pad_unpaid_list' : JSON.stringify(pad_list),
+      'payment_status'  : JSON.stringify(payment_status),
+      'curr_invodate'   : JSON.stringify(generated_invoice_date),
+      'projx'           : projx, 
+      'url_currency'    : JSON.stringify(url_currrency_type),        
+    },
+
+    success:function(obj){
+     
+
+     $('#invoice_listw').empty();
+     $('#loader').css('display','none');
+     for(var i=0;i<obj['invoice_list'].length;i++){
+
+        if(obj['invoice_list'][i]['invoice_remark']!=null){
+          invoice_remark = obj['invoice_list'][i]['invoice_remark'];
+        }else{
+          invoice_remark = ''
+        }
+
+        if(obj['invoice_list'][i]['price_type']!=null){
+          invoice_price_type = obj['invoice_list'][i]['price_type'];
+        }else{
+          invoice_price_type = '';
+        }
+
+        // <td><center><a href="'+obj['invoice_list'][i]['url_pdf']+'" target="_blank"><img src="'+obj['invoice_list'][i]['img_logo']+'" width="30" height="30"></a></center></td>
+        
+       
+        $('#invoice_listw').append('<tr style="color:'+obj['invoice_list'][i]['color_fit']+'"><td><center>'+(i+1)+'</center></td><td><center>'+obj['invoice_list'][i]['invoice_no']+'</center></td><td><center>'+obj['invoice_list'][i]['invoice_date']+'</center></td><td><center>'+obj['invoice_list'][i]['vessel_name']+'</center></td><td><center>'+obj['invoice_list'][i]['voyage_no']+'</center></td><td><center>'+obj['invoice_list'][i]['vm_name']+'</center></td><td><center>'+obj['invoice_list'][i]['disch_port']+'</center></td><td><center>'+obj['invoice_list'][i]['disch_date']+'</center></td><td><center>'+obj['invoice_list'][i]['client_name']+'</center></td><td><center>'+obj['invoice_list'][i]['invoice_amt']+'</center></td><td><center>'+obj['invoice_list'][i]['rec_date']+'</center></td><td><center>'+obj['invoice_list'][i]['pool_name']+'</center></td><td class="paid" id="'+obj['invoice_list'][i]['invoice_no']+','+obj['invoice_list'][i]['proj_name']+','+obj['invoice_list'][i]['client_id']+'"><center><button class="edit btn btn-info" data-toggle="modal" data-target="#myModal" style="display:'+obj['invoice_list'][i]['show_file']+';padding: 1px 1px;cursor:pointer">Paid?</button></center></td><td><center style="display:'+obj['invoice_list'][i]['show_file']+'"><a href="/it/edit_invoice_details/?invoice_no='+obj['invoice_list'][i]['invoice_no']+'&id='+obj['invoice_list'][i]['id']+'&client_name='+obj['invoice_list'][i]['client_name']+'&vessel_type='+obj['invoice_list'][i]['pool_types']+'"><img src="/static/img/edit.png" width="30" height="30"></a></center></td><td><center style="text-transform:capitalize;white-space:nowrap"><b>'+invoice_price_type+'</b></center></td><td><center>'+obj['invoice_list'][i]['remark']+'</center></td></tr>')
+
+        total_invoice_amount = 0;
+        total_invoice_tds    = 0;
+        total_amt_inr        = 0;
+        total_usd_amt        = 0;
+        total_igst           = 0;
+        count           = 0;
+        if(obj['invoice_list'][i]['cancel_invoice']!='1'){
+          $('.total_invoice_amount').each(function() {
+            if($(this).html()){
+              if (parseFloat($(this).html())){
+                total_invoice_amount+=parseFloat($(this).html());
+                count ++;
+              }
+            }
+          });
+
+          $('.total_invoice_tds').each(function() {
+            if($(this).html()){
+              if (parseFloat($(this).html())){
+                total_invoice_tds+=parseFloat($(this).html());
+                count ++;
+              }
+            }
+          });
+
+
+          $('.total_igst').each(function() {
+            if($(this).html()){
+              if (parseFloat($(this).html())){
+                total_igst+=parseFloat($(this).html());
+                count ++;
+              }
+            }
+          });
+
+
+          if(obj['invoice_list'][i]['usd']=='USD'){
+          var invoice_amt = (obj['invoice_list'][i]['invoice_amount']);
+          $('.total_invoice_amount').each(function() {
+             if(invoice_amt){
+              if (parseFloat(invoice_amt)){
+                total_usd_amt+=parseFloat(invoice_amt);
+                count ++;
+              }
+              $('#sum_of_usd').html(total_usd_amt.toFixed(1));
+            }
+          });
+        }
+
+        if(obj['invoice_list'][i]['inr']=='INR'){
+          var invoice_amt_inr = (obj['invoice_list'][i]['invoice_amount']);
+          $('.total_invoice_amount').each(function() {
+             if(invoice_amt_inr){
+              if (parseFloat(invoice_amt_inr)){
+                total_amt_inr+=parseFloat(invoice_amt_inr);
+                //console.log(total_amt_inr);
+                count ++;
+              }
+              $('#sum_of_inr').html(total_amt_inr.toFixed(1));
+            }
+          });
+        }
+
+        $('#sum_of_received_amount').html(total_invoice_amount.toFixed(1));
+        $('#sum_of_invoice_tds').html(total_invoice_tds.toFixed(1));
+        $('#sum_of_igst').html(total_igst.toFixed(1));
+        }
+      }
+
+
+      $('#sum_of_received_amount').css('text-align','center');
+      $('#sum_of_invoice_tds').css('text-align','center');
+      $('#sum_of_igst').css('text-align','center');
+
+      $('.paid').click(function(){
+        var invoice_no = $(this).attr('id');
+        var split_invoice = invoice_no.split(',');
+        var first_invoice_no = split_invoice[0];
+        var proj_name = split_invoice[1];
+        var clientID  = split_invoice[2];
+        get_client_details(clientID,proj_name);
+
+        $.ajax({
+          url  : '/it/payment_list/',
+          type : 'GET',
+          dataType :'JSON',
+          data:{
+            'invoice_no' : first_invoice_no,
+            'proj_name'  : proj_name,
+            'clientID'   : clientID,
+          },
+          success:function(obj){
+            calc();
+
+            $('#tag').html(obj['tag_logo']);
+            $('#ship_details').empty();
+            $('#e_actual_amount').val(obj['without_tax'].toFixed(1));
+            $('#e_invoice_no').val(obj['array'][0]['invoice_no']);
+            $('#e_vm_name').val(obj['array'][0]['vm_name']);
+            $('#e_disch_port').val(obj['array'][0]['disch_port']);
+            $('#clientID').html(obj['array'][0]['client_id']);
+            $('#e_voyage_no').val(obj['array'][0]['fleet']);
+            $('#submit').text(obj['array'][0]['button']);
+            var tag   = obj['tag_logo'];
+            var tds   = (obj['without_tax']*10)/100;
+            var igst  = (obj['without_tax'])*18/100;
+            if(tag=='INR'){
+              var net_amount = (obj['without_tax']+igst)-tds;
+              $('#igst_show').css('display','');
+            }
+            else if(tag=='USD'){
+              var net_amount = obj['without_tax']-tds;
+              $('#igst_show').css('display','none');
+            }
+
+            if(tag=='INR'){
+              var rece_amount = $('#e_received_inr').val();              
+              if(rece_amount=='0.0'){
+                 $('#e_received_inr').change(function(){
+                  $('#e_net_receipt').val($(this).val());
+                });
+               }
+                else{
+                $('#e_received_inr').change(function(){
+                  $('#e_net_receipt').val($(this).val());
+                });
+              }
+              $('#e_tds').val(tds.toFixed(1));
+              $('#e_net_receipt').val(net_amount.toFixed(1));
+              $('#check_tds').css('display','');
+              $('#e_igst').val(igst.toFixed(1));
+            }else{
+              var rece_amount = $('#e_received_inr').val();
+              var net_amount = $('#e_actual_amount').val();
+              if(rece_amount=='0.0'){
+                 $('#e_received_inr').change(function(){
+                  $('#e_net_receipt').val($(this).val());
+                });
+              }else{
+                $('#e_received_inr').change(function() {
+                  $('#e_net_receipt').val($(this).val());
+                });
+              }
+              $('#e_tds').val(obj['array'][0]['invoice_tds']);
+              $('#e_net_receipt').val(obj['without_tax']);
+              $('#check_tds').css('display','none');
+            }
+
+            //obj['array'][0]['invoice_tds']
+            //obj['without_tax']
+
+            $('#e_proj_name').val(obj['array'][0]['proj_name']);
+            $('#e_id').html(obj['array'][0]['invoiceID']);
+
+            var dis = obj['display_for_disch_port'];
+              if(dis=='none'){
+                $('#disch_port_display').css('display','none');
+              }else{
+                $('#disch_port_display').css('display','');
+              }
+
+              for(var i=0;i<obj['array'].length;i++)
+              {
+               $('#ship_details').append('<tr><td>'+(i+1)+'</td><td>'+obj['array'][i]['ship_name']+'</td></tr>')
+              }
+
+              if (!$.fn.DataTable.isDataTable('#tracker_list')){
+                var table = $('#tracker_list').DataTable({
+                scrollY          : '100px',
+                scrollCollapse   : false,
+                bSort            : false,
+                bPaginate        : false,
+                "bAutoWidth"     : false ,
+                "bSortable"      : false,
+                "bFilter"        : false,
+                "ordering"       : false,
+                "bAutoWidth"     : false,
+                "scrollCollapse" : false,
+                "sScrollXInner"  : "100%",
+                "bSortClasses"   : false,
+                "orderClasses"   : false,
+              });
+            }
+          },
+
+          error:function(err){
+            console.log(JSON.stringify(err,null,4));
+          }
+        })
+      })
+
+
+      if (!$.fn.DataTable.isDataTable('#invoice_trackerx')){
+        var table       = $('#invoice_trackerx').DataTable({
+        scrollY:        "300px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        retrieve: true,
+        fixedColumns:   {
+            leftColumns: 3,
+          }
+        });
+
+      }
+        $("input:checkbox").click(function(){
+          var column = "table ." + $(this).attr("name");
+          $(column).toggle();
+        });
+
+        $("input:checkbox:not(:checked)").each(function(){
+          var column = "table ." + $(this).attr("name");
+          $(column).hide();
+        });
+
+
+        //  $('#ckbCheckAll').click(function(){
+        //     if($(this).prop("checked")){
+        //       $(".checkBox").prop("checked", true);
+        //         $("input:checkbox").each(function(){
+        //           var column = "table ." + $(this).attr("name");
+        //           $(column).toggle();
+        //         });
+        //      }
+
+        //      else {
+        //       $(".checkBox").prop("checked", false);
+        //       $("input:checkbox:not(:checked)").each(function(){
+        //         var column = "table ." + $(this).attr("name");
+        //         $(column).hide();
+        //       });
+        //     }
+        // });
+    },
+    error:function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  })
+}
+
+
+$('#export').click(function(){
+  $('#loader').css('display','');
+   var track_details = $('#invoice_trackerx').tableToJSON();
+   $.ajax({
+      url:'/it/export_tracker/',
+      dataType:'JSON',
+      type:'POST',
+      data:{
+      'track_details' : JSON.stringify(track_details),
+    },
+
+    success:function(obj){
+      $("#loader").css("display", "none");
+      if(obj=="done"){
+      var btn = "button";
+      swal({
+        title : "<b>Export successfully completed</b>",
+        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+        html  : true,
+        type : 'success',
+        showConfirmButton: false
+      });
+      $(document).on('click', "#btnA", function(){
+        location.href = "/it/invoice_export";
+      });
+      }
+    },
+    error:function(err){
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+})
+
+
+/// $('#select_pending_invoice').click(function(){
+  /// $('#select_pending_invoice').click(function(){
+    //
+  ///})
+  /// get_all_value()
+/// })
+
+
+function get_all_value(){
+  $(".single_select").each(function(){
+    if($(this).is(':checked')==true)
+    {
+      if (check_element($(this).attr('id'))==-1)
+      {
+        selection_array.push($(this).attr('id'))
+        //console.log(selection_array)
+      }
+    }
+    else
+    {
+      index = selection_array.indexOf($(this).attr('id'))
+      if (index!=-1)
+      {
+        selection_array.splice(index,1);
+      }
+    }
+  })
+}
+
+
+
+
+selection_array=[]
+function getcheckboxes() {
+    var node_list  = document.getElementsByTagName('input');
+    var checkboxes = [];
+    for (var i = 0; i < node_list.length; i++)
+    {
+      var node = node_list[i];
+      if (node.getAttribute('type') == 'checkbox')
+      {
+        checkboxes.push(node);
+      }
+    }
+  return checkboxes;
+}
+
+function toggle(source) {
+$(function (){
+    $("#checkall").change(function () {
+        if ($("#checkall").is(':checked')) {
+          $(".single_select").prop("checked", true);
+        } else {
+          $(".single_select").prop("checked", false);
+          selection_array=[]
+        }
+    });
+  });
+
+$("#checkallw").change(function () {
+        if ($("#checkallw").is(':checked')) {
+          $(".single_select").prop("checked", true);
+        } else {
+          $(".single_select").prop("checked", false);
+          selection_array=[]
+        }
+    });
+}
+
+
+
+function history_details(){
+  $.ajax({
+    url: '/it/del_invoice_log/',
+    type: 'POST',
+    dataType: 'JSON',
+    data:{
+
+    },
+    success: function(obj){
+      $('#deleted_invoicexx').empty();      
+      for(var i=0;i<obj['del_log'].length;i++){ 
+        //console.log(obj['del_log'][i]['client_name'])       
+        $('#deleted_invoicexx').append('<tr style="text-align:center;"><td>'+(i+1)+'</td><td>'+obj['del_log'][i]['invoice_no']+'</td><td>'+obj['del_log'][i]['ship_name']+'</td><td>'+obj['del_log'][i]['proj_name']+'</td><td>'+obj['del_log'][i]['currency']+'</td><td>'+obj['del_log'][i]['deleted_date']+'</td><td>'+obj['del_log'][i]['invoice_date']+'</td></tr>');
+    }
+  },
+  error: function(err){
+    console.log(JSON.stringify(err,null,4));
+  }
+});
+}
+
+$('#select_deleting_invoice').click(function(){
+   history_details();
+})
+
+</script>
+
+<script>
+function ckChange(ckType){
+    var ckName  = document.getElementsByName(ckType.name);
+    var checked = document.getElementById(ckType.id);
+    if (checked.checked) {
+      for(var i=0; i < ckName.length; i++){
+
+          if(!ckName[i].checked){
+              ckName[i].disabled = true;
+              $('#invoice_multiple').css('display','none');
+
+          }else{
+              ckName[i].disabled = false;
+              $('#invoice_multiple').css('display','');
+          }
+      }
+    }
+    else {
+      for(var i=0; i < ckName.length; i++){
+        ckName[i].disabled = false;
+        $('#invoice_multiple').css('display','none');
+      }
+    }
+}
+
+
+
+function  get_client_details(clientID,proj_name){
+  $.ajax({
+    url: '/it/selected_pending_invoice_no/',
+    type: 'GET',
+    dataType: 'JSON',
+    data:{
+      'clientID'  : JSON.stringify(clientID),
+      'proj_name' : JSON.stringify(proj_name),
+      },
+
+      success: function(obj){
+        $('#remaining_invoice').empty();
+        for(var i=0;i<obj['ship_array'].length;i++){
+          $('#remaining_invoice').append('<option value="'+obj['ship_array'][i]['invoice_no']+'">'+obj['ship_array'][i]['vess_invoice']+'</option>');
+        }
+
+        $('#remaining_invoice').multipleSelect();
+      },
+
+      error: function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+  });
+}
+
+function call_multiple_generate(){
+  var invoice_list = $('#remaining_invoice').val();
+  var amount         = $('#e_actual_amount').val();
+  var payment_status = $('#e_remark').val();
+  var client_ID      = $('#clientID').html();
+  var rec_date       = $('#e_date').val();
+  var e_received_inr = $('#e_received_inr').val();
+  var e_bank_charges = $('#e_bank_charges').val();
+  var e_tds          = $('#e_tds').val();
+  var e_net_receipt  = $('#e_net_receipt').val();
+  var e_proj_namex   = $('#e_proj_name').val();
+  var e_id           = $('#e_id').val();
+
+
+  $('#loader').css('display','');
+  var submit = $('#submit').text();
+  if($('#e_cancel_invoice').is(":checked"))
+  {
+    cancel=1;
+  }
+  else
+  {
+    cancel=0;
+  }
+
+  $.ajax({
+    url: '/it/generate_of_pending_invoice/',
+    type: 'POST',
+    dataType: 'JSON',
+    data:{
+      'invoice_list'   : JSON.stringify(invoice_list),
+      'rec_date'       : rec_date,
+      'invoice_cancel' : cancel,
+      'invoice_amount' : e_net_receipt,
+      'payment_status' : payment_status,
+      'client_id'      : client_ID,
+      'submit_id'      : submit,
+      'e_received_inr' : e_received_inr,
+      'e_bank_charges' : e_bank_charges,
+      'e_tds'          : e_tds,
+      'e_proj_namex'   : e_proj_namex,
+      'e_id'           : e_id,
+      },
+      success: function(obj){
+        $('#loader').css('display','none');
+
+      if(obj['msg']=='cancel'){
+        var btn = "button";
+        swal({
+          title : "<b>Invoice successfully cancelled</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          location.href = "/it/chm_tracker";
+        });
+        $('#submit').text(obj['caption']);
+        $('#loader').css('display','');
+      }
+
+      if(obj['msg']=='ok'){
+        var btn = "button";
+        swal({
+          title : "<b>Invoice successfully paid</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "success",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          location.href = "/it/chm_tracker";
+        });
+        $('#submit').text(obj['caption']);
+        $('#loader').css('display','');
+      }
+
+      if(obj['checkbutton']=='Unpaid'){
+       var btn = "button";
+        swal({
+          title : "<b>Invoice successfully changed</b>",
+          text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+          html  : true,
+          type  : "info",
+          showConfirmButton: false
+        });
+        $(document).on('click', "#btnA", function(){
+          location.href = "/it/chm_tracker";
+        });
+         $('#submit').text(obj['caption']);
+      }
+      },
+      error: function(err){
+       // console.log(JSON.stringify(err,null,4));
+      }
+  });
+}
+
+
+
+$('#remaining_invoice').change(function(){
+      $("input[type=checkbox]:checked").each(function() {
+        var get_invoice_no = ($('#remaining_invoice').val());
+        var client_ID      = $('#clientID').html();
+        var e_proj_namex   = $('#e_proj_name').val();
+        console.log(get_invoice_no)
+        $.ajax({
+          url: '/it/get_invoice_calc/',
+          type: 'GET',
+          dataType: 'JSON',
+          data:{
+            'get_invoice_no' : JSON.stringify(get_invoice_no),
+            'client_id'      : JSON.stringify(client_ID),
+            'e_proj_name'    : JSON.stringify(e_proj_namex),
+            },
+            success: function(obj){
+              console.log(JSON.stringify(obj['total_amount'],null,4));
+              $('#total_amountx').html(obj['total_amount']);
+            },
+            error: function(err){
+              console.log(JSON.stringify(err,null,4));
+            }
+        });
+    });
+});
+
+</script>
+
+<script type="text/javascript">
+function parseURLParams(url) {
+    var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+
+    if (query === url || query === "") {
+        return;
+    }
+
+    for (i = 0; i < pairs.length; i++) {
+        nv = pairs[i].split("=");
+        n = decodeURIComponent(nv[0]);
+        v = decodeURIComponent(nv[1]);
+        if (!parms.hasOwnProperty(n)) {
+            parms[n] = [];
+        }
+        parms[n].push(nv.length === 2 ? v : null);
+    }
+    return parms;
+}
+</script>
+
+<script src="/static/js/multiple-select.js"></script>
+
+
+{% endblock %}

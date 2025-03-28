@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+ <link rel="stylesheet" type="text/css" href="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+
+<p></p>
+<center><i id="loader" class="fa fa-cog fa-spin fa-4x fa-fw" style="color:orange;display:none;"></i></center>
+<center><h3>CHM <br>View DSR</h3></center>
+<div class="col-md-12">
+  <div class="input-group input-daterange" style="display:none">
+      <input type="text" id="start_date" class="form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="From:">
+    
+      <div class="input-group-addon">to</div>
+      <input type="text" id="end_date" class="form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="To:">
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-body">
+        <div class="input-group input-daterange" >
+           <button class="btn btn-success col-md-12" id="combined_vessel">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table id="vessel_details" class="table table-striped table-bordered bootstrap-datatable" style="display:none">
+    <thead>
+      <tr>
+        <th><font color="black"><input id="checkall" type="checkbox" onClick="toggle(this)" /></font></th>
+        <th><font color="black">S.No</font></th>
+        <th><font color="black">PV Made?</font></th>
+        <th><font color="black">Ship Name</font></th>
+        <th><font color="black">Voyage No</font></th>
+        <th><font color="black">Voyage Manager</font></th>
+        <th><font color="black">Disch.Port</font></th>
+        <th><font color="black">Disch.Date</font></th>
+        <th><font color="black">Client</font></th>  
+        <th><font color="black"></font></th>          
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th><font color="black"></th>  
+        <th><font color="black">S.No</font></th>
+        <th><font color="black">PV Made?</font></th>
+        <th><font color="black">Ship Name</font></th>
+        <th><font color="black">Voyage No</font></th>
+        <th><font color="black">Voyage Manager</font></th>
+        <th><font color="black">Disch.Port</font></th>
+        <th><font color="black">Disch.Date</font></th>
+        <th><font color="black">Client</font></th>  
+        <th><font color="black"></font></th>  
+      </tr>
+    </tfoot>   
+    <tbody id="vessel_body"></tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+  function check_element(item){
+  index=selection_array.indexOf(item)  
+  return index
+}
+</script>
+
+<script type="text/javascript">
+   $('.input-daterange input').each(function() {
+    $(this).datepicker('clearDates');
+  });
+</script>
+
+<script type="text/javascript">
+$('#loader').css('display','');  
+
+
+function load_dsr(){
+  $('#input-daterange').css('display','none');
+  $('#vessel_details').css('display','none');
+  $('.input-daterange').css('display','none');  
+
+  $.ajax({
+      url      : '/it/fetching_data_from_api/',
+      type     : 'GET',
+      dataType : 'JSON',
+      data:{
+        
+      },
+      success: function(obj){     
+        $('#input-daterange').css('display','');
+        $('#vessel_details').css('display',''); 
+        $('.input-daterange').css('display',''); 
+        $('#view_chm_data').css('display','');
+        $('#loader').css('display','none');
+        $('#vessel_body').empty();
+
+        for (var i=0;i<obj['finance_array'].length;i++){          
+         $('#vessel_body').append('<tr><td><input type="checkbox" name="selected" id='+obj['finance_array'][i]['voyage_id']+' class="single_select roll_'+obj['finance_array'][i]['s_no']+' num_'+obj['finance_array'][i]['s_no']+' "></center></td><td>'+obj['finance_array'][i]['s_no']+'</td><td>'+obj['finance_array'][i]['pv_made']+'</td><td>'+obj['finance_array'][i]['ship_name']+'</td><td>'+obj['finance_array'][i]['voyage_no']+'</td><td>'+obj['finance_array'][i]['vm_name']+'</td><td>'+obj['finance_array'][i]['disch_port']+'</td><td>'+obj['finance_array'][i]['finance_date']+'</td><td>'+obj['finance_array'][i]['client_name']+'</td><td><a href="'+obj['finance_array'][i]['url']+'" target="_blank"><button class="btn btn-info generate s_no_'+obj['finance_array'][i]['s_no']+'" '+obj['finance_array'][i]['button']+'>Generate</button></a></td></tr>')
+          var shipname = obj['finance_array'][i]['ship_name'];
+          var voyno    = obj['finance_array'][i]['voyage_no'];
+          var sno      = obj['finance_array'][i]['s_no'];          
+          get_invoice_details(shipname,voyno,sno);
+        }              
+
+        if (!$.fn.DataTable.isDataTable('#vessel_details'))
+        {          
+          $.fn.dataTable.ext.search.push(
+            function( settings, data, dataIndex ) {
+              var min = $('#start_date').val();
+              var max = $('#end_date').val();                  
+              var createdAt = data[7] || 0;           
+              if ((min == "" || max == "") || (moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max))) 
+              {                  
+                return true;
+              }
+              return false;
+            }
+          );
+
+          $('#vessel_details tfoot th').each(function(){
+            var title = $('#vessel_details thead th').eq( $(this).index() ).text();
+            $(this).html('<input type="text" placeholder="'+title+'" size="5" />' );
+          });   
+
+          $('.date-range-filter').change(function(){            
+            table.draw();
+          });
+
+          table = $('#vessel_details').DataTable({
+            "scrollY"         : '300px',
+            "bPaginate"       : false,
+            "scrollX"         : true,
+            "scrollCollapse"  : false, 
+            "bFilter"         : true,       
+            paging: false,
+            info: false
+          });
+
+          table.columns().every(function(){                    
+          var that = this;
+          $('input',this.footer()).on('keyup change',function(){
+            that.search(this.value).draw();
+            });
+          });
+
+          $('#vessel_body_filter').hide();
+          $('#vessel_details').DataTable().search( '' ).draw();
+          $(".dataTable").css("margin-bottom","0px");
+        }
+      },
+      error: function(err){
+        
+    }
+  });
+}
+
+  $(document).ready(function(){
+    load_dsr();  
+  })
+
+  
+  function  get_invoice_details(shipname,voyno,sno){      
+    $.ajax({
+      url      : '/it/vaild_invoice_details/',
+      type     : 'POST',
+      dataType : 'JSON',
+      data:{
+        'vessel_name' : shipname,             
+        'voyage_no'   : voyno, 
+        'sno'         : sno,                     
+      },
+      success: function(obj){ 
+      console.log(obj['button']);               
+        if(obj['display_button']=="none"){
+          //console.log(obj['display_button']);
+          $(".s_no_"+sno).css('display','none');
+          $(".num_"+sno).css('display','none');
+        }
+        if (obj['icon']=='none'){
+          $(".roll_"+sno).css('display','none');
+        }
+
+        if (obj['button']=='none'){
+         $(".s_no_"+sno).css('display','none'); 
+        }
+      },
+      error: function(err){
+        console.log(JSON.stringify(err,null,4))
+      }
+  });        
+}
+
+
+// function get_json_file(array){
+//   $.ajax({
+//       url: '/it/combined_tracker/',
+//       type: 'POST',
+//       dataType: 'JSON',
+//       data:{
+//         'array':JSON.stringify(array),
+//       },
+//       success: function(obj){  
+
+
+          
+//       },
+//       error: function(err){
+//         console.log(JSON.stringify(err,null,4))
+//       }
+//   }); 
+// } 
+
+
+function get_all_value(){
+
+  $(".single_select").each(function(){
+    if($(this).is(':checked')==true)
+    {
+      if (check_element($(this).attr('id'))==-1)
+      {
+        selection_array.push($(this).attr('id'))
+        //console.log(selection_array);
+      }
+    }
+    else
+    {
+      index = selection_array.indexOf($(this).attr('id'))
+      if (index!=-1)
+      {
+        selection_array.splice(index,1);
+      }
+    }
+  })
+
+  var start_dt = $('#start_date').val();
+  var end_dt = $('#end_date').val();
+
+  $.ajax({
+    url: '/it/combined_tracker/',
+    type: 'POST',
+    dataType: 'JSON',
+    data:{
+      'selection_array': JSON.stringify(selection_array),
+      'start_dt'  : JSON.stringify(start_dt),
+      'end_dt'    : JSON.stringify(end_dt),
+    },
+
+    success: function(obj){
+      //submit();
+      if(obj=="done")
+      {
+      var btn = "button";
+      swal({
+        title : "<b>Invoice successfully updated...</b>",
+        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+        html  : true,
+        showConfirmButton: false,
+      });
+      $(document).on('click', "#btnA", function(){
+        //window.location.href='/it/vessel_details/';
+        $.ajax({
+          url: '/it/submit_dsr_invoice/',
+          type: 'GET',
+          dataType: 'JSON',
+          data:{
+            //'selection_array': JSON.stringify(selection_array),     
+          },
+          success: function(obj){
+
+            $.ajax({
+              url      : '/it/chm_generate_invoice_pdf/',
+              type     : 'GET',
+              dataType : 'JSON',
+              data:{
+                              
+              },
+              success: function(obj)
+              {
+                console.log(obj);
+                window.open(obj['url_path'], '_blank');
+              },
+              error: function(err){
+                alert(JSON.stringify(err,null));
+              }
+            });           
+          },
+          error: function(err){
+           console.log(JSON.stringify(err,null));
+          }
+        });
+
+      });
+     }
+    },
+    error: function(err){
+     console.log(JSON.stringify(err,null));
+    }
+  });
+
+  // function get_remove_data(remove){
+    //console.log(remove);
+  //}
+
+}
+
+selection_array=[]
+function getcheckboxes() {
+    var node_list  = document.getElementsByTagName('input');
+    var checkboxes = [];
+    for (var i = 0; i < node_list.length; i++)
+    {
+      var node = node_list[i];
+      if (node.getAttribute('type') == 'checkbox')
+      {
+        checkboxes.push(node);
+      }
+    }
+  return checkboxes;
+}
+
+function toggle(source) {
+$(function (){
+    $("#checkall").change(function () {
+        if ($("#checkall").is(':checked')) {
+          $(".single_select").prop("checked", true);            
+        } else {
+          $(".single_select").prop("checked", false);            
+          selection_array=[]
+        }        
+    });
+  });
+}
+
+
+$('#combined_vessel').click(function(){
+  get_all_value();
+}); 
+
+</script>
+
+
+
+{% endblock %}

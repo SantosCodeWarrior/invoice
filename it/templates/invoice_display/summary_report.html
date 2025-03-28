@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+$(function(){
+    $("#start_date").datepicker();  
+ 	$("#end_date").datepicker();  
+
+  });
+</script>
+
+<center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+<div class="col-md-12" >   
+	<h3 id="header"><center>Summary Details</center></h3>
+		<div class="table-responsive">
+		<button id="export" class="btn btn-success" style="margin-left: 12px;cursor: pointer;display: none">EXPORT</button>
+		
+		<div class="input-group input-daterange" id="date_filter">        
+        	<input type="text" id="start_date" class="col-md-5 form-control date-range-filter hasDatepicker col-md-3" data-date-format="yyyy-mm-dd" placeholder="Select date">        
+        	<input type="text" id="end_date" class="form-control date-range-filter col-md-3" data-date-format="yyyy-mm-dd" placeholder="Select date">        
+        	<button class="btn btn-success" id="submit_invoice">Submit</button> 
+      </div>
+
+		<br>
+        <div style="overflow-x: scroll;width: 100%">        
+        <table id="summary_details" border="1" style="font-size: 10px;width: 19%">	    
+		  <tr>
+		    <td rowspan="3">Client</td>
+		    <td rowspan="3">Service</td>
+		    <td rowspan="3">Type</td>
+		    {% for x in client_array %}		   
+		    	<td colspan="4">{% if x.inv_date != "tt" %}{{x.inv_date}} {% else %}{% endif %}</td>
+ 			{% endfor %}
+		 </tr>		  
+		  <tr>	
+		  	{% for yx in client_array %}	
+		  		<td>Brought Forward </td>
+		    	<td>Invoice Raised</td>
+		    	<td>Remittance Received</td>
+		    	<td>Carry Forward</td>	
+		    {% endfor %}		
+		  </tr>
+		<tbody>			
+			{% for c in client_array %}
+			  <tr>
+			    <td>{{c.client_name}}</td>
+			    <td>{{c.service}}</td>
+			    <td>{{c.type}}</td>
+			  	{% for a in client_array %}		 
+			    <td class="get_client_id">{{c.id}}</td>
+			    <td></td>
+			    <td></td>
+			    <td></td>
+			    {% endfor %}
+			   {% endfor %}
+			  </tr>
+			</tbody>			
+		</table> 
+		</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){		
+    	$('#summary_details tr').each(function() {
+    	var get_client = $(this).find(".get_client_id").html();  
+    	//console.log(get_client); 
+ 	})  
+});
+
+$('#export').click(function(){
+	var summary_details = $('#summary_details').tableToJSON();
+   	$.ajax({
+      url      : "/it/summary_details_export/",
+      type     : 'POST',
+      dataType : 'JSON',
+      data :
+      {
+        'summary_details' : JSON.stringify(summary_details),        
+      },
+      success:function(obj){
+       
+      },
+      error:function(err){
+
+      }
+  });
+})
+</script>
+
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+{% endblock %}

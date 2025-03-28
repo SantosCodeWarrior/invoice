@@ -1,0 +1,1562 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<style type="text/css">
+  .handsontable td {
+    font-size: 11px;NOT RECONCILED
+    
+  }
+
+  .handsontable table thead th{       
+    font-size:12px;
+   
+  }
+
+scrollbar-color: white; /*
+</style>
+
+
+<div class="modal-body">
+<div class="container" style="margin-left: 14px;">
+ <h8 style="margin-left: 14px;font-size: 25px">Entry Reconciliation (INR)</h8> <a href="/it/view_rec_inr/"><button class="btn btn-primary" style="font-size: 9px;height: 25px;margin-top: -1px;margin-left: 12px;float: right;">View Reconciliation (INR)</button></a><br>&nbsp;
+  <div class="col-md-12">
+    <h8 style="margin-left: 14px;font-size: 15px;font-weight: bold">GST INR (Indian Clients) Entry Reconciliation<br><small style="margin-left: 14px;">User will need to manually type/select from drop down in the <nornal style="background-color:#f7f1ab">yellow-colored box</nornal>, while the other boxes are automatically generated</small></h8> 
+    <div class="row">
+      <div class="col-md-10">
+        <div style="overflow-x: scroll;overflow-y: scroll;width: 140%;height: 400px">
+          <div class = 'handsontable col-md-12' data-original  id = "rec_inr_list"></div> 
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="col-md-12">
+    <button class="btn btn-success" style = "margin-left: 14px;cursor: pointer;font-size: 10px;" id = "tab_type"  data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading">SUBMIT</button>
+  </div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+  function get_rob(){
+  igst_l     = [];
+  client_l   = [];
+  currency_l = [];
+  remitt_l   = [];
+
+  igst_l.push('Yes','No');
+  remitt_l.push('Both','IGST','Principle');
+
+  $("#rec_inr_list").empty()
+  container = document.getElementById('rec_inr_list');
+  rob = [];
+  rob = {   
+        'remit_date'          : '',
+        'reference_no'        : 0,
+        'amt_received'        : 0,
+        'status'              : 0,
+        'tot_remitt'          : 0,
+        'charges_any'         : 0,
+
+        'remitt_amt1'         : 0,
+        'invoice_no1'         : '',
+        'client_list1'        : '',
+        'principle1'          : 0,
+        'igst1'               : 'SELECT',
+        'igst_value1'         : 0,
+        'tds1'                : 0,
+        'tds_amt1'            : 0,
+        'tds_igst1'           : 0,
+        'tds_igst_amt1'       : 0,
+        'principle_tds_ded1'  : 0,
+        'remit1'              : 'SELECT',
+
+        'remitt_amt2'         : 0,
+        'invoice_no2'         : '',
+        'client_list2'        : '',
+        'principle2'          : 0,
+        'igst2'               : 'SELECT',
+        'igst_value2'         : 0,
+        'tds2'                : 0,
+        'tds_amt2'            : 0,
+        'tds_igst2'           : 0,
+        'tds_igst_amt2'       : 0,
+        'principle_tds_ded2'  : 0,
+        'remit2'              : 'SELECT',
+
+        'remitt_amt3'         : 0,
+        'invoice_no3'         : '',
+        'client_list3'        : '',
+        'principle3'          : 0,
+        'igst3'               : 'SELECT',
+        'igst_value3'         : 0,
+        'tds3'                : 0,
+        'tds_amt3'            : 0,
+        'tds_igst3'           : 0,
+        'tds_igst_amt3'       : 0,
+        'principle_tds_ded3'  : 0,
+        'remit3'              : 'SELECT',
+
+        'remitt_amt4'         : 0,
+        'invoice_no4'         : '',
+        'client_list4'        : '',
+        'principle4'          : 0,
+        'igst4'               : 'SELECT',
+        'igst_value4'         : 0,
+        'tds4'                : 0,
+        'tds_amt4'            : 0,
+        'tds_igst4'           : 0,
+        'tds_igst_amt4'       : 0,
+        'principle_tds_ded4'  : 0,
+        'remit4'              : 'SELECT',
+
+
+        'remitt_amt5'         : 0,
+        'invoice_no5'         : '',
+        'client_list5'        : '',
+        'principle5'          : 0,
+        'igst5'               : 'SELECT',
+        'igst_value5'         : 0,
+        'tds5'                : 0,
+        'tds_amt5'            : 0,
+        'tds_igst5'           : 0,
+        'tds_igst_amt5'       : 0,
+        'principle_tds_ded5'  : 0,
+        'remit5'              : 'SELECT',
+
+        'remitt_amt6'         : 0,
+        'invoice_no6'         : '',
+        'client_list6'        : '',
+        'principle6'          : 0,
+        'igst6'               : 'SELECT',
+        'igst_value6'         : 0,
+        'tds6'                : 0,
+        'tds_amt6'            : 0,
+        'tds_igst6'           : 0,
+        'tds_igst_amt6'       : 0,
+        'principle_tds_ded6'  : 0,
+        'remit6'              : 'SELECT',
+
+        'remitt_amt7'         : 0,
+        'invoice_no7'         : '',
+        'client_list7'        : '',
+        'principle7'          : 0,
+        'igst7'               : 'SELECT',
+        'igst_value7'         : 0,
+        'tds7'                : 0,
+        'tds_amt7'            : 0,
+        'tds_igst7'           : 0,
+        'tds_igst_amt7'       : 0,
+        'principle_tds_ded7'  : 0,
+        'remit7'              : 'SELECT',
+
+        'remitt_amt8'         : 0,
+        'invoice_no8'         : '',
+        'client_list8'        : '',
+        'principle8'          : 0,
+        'igst8'               : 'SELECT',
+        'igst_value8'         : 0,
+        'tds8'                : 0,
+        'tds_amt8'            : 0,
+        'tds_igst8'           : 0,
+        'tds_igst_amt8'       : 0,
+        'principle_tds_ded8'  : 0,
+        'remit8'              : 'SELECT',
+
+        'remitt_amt9'         : 0,
+        'invoice_no9'         : '',
+        'client_list9'        : '',
+        'principle9'          : 0,
+        'igst9'               : 'SELECT',
+        'igst_value9'         : 0,
+        'tds9'                : 0,
+        'tds_amt9'            : 0,
+        'tds_igst9'           : 0,
+        'tds_igst_amt9'       : 0,
+        'principle_tds_ded9'  : 0,
+        'remit9'              : 'SELECT',
+
+        'remitt_amt10'        : 0,
+        'invoice_no10'        : '',
+        'client_list10'       : '',
+        'principle10'         : 0,
+        'igst10'              : 'SELECT',
+        'igst_value10'        : 0,
+        'tds10'               : 0,
+        'tds_amt10'           : 0,
+        'tds_igst10'          : 0,
+        'tds_igst_amt10'      : 0,
+        'principle_tds_ded10' : 0,
+        'remit10'             : 'SELECT',
+  };
+
+
+  colHeaders = ['Remit. Date','Ref No.','Amount Received','Status','Total Remitt','Charges any','Remitt. Amt 1','Invoice No 1','Client 1','Principle 1','IGST? 1','IGST Value 1','TDS% 1','TDS Amt 1','TDS IGST% 1','TDS IGST Amt 1','Principle after TDS Ded 1','Remit 1','Remitt. Amt 2','Invoice No 2','Client 2','Principle 2','IGST? 2','IGST Value 2','TDS% 2','TDS Amt 2','TDS IGST% 2','TDS IGST Amt 2','Principle After TDS Ded 2','Remit 2','Remitt. Amt 3','Invoice No 3','Client 3','Principle 3','IGST? 3','IGST Value 3','TDS% 3','TDS Amt 3','TDS IGST% 3','TDS IGST Amt 3','Principle after TDS Ded 3','Remit 3','Remitt. Amt 4','Invoice No 4','Client 4','Principle 4','IGST? 4','IGST Value 4','TDS% 4','TDS Amt 4','TDS IGST% 4','TDS IGST Amt 4','Principle after TDS Ded 4','Remit 4','Remitt. Amt 5','Invoice No 5','Client 5','Principle 5','IGST? 5','IGST Value 5','TDS% 5','TDS Amt 5','TDS IGST% 5','TDS IGST Amt 5','Principle after TDS Ded 5','Remit 5','Remitt. Amt 6','Invoice No 6','Client 6','Principle 6','IGST? 6','IGST Value 6','TDS% 6','TDS Amt 6','TDS IGST% 6','TDS IGST Amt 6','Principle After TDS Ded 6','Remit 6','Remitt. Amt 7','Invoice No 7','Client 7','Principle 7','IGST? 7','IGST Value 7','TDS% 7','TDS Amt 7','TDS IGST% 7','TDS IGST Amt 7','Principle after TDS Ded 7','Remit 7','Remitt. Amt 8','Invoice No 8','Client 8','Principle 8','IGST? 8','IGST Value 8','TDS% 8','TDS Amt 8','TDS IGST% 8','TDS IGST Amt 8','Principle after TDS Ded 8','Remit 8','Remitt. Amt 9','Invoice No 9','Client 9','Principle 9','IGST? 9','IGST Value 9','TDS% 9','TDS Amt 9','TDS IGST% 9','TDS IGST Amt 9','Principle after TDS Ded 9','Remit 9','Remitt. Amt 10','Invoice No 10','Client 10','Principle 10','IGST? 10','IGST Value 10','TDS% 10','TDS Amt 10','TDS IGST% 10','TDS IGST Amt 10','Principle after TDS Ded 10','Remit 10']
+  columns  = 
+  [
+    {data : 'remit_date',type:'date',renderer: manual_types},
+    {data : 'reference_no',type:'text',renderer: manual_types},
+    {data : 'amt_received',type:'numeric',renderer: manual_types},
+    {data : 'status', type: 'text'},
+    {data : 'tot_remitt', type: 'text',renderer: decimal_type},
+    {data : 'charges_any', type: 'text',renderer: manual_types},
+    {data : 'remitt_amt1', type: 'numeric'},
+    {data : 'invoice_no1', type: 'text',renderer: manual_types,grender1},
+    {data : 'client_list1', type: 'text'},    
+    {data : 'principle1', type: 'text',renderer: grender1},
+    {data : 'igst1', type:'dropdown',strict: false,source: igst_l,renderer: manual_types}, 
+    {data : 'igst_value1',type:'numeric'}, 
+    {data : 'tds1',type:'numeric',renderer: manual_types}, 
+    {data : 'tds_amt1',type:'numeric'}, 
+    {data : 'tds_igst1',type:'numeric',renderer: manual_types}, 
+    {data : 'tds_igst_amt1',type:'numeric'}, 
+    {data : 'principle_tds_ded1',type:'numeric'}, 
+    {data : 'remit1', type:'dropdown',strict: false,source: remitt_l,renderer: manual_types},
+
+    {data : 'remitt_amt2', type: 'text',renderer: header_colors},
+    {data : 'invoice_no2', type: 'text',renderer: manual_types, grender2,header_colors},
+    {data : 'client_list2', type: 'text',renderer: header_colors},    
+    {data : 'principle2', type: 'text',renderer: grender2, header_colors},
+    {data : 'igst2', type:'dropdown',strict: false,source: igst_l,renderer: manual_types,header_colors}, 
+    {data : 'igst_value2',type:'text',renderer: header_colors}, 
+    {data : 'tds2',type:'text',renderer: manual_types, header_colors}, 
+    {data : 'tds_amt2',type:'text',renderer: header_colors}, 
+    {data : 'tds_igst2',type:'text',renderer: manual_types,header_colors}, 
+    {data : 'tds_igst_amt2',type:'text',renderer: header_colors}, 
+    {data : 'principle_tds_ded2',type:'text',renderer: header_colors}, 
+    {data : 'remit2', type:'dropdown',strict: false,source: remitt_l,renderer: manual_types,header_colors},
+
+    {data : 'remitt_amt3', type: 'text'},
+    {data : 'invoice_no3', type: 'text',renderer: manual_types,grender3},
+    {data : 'client_list3', type: 'text'},    
+    {data : 'principle3', type: 'text',renderer: grender3},
+    {data : 'igst3', type:'dropdown',strict: false,source: igst_l,renderer: manual_types}, 
+    {data : 'igst_value3',type:'text'}, 
+    {data : 'tds3',type:'text'}, 
+    {data : 'tds_amt3',type:'text'}, 
+    {data : 'tds_igst3',type:'text'}, 
+    {data : 'tds_igst_amt3',type:'text'}, 
+    {data : 'principle_tds_ded3',type:'text'}, 
+    {data : 'remit3', type:'dropdown',strict: false,source: remitt_l,renderer: manual_types},
+
+    {data : 'remitt_amt4', type: 'text'},
+    {data : 'invoice_no4', type: 'text',renderer: manual_types,grender4},
+    {data : 'client_list4', type: 'text'},    
+    {data : 'principle4', type: 'text',renderer: grender4},
+    {data : 'igst4', type:'dropdown',strict: false,source: igst_l,renderer: manual_types}, 
+    {data : 'igst_value4',type:'text'}, 
+    {data : 'tds4',type:'text',renderer: manual_types}, 
+    {data : 'tds_amt4',type:'text'}, 
+    {data : 'tds_igst4',type:'text',renderer: manual_types}, 
+    {data : 'tds_igst_amt4',type:'text'}, 
+    {data : 'principle_tds_ded4',type:'text'}, 
+    {data : 'remit4', type:'dropdown',strict: false,source: remitt_l,renderer: manual_types},
+
+
+    {data : 'remitt_amt5', type: 'text'},
+    {data : 'invoice_no5', type: 'text',renderer: manual_types,grender5},
+    {data : 'client_list5', type: 'text'},    
+    {data : 'principle5', type: 'text',renderer: grender5},
+    {data : 'igst5', type:'dropdown',strict: false,source: igst_l,renderer: manual_types}, 
+    {data : 'igst_value5',type:'text'}, 
+    {data : 'tds5',type:'text',renderer: manual_types}, 
+    {data : 'tds_amt5',type:'text'}, 
+    {data : 'tds_igst5',type:'text'}, 
+    {data : 'tds_igst_amt5',type:'text'}, 
+    {data : 'principle_tds_ded5',type:'text'}, 
+    {data : 'remit5', type:'dropdown',strict: false,source: remitt_l,renderer: manual_types},
+
+    {data : 'remitt_amt6', type: 'text'},
+    {data : 'invoice_no6', type: 'text',renderer: manual_types,grender6},
+    {data : 'client_list6', type: 'text'},    
+    {data : 'principle6', type: 'text',renderer: grender6},
+    {data : 'igst6', type:'dropdown',strict: false,source: igst_l,renderer: manual_types}, 
+    {data : 'igst_value6',type:'text'}, 
+    {data : 'tds6',type:'text'}, 
+    {data : 'tds_amt6',type:'text'}, 
+    {data : 'tds_igst6',type:'text'}, 
+    {data : 'tds_igst_amt6',type:'text'}, 
+    {data : 'principle_tds_ded6',type:'text'}, 
+    {data : 'remit6', type:'dropdown',strict: false,source: remitt_l,renderer: manual_types},
+
+    {data : 'remitt_amt7', type: 'text'},
+    {data : 'invoice_no7', type: 'text',renderer: manual_types,grender7},
+    {data : 'client_list7', type: 'text'},    
+    {data : 'principle7', type: 'text',renderer: grender7},
+    {data : 'igst7', type:'dropdown',strict: false,source: igst_l,renderer: manual_types}, 
+    {data : 'igst_value7',type:'text'}, 
+    {data : 'tds7',type:'text'}, 
+    {data : 'tds_amt7',type:'text'}, 
+    {data : 'tds_igst7',type:'text'}, 
+    {data : 'tds_igst_amt7',type:'text'}, 
+    {data : 'principle_tds_ded7',type:'text'}, 
+    {data : 'remit7', type:'dropdown',strict: false,source: remitt_l,renderer: manual_types},
+
+    {data : 'remitt_amt8', type: 'text'},
+    {data : 'invoice_no8', type: 'text',renderer: manual_types,grender8},
+    {data : 'client_list8', type: 'text'},    
+    {data : 'principle8', type: 'text',renderer: grender8},
+    {data : 'igst8', type:'dropdown',strict: false,source: igst_l,renderer: manual_types}, 
+    {data : 'igst_value8',type:'text'}, 
+    {data : 'tds8',type:'text'}, 
+    {data : 'tds_amt8',type:'text'}, 
+    {data : 'tds_igst8',type:'text'}, 
+    {data : 'tds_igst_amt8',type:'text'}, 
+    {data : 'principle_tds_ded8',type:'text'}, 
+    {data : 'remit8', type:'dropdown',strict: false,source: remitt_l,renderer: manual_types},
+
+    {data : 'remitt_amt9', type: 'text'},
+    {data : 'invoice_no9', type: 'text',renderer: manual_types,grender9},
+    {data : 'client_list9', type: 'text'},    
+    {data : 'principle9', type: 'text',renderer: grender9},
+    {data : 'igst9', type:'dropdown',strict: false,source: igst_l,renderer: manual_types}, 
+    {data : 'igst_value9',type:'text'}, 
+    {data : 'tds9',type:'text'}, 
+    {data : 'tds_amt9',type:'text'}, 
+    {data : 'tds_igst9',type:'text'}, 
+    {data : 'tds_igst_amt9',type:'text'}, 
+    {data : 'principle_tds_ded9',type:'text'}, 
+    {data : 'remit9', type:'dropdown',strict: false,source: remitt_l,renderer: manual_types},
+
+    {data : 'remitt_amt10', type: 'text'},
+    {data : 'invoice_no10', type: 'text',renderer: manual_types,grender10},
+    {data : 'client_list10', type: 'text'},    
+    {data : 'principle10', type: 'text',renderer: grender10},
+    {data : 'igst10', type:'dropdown',strict: false,source: igst_l,renderer: manual_types}, 
+    {data : 'igst_value10',type:'text'}, 
+    {data : 'tds10',type:'text',renderer: manual_types}, 
+    {data : 'tds_amt10',type:'text'}, 
+    {data : 'tds_igst10',type:'text'}, 
+    {data : 'tds_igst_amt10',type:'text'}, 
+    {data : 'principle_tds_ded10',type:'text'}, 
+    {data : 'remit10', type:'dropdown',strict: false,source: remitt_l,renderer: manual_types},
+  ]
+
+
+  VA_table6  = new Handsontable(container,{
+    data                : rob,
+    colHeaders          : colHeaders,    
+    columns             : columns,
+    //minSpareRows        : 3,
+    rowHeaders          : true,      
+    contextMenu         : true,
+    columnSorting       : true,  
+    
+    colWidths           : [100,100,150,100,100,100,150,100,240,100,100,100,100,150,100,160,190,100,150,100,240,100,100,100,100,150,100,150,190,100,150,100,240,100,100,100,100,150,100,150,190,100,150,100,240,100,100,100,100,150,100,150,190,100,150,100,240,100,100,100,100,150,100,150,190,100,150,100,240,100,100,100,100,150,100,150,190,100,150,100,240,100,100,100,100,150,100,150,190,100,150,100,240,100,100,100,100,150,100,150,190,100,150,100,240,100,100,100,100,150,100,150,190,100,150,100,240,100,100,100,100,150,100,150,190,120],   
+
+    afterGetColHeader: function (col, TH) {
+    if (col === 6 || col === 7|| col === 8 || col === 9 || col === 10 || col === 11 || col === 12 || col === 13 || col === 14 || col === 15 || col === 16 || col === 17 ) { 
+      TH.style.color = 'blue'; 
+    }
+
+    if (col === 30 || col === 31|| col === 32 || col === 33 || col === 34 || col === 35 || col === 36 || col === 37 || col === 38 || col === 39 || col === 40 || col === 41 ) { 
+      TH.style.color = 'blue'; 
+    }
+
+    if (col === 54 || col === 55|| col === 56 || col === 57 || col === 58 || col === 59 || col === 60 || col === 61 || col === 62 || col === 63 || col === 64 || col === 65 ) { 
+      TH.style.color = 'blue'; 
+    }
+
+    if (col === 78 || col === 79|| col === 80 || col === 81 || col === 82 || col === 83 || col === 84 || col === 85 || col === 86 || col === 87 || col === 88 || col === 89 ) { 
+      TH.style.color = 'blue'; 
+    }
+
+    if (col === 102 || col === 103|| col === 104 || col === 105 || col === 106 || col === 107 || col === 108 || col === 109 || col === 110 || col === 111 || col === 112 || col === 113 ) { 
+      TH.style.color = 'blue'; 
+    }
+  },
+
+  });
+
+
+}
+
+
+function grender1(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no1  = (data[0]['invoice_no1'])   
+    s_n          = 1   
+
+    $.ajax({
+      url : "/it/calc_remittance_datas_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),      
+        'invoice_no' : JSON.stringify(invoice_no1),
+      },
+
+      success : function(obj_data){
+        td.innerHTML = obj_data['qry_deta'][0]['amountss'];        
+        cellProperties['instance']['observedData'][0]['client_list1'] = obj_data['qry_deta'][0]['client_name1'];
+        if (cellProperties['instance']['observedData'][0]['igst1']=='Yes'){
+          cellProperties['instance']['observedData'][0]['igst_value1'] = obj_data['qry_deta'][0]['amountss']*18/100;
+        }else{
+          cellProperties['instance']['observedData'][0]['igst_value1'] = 0;
+        }
+
+        if(cellProperties['instance']['observedData'][0]['tds1']!=''){
+            cellProperties['instance']['observedData'][0]['tds_amt1'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds1']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_amt1'] = 0;
+        }
+        
+        if(cellProperties['instance']['observedData'][0]['tds_igst1']!=0){
+            cellProperties['instance']['observedData'][0]['tds_igst_amt1'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds_igst1']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_igst_amt1'] = 0;
+        }
+
+        cellProperties['instance']['observedData'][0]['principle_tds_ded1'] = (obj_data['qry_deta'][0]['amountss']-(cellProperties['instance']['observedData'][0]['tds_amt1']+cellProperties['instance']['observedData'][0]['tds_igst_amt1']))
+
+        cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['principle_tds_ded1'];
+
+
+        if(cellProperties['instance']['observedData'][0]['remit1']=='IGST'){
+           cellProperties['instance']['observedData'][0]['remitt_amt1'] = cellProperties['instance']['observedData'][0]['igst_value1'];
+        }  
+
+        if(cellProperties['instance']['observedData'][0]['remit1']=='Both'){
+            cellProperties['instance']['observedData'][0]['remitt_amt1'] = (cellProperties['instance']['observedData'][0]['igst_value1'] + cellProperties['instance']['observedData'][0]['principle_tds_ded1']);
+        }
+
+        if(cellProperties['instance']['observedData'][0]['remit1']=='Principle'){
+           cellProperties['instance']['observedData'][0]['remitt_amt1'] = cellProperties['instance']['observedData'][0]['principle_tds_ded1'];
+        }
+
+        tot_remittance1  = cellProperties['instance']['observedData'][0]['tot_remitt'];
+        amount_received1 = cellProperties['instance']['observedData'][0]['amt_received'];
+        diff_status1     = (amount_received1 -tot_remittance1);     
+        
+
+        if(tot_remittance1==0){
+            cellProperties['instance']['observedData'][0]['status'] = "";
+        }
+        else{
+            if(diff_status1!=0){
+                cellProperties['instance']['observedData'][0]['status'] = "";               
+            }
+            if(diff_status1>=10){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED HO Gaya hai";             
+            }
+            else
+            {
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED NAHI HUA";   
+            }
+
+            if(diff_status1==0){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED";                       
+            }
+        } 
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+function grender2(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no2  = (data[0]['invoice_no2'])   
+    s_n          = 2  
+    $.ajax({
+      url : "/it/calc_remittance_datas_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),      
+        'invoice_no' : JSON.stringify(invoice_no2),
+      },
+
+      success : function(obj_data){
+        td.innerHTML = obj_data['qry_deta'][0]['amountss'];        
+        cellProperties['instance']['observedData'][0]['client_list2'] = obj_data['qry_deta'][0]['client_name1'];
+        if (cellProperties['instance']['observedData'][0]['igst2']=='Yes'){
+          cellProperties['instance']['observedData'][0]['igst_value2'] = obj_data['qry_deta'][0]['amountss']*18/100;
+        }else{
+          cellProperties['instance']['observedData'][0]['igst_value2'] = 0;
+        }
+        
+        if(cellProperties['instance']['observedData'][0]['tds2']!=''){
+            cellProperties['instance']['observedData'][0]['tds_amt2'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds2']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_amt2'] = 0;
+        }
+        
+        
+        if(cellProperties['instance']['observedData'][0]['tds_igst2']!=0){
+            cellProperties['instance']['observedData'][0]['tds_igst_amt2'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds_igst2']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_igst_amt2'] = 0;
+        }
+
+        cellProperties['instance']['observedData'][0]['principle_tds_ded2'] = (obj_data['qry_deta'][0]['amountss']-(cellProperties['instance']['observedData'][0]['tds_amt2']+cellProperties['instance']['observedData'][0]['tds_igst_amt2']))
+
+        cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['remitt_amt1'] + cellProperties['instance']['observedData'][0]['remitt_amt2'];
+
+
+        if(cellProperties['instance']['observedData'][0]['remit2']=='IGST'){
+           cellProperties['instance']['observedData'][0]['remitt_amt2'] = cellProperties['instance']['observedData'][0]['igst_value2'];
+        }  
+
+        if(cellProperties['instance']['observedData'][0]['remit2']=='Both'){
+            cellProperties['instance']['observedData'][0]['remitt_amt2'] = (cellProperties['instance']['observedData'][0]['igst_value2'] + cellProperties['instance']['observedData'][0]['principle_tds_ded2']);
+        }
+
+        if(cellProperties['instance']['observedData'][0]['remit2']=='Principle'){
+           cellProperties['instance']['observedData'][0]['remitt_amt2'] = cellProperties['instance']['observedData'][0]['principle_tds_ded2'];
+        }
+
+        tot_remittance1  = cellProperties['instance']['observedData'][0]['tot_remitt'];
+        amount_received1 = cellProperties['instance']['observedData'][0]['amt_received'];
+        diff_status1     = (amount_received1 -tot_remittance1);     
+        
+
+        if(tot_remittance1==0){
+            cellProperties['instance']['observedData'][0]['status'] = "";
+        }
+        else{
+            if(diff_status1!=0){
+                cellProperties['instance']['observedData'][0]['status'] = "";               
+            }
+            if(diff_status1<=10){
+                cellProperties['instance']['observedData'][0]['status'] = "NOT RECONCILED";             
+            }
+
+            if(diff_status1==0){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED";                       
+            }
+        } 
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+function grender3(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no3  = (data[0]['invoice_no3'])   
+    s_n          = 3  
+    $.ajax({
+      url : "/it/calc_remittance_datas_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),      
+        'invoice_no' : JSON.stringify(invoice_no3),
+      },
+
+      success : function(obj_data){
+        td.innerHTML = obj_data['qry_deta'][0]['amountss'];        
+        cellProperties['instance']['observedData'][0]['client_list3'] = obj_data['qry_deta'][0]['client_name1'];
+        if (cellProperties['instance']['observedData'][0]['igst3']=='Yes'){
+          cellProperties['instance']['observedData'][0]['igst_value3'] = obj_data['qry_deta'][0]['amountss']*18/100;
+        }else{
+          cellProperties['instance']['observedData'][0]['igst_value3'] = 0;
+        }
+
+        if(cellProperties['instance']['observedData'][0]['tds3']!=''){
+            cellProperties['instance']['observedData'][0]['tds_amt3'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds3']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_amt3'] = 0;
+        }
+
+        
+        if(cellProperties['instance']['observedData'][0]['tds_igst3']!=0){
+            cellProperties['instance']['observedData'][0]['tds_igst_amt3'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds_igst3']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_igst_amt3'] = 0;
+        }
+
+        cellProperties['instance']['observedData'][0]['principle_tds_ded3'] = (obj_data['qry_deta'][0]['amountss']-(cellProperties['instance']['observedData'][0]['tds_amt3']+cellProperties['instance']['observedData'][0]['tds_igst_amt3']))
+
+       // cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['principle_tds_ded3'];
+       cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['remitt_amt1']+cellProperties['instance']['observedData'][0]['remitt_amt2']+cellProperties['instance']['observedData'][0]['remitt_amt3'];
+
+        if(cellProperties['instance']['observedData'][0]['remit3']=='IGST'){
+           cellProperties['instance']['observedData'][0]['remitt_amt3'] = cellProperties['instance']['observedData'][0]['igst_value3'];
+        }  
+
+        if(cellProperties['instance']['observedData'][0]['remit3']=='Both'){
+            cellProperties['instance']['observedData'][0]['remitt_amt3'] = (cellProperties['instance']['observedData'][0]['igst_value3'] + cellProperties['instance']['observedData'][0]['principle_tds_ded3']);
+        }
+
+        if(cellProperties['instance']['observedData'][0]['remit3']=='Principle'){
+           cellProperties['instance']['observedData'][0]['remitt_amt3'] = cellProperties['instance']['observedData'][0]['principle_tds_ded3'];
+        }
+
+        tot_remittance1  = cellProperties['instance']['observedData'][0]['tot_remitt'];
+        amount_received1 = cellProperties['instance']['observedData'][0]['amt_received'];
+        diff_status1     = (amount_received1 -tot_remittance1);     
+        
+
+        if(tot_remittance1==0){
+            cellProperties['instance']['observedData'][0]['status'] = "";
+        }
+        else{
+            if(diff_status1!=0){
+                cellProperties['instance']['observedData'][0]['status'] = "";               
+            }
+            if(diff_status1<=10){
+                cellProperties['instance']['observedData'][0]['status'] = "NOT RECONCILED";             
+            }
+
+            if(diff_status1==0){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED";                       
+            }
+        } 
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+function grender4(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no4  = (data[0]['invoice_no4'])   
+    s_n          = 4 
+    $.ajax({
+      url : "/it/calc_remittance_datas_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),      
+        'invoice_no' : JSON.stringify(invoice_no4),
+      },
+
+      success : function(obj_data){
+        td.innerHTML = obj_data['qry_deta'][0]['amountss'];        
+        cellProperties['instance']['observedData'][0]['client_list4'] = obj_data['qry_deta'][0]['client_name1'];
+        if (cellProperties['instance']['observedData'][0]['igst4']=='Yes'){
+          cellProperties['instance']['observedData'][0]['igst_value4'] = obj_data['qry_deta'][0]['amountss']*18/100;
+        }else{
+          cellProperties['instance']['observedData'][0]['igst_value4'] = 0;
+        }
+
+        if(cellProperties['instance']['observedData'][0]['tds4']!=''){
+            cellProperties['instance']['observedData'][0]['tds_amt4'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds4']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_amt4'] = 0;
+        }
+
+        
+        if(cellProperties['instance']['observedData'][0]['tds_igst4']!=0){
+            cellProperties['instance']['observedData'][0]['tds_igst_amt4'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds_igst4']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_igst_amt4'] = 0;
+        }
+
+        cellProperties['instance']['observedData'][0]['principle_tds_ded4'] = (obj_data['qry_deta'][0]['amountss']-(cellProperties['instance']['observedData'][0]['tds_amt4']+cellProperties['instance']['observedData'][0]['tds_igst_amt4']))
+
+        cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['remitt_amt1'] + cellProperties['instance']['observedData'][0]['remitt_amt2'] + cellProperties['instance']['observedData'][0]['remitt_amt3'] + cellProperties['instance']['observedData'][0]['remitt_amt4'];
+
+        if(cellProperties['instance']['observedData'][0]['remit4']=='IGST'){
+           cellProperties['instance']['observedData'][0]['remitt_amt4'] = cellProperties['instance']['observedData'][0]['igst_value4'];
+        }  
+
+        if(cellProperties['instance']['observedData'][0]['remit4']=='Both'){
+            cellProperties['instance']['observedData'][0]['remitt_amt4'] = (cellProperties['instance']['observedData'][0]['igst_value4'] + cellProperties['instance']['observedData'][0]['principle_tds_ded4']);
+        }
+
+        if(cellProperties['instance']['observedData'][0]['remit4']=='Principle'){
+           cellProperties['instance']['observedData'][0]['remitt_amt4'] = cellProperties['instance']['observedData'][0]['principle_tds_ded4'];
+        }
+
+        tot_remittance1  = cellProperties['instance']['observedData'][0]['tot_remitt'];
+        amount_received1 = cellProperties['instance']['observedData'][0]['amt_received'];
+        diff_status1     = (amount_received1 -tot_remittance1);     
+        
+
+        if(tot_remittance1==0){
+            cellProperties['instance']['observedData'][0]['status'] = "";
+        }
+        else{
+            if(diff_status1!=0){
+                cellProperties['instance']['observedData'][0]['status'] = "";               
+            }
+            if(diff_status1<=10){
+                cellProperties['instance']['observedData'][0]['status'] = "NOT RECONCILED";             
+            }
+
+            if(diff_status1==0){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED";                       
+            }
+        } 
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+function grender5(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no5  = (data[0]['invoice_no5'])   
+    s_n          = 5 
+    $.ajax({
+      url : "/it/calc_remittance_datas_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),      
+        'invoice_no' : JSON.stringify(invoice_no5),
+      },
+
+      success : function(obj_data){
+        td.innerHTML = obj_data['qry_deta'][0]['amountss'];        
+        cellProperties['instance']['observedData'][0]['client_list5'] = obj_data['qry_deta'][0]['client_name1'];
+        if (cellProperties['instance']['observedData'][0]['igst5']=='Yes'){
+          cellProperties['instance']['observedData'][0]['igst_value5'] = obj_data['qry_deta'][0]['amountss']*18/100;
+        }else{
+          cellProperties['instance']['observedData'][0]['igst_value5'] = 0;
+        }
+
+        if(cellProperties['instance']['observedData'][0]['tds5']!=''){
+            cellProperties['instance']['observedData'][0]['tds_amt5'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds5']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_amt5'] = 0;
+        }
+
+        
+        if(cellProperties['instance']['observedData'][0]['tds_igst5']!=0){
+            cellProperties['instance']['observedData'][0]['tds_igst_amt5'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds_igst5']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_igst_amt5'] = 0;
+        }
+
+        cellProperties['instance']['observedData'][0]['principle_tds_ded5'] = (obj_data['qry_deta'][0]['amountss']-(cellProperties['instance']['observedData'][0]['tds_amt5']+cellProperties['instance']['observedData'][0]['tds_igst_amt5']))
+
+        //cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['principle_tds_ded5'];
+        cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['remitt_amt1'] + cellProperties['instance']['observedData'][0]['remitt_amt2'] + cellProperties['instance']['observedData'][0]['remitt_amt3'] + cellProperties['instance']['observedData'][0]['remitt_amt4'] + cellProperties['instance']['observedData'][0]['remitt_amt5'];
+
+
+        if(cellProperties['instance']['observedData'][0]['remit5']=='IGST'){
+           cellProperties['instance']['observedData'][0]['remitt_amt5'] = cellProperties['instance']['observedData'][0]['igst_value5'];
+        }  
+
+        if(cellProperties['instance']['observedData'][0]['remit5']=='Both'){
+            cellProperties['instance']['observedData'][0]['remitt_amt5'] = (cellProperties['instance']['observedData'][0]['igst_value5'] + cellProperties['instance']['observedData'][0]['principle_tds_ded5']);
+        }
+
+        if(cellProperties['instance']['observedData'][0]['remit5']=='Principle'){
+           cellProperties['instance']['observedData'][0]['remitt_amt5'] = cellProperties['instance']['observedData'][0]['principle_tds_ded5'];
+        }
+
+        tot_remittance1  = cellProperties['instance']['observedData'][0]['tot_remitt'];
+        amount_received1 = cellProperties['instance']['observedData'][0]['amt_received'];
+        diff_status1     = (amount_received1 -tot_remittance1);     
+        
+
+        if(tot_remittance1==0){
+            cellProperties['instance']['observedData'][0]['status'] = "";
+        }
+        else{
+            if(diff_status1!=0){
+                cellProperties['instance']['observedData'][0]['status'] = "";               
+            }
+            if(diff_status1<=10){
+                cellProperties['instance']['observedData'][0]['status'] = "NOT RECONCILED";             
+            }
+
+            if(diff_status1==0){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED";                       
+            }
+        } 
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+function grender6(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no6  = (data[0]['invoice_no6'])   
+    s_n          = 6
+    $.ajax({
+      url : "/it/calc_remittance_datas_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),      
+        'invoice_no' : JSON.stringify(invoice_no6),
+      },
+
+      success : function(obj_data){
+        td.innerHTML = obj_data['qry_deta'][0]['amountss'];        
+        cellProperties['instance']['observedData'][0]['client_list6'] = obj_data['qry_deta'][0]['client_name1'];
+        if (cellProperties['instance']['observedData'][0]['igst6']=='Yes'){
+          cellProperties['instance']['observedData'][0]['igst_value6'] = obj_data['qry_deta'][0]['amountss']*18/100;
+        }else{
+          cellProperties['instance']['observedData'][0]['igst_value6'] = 0;
+        }
+
+        if(cellProperties['instance']['observedData'][0]['tds6']!=''){
+            cellProperties['instance']['observedData'][0]['tds_amt6'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds6']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_amt6'] = 0;
+        }
+
+        
+        if(cellProperties['instance']['observedData'][0]['tds_igst6']!=0){
+            cellProperties['instance']['observedData'][0]['tds_igst_amt6'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds_igst6']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_igst_amt6'] = 0;
+        }
+
+        cellProperties['instance']['observedData'][0]['principle_tds_ded6'] = (obj_data['qry_deta'][0]['amountss']-(cellProperties['instance']['observedData'][0]['tds_amt6']+cellProperties['instance']['observedData'][0]['tds_igst_amt6']))
+
+        //cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['principle_tds_ded6'];
+        cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['remitt_amt1'] + cellProperties['instance']['observedData'][0]['remitt_amt2'] + cellProperties['instance']['observedData'][0]['remitt_amt3'] + cellProperties['instance']['observedData'][0]['remitt_amt4'] + cellProperties['instance']['observedData'][0]['remitt_amt5'] + cellProperties['instance']['observedData'][0]['remitt_amt6'];
+
+
+        if(cellProperties['instance']['observedData'][0]['remit6']=='IGST'){
+           cellProperties['instance']['observedData'][0]['remitt_amt6'] = cellProperties['instance']['observedData'][0]['igst_value6'];
+        }  
+
+        if(cellProperties['instance']['observedData'][0]['remit6']=='Both'){
+            cellProperties['instance']['observedData'][0]['remitt_amt6'] = (cellProperties['instance']['observedData'][0]['igst_value6'] + cellProperties['instance']['observedData'][0]['principle_tds_ded6']);
+        }
+
+        if(cellProperties['instance']['observedData'][0]['remit6']=='Principle'){
+           cellProperties['instance']['observedData'][0]['remitt_amt6'] = cellProperties['instance']['observedData'][0]['principle_tds_ded6'];
+        }
+
+        tot_remittance1  = cellProperties['instance']['observedData'][0]['tot_remitt'];
+        amount_received1 = cellProperties['instance']['observedData'][0]['amt_received'];
+        diff_status1     = (amount_received1 -tot_remittance1);     
+        
+
+        if(tot_remittance1==0){
+            cellProperties['instance']['observedData'][0]['status'] = "";
+        }
+        else{
+            if(diff_status1!=0){
+                cellProperties['instance']['observedData'][0]['status'] = "";               
+            }
+            if(diff_status1<=10){
+                cellProperties['instance']['observedData'][0]['status'] = "NOT RECONCILED";             
+            }
+
+            if(diff_status1==0){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED";                       
+            }
+        } 
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+function grender7(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no7  = (data[0]['invoice_no7'])   
+    s_n          = 7
+    $.ajax({
+      url : "/it/calc_remittance_datas_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),      
+        'invoice_no' : JSON.stringify(invoice_no7),
+      },
+
+      success : function(obj_data){
+        td.innerHTML = obj_data['qry_deta'][0]['amountss'];        
+        cellProperties['instance']['observedData'][0]['client_list7'] = obj_data['qry_deta'][0]['client_name1'];
+        if (cellProperties['instance']['observedData'][0]['igst7']=='Yes'){
+          cellProperties['instance']['observedData'][0]['igst_value7'] = obj_data['qry_deta'][0]['amountss']*18/100;
+        }else{
+          cellProperties['instance']['observedData'][0]['igst_value7'] = 0;
+        }
+
+        if(cellProperties['instance']['observedData'][0]['tds7']!=''){
+            cellProperties['instance']['observedData'][0]['tds_amt7'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds7']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_amt7'] = 0;
+        }
+
+        
+        if(cellProperties['instance']['observedData'][0]['tds_igst7']!=0){
+            cellProperties['instance']['observedData'][0]['tds_igst_amt7'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds_igst7']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_igst_amt7'] = 0;
+        }
+
+        cellProperties['instance']['observedData'][0]['principle_tds_ded7'] = (obj_data['qry_deta'][0]['amountss']-(cellProperties['instance']['observedData'][0]['tds_amt7']+cellProperties['instance']['observedData'][0]['tds_igst_amt7']))
+
+        //cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['principle_tds_ded7'];
+        cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['remitt_amt1'] + cellProperties['instance']['observedData'][0]['remitt_amt2'] + cellProperties['instance']['observedData'][0]['remitt_amt3'] + cellProperties['instance']['observedData'][0]['remitt_amt4'] + cellProperties['instance']['observedData'][0]['remitt_amt5'] + cellProperties['instance']['observedData'][0]['remitt_amt6'] + cellProperties['instance']['observedData'][0]['remitt_amt7'];
+
+
+        if(cellProperties['instance']['observedData'][0]['remit7']=='IGST'){
+           cellProperties['instance']['observedData'][0]['remitt_amt7'] = cellProperties['instance']['observedData'][0]['igst_value7'];
+        }  
+
+        if(cellProperties['instance']['observedData'][0]['remit7']=='Both'){
+            cellProperties['instance']['observedData'][0]['remitt_amt7'] = (cellProperties['instance']['observedData'][0]['igst_value7'] + cellProperties['instance']['observedData'][0]['principle_tds_ded7']);
+        }
+
+        if(cellProperties['instance']['observedData'][0]['remit7']=='Principle'){
+           cellProperties['instance']['observedData'][0]['remitt_amt7'] = cellProperties['instance']['observedData'][0]['principle_tds_ded7'];
+        }
+
+        tot_remittance1  = cellProperties['instance']['observedData'][0]['tot_remitt'];
+        amount_received1 = cellProperties['instance']['observedData'][0]['amt_received'];
+        diff_status1     = (amount_received1 -tot_remittance1);     
+        
+
+        if(tot_remittance1==0){
+            cellProperties['instance']['observedData'][0]['status'] = "";
+        }
+        else{
+            if(diff_status1!=0){
+                cellProperties['instance']['observedData'][0]['status'] = "";               
+            }
+            if(diff_status1<=10){
+                cellProperties['instance']['observedData'][0]['status'] = "NOT RECONCILED";             
+            }
+
+            if(diff_status1==0){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED";                       
+            }
+        } 
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+function grender8(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no8  = (data[0]['invoice_no8'])   
+    s_n          = 8
+    $.ajax({
+      url : "/it/calc_remittance_datas_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),      
+        'invoice_no' : JSON.stringify(invoice_no8),
+      },
+
+      success : function(obj_data){
+        td.innerHTML = obj_data['qry_deta'][0]['amountss'];        
+        cellProperties['instance']['observedData'][0]['client_list8'] = obj_data['qry_deta'][0]['client_name1'];
+        if (cellProperties['instance']['observedData'][0]['igst8']=='Yes'){
+          cellProperties['instance']['observedData'][0]['igst_value8'] = obj_data['qry_deta'][0]['amountss']*18/100;
+        }else{
+          cellProperties['instance']['observedData'][0]['igst_value8'] = 0;
+        }
+
+        if(cellProperties['instance']['observedData'][0]['tds8']!=''){
+            cellProperties['instance']['observedData'][0]['tds_amt8'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds8']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_amt8'] = 0;
+        }
+
+        
+        if(cellProperties['instance']['observedData'][0]['tds_igst8']!=0){
+            cellProperties['instance']['observedData'][0]['tds_igst_amt8'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds_igst8']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_igst_amt8'] = 0;
+        }
+
+        cellProperties['instance']['observedData'][0]['principle_tds_ded8'] = (obj_data['qry_deta'][0]['amountss']-(cellProperties['instance']['observedData'][0]['tds_amt8']+cellProperties['instance']['observedData'][0]['tds_igst_amt8']))
+
+        //cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['principle_tds_ded8'];
+        cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['remitt_amt1'] + cellProperties['instance']['observedData'][0]['remitt_amt2'] + cellProperties['instance']['observedData'][0]['remitt_amt3'] + cellProperties['instance']['observedData'][0]['remitt_amt4'] + cellProperties['instance']['observedData'][0]['remitt_amt5'] + cellProperties['instance']['observedData'][0]['remitt_amt6'] + cellProperties['instance']['observedData'][0]['remitt_amt7'] + cellProperties['instance']['observedData'][0]['remitt_amt8'];
+
+
+        if(cellProperties['instance']['observedData'][0]['remit8']=='IGST'){
+           cellProperties['instance']['observedData'][0]['remitt_amt8'] = cellProperties['instance']['observedData'][0]['igst_value8'];
+        }  
+
+        if(cellProperties['instance']['observedData'][0]['remit8']=='Both'){
+            cellProperties['instance']['observedData'][0]['remitt_amt8'] = (cellProperties['instance']['observedData'][0]['igst_value8'] + cellProperties['instance']['observedData'][0]['principle_tds_ded8']);
+        }
+
+        if(cellProperties['instance']['observedData'][0]['remit8']=='Principle'){
+           cellProperties['instance']['observedData'][0]['remitt_amt8'] = cellProperties['instance']['observedData'][0]['principle_tds_ded8'];
+        }
+
+        tot_remittance1  = cellProperties['instance']['observedData'][0]['tot_remitt'];
+        amount_received1 = cellProperties['instance']['observedData'][0]['amt_received'];
+        diff_status1     = (amount_received1 -tot_remittance1);     
+        
+
+        if(tot_remittance1==0){
+            cellProperties['instance']['observedData'][0]['status'] = "";
+        }
+        else{
+            if(diff_status1!=0){
+                cellProperties['instance']['observedData'][0]['status'] = "";               
+            }
+            if(diff_status1<=10){
+                cellProperties['instance']['observedData'][0]['status'] = "NOT RECONCILED";             
+            }
+
+            if(diff_status1==0){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED";                       
+            }
+        } 
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+function grender9(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data     = instance.getData();    
+    invoice_no9  = (data[0]['invoice_no9'])   
+    s_n          = 9
+    $.ajax({
+      url : "/it/calc_remittance_datas_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),      
+        'invoice_no' : JSON.stringify(invoice_no9),
+      },
+
+      success : function(obj_data){
+        td.innerHTML = obj_data['qry_deta'][0]['amountss'];        
+        cellProperties['instance']['observedData'][0]['client_list9'] = obj_data['qry_deta'][0]['client_name1'];
+        if (cellProperties['instance']['observedData'][0]['igst9']=='Yes'){
+          cellProperties['instance']['observedData'][0]['igst_value9'] = obj_data['qry_deta'][0]['amountss']*18/100;
+        }else{
+          cellProperties['instance']['observedData'][0]['igst_value9'] = 0;
+        }
+
+        if(cellProperties['instance']['observedData'][0]['tds9']!=''){
+            cellProperties['instance']['observedData'][0]['tds_amt9'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds9']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_amt9'] = 0;
+        }
+
+        
+        if(cellProperties['instance']['observedData'][0]['tds_igst9']!=0){
+            cellProperties['instance']['observedData'][0]['tds_igst_amt9'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds_igst9']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_igst_amt9'] = 0;
+        }
+
+        cellProperties['instance']['observedData'][0]['principle_tds_ded9'] = (obj_data['qry_deta'][0]['amountss']-(cellProperties['instance']['observedData'][0]['tds_amt9']+cellProperties['instance']['observedData'][0]['tds_igst_amt9']))
+
+       // cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['principle_tds_ded9'];
+       cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['remitt_amt1'] + cellProperties['instance']['observedData'][0]['remitt_amt2'] + cellProperties['instance']['observedData'][0]['remitt_amt3'] + cellProperties['instance']['observedData'][0]['remitt_amt4'] + cellProperties['instance']['observedData'][0]['remitt_amt5'] + cellProperties['instance']['observedData'][0]['remitt_amt6'] + cellProperties['instance']['observedData'][0]['remitt_amt7'] + cellProperties['instance']['observedData'][0]['remitt_amt8'] + cellProperties['instance']['observedData'][0]['remitt_amt9'];
+
+
+        if(cellProperties['instance']['observedData'][0]['remit9']=='IGST'){
+           cellProperties['instance']['observedData'][0]['remitt_amt9'] = cellProperties['instance']['observedData'][0]['igst_value9'];
+        }  
+
+        if(cellProperties['instance']['observedData'][0]['remit9']=='Both'){
+            cellProperties['instance']['observedData'][0]['remitt_amt9'] = (cellProperties['instance']['observedData'][0]['igst_value9'] + cellProperties['instance']['observedData'][0]['principle_tds_ded9']);
+        }
+
+        if(cellProperties['instance']['observedData'][0]['remit9']=='Principle'){
+           cellProperties['instance']['observedData'][0]['remitt_amt9'] = cellProperties['instance']['observedData'][0]['principle_tds_ded9'];
+        }
+
+        tot_remittance1  = cellProperties['instance']['observedData'][0]['tot_remitt'];
+        amount_received1 = cellProperties['instance']['observedData'][0]['amt_received'];
+        diff_status1     = (amount_received1 -tot_remittance1);     
+        
+
+        if(tot_remittance1==0){
+            cellProperties['instance']['observedData'][0]['status'] = "";
+        }
+        else{
+            if(diff_status1!=0){
+                cellProperties['instance']['observedData'][0]['status'] = "";               
+            }
+            if(diff_status1<=10){
+                cellProperties['instance']['observedData'][0]['status'] = "NOT RECONCILED";             
+            }
+
+            if(diff_status1==0){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED";                       
+            }
+        } 
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+function grender10(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data      = instance.getData();    
+    invoice_no10  = (data[0]['invoice_no10'])   
+    s_n           = 10
+    $.ajax({
+      url : "/it/calc_remittance_datas_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        'n'          : JSON.stringify(s_n),      
+        'invoice_no' : JSON.stringify(invoice_no10),
+      },
+
+      success : function(obj_data){
+        td.innerHTML = obj_data['qry_deta'][0]['amountss'];        
+        cellProperties['instance']['observedData'][0]['client_list10'] = obj_data['qry_deta'][0]['client_name1'];
+        if (cellProperties['instance']['observedData'][0]['igst10']=='Yes'){
+          cellProperties['instance']['observedData'][0]['igst_value10'] = obj_data['qry_deta'][0]['amountss']*18/100;
+        }else{
+          cellProperties['instance']['observedData'][0]['igst_value10'] = 0;
+        }
+
+        if(cellProperties['instance']['observedData'][0]['tds10']!=''){
+            cellProperties['instance']['observedData'][0]['tds_amt10'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds10']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_amt10'] = 0;
+        }
+
+        
+        if(cellProperties['instance']['observedData'][0]['tds_igst10']!=0){
+            cellProperties['instance']['observedData'][0]['tds_igst_amt10'] = obj_data['qry_deta'][0]['amountss']*cellProperties['instance']['observedData'][0]['tds_igst10']/100;
+        }else{
+            cellProperties['instance']['observedData'][0]['tds_igst_amt10'] = 0;
+        }
+
+        cellProperties['instance']['observedData'][0]['principle_tds_ded10'] = (obj_data['qry_deta'][0]['amountss']-(cellProperties['instance']['observedData'][0]['tds_amt10']+cellProperties['instance']['observedData'][0]['tds_igst_amt10']))
+
+        //cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['principle_tds_ded10'];
+        cellProperties['instance']['observedData'][0]['tot_remitt'] = cellProperties['instance']['observedData'][0]['remitt_amt1'] + cellProperties['instance']['observedData'][0]['remitt_amt2'] + cellProperties['instance']['observedData'][0]['remitt_amt3'] + cellProperties['instance']['observedData'][0]['remitt_amt4'] + cellProperties['instance']['observedData'][0]['remitt_amt5'] + cellProperties['instance']['observedData'][0]['remitt_amt6'] + cellProperties['instance']['observedData'][0]['remitt_amt7'] + cellProperties['instance']['observedData'][0]['remitt_amt8'] + cellProperties['instance']['observedData'][0]['remitt_amt9'] + cellProperties['instance']['observedData'][0]['remitt_amt10'];
+
+
+        if(cellProperties['instance']['observedData'][0]['remit10']=='IGST'){
+           cellProperties['instance']['observedData'][0]['remitt_amt10'] = cellProperties['instance']['observedData'][0]['igst_value10'];
+        }  
+
+        if(cellProperties['instance']['observedData'][0]['remit10']=='Both'){
+            cellProperties['instance']['observedData'][0]['remitt_amt10'] = (cellProperties['instance']['observedData'][0]['igst_value10'] + cellProperties['instance']['observedData'][0]['principle_tds_ded10']);
+        }
+
+        if(cellProperties['instance']['observedData'][0]['remit10']=='Principle'){
+           cellProperties['instance']['observedData'][0]['remitt_amt10'] = cellProperties['instance']['observedData'][0]['principle_tds_ded10'];
+        }
+
+        tot_remittance1  = cellProperties['instance']['observedData'][0]['tot_remitt'];
+        amount_received1 = cellProperties['instance']['observedData'][0]['amt_received'];
+        diff_status1     = (amount_received1 -tot_remittance1);     
+        
+
+        if(tot_remittance1==0){
+            cellProperties['instance']['observedData'][0]['status'] = "";
+        }
+        else{
+            if(diff_status1!=0){
+                cellProperties['instance']['observedData'][0]['status'] = "";               
+            }
+            if(diff_status1<=10){
+                cellProperties['instance']['observedData'][0]['status'] = "NOT RECONCILED";             
+            }
+
+            if(diff_status1==0){
+                cellProperties['instance']['observedData'][0]['status'] = "RECONCILED";                       
+            }
+        } 
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+  };
+
+get_rob();
+
+$.ajax({
+  url : "/it/get_client_list",
+  type : "get",
+
+  dataType : "json",
+  data : {
+
+  },
+  success : function(obj_data){
+    for(var i=0;i<obj_data.length;i++)
+    {
+      client_l.push(obj_data[i]['client'])
+    }
+    
+  },
+  error : function(err){
+    console.log(JSON.stringify(err,null,4));
+  }
+});
+
+
+
+function manual_types(instance, td, row, col, prop, value, cellProperties) {    
+  Handsontable.renderers.TextRenderer.apply(this, arguments);
+  var data      = instance.getData();  
+  td.style.backgroundColor = '#f7f1ab';
+}
+
+function decimal_type(instance, td, row, col, prop, value, cellProperties) {    
+  Handsontable.renderers.TextRenderer.apply(this, arguments);
+  var data              = instance.getData();  
+  var tot_amount_value  = (data[0]['tot_remitt']);
+  td.innerHTML          = tot_amount_value;
+  
+ 
+}
+
+
+$('#tab_type').click(function(){ 
+
+    remitt_date         = (VA_table6.getCell(0, 0).innerText);
+    reference_no        = (VA_table6.getCell(0, 1).innerText);
+    amount_received     = (VA_table6.getCell(0, 2).innerText);
+    status              = (VA_table6.getCell(0, 3).innerText);
+    total_remitt        = (VA_table6.getCell(0, 4).innerText);
+    charges_any         = (VA_table6.getCell(0, 5).innerText);
+
+    remitt_amount       = (VA_table6.getCell(0, 6).innerText);    
+    invoice_no1         = (VA_table6.getCell(0, 7).innerText);
+    client_name1        = (VA_table6.getCell(0, 8).innerText);
+    principle1          = (VA_table6.getCell(0, 9).innerText);
+    igst1               = (VA_table6.getCell(0, 10).innerText);
+    igst_value1         = (VA_table6.getCell(0, 11).innerText);
+    tds1                = (VA_table6.getCell(0, 12).innerText);
+    tds_amount1         = (VA_table6.getCell(0, 13).innerText);
+    tds_igst1           = (VA_table6.getCell(0, 14).innerText);
+    tds_igst_amt1       = (VA_table6.getCell(0, 15).innerText);
+    principle_tds_ded1  = (VA_table6.getCell(0, 16).innerText);
+    remitt1             = (VA_table6.getCell(0, 17).innerText);
+   
+    remitt_amount2      = (VA_table6.getCell(0, 18).innerText);  
+    invoice_no2         = (VA_table6.getCell(0, 19).innerText);
+    client_name2        = (VA_table6.getCell(0, 20).innerText);
+    principle2          = (VA_table6.getCell(0, 21).innerText);
+    igst2               = (VA_table6.getCell(0, 22).innerText);
+    igst_value2         = (VA_table6.getCell(0, 23).innerText);
+    tds2                = (VA_table6.getCell(0, 24).innerText);
+    tds_amount2         = (VA_table6.getCell(0, 25).innerText);
+    tds_igst2           = (VA_table6.getCell(0, 26).innerText);
+    tds_igst_amt2       = (VA_table6.getCell(0, 27).innerText);
+    principle_tds_ded2  = (VA_table6.getCell(0, 28).innerText);
+    remitt2             = (VA_table6.getCell(0, 29).innerText);
+
+    remitt_amount3      = (VA_table6.getCell(0, 30).innerText); 
+    invoice_no3         = (VA_table6.getCell(0, 31).innerText);
+    client_name3        = (VA_table6.getCell(0, 32).innerText);
+    principle3          = (VA_table6.getCell(0, 33).innerText);
+    igst3               = (VA_table6.getCell(0, 34).innerText);
+    igst_value3         = (VA_table6.getCell(0, 35).innerText);
+    tds3                = (VA_table6.getCell(0, 36).innerText);
+    tds_amount3         = (VA_table6.getCell(0, 37).innerText);
+    tds_igst3           = (VA_table6.getCell(0, 38).innerText);
+    tds_igst_amt3       = (VA_table6.getCell(0, 39).innerText);
+    principle_tds_ded3  = (VA_table6.getCell(0, 40).innerText);
+    remitt3             = (VA_table6.getCell(0, 41).innerText);
+
+    remitt_amount4      = (VA_table6.getCell(0, 42).innerText); 
+    invoice_no4         = (VA_table6.getCell(0, 43).innerText);
+    client_name4        = (VA_table6.getCell(0, 44).innerText);
+    principle4          = (VA_table6.getCell(0, 45).innerText);
+    igst4               = (VA_table6.getCell(0, 46).innerText);
+    igst_value4         = (VA_table6.getCell(0, 47).innerText);
+    tds4                = (VA_table6.getCell(0, 48).innerText);
+    tds_amount4         = (VA_table6.getCell(0, 49).innerText);
+    tds_igst4           = (VA_table6.getCell(0, 50).innerText);
+    tds_igst_amt4       = (VA_table6.getCell(0, 51).innerText);
+    principle_tds_ded4  = (VA_table6.getCell(0, 52).innerText);
+    remitt4             = (VA_table6.getCell(0, 53).innerText);
+    
+    remitt_amount5      = (VA_table6.getCell(0, 54).innerText); 
+    invoice_no5         = (VA_table6.getCell(0, 55).innerText);
+    client_name5        = (VA_table6.getCell(0, 56).innerText);
+    principle5          = (VA_table6.getCell(0, 57).innerText);
+    igst5               = (VA_table6.getCell(0, 58).innerText);
+    igst_value5         = (VA_table6.getCell(0, 59).innerText);
+    tds5                = (VA_table6.getCell(0, 60).innerText);
+    tds_amount5         = (VA_table6.getCell(0, 61).innerText);
+    tds_igst5           = (VA_table6.getCell(0, 62).innerText);
+    tds_igst_amt5       = (VA_table6.getCell(0, 63).innerText);
+    principle_tds_ded5  = (VA_table6.getCell(0, 64).innerText);
+    remitt5             = (VA_table6.getCell(0, 65).innerText);
+
+    remitt_amount6      = (VA_table6.getCell(0, 66).innerText); 
+    invoice_no6         = (VA_table6.getCell(0, 67).innerText);
+    client_name6        = (VA_table6.getCell(0, 68).innerText);
+    principle6          = (VA_table6.getCell(0, 69).innerText);
+    igst6               = (VA_table6.getCell(0, 70).innerText);
+    igst_value6         = (VA_table6.getCell(0, 71).innerText);
+    tds6                = (VA_table6.getCell(0, 72).innerText);
+    tds_amount6         = (VA_table6.getCell(0, 73).innerText);
+    tds_igst6           = (VA_table6.getCell(0, 74).innerText);
+    tds_igst_amt6       = (VA_table6.getCell(0, 75).innerText);
+    principle_tds_ded6  = (VA_table6.getCell(0, 76).innerText);
+    remitt6             = (VA_table6.getCell(0, 77).innerText);
+    
+    remitt_amount7      = (VA_table6.getCell(0, 78).innerText); 
+    invoice_no7         = (VA_table6.getCell(0, 79).innerText);
+    client_name7        = (VA_table6.getCell(0, 80).innerText);
+    principle7          = (VA_table6.getCell(0, 81).innerText);
+    igst7               = (VA_table6.getCell(0, 82).innerText);
+    igst_value7         = (VA_table6.getCell(0, 83).innerText);
+    tds7                = (VA_table6.getCell(0, 84).innerText);
+    tds_amount7         = (VA_table6.getCell(0, 85).innerText);
+    tds_igst7           = (VA_table6.getCell(0, 86).innerText);
+    tds_igst_amt7       = (VA_table6.getCell(0, 87).innerText);
+    principle_tds_ded7  = (VA_table6.getCell(0, 88).innerText);
+    remitt7             = (VA_table6.getCell(0, 89).innerText);
+    
+    remitt_amount8      = (VA_table6.getCell(0, 90).innerText); 
+    invoice_no8         = (VA_table6.getCell(0, 91).innerText);
+    client_name8        = (VA_table6.getCell(0, 92).innerText);
+    principle8          = (VA_table6.getCell(0, 93).innerText);
+    igst8               = (VA_table6.getCell(0, 94).innerText);
+    igst_value8         = (VA_table6.getCell(0, 95).innerText);
+    tds8                = (VA_table6.getCell(0, 96).innerText);
+    tds_amount8         = (VA_table6.getCell(0, 97).innerText);
+    tds_igst8           = (VA_table6.getCell(0, 98).innerText);
+    tds_igst_amt8       = (VA_table6.getCell(0, 99).innerText);
+    principle_tds_ded8  = (VA_table6.getCell(0, 100).innerText);
+    remitt8             = (VA_table6.getCell(0, 101).innerText);
+    
+    remitt_amount9      = (VA_table6.getCell(0, 102).innerText); 
+    invoice_no9         = (VA_table6.getCell(0, 103).innerText);
+    client_name9        = (VA_table6.getCell(0, 104).innerText);
+    principle9          = (VA_table6.getCell(0, 105).innerText);
+    igst9               = (VA_table6.getCell(0, 106).innerText);
+    igst_value9         = (VA_table6.getCell(0, 107).innerText);
+    tds9                = (VA_table6.getCell(0, 108).innerText);
+    tds_amount9         = (VA_table6.getCell(0, 109).innerText);
+    tds_igst9           = (VA_table6.getCell(0, 110).innerText);
+    tds_igst_amt9       = (VA_table6.getCell(0, 111).innerText);
+    principle_tds_ded9  = (VA_table6.getCell(0, 112).innerText);
+    remitt9             = (VA_table6.getCell(0, 113).innerText);
+    
+    remitt_amount10      = (VA_table6.getCell(0, 114).innerText); 
+    invoice_no10         = (VA_table6.getCell(0, 115).innerText);
+    client_name10        = (VA_table6.getCell(0, 116).innerText);
+    principle10          = (VA_table6.getCell(0, 117).innerText);
+    igst10               = (VA_table6.getCell(0, 118).innerText);
+    igst_value10         = (VA_table6.getCell(0, 119).innerText);
+    tds10                = (VA_table6.getCell(0, 120).innerText);
+    tds_amount10         = (VA_table6.getCell(0, 121).innerText);
+    tds_igst10           = (VA_table6.getCell(0, 122).innerText);
+    tds_igst_amt10       = (VA_table6.getCell(0, 123).innerText);
+    principle_tds_ded10  = (VA_table6.getCell(0, 124).innerText);
+    remitt10             = (VA_table6.getCell(0, 125).innerText);
+    
+
+    $.ajax({
+      url : "/it/submitting_inr_data",
+      type : "get",
+
+      dataType : "json",
+      data : {
+            'remitt_date'           : JSON.stringify(remitt_date),      
+            'reference_no'          : JSON.stringify(reference_no),     
+            'amount_received'       : JSON.stringify(amount_received),  
+            'status'                : JSON.stringify(status),           
+            'total_remitt'          : JSON.stringify(total_remitt),     
+            'charges_any'           : JSON.stringify(charges_any),      
+            'remitt_amount'         : JSON.stringify(remitt_amount),      
+            'invoice_no1'           : JSON.stringify(invoice_no1),      
+            'client_name1'          : JSON.stringify(client_name1),     
+            'principle1'            : JSON.stringify(principle1),       
+            'igst1'                 : JSON.stringify(igst1),             
+            'igst_value1'           : JSON.stringify(igst_value1),       
+            'tds1'                  : JSON.stringify(tds1),              
+            'tds_amount1'           : JSON.stringify(tds_amount1),       
+            'tds_igst1'             : JSON.stringify(tds_igst1),         
+            'tds_igst_amt1'         : JSON.stringify(tds_igst_amt1),     
+            'principle_tds_ded1'    : JSON.stringify(principle_tds_ded1),
+            'remitt1'               : JSON.stringify(remitt1),           
+            
+            'remitt_amount2'        : JSON.stringify(remitt_amount2),       
+            'invoice_no2'           : JSON.stringify(invoice_no2),       
+            'client_name2'          : JSON.stringify(client_name2),      
+            'principle2'            : JSON.stringify(principle2),        
+            'igst2'                 : JSON.stringify(igst2),             
+            'igst_value2'           : JSON.stringify(igst_value2),       
+            'tds2'                  : JSON.stringify(tds2),              
+            'tds_amount2'           : JSON.stringify(tds_amount2),       
+            'tds_igst2'             : JSON.stringify(tds_igst2),         
+            'tds_igst_amt2'         : JSON.stringify(tds_igst_amt2),     
+            'principle_tds_ded2'    : JSON.stringify(principle_tds_ded2),
+            'remitt2'               : JSON.stringify(remitt2),           
+            
+            'remitt_amount3'        : JSON.stringify(remitt_amount3),       
+            'invoice_no3'           : JSON.stringify(invoice_no3),       
+            'client_name3'          : JSON.stringify(client_name3),      
+            'principle3'            : JSON.stringify(principle3),        
+            'igst3'                 : JSON.stringify(igst3),             
+            'igst_value3'           : JSON.stringify(igst_value3),       
+            'tds3'                  : JSON.stringify(tds3),              
+            'tds_amount3'           : JSON.stringify(tds_amount3),       
+            'tds_igst3'             : JSON.stringify(tds_igst3),         
+            'tds_igst_amt3'         : JSON.stringify(tds_igst_amt3),     
+            'principle_tds_ded3'    : JSON.stringify(principle_tds_ded3),
+            'remitt3'               : JSON.stringify(remitt3),    
+
+            'remitt_amount4'        : JSON.stringify(remitt_amount4),              
+            'invoice_no4'           : JSON.stringify(invoice_no4),       
+            'client_name4'          : JSON.stringify(client_name4),      
+            'principle4'            : JSON.stringify(principle4),        
+            'igst4'                 : JSON.stringify(igst4),             
+            'igst_value4'           : JSON.stringify(igst_value4),       
+            'tds4'                  : JSON.stringify(tds4),              
+            'tds_amount4'           : JSON.stringify(tds_amount4),       
+            'tds_igst4'             : JSON.stringify(tds_igst4),         
+            'tds_igst_amt4'         : JSON.stringify(tds_igst_amt4),     
+            'principle_tds_ded4'    : JSON.stringify(principle_tds_ded4),
+            'remitt4'               : JSON.stringify(remitt4),     
+
+            'remitt_amount5'        : JSON.stringify(remitt_amount5),             
+            'invoice_no5'           : JSON.stringify(invoice_no5),       
+            'client_name5'          : JSON.stringify(client_name5),      
+            'principle5'            : JSON.stringify(principle5),        
+            'igst5'                 : JSON.stringify(igst5),             
+            'igst_value5'           : JSON.stringify(igst_value5),       
+            'tds5'                  : JSON.stringify(tds5),              
+            'tds_amount5'           : JSON.stringify(tds_amount5),       
+            'tds_igst5'             : JSON.stringify(tds_igst5),         
+            'tds_igst_amt5'         : JSON.stringify(tds_igst_amt5),     
+            'principle_tds_ded5'    : JSON.stringify(principle_tds_ded5),
+            'remitt5'               : JSON.stringify(remitt5),    
+
+            'remitt_amount6'        : JSON.stringify(remitt_amount6),              
+            'invoice_no6'           : JSON.stringify(invoice_no6),       
+            'client_name6'          : JSON.stringify(client_name6),      
+            'principle6'            : JSON.stringify(principle6),        
+            'igst6'                 : JSON.stringify(igst6),             
+            'igst_value6'           : JSON.stringify(igst_value6),       
+            'tds6'                  : JSON.stringify(tds6),              
+            'tds_amount6'           : JSON.stringify(tds_amount6),       
+            'tds_igst6'             : JSON.stringify(tds_igst6),         
+            'tds_igst_amt6'         : JSON.stringify(tds_igst_amt6),     
+            'principle_tds_ded6'    : JSON.stringify(principle_tds_ded6),
+            'remitt6'               : JSON.stringify(remitt6),   
+
+            'remitt_amount7'        : JSON.stringify(remitt_amount7),               
+            'invoice_no7'           : JSON.stringify(invoice_no7),       
+            'client_name7'          : JSON.stringify(client_name7),      
+            'principle7'            : JSON.stringify(principle7),        
+            'igst7'                 : JSON.stringify(igst7),             
+            'igst_value7'           : JSON.stringify(igst_value7),       
+            'tds7'                  : JSON.stringify(tds7),              
+            'tds_amount7'           : JSON.stringify(tds_amount7),       
+            'tds_igst7'             : JSON.stringify(tds_igst7),         
+            'tds_igst_amt7'         : JSON.stringify(tds_igst_amt7),     
+            'principle_tds_ded7'    : JSON.stringify(principle_tds_ded7),
+            'remitt7'               : JSON.stringify(remitt7),           
+            
+            'remitt_amount8'        : JSON.stringify(remitt_amount8),       
+            'invoice_no8'           : JSON.stringify(invoice_no8),       
+            'client_name8'          : JSON.stringify(client_name8),      
+            'principle8'            : JSON.stringify(principle8),        
+            'igst8'                 : JSON.stringify(igst8),             
+            'igst_value8'           : JSON.stringify(igst_value8),       
+            'tds8'                  : JSON.stringify(tds8),              
+            'tds_amount8'           : JSON.stringify(tds_amount8),       
+            'tds_igst8'             : JSON.stringify(tds_igst8),         
+            'tds_igst_amt8'         : JSON.stringify(tds_igst_amt8),     
+            'principle_tds_ded8'    : JSON.stringify(principle_tds_ded8),
+            'remitt8'               : JSON.stringify(remitt8),           
+            
+            'remitt_amount9'        : JSON.stringify(remitt_amount9),       
+            'invoice_no9'           : JSON.stringify(invoice_no9),       
+            'client_name9'          : JSON.stringify(client_name9),      
+            'principle9'            : JSON.stringify(principle9),        
+            'igst9'                 : JSON.stringify(igst9),             
+            'igst_value9'           : JSON.stringify(igst_value9),       
+            'tds9'                  : JSON.stringify(tds9),               
+            'tds_amount9'           : JSON.stringify(tds_amount9),        
+            'tds_igst9'             : JSON.stringify(tds_igst9),          
+            'tds_igst_amt9'         : JSON.stringify(tds_igst_amt9),      
+            'principle_tds_ded9'    : JSON.stringify(principle_tds_ded9), 
+            'remitt9'               : JSON.stringify(remitt9), 
+
+            'remitt_amount10'       : JSON.stringify(remitt_amount10),                  
+            'invoice_no10'          : JSON.stringify(invoice_no10),        
+            'client_name10'         : JSON.stringify(client_name10),       
+            'principle10'           : JSON.stringify(principle10),         
+            'igst10'                : JSON.stringify(igst10),              
+            'igst_value10'          : JSON.stringify(igst_value10),        
+            'tds10'                 : JSON.stringify(tds10),               
+            'tds_amount10'          : JSON.stringify(tds_amount10),        
+            'tds_igst10'            : JSON.stringify(tds_igst10),          
+            'tds_igst_amt10'        : JSON.stringify(tds_igst_amt10),      
+            'principle_tds_ded10'   : JSON.stringify(principle_tds_ded10), 
+            'remitt10'              : JSON.stringify(remitt10),            
+      },
+      success : function(obj_data){
+       alert('Done')
+        
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+})
+
+
+
+function header_colors(instance, td, row, col, prop, value, cellProperties) {    
+  Handsontable.renderers.TextRenderer.apply(this, arguments); 
+
+  var dd = instance.getColHeader()
+  
+}
+
+
+
+
+
+</script>
+
+{% endblock %}

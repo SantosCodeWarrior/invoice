@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+   
+
+
+
+
+
+<script type="text/javascript">
+function submittab(){ 
+
+  var data  = tab_table.getData();  
+  data      = tab_table.getData();  
+  data_cleaned = [];
+  var i = 0;
+  while(true){
+    if(data[i]['name'] != null ){    
+      data_cleaned.push(data[i]['name']);
+      i++;
+    }
+    else{
+      break;
+    }
+  }
+
+console.log(JSON.stringify(data))
+  
+  $.ajax({
+      url : "/it/gst_details_entry/",
+      type : "POST",
+      dataType : "json",
+      data : {
+        tabs_name: JSON.stringify(data),        
+        csrfmiddlewaretoken: ''
+      },
+      success : function(obj_data){       
+        alert(JSON.stringify(obj_data,null,4));
+        get_reports();
+        updateInvoice();
+      },
+      error : function(err){
+       
+      console.log(JSON.stringify(err,null,4));
+      }
+    });
+
+}
+</script>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="box">
+  
+     <h6>UPDATE</h6>
+      <div style="font-size: 12px">Financial Invoice No Suffix</th><br>
+        <td><input type="text" name="" style="height: 30px;font-size: 12px;text-align: center;background-color: #f2f1cb;border:1px solid grey;" value={{tag_invoice_no}} id="b_invoice_no" autocomplete="off"><sup style="color:red;font-size: 20px">*</sup></div>
+      <br>
+      <div style="width: 600px; display: table-cell;font-size: 12px"> <div class = 'handsontable col-md-12' data-original style="overflow-y: auto;overflow-x: auto;"  id = "gst_entry"></div> </div>
+      <button class="btn btn-success btn-lg btn-block col-md-6" style = "margin : 20px;font-size: 12px" id = "tab_type" onclick = "submittab()" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading">Submit</button>
+    </div>
+    
+</div>
+
+
+<script type="text/javascript">
+
+$('#update_bluewater_list').click(function(){  
+  updateInvoice();
+})
+
+
+
+function updateInvoice(){
+  var b_invoice_no  = $('#b_invoice_no').val();   
+  $.ajax({
+    url: '/it/update_fin_bluewater/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:
+    { 
+      //'b_gstin'       : b_gstin,
+      'b_invoice_no'  : b_invoice_no,
+    },
+    success : function(obj){
+      if(obj=='done'){
+        //alert('Succesfully updated');
+        location.reload();
+       }
+      },
+      error:function(err){
+        console.log(JSON.stringify(err,null,4));
+      }        
+  });
+}
+
+
+
+  var data = [
+    {
+      c_id         :'',
+      client_name  :'',     
+      tag_tin_name : '',
+      proj_name    : '',
+    }
+  ];
+
+  $("#gst_entry").empty()
+    container       = document.getElementById('gst_entry');
+    var tab_table   = new Handsontable(container, {
+    minSpareRows: 5,
+    colHeaders: true,    
+    colHeaders : ['SN','Client Name','GSTIN','Proj Name'],
+    contextMenu: true,
+    columnSorting: true,
+    initialConfig: {
+      column: 1,
+      sortOrder: 'desc',
+    },
+   
+    columns: [
+      { data: "c_id",
+        type : 'text',      
+        readOnly: true,        
+      },
+    
+      {
+        data: "client_name",
+        type : 'text',       
+      },
+
+      {
+        data: "tag_tin_name",
+        type : 'text',
+      },
+      {
+        data: "proj_name",
+        type : 'text',       
+      }
+    ],
+
+    data: data,
+  });
+
+
+
+get_reports();
+$('#hot-display-license-info').css('display','none');
+
+function get_reports(){
+  $.ajax({
+    url : "/it/gstin_details/",
+    type : "POST",
+
+    dataType : "json",
+    data : { 
+      
+    },
+    success : function(obj_data){     
+      if(obj_data['tag_bwtw'].length>0)
+      {
+        tab_table.loadData(obj_data['tag_bwtw']);
+        console.log(obj_data['tag_bwtw'])
+      }
+      else
+      {
+        tab_table.loadData(obj_data['tag_bwtw']);      
+      }
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  }); 
+}
+
+
+
+</script>
+
+
+
+
+{% endblock %}

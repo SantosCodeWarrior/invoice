@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<!-- <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.15/datatables.min.js"></script> -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.15/datatables.min.css"> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+ <link rel="stylesheet" type="text/css" href="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+
+<div class="col-md-8">
+  <div class="input-group input-daterange" >
+      <input type="text" id="start_date" class="form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="From:">    
+      <div class="input-group-addon">to</div>
+      <input type="text" id="end_date" class="form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="To:">
+  </div>
+</div>
+   
+	<div class="container-fluid">
+	    <div class="row">
+			<h3>CHM Tracker</h3>	
+	        <table id="invoice_tracker" class="table table-condensed table-striped">
+				<thead>
+					<tr>
+						<th class="col-md-4"><font color="black">S.No</font></th>
+			        	<th class="col-md-4"><font color="black">Invoice No.</font></th>
+			        	<th class="col-md-4"><font color="black">Invoice Dated</font></th>
+						<th class="col-md-4"><font color="black">Vessel Name</font></th>
+						<th class="col-md-4"><font color="black">Voyage No</font></th>
+						<th class="col-md-4"><font color="black">Received Date</font></th>
+						<th class="col-md-4"><font color="black">Client</font></th>
+						<th class="col-md-4"><font color="black">Cancel Invoice</font></th>
+						<th class="col-md-4"><font color="black">Action</font></th>
+						<th class="col-md-4"><font color="black">View</font></th>
+					</tr>
+				</thead>
+				{% for x in tracker_array %}				
+				<tr>
+					<td>{{forloop.counter}}</td>
+					<td>{{x.invoice_no}}</td>
+					<td style="white-space:nowrap">{{x.invoice_date|date:"d-M-Y"}}</td>
+					<td style="white-space:nowrap">{{x.ship_name}}</td>
+					<td style="white-space:nowrap">{{x.voyage_no}}</td>
+					<td style="white-space:nowrap">{{x.receive_date|date:"d-M-Y"}}</td>
+					<td style="text-transform:capitalize">{{x.client_name}}</td>
+					<td style="text-transform:capitalize">{{x.cancel}}</td>
+					<td><a href="/it/paid_invoice_details/?invoice_id={{x.invoice_id}}" target="_blank"><button class="btn btn-info" style="display:{{x.show}}">Paid?</button></a></td>
+					<td><a href="/it/view_invoice_template/?invoice_id={{x.invoice_id}}" target="_blank"><button class="btn btn-success">View Invoice </button></a></td>
+				{% endfor %}
+				</tr>
+				
+			</table>       
+	    </div>
+	</div>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+    var min = $('#start_date').val();
+    var max = $('#end_date').val();
+    var createdAt = data[2] || 0;           
+    if ((min == "" || max == "") || (moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max))) 
+    {                  
+      return true;
+    }
+    return false;
+  }
+);
+
+var table = $('#invoice_tracker').DataTable({
+	scrollX:        true,
+    scrollCollapse: true,
+    paging:         false, 
+
+})
+    $('.date-range-filter').change(function(){        
+      table.draw();
+    });
+});
+	
+
+  $('.input-daterange input').each(function() {
+    $(this).datepicker('clearDates');
+  });
+
+</script>	
+
+	
+
+{% endblock %}

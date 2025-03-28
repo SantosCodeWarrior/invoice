@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<style type="text/css">
+  .handsontable td {
+    font-size: 10px;
+  }
+
+  .handsontable table thead th{       
+        font-size:12px;
+    }
+</style>
+
+<div class="container" style="margin-left: 14px;">
+  <div class="col-md-12">
+    <h8 style="margin-left: 14px;">Entry Payment/PID Advice Payment (USD)</h8><b style="float: right;font-size: 12px"><a href="/it/reconciliation/"><u>View Reconciliation</u></a></b><br>&nbsp;
+    <p>&nbsp;</p>
+    <div class="row">
+      <div class="col-md-12">
+        <div style="display: table-row">
+          <div class = 'handsontable col-md-12' data-original  id = "payment_advice_list"></div> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>&nbsp;</p>
+  <div class="col-md-12">
+    <button class="btn btn-primary" style = "margin-left: 14px;cursor: pointer;font-size: 10px;" id = "tab_type"  data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading">SUBMIT</button>
+  </div>
+</div>
+        
+
+<script type="text/javascript">
+  function get_rob(){
+  client_l   = [];
+  currency_l = [];
+  $("#payment_advice_list").empty()
+  container = document.getElementById('payment_advice_list');
+  rob = [];
+  rob = { 
+    'client_name'   : '',
+    'date'          : '', 
+    'inward_no'     : '',
+    'fcy_amount'    : '',
+    'currency_type' : '', 
+    'rate'          : '',
+    'remarks'       : '',
+  };
+
+
+  colHeaders = ['Client Name','Remittance Date','Inward/PID No','FCY Amount','Currency Type','Rate','Remarks']
+  columns    = 
+  [
+    {data : 'client_name',type:'dropdown',strict: false,source: client_l},
+    {data : 'date',type:'date'},
+    {data : 'inward_no', type: 'text'},
+    {data : 'fcy_amount'},
+    {data : 'currency_type',type:'dropdown',strict: false,source: currency_l},
+    {data : 'rate',type:'text'},
+    {data : 'remarks'}
+  ]
+
+  VA_table6  = new Handsontable(container,{
+    data                : rob,
+    colHeaders          : colHeaders,    
+    columns             : columns,
+    minSpareRows        : 3,
+    rowHeaders          : true,      
+    contextMenu         : true,
+    columnSorting       : true,  
+    colWidths           : [310, 100, 150, 100,100,90,250],
+    manualColumnResize  : true,
+
+  });
+}
+
+
+get_rob();
+
+
+$.ajax({
+  url : "/it/get_currency_list",
+  type : "get",
+
+  dataType : "json",
+  data : {
+
+  },
+  success : function(obj_data){
+    for(var i=0;i<obj_data.length;i++)
+    {
+      currency_l.push(obj_data[i]['currency'])
+    }
+
+    for(var t=0;t<obj_data.length;t++)
+    {
+      $('#currency_details').append('<tr style="font-size:11px"><td><center>'+obj_data[t]['id']+'</center></td><td><center><input type="text" value='+obj_data[t]['currency']+'></center></td></tr>')
+    }
+
+    
+  },
+  error : function(err){
+    console.log(JSON.stringify(err,null,4));
+  }
+});
+
+
+$.ajax({
+  url : "/it/get_client_list",
+  type : "get",
+
+  dataType : "json",
+  data : {
+
+  },
+  success : function(obj_data){
+    for(var i=0;i<obj_data.length;i++)
+    {
+      client_l.push(obj_data[i]['client'])
+    }
+    
+  },
+  error : function(err){
+    console.log(JSON.stringify(err,null,4));
+  }
+});
+
+
+$('#tab_type').click(function(){
+  datas      = VA_table6.getData();
+  $.ajax({
+    url : "/it/insert_payment_advise",
+    type : "get",
+
+    dataType : "json",
+    data : {
+      'datas' : JSON.stringify(datas),
+    },
+    success : function(obj_data){
+      if(obj_data=='done'){
+        alert('Sucessfully submitted');
+      }
+      if(obj_data=='alert'){
+        alert('If it is already on record, it will not be submitted.');
+      }
+
+       if(obj_data=='empty'){
+        alert('Please fill all column.');
+      }
+      
+    },
+    error : function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+})
+
+</script> 
+
+{% endblock %}

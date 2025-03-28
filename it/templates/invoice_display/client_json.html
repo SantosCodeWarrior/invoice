@@ -1,0 +1,373 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="https://handsontable.com/static/css/main.css"> -->
+    <script src="https://handsontable.com/docs/6.0.1/scripts/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handsontable-pro@6.0.1/dist/handsontable.full.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable-pro@6.0.1/dist/handsontable.full.min.css">
+
+<style type="text/css">
+  .hot-display-license-info{
+    display: none;
+  }
+
+
+  .handsontable TR:nth-child(1) TH {
+  font-size: 12px;
+  
+}
+
+</style>
+
+<script type="text/javascript">
+function submittab(){
+  var data      = tab_table.getData();  
+  data          = tab_table.getData();  
+  data_cleaned  = [];
+  var i         = 0;
+  while(true){
+    if(data[i]['name'] != null ){    
+      data_cleaned.push(data[i]['name']);
+      i++;
+    }
+    else{
+      break;
+    }
+  }
+
+ $('#loader').css('display','');
+  $.ajax({
+    url : "/it/client_list/",
+    type : "POST",
+    dataType : "json",
+    data: {
+      tabs_name: JSON.stringify(data),        
+      csrfmiddlewaretoken: ''
+    },
+    success : function(obj_data){ 
+      alert('Done')
+      $('#loader').css('display','none');     
+      get_reports()
+    },
+    error : function(err){       
+      console.log(JSON.stringify(err,null,4));
+    }
+  });
+}
+
+function blink_text() {
+    $('.blink').fadeOut(500);
+    $('.blink').fadeIn(500);
+}
+setInterval(blink_text, 1000);
+
+
+
+</script>
+
+<div class = "box box-success">
+    <div class="box-header with-border">
+    <center>FETCH NEW CLIENT API (BOSS)
+    <br><p style="font-size: 12px">अगर नया Client आएगा तो Green Color में शो करेगा (New Client)</p></center>
+    <!-- <center style="font-size: 12px;">CHM's <b>New Client</b> will show in <a href="https://chm.bwesglobal.com/hb/dht_header/" target="_blank" style="cursor: pointer;"><u><span class="blink">DSR (Completed Voyages)</span></u></a></center> -->
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+    <div class = "col-md-12" style="height:100%">
+      <div class = 'handsontable' style="height: 600px; overflow: auto; margin-top : 30px;" data-originalstyle="height: 300px; overflow: auto"  id="get_client_data"></div>
+        <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+          	<button class="btn btn-success col-md-6" style = "margin : 0px;cursor: pointer;font-size: 10px" id = "load_client" >LOAD CLIENT</button>
+            <button class="btn btn-primary" style = "margin : 0px;cursor: pointer;font-size: 10px;" id = "tab_type" onclick = "submittab()" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading">SUBMIT CLIENT (API JSON DATA)</button>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-info col-md-6" style = "margin : 0px;cursor: pointer;font-size: 10px;float: right; margin-right: -16px;" id = "currency_entry" data-toggle="modal" data-target="#myModal">Currency Entry</button>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-danger col-md-6" style = "margin : 0px;cursor: pointer;font-size: 10px" id = "export_client" >EXPORT CLIENT</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 50%;margin-left: 183px;">
+      <div class="modal-header">
+        <center><h6 class="modal-title" id="month_details">Currency Entry</h6></center>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+         <div class="input-group">
+          <center><input type="text" name="" id="b_currency" placeholder="Currency Entry" autocomplete="off" style="font-size: 17px"></center>
+          <table id="pending_list" class="table table-condensed table-striped">
+            <thead style="text-align: center;">
+              <th>S.No</th>
+              <th>Currency Type</th>
+            </thead>
+
+            <tbody id="currency_details"></tbody>
+
+          </table>
+        </div> 
+
+        <div class="modal-body">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="refresh" style="cursor: pointer">Close</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  currency_l=[];
+
+  var data = [
+    {
+      id            : '',
+      s_no          : '',
+      name          : '',
+      proj_name     : '',
+      currency_type : currency_l,
+      new           : '',
+      status        : '',  
+      entry_date    : '',   
+    }
+  ];
+  
+  container     = document.getElementById('get_client_data');
+  var tab_table = new Handsontable(container, {
+    minSpareRows  : 90,   
+    dropdownMenu  : true,
+    filters       : true,
+    columnSorting : true,    
+    stretchH      : 'all',
+      
+    colHeaders    : ['Client ID','S.N.','Client Name','Proj Name','Currency','New Client','Active','Entry Date'],    
+    contextMenu   : true,
+    hiddenColumns:{
+      columns   : [],
+      indicators: true
+    },
+   
+    columns: [
+    {
+      data: "id",
+      type: 'text',
+      //renderer: colorRenderer1,
+    },
+      
+    {
+      data: "s_no",
+      type: 'text', 
+      //renderer: colorRenderer1,  
+    },
+
+    {
+      data: "name",
+      type: 'text',
+      //renderer: colorRenderer1,
+    },
+
+    {
+      data: "proj_name",
+      type:'text', 
+      //renderer: colorRenderer1,
+    },
+
+    {
+      data: "currency_type",
+      type:'dropdown',
+      strict: false,
+      source: currency_l,
+      //renderer: colorRenderer1, 
+    }, 
+
+    {
+      data: "new",
+      type: 'text', 
+      renderer: colorRenderer3, 
+    },
+
+    {
+      data: "status",
+      type: 'checkbox',
+      //renderer: colorRenderer1,     
+    },
+
+    {
+      data: "entry_date",
+      type: 'text',
+      //dateFormat: 'DD-MM-YYYY',
+      readOnly: true,
+      //renderer: colorRenderer1,    
+    },
+        
+    ],
+
+    data: data,
+  });
+
+
+
+
+$('#hot-display-license-info').css('display','none');
+
+
+function get_reports(){
+  
+  $.ajax({
+    url : "/it/client_log/",
+    type : "POST",
+
+    dataType : "json",
+    data : {
+   
+      
+    },
+    success : function(obj_data){      
+      $('#loader').css('display','none');
+      tab_table.loadData(obj_data['client_array']);
+       
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  }); 
+}
+
+
+
+function colorRenderer3(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    var data      = instance.getData();
+    var valueAtC  = data[row][5];     
+    if (valueAtC!="" && valueAtC!=null) {
+      td.style.backgroundColor = '#99ff66';
+    } else {
+      td.style.backgroundColor = '#FFFFFF';
+    }
+    return td;
+  };
+
+
+
+$.ajax({
+  url : "/it/get_currency_list",
+  type : "get",
+
+  dataType : "json",
+  data : {
+
+  },
+  success : function(obj_data){
+    for(var i=0;i<obj_data.length;i++)
+    {
+      currency_l.push(obj_data[i]['currency'])
+    }
+
+    for(var t=0;t<obj_data.length;t++)
+    {
+      $('#currency_details').append('<tr style="font-size:11px"><td><center>'+obj_data[t]['id']+'</center></td><td><center><input type="text" value='+obj_data[t]['currency']+'></center></td></tr>')
+    }
+
+    
+  },
+  error : function(err){
+    console.log(JSON.stringify(err,null,4));
+  }
+});
+
+
+$('#b_currency').blur(function(){
+  var n_currency = $(this).val();
+  if(n_currency==''){
+    alert('Please insert Currency Type');
+    return 0;
+  }
+
+  $.ajax({
+    url: '/it/currency_entry/',
+    type: 'GET',
+    dataType: 'JSON',
+    data:{
+     'n_currency' : n_currency
+    },
+    success: function(obj){    
+      alert('Auto submit')
+    
+  },
+  error: function(err){
+    console.log(JSON.stringify(err,null,4));
+  }
+})
+});
+
+
+$('#export_client').click(function(){
+  data2      = tab_table.getData();
+  $('#loader').css('display','');
+  $.ajax({
+    url: '/it/export_client_json/',
+    type: 'POST',
+    dataType: 'JSON',
+    data:{
+     'datas' : JSON.stringify(data2),
+    },
+    success: function(obj){ 
+      $('#loader').css('display','none');
+      if(obj=="done"){
+      var btn = "button";
+      swal({
+        title : "<b>Export successfully completed</b>",
+        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+        html  : true,
+        type : 'success',
+        showConfirmButton: false
+      });
+      $(document).on('click', "#btnA", function(){
+        location.href = "/it/export_client_download";
+      });
+      }   
+      
+    
+  },
+  error: function(err){
+    console.log(JSON.stringify(err,null,4));
+  }
+})
+})
+
+
+$('#load_client').click(function(){
+	$('#loader').css('display','');
+	get_reports();
+})
+
+
+</script>
+{% endblock %}

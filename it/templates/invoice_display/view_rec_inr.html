@@ -1,0 +1,1724 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<link rel="stylesheet" media="screen" href="/static/handsontable-master/dist/handsontable.full.css">
+<script src="/static/style/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="/static/handsontable-master/dist/handsontable.full.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<style type="text/css">
+    table td {
+        font-size: 10px;
+        white-space: nowrap;
+        color: black;
+    }
+
+    table th {
+        background-color: #007bff;
+        color:white;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+    #editable__view_inr{
+        width: 100%;
+        font-size: 10px;
+        white-space: nowrap;
+        color: blue;
+    }
+
+    input {
+      width:100% !important;
+      border: 1px solid #cccc; 
+      border-radius: 5px;
+      padding: 9px;
+      background-color: #fcefc5;
+    }
+
+    select option {
+        background: #fcefc5; 
+
+
+    }
+
+     .table-hover tbody tr:hover,
+            .table-hover tbody tr:hover td,
+            .table-hover tbody tr:hover th{
+                background:#22313F !important;
+                color:#fff !important;
+            }
+
+
+          @-webkit-keyframes glowing {
+  0% { background-color: #000080; -webkit-box-shadow: 0 0 3px #000080; }
+  50% { background-color: #000040; -webkit-box-shadow: 0 0 40px #000040; }
+  100% { background-color: #000080; -webkit-box-shadow: 0 0 3px #000080; }
+}
+
+@-moz-keyframes glowing {
+  0% { background-color: #000080; -moz-box-shadow: 0 0 3px #000080; }
+  50% { background-color: #000040; -moz-box-shadow: 0 0 40px #000040; }
+  100% { background-color: #000080; -moz-box-shadow: 0 0 3px #000080; }
+}
+
+@-o-keyframes glowing {
+  0% { background-color: #000080; box-shadow: 0 0 3px #000080; }
+  50% { background-color: #000040; box-shadow: 0 0 40px #000040; }
+  100% { background-color: #000080; box-shadow: 0 0 3px #000080; }
+}
+
+@keyframes glowing {
+  0% { background-color: #000080; box-shadow: 0 0 3px #000080; }
+  50% { background-color: #000040; box-shadow: 0 0 40px #000040; }
+  100% { background-color: #000080; box-shadow: 0 0 3px #000080; }
+}
+
+
+.button {
+  -webkit-animation: glowing 1500ms infinite;
+  -moz-animation: glowing 1500ms infinite;
+  -o-animation: glowing 1500ms infinite;
+  animation: glowing 1500ms infinite;
+}
+a.hover:hover
+{
+  text-decoration: none;
+  color: white;
+}
+
+#remittance_data_inr.hover tbody tr:nth-child(even):hover td{
+  background-color: #e9f5a9 !important;
+}
+ 
+#remittance_data_inr.hover tbody tr:nth-child(odd):hover td {
+  background-color: #e9f5a9 !important;
+}
+
+
+u {
+  color:blue;
+}
+
+td {border: 1px #DDD solid; padding: 0px; cursor: pointer;}
+
+.selected {
+    background-color: brown;
+    color: #FFF;
+}
+
+table {
+            
+            border-collapse: collapse;
+        }
+        th, td {
+           
+            
+            text-align: center;
+            cursor: pointer;
+        }
+        tr.selected {
+            background-color: #87CEFA; /* Light Blue */
+        }
+</style>
+
+<script type="text/javascript">
+
+document.addEventListener("DOMContentLoaded", function () {
+            const table = document.getElementById("remittance_data_inr");
+            let lastSelectedRow = null;
+
+            table.addEventListener("click", function (event) {
+                let row = event.target.closest("tr"); // Get the clicked row
+
+                if (!row || row.parentNode.nodeName === "THEAD") return; // Ignore header clicks
+
+                if (event.shiftKey && lastSelectedRow) {
+                    // Select a range of rows if Shift is held
+                    let rows = Array.from(table.querySelectorAll("tbody tr"));
+                    let startIndex = rows.indexOf(lastSelectedRow);
+                    let endIndex = rows.indexOf(row);
+                    let [min, max] = [Math.min(startIndex, endIndex), Math.max(startIndex, endIndex)];
+                    for (let i = min; i <= max; i++) {
+                        rows[i].classList.add("selected");
+                    }
+                } else if (event.ctrlKey || event.metaKey) {
+                    // Toggle selection on Ctrl/Cmd + Click
+                    row.classList.toggle("selected");
+                } else {
+                    // Normal click: clear other selections and select only the clicked row
+                    table.querySelectorAll("tr.selected").forEach(tr => tr.classList.remove("selected"));
+                    row.classList.add("selected");
+                }
+
+                lastSelectedRow = row;
+            });
+        });
+
+
+</script>
+
+<div class="">
+    <div class="">
+        <h8 style="margin-left: 14px;font-size: 25px">View Reconciliation (INR)</h8><a href="/it/rec_inr/"><button class="btn btn-primary" style="font-size: 9px;height: 25px;margin-top: -1px;margin-right: 17px;float: right;">Entry Reconciliation (INR)</button></a><br>&nbsp;
+    <p>&nbsp;</p>
+        <div class="col-md-12" style="overflow-y: scroll;overflow-x: scroll;">
+            <table class="table table-bordered hover" cellpadding="0" cellspacing="0" style="border:solid 1px #323296;color:#323296;font-size: 10px" id="remittance_data_inr">             
+              <tr height="20">
+                <th width="18">&nbsp;</th>
+                <th width="18">&nbsp;</th>
+                <th width="18">&nbsp;</th>
+                <th height="20" width="18">&nbsp;</th>
+                <th height="20" colspan="4" style="text-align: center;background-color: #f7c8fa;color:black">REMITTANCE DETAILS</th>
+                <th height="20" colspan="2" style="text-align: center;"></th>
+                <th style="text-align: center;"colspan="12" width="780">INVOICE    1</th>
+                <th style="text-align: center;" colspan="12" width="698">INVOICE    2</th>
+                <th style="text-align: center;" colspan="12" width="668">INVOICE    3</th>
+                <th style="text-align: center;" colspan="12" width="659">INVOICE    4</th>
+                <th style="text-align: center;" colspan="12" width="668">INVOICE    5</th>
+                <th style="text-align: center;" colspan="12" width="659">INVOICE    6</th>
+                <th style="text-align: center;" colspan="12" width="668">INVOICE    7</th>
+                <th style="text-align: center;" colspan="12" width="659">INVOICE    8</th>
+                <th style="text-align: center;" colspan="12" width="668">INVOICE    9</th>
+                <th style="text-align: center;" colspan="12">INVOICE    10</th>
+                <th style="text-align: center;"width="35" rowspan="2">Remarks</th>
+              </tr>
+              <tr height="45">
+                <th width="18" height="45">SN</th>
+                <th width="18">&nbsp;</th>
+                <th width="18">&nbsp;</th>
+                <th width="18">&nbsp;</th>
+                <th width="60" style="background-color: #f7c8fa;color:black;">Recpt    Date</th>
+                <th width="90" style="background-color: #f7c8fa;color:black;">Ref    No.</th>
+                <th width="76" style="background-color: #f7c8fa;color:black;">Amount    Received&nbsp;</th>
+                <th width="215" style="background-color: #f7c8fa;color:black;">Status</th>
+                <th width="61">Total    Remitt</th>
+                <th width="46">Charges    any</th>
+                <th width="780">Remitt.    Amt  </th>
+                <th width="55">Invoice    No. </th>
+                <th width="86">Client    </th>
+                <th width="49">Principle  </th>
+                <th width="33">IGST?  </th>
+                <th width="57">IGST    Value </th>
+                <th width="41">TDS%</th>
+                <th width="89">TDS    Amt</th>
+                <th width="77">TDS    IGST%</th>
+                <th width="72">TDS    IGST Amt</th>
+                <th width="113">Principle    After TDS Ded  </th>
+                <th width="48">Remit  &nbsp;</th>
+                <th width="698">Remitt.    Amt  </th>
+                <th width="55">Invoice    No.</th>
+                <th width="50">Client   </th>
+                <th width="44">Principle  </th>
+                <th width="33">IGST?  </th>
+                <th width="76">IGST    Value  </th>
+                <th width="54">TDS%  </th>
+                <th width="46">TDS    Amt  </th>
+                <th width="60">TDS    IGST%  </th>
+                <th width="72">TDS    IGST Amt  </th>
+                <th width="113">Principle    After TDS Ded  </th>
+                <th width="35">Remit  &nbsp;</th>
+                <th width="668">Remitt.    Amt  </th>
+                <th width="55">Invoice    No.  </th>
+                <th width="50">Client  </th>
+                <th width="44">Principle  </th>
+                <th width="33">IGST?  </th>
+                <th width="57">IGST    Value  </th>
+                <th width="34">TDS%  </th>
+                <th width="46">TDS    Amt  </th>
+                <th width="60">TDS    IGST%  </th>
+                <th width="72">TDS    IGST Amt  </th>
+                <th width="113">Principle    After TDS Ded  </th>
+                <th width="44">Remit  &nbsp;</th>
+                <th width="659">Remitt.    Amt  </th>
+                <th width="55">Invoice    No.  </th>
+                <th width="50">Client  </th>
+                <th width="44">Principle  </th>
+                <th width="33">IGST?  </th>
+                <th width="57">IGST    Value  </th>
+                <th width="34">TDS%  </th>
+                <th width="46">TDS    Amt  </th>
+                <th width="60">TDS    IGST%  </th>
+                <th width="72">TDS    IGST Amt</th>
+                <th width="113">Principle    After TDS Ded  </th>
+                <th width="35">Remit  &nbsp;</th>
+                <th width="668">Remitt.    Amt  </th>
+                <th width="55">Invoice    No.  </th>
+                <th width="50">Client  </th>
+                <th width="44">Principle  </th>
+                <th width="33">IGST? </th>
+                <th width="57">IGST    Value  </th>
+                <th width="34">TDS%  </th>
+                <th width="46">TDS    Amt  </th>
+                <th width="60">TDS    IGST%  </th>
+                <th width="72">TDS    IGST Amt  </th>
+                <th width="113">Principle    After TDS Ded  </th>
+                <th width="44">Remit  &nbsp;</th>
+                <th width="659">Remitt.    Amt  </th>
+                <th width="55">Invoice    No.  </th>
+                <th width="50">Client  </th>
+                <th width="44">Principle  </th>
+                <th width="33">IGST?  </th>
+                <th width="57">IGST    Value  </th>
+                <th width="34">TDS%  </th>
+                <th width="46">TDS    Amt  </th>
+                <th width="60">TDS    IGST%  </th>
+                <th width="72">TDS    IGST Amt  </th>
+                <th width="113">Principle    After TDS Ded  </th>
+                <th width="35">Remit  &nbsp;</th>
+                <th width="668">Remitt.    Amt  </th>
+                <th width="55">Invoice    No.  </th>
+                <th width="50">Client </th>
+                <th width="44">Principle  </th>
+                <th width="33">IGST?<span class="style9">  </th>
+                <th width="57">IGST    Value  </th>
+                <th width="34">TDS%  </th>
+                <th width="46">TDS    Amt  </th>
+                <th width="60">TDS    IGST%  </th>
+                <th width="72">TDS    IGST Amt  </th>
+                <th width="113">Principle    After TDS Ded  </th>
+                <th width="44">Remit  &nbsp;</th>
+                <th width="659">Remitt.    Amt  </th>
+                <th width="55">Invoice    No.  </th>
+                <th width="50">Client  </th>
+                <th width="44">Principle  </th>
+                <th width="33">IGST?  </th>
+                <th width="57">IGST    Value  </th>
+                <th width="34">TDS%  </th>
+                <th width="46">TDS    Amt  </th>
+                <th width="60">TDS    IGST%  </th>
+                <th width="72">TDS    IGST Amt  </th>
+                <th width="113">Principle    After TDS Ded  </th>
+                <th width="35">Remit  &nbsp;</th>
+                <th width="668">Remitt.    Amt  </th>
+                <th width="55">Invoice    No. </th>
+                <th width="50">Client  </th>
+                <th width="44">Principle  </th>
+                <th width="33">IGST?  </th>
+                <th width="57">IGST    Value  </th>
+                <th width="34">TDS%  </th>
+                <th width="46">TDS    Amt  </th>
+                <th width="60">TDS    IGST%  </th>
+                <th width="72">TDS    IGST Amt  </th>
+                <th width="113">Principle    After TDS Ded </th>
+                <th width="44">Remit  &nbsp;</th>
+                <th width="30">Remitt.    Amt  </th>
+                <th width="30">Invoice    No.  </th>
+                <th width="55">Client  </th>
+                <th width="50">Principle  </th>
+                <th width="44">IGST?  </th>
+                <th width="33">IGST    Value  </th>
+                <th width="57">TDS%  </th>
+                <th width="34">TDS    Amt  </th>
+                <th width="46">TDS    IGST% </th>
+                <th width="60">TDS    IGST Amt </th>
+                <th width="72">Principle    After TDS Ded  </th>
+                <th width="113">Remit  &nbsp;</th>
+              </tr>
+              
+              <tbody id="calling_rec_inr"></tbody>
+            </table>
+           
+        </div>
+    </div>
+</div>
+
+<div id="edit_rec_inr" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="    width: 235%;    margin-left: -321px;">
+      <div class="modal-header">      
+        <button class="btn btn-primary" id="e_btn_update" style="font-size: 12px">UPDATE</button>
+        <button type="button" class="close" data-dismiss="modal" style="display:;">&times;</button>
+      </div>
+      <div id="e_get_approved" style="font-size: 10px;display: none;"></div>      
+       <div class="modal-body">
+        <div class="container">
+         <div class="col-sm">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div id="get_approve_ids" style="display:none;"></div>                  
+                   <table class="" style="margin-left: 0px;border:0px solid #bab6b6" id="editable__view_inr">
+                   <thead>
+                      <tr>
+                        <th colspan="4">REMITTANCE DETAILS</th>
+                        <th colspan="8"></th>
+                      </tr></thead>
+                    <tbody>
+                      <tr style="background-color: pink;font-size: 9px;">
+                        <td>Recpt Date</td>
+                        <td>Ref No.</td>
+                        <td>Amount Received </td>
+                        <td>Status</td>
+                        <td>Total Remitt</td>
+                        <td>Charges any</td>
+                        <td colspan="6"></td>
+                      </tr>
+                      <tr style="width: 10%;background-color: #ffc1c1;">
+                        <td><input type="date" class="input_1"></td>
+                        <td style="width: 12%"><input type="text" class="input_2"></td>
+                        <td><input type="text" class="input_3"></td>
+                        <td style="width: 9%"><input type="text" class="input_4"></td>
+                        <td><input type="text" class="input_5"></td>
+                        <td><input type="text" class="input_6"></td>
+                        <td colspan="6"></td>
+                      </tr>
+                      <tr  style="width: 10%;background-color: #ffc1c1;">
+                        <td colspan="4" style="color:black;font-size: 13px;font-weight: bold;">REMITTANCE CALCULATION</td>
+                        <td colspan="8"></td>
+                      </tr></thead>
+                      <tr style="font-size: 8px;">
+                        <td style="padding-top: 8px;">Remitt. Amt1</td>
+                        <td style="padding-top: 8px;">Invoice No.1</td>
+                        <td style="padding-top: 8px;">Client1</td>
+                        <td style="padding-top: 8px;">Principle1</td>
+                        <td style="padding-top: 8px;">IGST1?</td>
+                        <td style="padding-top: 8px;">IGST1 Value</td>
+                        <td style="padding-top: 8px;">TDS1%</td>
+                        <td style="padding-top: 8px;">TDS1 Amt</td>
+                        <td style="padding-top: 8px;">TDS IGST1%</td>
+                        <td style="padding-top: 8px;">TDS1 IGST1 Amt</td>
+                        <td style="padding-top: 8px;">Principle1 After TDS Ded</td>
+                        <td style="padding-top: 8px;">Remit1  </td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" class="input_7" id="remitt_amts1"></td>
+                        <td><input type="text" class="input_8" style="background-color: white"></td>
+                        <td><input type="text" class="input_9" id="clients1"></td>
+                        <td><input type="text" class="input_10" id="principles1"></td>
+                        <td>
+                            <select class="form-control input_11" id="igsts1" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>                               
+                            </select>
+                        </td>
+                        <td><input type="text" class="input_12" id="igst_values1"></td>
+                        <td><input type="text" class="input_13" id="tdss1" style="background-color: white"></td>
+                        <td><input type="text" class="input_14" id="tdss_amt1"></td>
+                        <td><input type="text" class="input_15" id="tds_igst1" style="background-color: white"></td>
+                        <td><input type="text" class="input_16" id="tds_igst_amts1"></td>
+                        <td><input type="text" class="input_17" id="principles_tdss1"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_18" id="remittss1" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Both">Both</option>
+                                <option value="IGST">IGST</option>
+                                <option value="Principle">Principle</option>
+                            </select>
+                        </td>
+                      </tr>
+                      <tr style=";background-color: #edebe4;">
+                        <td style="padding-top: 8px;">Remitt. Amt2</td>
+                        <td style="padding-top: 8px;">Invoice No.2</td>
+                        <td style="padding-top: 8px;">Client2</td>
+                        <td style="padding-top: 8px;">Principle2</td>
+                        <td style="padding-top: 8px;">IGST2?</td>
+                        <td style="padding-top: 8px;">IGST2 Value</td>
+                        <td style="padding-top: 8px;">TDS2%</td>
+                        <td style="padding-top: 8px;">TDS2 Amt</td>
+                        <td style="padding-top: 8px;">TDS IGST2%</td>
+                        <td style="padding-top: 8px;">TDS IGST2 Amt</td>
+                        <td style="padding-top: 8px;">Principle2 After TDS Ded</td>
+                        <td style="padding-top: 8px;">Remit2  </td>
+                      </tr>
+                      <tr style=";background-color: #edebe4;">
+                        <td><input type="text" class="input_19" id="remitt_amts2"></td>
+                        <td><input type="text" class="input_20" style="background-color: white"></td>
+                        <td><input type="text" class="input_21" id="clients2"></td>
+                        <td><input type="text" class="input_22" id="principles2"></td>
+                        <td>
+                            <select class="form-control input_23" id="igsts2" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>                               
+                            </select>
+                        </td>
+                        <td><input type="text" class="input_24" id="igst_values2"></td>
+                        <td><input type="text" class="input_25" id="tdss2" style="background-color: white"></td>
+                        <td><input type="text" class="input_26" id="tdss_amt2"></td>
+                        <td><input type="text" class="input_27" id="tds_igsts2"  style="background-color: white"></td>
+                        <td><input type="text" class="input_28" id="tds_igst_amts2"></td>
+                        <td><input type="text" class="input_29" id="principles_tdss2"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_30" id="remittss2" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Both">Both</option>
+                                <option value="IGST">IGST</option>
+                                <option value="Principle">Principle</option>
+                            </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-top: 8px;">Remitt. Amt3</td>
+                        <td style="padding-top: 8px;">Invoice No.3</td>
+                        <td style="padding-top: 8px;">Client 3</td>
+                        <td style="padding-top: 8px;">Principle3</td>
+                        <td style="padding-top: 8px;">IGST3?</td>
+                        <td style="padding-top: 8px;">IGST3 Value</td>
+                        <td style="padding-top: 8px;">TDS3%</td>
+                        <td style="padding-top: 8px;">TDS3 Amt</td>
+                        <td style="padding-top: 8px;">TDS IGST3%</td>
+                        <td style="padding-top: 8px;">TDS IGST3 Amt</td>
+                        <td style="padding-top: 8px;">Principle3 After TDS Ded</td>
+                        <td style="padding-top: 8px;">Remit3  </td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" class="input_31" id="remitt_amts3"></td>
+                        <td id="invoice_no3"><input type="text" class="input_32" style="background-color: white"></td>
+                        <td><input type="text" class="input_33" id="clients3"></td>
+                        <td><input type="text" class="input_34" id="principles3"></td>
+                        <td>
+                            <select class="form-control input_35" id="igsts3" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>                               
+                            </select>
+                        </td>
+                        <td><input type="text" class="input_36" id="igst_values3"></td>
+                        <td><input type="text" class="input_37" id="tdss3" style="background-color: white"></td>
+                        <td><input type="text" class="input_38" id="tdss_amt3"></td>
+                        <td><input type="text" class="input_39" id="tds_igsts3" style="background-color: white"></td>
+                        <td><input type="text" class="input_40" id="tds_igst_amts3"></td>                           
+                        <td><input type="text" class="input_41" id="principles_tdss3"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_42" id="remittss3" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Both">Both</option>
+                                <option value="IGST">IGST</option>
+                                <option value="Principle">Principle</option>
+                            </select>
+                        </td>
+                      </tr>
+                      <tr style=";background-color: #edebe4;">
+                        <td style="padding-top: 8px;">Remitt. Amt4</td>
+                        <td style="padding-top: 8px;">Invoice No.4</td>
+                        <td style="padding-top: 8px;">Client4</td>
+                        <td style="padding-top: 8px;">Principle4</td>
+                        <td style="padding-top: 8px;">IGST4?</td>
+                        <td style="padding-top: 8px;">IGST4 Value</td>
+                        <td style="padding-top: 8px;">TDS4%</td>
+                        <td style="padding-top: 8px;">TDS4 Amt</td>
+                        <td style="padding-top: 8px;">TDS IGST4%</td>
+                        <td style="padding-top: 8px;">TDS IGST4 Amt</td>
+                        <td style="padding-top: 8px;">Principle4 After TDS Ded</td>
+                        <td style="padding-top: 8px;">Remit4  </td>
+                      </tr>
+                      <tr style=";background-color: #edebe4;">
+                        <td><input type="text" class="input_43" id="remitt_amts4"></td>
+                        <td id="invoice_no4"><input type="text" class="input_44" style="background-color: white"></td>
+                        <td><input type="text" class="input_45" id="clients4"></td>
+                        <td><input type="text" class="input_46" id="principles4"></td>
+                        <td>
+                            <select class="form-control input_47" id="igsts4" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>                               
+                            </select>
+                        </td>
+                        <td><input type="text" class="input_48" id="igst_values4"></td>
+                        <td><input type="text" class="input_49" id="tdss4" style="background-color: white"></td>
+                        <td><input type="text" class="input_50" id="tdss_amt4"></td>
+                        <td><input type="text" class="input_51" id="tds_igsts4" style="background-color: white"></td>
+                        <td><input type="text" class="input_52" id="tds_igst_amts4"></td>
+                        <td><input type="text" class="input_53" id="principles_tdss4"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_54" id="remittss4" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Both">Both</option>
+                                <option value="IGST">IGST</option>
+                                <option value="Principle">Principle</option>
+                            </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-top: 8px;">Remitt. Amt5</td>
+                        <td style="padding-top: 8px;">Invoice No.5</td>
+                        <td style="padding-top: 8px;">Client5</td>
+                        <td style="padding-top: 8px;">Principle5</td>
+                        <td style="padding-top: 8px;">IGST5?</td>
+                        <td style="padding-top: 8px;">IGST5 Value</td>
+                        <td style="padding-top: 8px;">TDS5%</td>
+                        <td style="padding-top: 8px;">TDS5 Amt</td>
+                        <td style="padding-top: 8px;">TDS IGST5%</td>
+                        <td style="padding-top: 8px;">TDS IGST5 Amt</td>
+                        <td style="padding-top: 8px;">Principle5 After TDS Ded</td>
+                        <td style="padding-top: 8px;">Remit5  </td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" class="input_55" id="remitt_amts5"></td>
+                        <td id="invoice_no5"><input type="text" class="input_56" id="" style="background-color: white"></td>
+                        <td><input type="text" class="input_57" id="clients5"></td>
+                        <td><input type="text" class="input_58" id="principles5"></td>
+                        <td>
+                            <select class="form-control input_59" id="igsts5" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>                               
+                            </select>
+                        </td>
+                        <td><input type="text" class="input_60" id="igst_values5"></td>
+                        <td><input type="text" class="input_61" id="tdss5" style="background-color: white"></td>
+                        <td><input type="text" class="input_62" id="tdss_amt5"></td>
+                        <td><input type="text" class="input_63" id="tds_igsts5" style="background-color: white"></td>
+                        <td><input type="text" class="input_64" id="tds_igst_amts5"></td>
+                        <td><input type="text" class="input_65" id="principles_tdss5"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_66" id="remittss5" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Both">Both</option>
+                                <option value="IGST">IGST</option>
+                                <option value="Principle">Principle</option>
+                            </select>
+                        </td>
+                      </tr>
+                      <tr style=";background-color: #edebe4;">
+                        <td style="padding-top: 8px;">Remitt. Amt6</td>
+                        <td style="padding-top: 8px;">Invoice No.6</td>
+                        <td style="padding-top: 8px;">Client6</td>
+                        <td style="padding-top: 8px;">Principle6</td>
+                        <td style="padding-top: 8px;">IGST6?</td>
+                        <td style="padding-top: 8px;">IGST6 Value</td>
+                        <td style="padding-top: 8px;">TDS6%</td>
+                        <td style="padding-top: 8px;">TDS6 Amt</td>
+                        <td style="padding-top: 8px;">TDS IGST6%</td>
+                        <td style="padding-top: 8px;">TDS IGST6 Amt</td>
+                        <td style="padding-top: 8px;">Principle6 After TDS Ded</td>
+                        <td style="padding-top: 8px;">Remit6  </td>
+                      </tr>
+                      <tr style=";background-color: #edebe4;">
+                        <td><input type="text" class="input_67" id="remitt_amts6"></td>
+                        <td id="invoice_no6"><input type="text" class="input_68" id="" style="background-color: white"></td>
+                        <td><input type="text" class="input_69" id="clients6"></td>
+                        <td><input type="text" class="input_70" id="principles6"></td>
+                        <td>
+                            <select class="form-control input_71" id="igsts6" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>                               
+                            </select>
+                        </td>
+                        <td><input type="text" class="input_72" id="igst_values6"></td>
+                        <td><input type="text" class="input_73" id="tdss6" style="background-color: white"></td>
+                        <td><input type="text" class="input_74" id="tdss_amt6"></td>
+                        <td><input type="text" class="input_75" id="tds_igsts6" style="background-color: white"></td>
+                        <td><input type="text" class="input_76" id="tds_igst_amts6"></td>
+                        <td><input type="text" class="input_77" id="principles_tdss6"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_78" id="remittss6" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Both">Both</option>
+                                <option value="IGST">IGST</option>
+                                <option value="Principle">Principle</option>
+                            </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-top: 8px;">Remitt. Amt7</td>
+                        <td style="padding-top: 8px;">Invoice No.7</td>
+                        <td style="padding-top: 8px;">Client7</td>
+                        <td style="padding-top: 8px;">Principle7</td>
+                        <td style="padding-top: 8px;">IGST7?</td>
+                        <td style="padding-top: 8px;">IGST7 Value</td>
+                        <td style="padding-top: 8px;">TDS7%</td>
+                        <td style="padding-top: 8px;">TDS7 Amt</td>
+                        <td style="padding-top: 8px;">TDS IGST7%</td>
+                        <td style="padding-top: 8px;">TDS IGST7 Amt</td>
+                        <td style="padding-top: 8px;">Principle7 After TDS Ded</td>
+                        <td style="padding-top: 8px;">Remit7  </td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" class="input_79" id="remitt_amts7"></td>
+                        <td id="invoice_no7"><input type="text" class="input_80" style="background-color: white"></td>
+                        <td><input type="text" class="input_81" id="clients7"></td>
+                        <td><input type="text" class="input_82" id="principles7"></td>
+                        <td>
+                            <select class="form-control input_83" id="igsts7" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>                               
+                            </select>
+                        </td>
+                        <td><input type="text" class="input_84" id="igst_values7"></td>
+                        <td><input type="text" class="input_85" id="tdss7" style="background-color: white"></td>
+                        <td><input type="text" class="input_86" id="tdss_amt7"></td>
+                        <td><input type="text" class="input_87" id="tds_igsts7" style="background-color: white"></td>
+                        <td><input type="text" class="input_88" id="tds_igst_amts7"></td>
+                        <td><input type="text" class="input_89" id="principles_tdss7"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_90" id="remittss7" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Both">Both</option>
+                                <option value="IGST">IGST</option>
+                                <option value="Principle">Principle</option>
+                            </select>
+                        </td>
+                      </tr>
+                      <tr style=";background-color: #edebe4;">
+                        <td style="padding-top: 8px;">Remitt. Amt8</td>
+                        <td style="padding-top: 8px;">Invoice No.8</td>
+                        <td style="padding-top: 8px;">Client8</td>
+                        <td style="padding-top: 8px;">Principle8</td>
+                        <td style="padding-top: 8px;">IGST8?</td>
+                        <td style="padding-top: 8px;">IGST8 Value</td>
+                        <td style="padding-top: 8px;">TDS8%</td>
+                        <td style="padding-top: 8px;">TDS8 Amt</td>
+                        <td style="padding-top: 8px;">TDS IGST8%</td>
+                        <td style="padding-top: 8px;">TDS IGST8 Amt</td>
+                        <td style="padding-top: 8px;">Principle8 After TDS Ded</td>
+                        <td style="padding-top: 8px;">Remit8  </td>
+                      </tr>
+                      <tr style=";background-color: #edebe4;">
+                        <td><input type="text" class="input_91" id="remitt_amts8"></td>
+                        <td id="invoice_no8"><input type="text" class="input_92" style="background-color: white"></td>
+                        <td><input type="text" class="input_93" id="clients8"></td>
+                        <td><input type="text" class="input_94" id="principles8"></td>
+                        <td>
+                            <select class="form-control input_95" id="igsts8">
+                                <option value="0"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>                               
+                            </select>
+                        </td>
+                        <td><input type="text" class="input_96" id="igst_values8"></td>
+                        <td><input type="text" class="input_97" id="tdss8" style="background-color: white"></td>
+                        <td><input type="text" class="input_98" id="tdss_amt8"></td>
+                        <td><input type="text" class="input_99" id="tds_igsts8" style="background-color: white"></td>
+                        <td><input type="text" class="input_100" id="tds_igst_amts8"></td>
+                        <td><input type="text" class="input_101" id="principles_tdss8"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_102" id="remittss8" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Both">Both</option>
+                                <option value="IGST">IGST</option>
+                                <option value="Principle">Principle</option>
+                            </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-top: 8px;">Remitt. Amt9</td>
+                        <td style="padding-top: 8px;">Invoice No.9</td>
+                        <td style="padding-top: 8px;">Client9</td>
+                        <td style="padding-top: 8px;">Principle9</td>
+                        <td style="padding-top: 8px;">IGST9?</td>
+                        <td style="padding-top: 8px;">IGST9 Value</td>
+                        <td style="padding-top: 8px;">TDS9%</td>
+                        <td style="padding-top: 8px;">TDS9 Amt</td>
+                        <td style="padding-top: 8px;">TDS IGST9%</td>
+                        <td style="padding-top: 8px;">TDS IGST9 Amt</td>
+                        <td style="padding-top: 8px;">Principle9 After TDS Ded</td>
+                        <td style="padding-top: 8px;">Remit9  </td>
+                      </tr>
+                      <tr>
+                        <td><input type="text" class="input_103" id="remitt_amts9"></td>
+                        <td id="invoice_no9"><input type="text" class="input_104" style="background-color: white"></td>
+                        <td><input type="text" class="input_105" id="clients9"></td>
+                        <td><input type="text" class="input_106" id="principles9"></td>
+                        <td>
+                            <select class="form-control input_107" id="igsts9">
+                                <option value="0"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>                               
+                            </select>
+                        </td>
+
+                        <td><input type="text" class="input_108" id="igst_values9"></td>
+                        <td><input type="text" class="input_109" id="tdss9" style="background-color: white"></td>
+                        <td><input type="text" class="input_110" id="tdss_amt9"></td>
+                        <td><input type="text" class="input_111" id="tds_igsts9" style="background-color: white"></td>
+                        <td><input type="text" class="input_112" id="tds_igst_amts9"></td>
+                        <td><input type="text" class="input_113" id="principles_tdss9"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_114" id="remittss9" style="font-size: 12px;">
+                                <option value="0"></option>
+                                <option value="Both">Both</option>
+                                <option value="IGST">IGST</option>
+                                <option value="Principle">Principle</option>
+                            </select>
+                        </td>
+                      </tr>
+                      <tr style=";background-color: #edebe4;">
+                        <td style="padding-top: 8px;">Remitt. Amt10</td>
+                        <td style="padding-top: 8px;">Invoice No.10</td>
+                        <td style="padding-top: 8px;">Client10</td>
+                        <td style="padding-top: 8px;">Principle10</td>
+                        <td style="padding-top: 8px;">IGST10?</td>
+                        <td style="padding-top: 8px;">IGST Value10</td>
+                        <td style="padding-top: 8px;">TDS10%</td>
+                        <td style="padding-top: 8px;">TDS10 Amt</td>
+                        <td style="padding-top: 8px;">TDS IGST10%</td>
+                        <td style="padding-top: 8px;">TDS IGST10 Amt</td>
+                        <td style="padding-top: 8px;">Principle10 After TDS Ded</td>
+                        <td style="padding-top: 8px;">Remit10  </td>
+                      </tr>
+                      <tr style=";background-color: #edebe4;">
+                        <td><input type="text" class="input_115" id="remitt_amts10"></td>
+                        <td id="invoice_no10"><input type="text" class="input_116" style="background-color: white"></td>
+                        <td><input type="text" class="input_117" id="clients10"></td>
+                        <td><input type="text" class="input_118" id="principles10"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_119" id="igsts10"  style="font-size: 12px;">
+                                 <option value="0"></option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>    
+                            </select>
+                        </td>
+                       
+                        <td><input type="text" class="input_120" id="igst_values10"></td>
+                        <td><input type="text" class="input_121" id="tdss10" style="background-color: white"></td>
+                        <td><input type="text" class="input_122" id="tdss_amt10"></td>
+                        <td><input type="text" class="input_123" id="tds_igsts10" style="background-color: white"></td>
+                        <td><input type="text" class="input_124" id="tds_igst_amts10"></td>
+                        <td><input type="text" class="input_125" id="principles_tdss10"></td>
+                        <td style="width: 98px;">
+                            <select class="form-control input_126" id="remittss10">
+                                <option value="0"></option>
+                                <option value="Both">Both</option>
+                                <option value="IGST">IGST</option>
+                                <option value="Principle">Principle</option>
+                            </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> 
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="edit_invoice1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 150%;margin-left: -126px;">
+      <div class="modal-header">       
+        <button type="button" class="close" data-dismiss="modal" style="display:;">&times;</button>
+      </div>
+      <div id="e_get_id" style="font-size: 10px;display: none;"></div>      
+        <div class="modal-body">
+          <div class="container">
+            <div id="view_pdf"><iframe class="get_urls_invoice1" style="height:400px;width:100%;border: 0px solid white"></iframe></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+   
+
+    $.ajax({
+      url : "/it/filter_rec_inr",
+      type : "get",
+      dataType : "json",
+
+      data : {
+        
+      },
+
+      success : function(obj_data){
+
+        for(var i=0;i<obj_data['inr_list'].length;i++){
+         $('#calling_rec_inr').append('<tr><td class="get_id" id="getIDS">'+obj_data['inr_list'][i]['ids']+'</td>'
+            +'<td><button class="btn btn-success btnapproved" id="btn_approved" style="font-size:9px;height:25px;">Approve</button></td>'
+            +'<td><button class="btn btn-warning edit btnedit" id="btn_edit" style="font-size:9px;height:25px;" data-toggle="modal" data-target="#edit_rec_inr">Edit</button></td>'
+            +'<td><button class="btn btn-danger btndelete"  id="btn_delete"   style="font-size:9px;height:25px;">Delete</button></td>'
+            +'<td class="fe_remittance_date" style="display:none">'+obj_data['inr_list'][i]['fremittance_date']+'</td>'
+            +'<td class="">'+obj_data['inr_list'][i]['remittance_date']+'</td>'
+            +'<td class="e_reference_no">'+obj_data['inr_list'][i]['reference_no']+'</td>'
+            +'<td class="e_amount_received">'+obj_data['inr_list'][i]['amount_received']+'</td>'
+            +'<td style="background-color:'+obj_data['inr_list'][i]['diff_color']+'" class="e_status">'+obj_data['inr_list'][i]['status']+'</td>'
+            +'<td class="e_total_remitt">'+obj_data['inr_list'][i]['total_remitt']+'</td>'
+            +'<td class="e_charges_any">'+obj_data['inr_list'][i]['charges_any']+'</td>'
+            +'<td class="e_remitt_amount1" id="e_remitt_amount1">'+obj_data['inr_list'][i]['remitt_amount']+'</td>'
+           
+            +'<td class="e_invoice_no1" id="e_invoice_no1"><u data-toggle="modal" data-target="#edit_invoice1" class="edit1" name='+obj_data['inr_list'][i]['invoice_no1']+'>'+obj_data['inr_list'][i]['invoice_no1']+'</u></td>'
+            +'<td class="e_client_name1" id="e_client_name1">'+obj_data['inr_list'][i]['client_name1']+'</td>'
+            +'<td class="e_principle1">'+obj_data['inr_list'][i]['principle1']+'</td>'
+            +'<td class="e_igst1">'+obj_data['inr_list'][i]['igst1']+'</td>'
+            +'<td class="e_igst_value1">'+obj_data['inr_list'][i]['igst_value1']+'</td>'
+            +'<td class="e_tds1">'+obj_data['inr_list'][i]['tds1']+'</td>'
+            +'<td class="e_tds_amount1">'+obj_data['inr_list'][i]['tds_amount1']+'</td>'
+            +'<td class="e_tds_igst1">'+obj_data['inr_list'][i]['tds_igst1']+'</td>'
+            +'<td class="e_tds_igst_amt1">'+obj_data['inr_list'][i]['tds_igst_amt1']+'</td>'
+            +'<td class="e_principle_tds_ded1">'+obj_data['inr_list'][i]['principle_tds_ded1']+'</td>'
+            +'<td class="e_remitt1">'+obj_data['inr_list'][i]['remitt1']+'</td>'
+
+            +'<td class="e_remitt_amount2">'+obj_data['inr_list'][i]['remitt_amount2']+'</td>'
+            +'<td class="e_invoice_no2"><u data-toggle="modal" data-target="#edit_invoice1" class="edit2" name='+obj_data['inr_list'][i]['invoice_no2']+'>'+obj_data['inr_list'][i]['invoice_no2']+'</u></td>'
+            +'<td class="e_client_name2" id="client_name2">'+obj_data['inr_list'][i]['client_name2']+'</td>'
+            +'<td class="e_principle2">'+obj_data['inr_list'][i]['principle2']+'</td>'
+            +'<td class="e_igst2">'+obj_data['inr_list'][i]['igst2']+'</td>'
+            +'<td class="e_igst_value2">'+obj_data['inr_list'][i]['igst_value2']+'</td>'
+            +'<td class="e_tds2">'+obj_data['inr_list'][i]['tds2']+'</td>'
+            +'<td class="e_tds_amount2">'+obj_data['inr_list'][i]['tds_amount2']+'</td>'
+            +'<td class="e_tds_igst2">'+obj_data['inr_list'][i]['tds_igst2']+'</td>'
+            +'<td class="e_tds_igst_amt2">'+obj_data['inr_list'][i]['tds_igst_amt2']+'</td>'
+            +'<td class="e_principle_tds_ded2">'+obj_data['inr_list'][i]['principle_tds_ded2']+'</td>'
+            +'<td class="e_remitt2">'+obj_data['inr_list'][i]['remitt2']+'</td>'
+
+            +'<td class="e_remitt_amount3">'+obj_data['inr_list'][i]['remitt_amount3']+'</td>'
+            +'<td class="e_invoice_no3"><u data-toggle="modal" data-target="#edit_invoice1" class="edit3" name='+obj_data['inr_list'][i]['invoice_no3']+'>'+obj_data['inr_list'][i]['invoice_no3']+'</u></td>'
+            +'<td class="e_client_name3">'+obj_data['inr_list'][i]['client_name3']+'</td>'
+            +'<td class="e_principle3">'+obj_data['inr_list'][i]['principle3']+'</td>'
+            +'<td class="e_igst3">'+obj_data['inr_list'][i]['igst3']+'</td>'
+            +'<td class="e_igst_value3">'+obj_data['inr_list'][i]['igst_value3']+'</td>'
+            +'<td class="e_tds3">'+obj_data['inr_list'][i]['tds3']+'</td>'
+            +'<td class="e_tds_amount3">'+obj_data['inr_list'][i]['tds_amount3']+'</td>'
+            +'<td class="e_tds_igst3">'+obj_data['inr_list'][i]['tds_igst3']+'</td>'
+            +'<td class="e_tds_igst_amt3">'+obj_data['inr_list'][i]['tds_igst_amt3']+'</td>'
+            +'<td class="e_principle_tds_ded3">'+obj_data['inr_list'][i]['principle_tds_ded3']+'</td>'
+            +'<td class="e_remitt3">'+obj_data['inr_list'][i]['remitt3']+'</td>'
+
+            +'<td class="e_remitt_amount4">'+obj_data['inr_list'][i]['remitt_amount4']+'</td>'
+            +'<td class="e_invoice_no4"><u data-toggle="modal" data-target="#edit_invoice1" class="edit4" name='+obj_data['inr_list'][i]['invoice_no4']+'>'+obj_data['inr_list'][i]['invoice_no4']+'</u></td>'
+            +'<td class="e_client_name4">'+obj_data['inr_list'][i]['client_name4']+'</td>'
+            +'<td class="e_principle4">'+obj_data['inr_list'][i]['principle4']+'</td>'
+            +'<td class="e_igst4">'+obj_data['inr_list'][i]['igst4']+'</td>'
+            +'<td class="e_igst_value4">'+obj_data['inr_list'][i]['igst_value4']+'</td>'
+            +'<td class="e_tds4">'+obj_data['inr_list'][i]['tds4']+'</td>'
+            +'<td class="e_tds_amount4">'+obj_data['inr_list'][i]['tds_amount4']+'</td>'
+            +'<td class="e_tds_igst4">'+obj_data['inr_list'][i]['tds_igst4']+'</td>'
+            +'<td class="e_tds_igst_amt4">'+obj_data['inr_list'][i]['tds_igst_amt4']+'</td>'
+            +'<td class="e_principle_tds_ded4">'+obj_data['inr_list'][i]['principle_tds_ded4']+'</td>'
+            +'<td class="e_remitt4">'+obj_data['inr_list'][i]['remitt4']+'</td>'
+
+            +'<td class="e_remitt_amount5">'+obj_data['inr_list'][i]['remitt_amount5']+'</td>'
+            +'<td class="e_invoice_no5"><u data-toggle="modal" data-target="#edit_invoice1" class="edit5" name='+obj_data['inr_list'][i]['invoice_no5']+'>'+obj_data['inr_list'][i]['invoice_no5']+'</u></td>'
+            +'<td class="e_client_name5">'+obj_data['inr_list'][i]['client_name5']+'</td>'
+            +'<td class="e_principle5">'+obj_data['inr_list'][i]['principle5']+'</td>'
+            +'<td class="e_igst5">'+obj_data['inr_list'][i]['igst5']+'</td>'
+            +'<td class="e_igst_value5">'+obj_data['inr_list'][i]['igst_value5']+'</td>'
+            +'<td class="e_tds5">'+obj_data['inr_list'][i]['tds5']+'</td>'
+            +'<td class="e_tds_amount5">'+obj_data['inr_list'][i]['tds_amount5']+'</td>'
+            +'<td class="e_tds_igst5">'+obj_data['inr_list'][i]['tds_igst5']+'</td>'
+            +'<td class="e_tds_igst_amt5">'+obj_data['inr_list'][i]['tds_igst_amt5']+'</td>'
+            +'<td class="e_principle_tds_ded5">'+obj_data['inr_list'][i]['principle_tds_ded5']+'</td>'
+            +'<td class="e_remitt5">'+obj_data['inr_list'][i]['remitt5']+'</td>'
+
+            +'<td class="e_remitt_amount6">'+obj_data['inr_list'][i]['remitt_amount6']+'</td>'
+            +'<td class="e_invoice_no6"><u data-toggle="modal" data-target="#edit_invoice1"class="edit6" name='+obj_data['inr_list'][i]['invoice_no6']+'>'+obj_data['inr_list'][i]['invoice_no6']+'</u></td>'
+            +'<td class="e_client_name6">'+obj_data['inr_list'][i]['client_name6']+'</td>'
+            +'<td class="e_principle6">'+obj_data['inr_list'][i]['principle6']+'</td>'
+            +'<td class="e_igst6">'+obj_data['inr_list'][i]['igst6']+'</td>'
+            +'<td class="e_igst_value6">'+obj_data['inr_list'][i]['igst_value6']+'</td>'
+            +'<td class="e_tds6">'+obj_data['inr_list'][i]['tds6']+'</td>'
+            +'<td class="e_tds_amount6">'+obj_data['inr_list'][i]['tds_amount6']+'</td>'
+            +'<td class="e_tds_igst6">'+obj_data['inr_list'][i]['tds_igst6']+'</td>'
+            +'<td class="e_tds_igst_amt6">'+obj_data['inr_list'][i]['tds_igst_amt6']+'</td>'
+            +'<td class="e_principle_tds_ded6">'+obj_data['inr_list'][i]['principle_tds_ded6']+'</td>'
+            +'<td class="e_remitt6">'+obj_data['inr_list'][i]['remitt6']+'</td>'
+
+            +'<td class="e_remitt_amount7">'+obj_data['inr_list'][i]['remitt_amount7']+'</td>'
+            +'<td class="e_invoice_no7"><u data-toggle="modal" data-target="#edit_invoice1"class="edit7" name='+obj_data['inr_list'][i]['invoice_no7']+'>'+obj_data['inr_list'][i]['invoice_no7']+'</u></td>'
+            +'<td class="e_client_name7">'+obj_data['inr_list'][i]['client_name7']+'</td>'
+            +'<td class="e_principle7">'+obj_data['inr_list'][i]['principle7']+'</td>'
+            +'<td class="e_igst7">'+obj_data['inr_list'][i]['igst7']+'</td>'
+            +'<td class="e_igst_value7">'+obj_data['inr_list'][i]['igst_value7']+'</td>'
+            +'<td class="e_tds7">'+obj_data['inr_list'][i]['tds7']+'</td>'
+            +'<td class="e_tds_amount7">'+obj_data['inr_list'][i]['tds_amount7']+'</td>'
+            +'<td class="e_tds_igst7">'+obj_data['inr_list'][i]['tds_igst7']+'</td>'
+            +'<td class="e_tds_igst_amt7">'+obj_data['inr_list'][i]['tds_igst_amt7']+'</td>'
+            +'<td class="e_principle_tds_ded7">'+obj_data['inr_list'][i]['principle_tds_ded7']+'</td>'
+            +'<td class="e_remitt7">'+obj_data['inr_list'][i]['remitt7']+'</td>'
+
+            +'<td class="e_remitt_amount8">'+obj_data['inr_list'][i]['remitt_amount8']+'</td>'
+            +'<td class="e_invoice_no8"><u data-toggle="modal" data-target="#edit_invoice1" class="edit8" name='+obj_data['inr_list'][i]['invoice_no8']+'>'+obj_data['inr_list'][i]['invoice_no8']+'</u></td>'
+            +'<td class="e_client_name8">'+obj_data['inr_list'][i]['client_name8']+'</td>'
+            +'<td class="e_principle8">'+obj_data['inr_list'][i]['principle8']+'</td>'
+            +'<td class="e_igst8">'+obj_data['inr_list'][i]['igst8']+'</td>'
+            +'<td class="e_igst_value8">'+obj_data['inr_list'][i]['igst_value8']+'</td>'
+            +'<td class="e_tds8">'+obj_data['inr_list'][i]['tds8']+'</td>'
+            +'<td class="e_tds_amount8">'+obj_data['inr_list'][i]['tds_amount8']+'</td>'
+            +'<td class="e_tds_igst8">'+obj_data['inr_list'][i]['tds_igst8']+'</td>'
+            +'<td class="e_tds_igst_amt8">'+obj_data['inr_list'][i]['tds_igst_amt8']+'</td>'
+            +'<td class="e_principle_tds_ded8">'+obj_data['inr_list'][i]['principle_tds_ded8']+'</td>'
+            +'<td class="e_remitt8">'+obj_data['inr_list'][i]['remitt8']+'</td>'
+
+            +'<td class="e_remitt_amount9">'+obj_data['inr_list'][i]['remitt_amount9']+'</td>'
+            +'<td class="e_invoice_no9"><u data-toggle="modal" data-target="#edit_invoice1" class="edit9" name='+obj_data['inr_list'][i]['invoice_no9']+'>'+obj_data['inr_list'][i]['invoice_no9']+'</u></td>'
+            +'<td class="e_client_name9">'+obj_data['inr_list'][i]['client_name9']+'</td>'
+            +'<td class="e_principle9">'+obj_data['inr_list'][i]['principle9']+'</td>'
+            +'<td class="e_igst9">'+obj_data['inr_list'][i]['igst9']+'</td>'
+            +'<td class="e_igst_value9">'+obj_data['inr_list'][i]['igst_value9']+'</td>'
+            +'<td class="e_tds9">'+obj_data['inr_list'][i]['tds9']+'</td>'
+            +'<td class="e_tds_amount9">'+obj_data['inr_list'][i]['tds_amount9']+'</td>'
+            +'<td class="e_tds_igst9">'+obj_data['inr_list'][i]['tds_igst9']+'</td>'
+            +'<td class="e_tds_igst_amt9">'+obj_data['inr_list'][i]['tds_igst_amt9']+'</td>'
+            +'<td class="e_principle_tds_ded9">'+obj_data['inr_list'][i]['principle_tds_ded9']+'</td>'
+            +'<td class="e_remitt9">'+obj_data['inr_list'][i]['remitt9']+'</td>'
+
+            +'<td class="e_remitt_amount10">'+obj_data['inr_list'][i]['remitt_amount10']+'</td>'
+            +'<td class="e_invoice_no10"><u data-toggle="modal" data-target="#edit_invoice1" class="edit10" name='+obj_data['inr_list'][i]['invoice_no10']+'>'+obj_data['inr_list'][i]['invoice_no10']+'</u></td>'
+            +'<td class="e_client_name10">'+obj_data['inr_list'][i]['client_name10']+'</td>'
+            +'<td class="e_principle10">'+obj_data['inr_list'][i]['principle10']+'</td>'
+            +'<td class="e_igst10">'+obj_data['inr_list'][i]['igst10']+'</td>'
+            +'<td class="e_igst_value10">'+obj_data['inr_list'][i]['igst_value10']+'</td>'
+            +'<td class="e_tds10">'+obj_data['inr_list'][i]['tds10']+'</td>'
+            +'<td class="e_tds_amount10">'+obj_data['inr_list'][i]['tds_amount10']+'</td>'
+            +'<td class="e_tds_igst10">'+obj_data['inr_list'][i]['tds_igst10']+'</td>'
+            +'<td class="e_tds_igst_amt10">'+obj_data['inr_list'][i]['tds_igst_amt10']+'</td>'
+            +'<td class="e_principle_tds_ded10">'+obj_data['inr_list'][i]['principle_tds_ded10']+'</td>'
+            +'<td class="e_remitt10">'+obj_data['inr_list'][i]['remitt10']+'</td>'
+            +'<td class="e_remarks">'+obj_data['inr_list'][i]['remarks']+'</td></tr>')
+        }
+
+
+        if('{{login_user}}'=='gmadam'){// '{{login_user}}'=='anuragt' || '{{login_user}}'=='sandeepm'){           
+            $('.btnapproved').css('display','');
+            $('.btndelete').css('display','none');
+            $('.btnedit').css('display','none'); 
+        }
+        else if('{{login_user}}'=='anuragt'){
+            $('.btnapproved').css('display','');
+            $('.btndelete').css('display','');
+            $('.btnedit').css('display',''); 
+
+        }
+        else if('{{login_user}}'=='sandeepm'){
+            $('.btnapproved').css('display','');
+            $('.btndelete').css('display','');
+            $('.btnedit').css('display','');
+        }
+
+        else{
+            $('.btnapproved').css('display','none');
+            $('.btndelete').css('display','none');   
+            $('.btnedit').css('display','');     
+        }
+
+
+           for(var t=1;t<11;t++){
+               $('.edit'+t).click(function(){                  
+                  var invc = $(this).attr('name'); 
+
+                  $.ajax({
+                  url  : '/it/get_pdf_viewerx_inr/',
+                  type : 'GET',
+                  dataType :'JSON',
+                  data:{                    
+                    'invc' : invc,          
+                  },
+                  success:function(obj){
+                    console.log(obj)
+                    $('.get_urls_invoice1').attr('src',obj)
+                   
+                  },
+                  error:function(err){            
+                    console.log(JSON.stringify(err,null,4));
+                  }
+                })
+               })
+             }
+
+
+        $('.edit').click(function(){           
+            var e_get_id                    = $(this).closest("tr").find(".get_id").text();
+            var e_remittance_date           = $(this).closest("tr").find(".fe_remittance_date").text()
+            var e_reference_no              = $(this).closest("tr").find(".e_reference_no").text()
+            var e_amount_received           = $(this).closest("tr").find(".e_amount_received").text()
+            var e_status                    = $(this).closest("tr").find(".e_status").text()
+            var e_total_remitt              = $(this).closest("tr").find(".e_total_remitt").text()
+            var e_charges_any               = $(this).closest("tr").find(".e_charges_any").text()
+            var e_remitt_amount1            = $(this).closest("tr").find(".e_remitt_amount1").text()
+            var e_invoice_no1               = $(this).closest("tr").find(".e_invoice_no1").text()
+            var e_client_name1              = $(this).closest("tr").find(".e_client_name1").text()
+            var e_principle1                = $(this).closest("tr").find(".e_principle1").text()
+            var e_igst1                     = $(this).closest("tr").find(".e_igst1").text()
+            var e_igst_value1               = $(this).closest("tr").find(".e_igst_value1").text()
+            var e_tds1                      = $(this).closest("tr").find(".e_tds1").text()
+            var e_tds_amount1               = $(this).closest("tr").find(".e_tds_amount1").text()
+            var e_tds_igst1                 = $(this).closest("tr").find(".e_tds_igst1").text()
+            var e_tds_igst_amt1             = $(this).closest("tr").find(".e_tds_igst_amt1").text()
+            var e_principle_tds_ded1        = $(this).closest("tr").find(".e_principle_tds_ded1").text()
+            var e_remitt1                   = $(this).closest("tr").find(".e_remitt1").text()
+            var e_remitt_amount2            = $(this).closest("tr").find(".e_remitt_amount2").text();
+            var e_invoice_no2               = $(this).closest("tr").find(".e_invoice_no2").text();
+            var e_client_name2              = $(this).closest("tr").find(".e_client_name2").text();
+            var e_principle2                = $(this).closest("tr").find(".e_principle2").text();
+            var e_igst2                     = $(this).closest("tr").find(".e_igst2").text();
+            var e_igst_value2               = $(this).closest("tr").find(".e_igst_value2").text();
+            var e_tds2                      = $(this).closest("tr").find(".e_tds2").text();
+            var e_tds_amount2               = $(this).closest("tr").find(".e_tds_amount2").text();
+            var e_tds_igst2                 = $(this).closest("tr").find(".e_tds_igst2").text();
+            var e_tds_igst_amt2             = $(this).closest("tr").find(".e_tds_igst_amt2").text();
+            var e_principle_tds_ded2        = $(this).closest("tr").find(".e_principle_tds_ded2").text();
+            var e_remitt2                   = $(this).closest("tr").find(".e_remitt2").text();
+            var e_remitt_amount3            = $(this).closest("tr").find(".e_remitt_amount3").text();
+            var e_invoice_no3               = $(this).closest("tr").find(".e_invoice_no3").text();
+            var e_client_name3              = $(this).closest("tr").find(".e_client_name3").text();
+            var e_principle3                = $(this).closest("tr").find(".e_principle3").text();
+            var e_igst3                     = $(this).closest("tr").find(".e_igst3").text();
+            var e_igst_value3               = $(this).closest("tr").find(".e_igst_value3").text();
+            var e_tds3                      = $(this).closest("tr").find(".e_tds3").text();
+            var e_tds_amount3               = $(this).closest("tr").find(".e_tds_amount3").text();
+            var e_tds_igst3                 = $(this).closest("tr").find(".e_tds_igst3").text();
+            var e_tds_igst_amt3             = $(this).closest("tr").find(".e_tds_igst_amt3").text();
+            var e_principle_tds_ded3        = $(this).closest("tr").find(".e_principle_tds_ded3").text();
+            var e_remitt3                   = $(this).closest("tr").find(".e_remitt3").text();
+            var e_remitt_amount4            = $(this).closest("tr").find(".e_remitt_amount4").text();
+            var e_invoice_no4               = $(this).closest("tr").find(".e_invoice_no4").text();
+            var e_client_name4              = $(this).closest("tr").find(".e_client_name4").text();
+            var e_principle4                = $(this).closest("tr").find(".e_principle4").text();
+            var e_igst4                     = $(this).closest("tr").find(".e_igst4").text();
+            var e_igst_value4               = $(this).closest("tr").find(".e_igst_value4").text();
+            var e_tds4                      = $(this).closest("tr").find(".e_tds4").text();
+            var e_tds_amount4               = $(this).closest("tr").find(".e_tds_amount4").text();
+            var e_tds_igst4                 = $(this).closest("tr").find(".e_tds_igst4").text();
+            var e_tds_igst_amt4             = $(this).closest("tr").find(".e_tds_igst_amt4").text();
+            var e_principle_tds_ded4        = $(this).closest("tr").find(".e_principle_tds_ded4").text();
+            var e_remitt4                   = $(this).closest("tr").find(".e_remitt4").text();
+            var e_remitt_amount5            = $(this).closest("tr").find(".e_remitt_amount5").text();
+            var e_invoice_no5               = $(this).closest("tr").find(".e_invoice_no5").text();
+            var e_client_name5              = $(this).closest("tr").find(".e_client_name5").text();
+            var e_principle5                = $(this).closest("tr").find(".e_principle5").text();
+            var e_igst5                     = $(this).closest("tr").find(".e_igst5").text();
+            var e_igst_value5               = $(this).closest("tr").find(".e_igst_value5").text();
+            var e_tds5                      = $(this).closest("tr").find(".e_tds5").text();
+            var e_tds_amount5               = $(this).closest("tr").find(".e_tds_amount5").text();
+            var e_tds_igst5                 = $(this).closest("tr").find(".e_tds_igst5").text();
+            var e_tds_igst_amt5             = $(this).closest("tr").find(".e_tds_igst_amt5").text();
+            var e_principle_tds_ded5        = $(this).closest("tr").find(".e_principle_tds_ded5").text();
+            var e_remitt5                   = $(this).closest("tr").find(".e_remitt5").text();
+            var e_remitt_amount6            = $(this).closest("tr").find(".e_remitt_amount6").text();
+            var e_invoice_no6               = $(this).closest("tr").find(".e_invoice_no6").text();
+            var e_client_name6              = $(this).closest("tr").find(".e_client_name6").text();
+            var e_principle6                = $(this).closest("tr").find(".e_principle6").text();
+            var e_igst6                     = $(this).closest("tr").find(".e_igst6").text();
+            var e_igst_value6               = $(this).closest("tr").find(".e_igst_value6").text();
+            var e_tds6                      = $(this).closest("tr").find(".e_tds6").text();
+            var e_tds_amount6               = $(this).closest("tr").find(".e_tds_amount6").text();
+            var e_tds_igst6                 = $(this).closest("tr").find(".e_tds_igst6").text();
+            var e_tds_igst_amt6             = $(this).closest("tr").find(".e_tds_igst_amt6").text();
+            var e_principle_tds_ded6        = $(this).closest("tr").find(".e_principle_tds_ded6").text();
+            var e_remitt6                   = $(this).closest("tr").find(".e_remitt6").text();
+            var e_remitt_amount7            = $(this).closest("tr").find(".e_remitt_amount7").text();
+            var e_invoice_no7               = $(this).closest("tr").find(".e_invoice_no7").text();
+            var e_client_name7              = $(this).closest("tr").find(".e_client_name7").text();
+            var e_principle7                = $(this).closest("tr").find(".e_principle7").text();
+            var e_igst7                     = $(this).closest("tr").find(".e_igst7").text();
+            var e_igst_value7               = $(this).closest("tr").find(".e_igst_value7").text();
+            var e_tds7                      = $(this).closest("tr").find(".e_tds7").text();
+            var e_tds_amount7               = $(this).closest("tr").find(".e_tds_amount7").text();
+            var e_tds_igst7                 = $(this).closest("tr").find(".e_tds_igst7").text();
+            var e_tds_igst_amt7             = $(this).closest("tr").find(".e_tds_igst_amt7").text();
+            var e_principle_tds_ded7        = $(this).closest("tr").find(".e_principle_tds_ded7").text();
+            var e_remitt7                   = $(this).closest("tr").find(".e_remitt7").text();
+            var e_remitt_amount8            = $(this).closest("tr").find(".e_remitt_amount8").text();
+            var e_invoice_no8               = $(this).closest("tr").find(".e_invoice_no8").text();
+            var e_client_name8              = $(this).closest("tr").find(".e_client_name8").text();
+            var e_principle8                = $(this).closest("tr").find(".e_principle8").text();
+            var e_igst8                     = $(this).closest("tr").find(".e_igst8").text();
+            var e_igst_value8               = $(this).closest("tr").find(".e_igst_value8").text();
+            var e_tds8                      = $(this).closest("tr").find(".e_tds8").text();
+            var e_tds_amount8               = $(this).closest("tr").find(".e_tds_amount8").text();
+            var e_tds_igst8                 = $(this).closest("tr").find(".e_tds_igst8").text();
+            var e_tds_igst_amt8             = $(this).closest("tr").find(".e_tds_igst_amt8").text();
+            var e_principle_tds_ded8        = $(this).closest("tr").find(".e_principle_tds_ded8").text();
+            var e_remitt8                   = $(this).closest("tr").find(".e_remitt8").text();
+            var e_remitt_amount9            = $(this).closest("tr").find(".e_remitt_amount9").text();
+            var e_invoice_no9               = $(this).closest("tr").find(".e_invoice_no9").text();
+            var e_client_name9              = $(this).closest("tr").find(".e_client_name9").text();
+            var e_principle9                = $(this).closest("tr").find(".e_principle9").text();
+            var e_igst9                     = $(this).closest("tr").find(".e_igst9").text();
+            var e_igst_value9               = $(this).closest("tr").find(".e_igst_value9").text();
+            var e_tds9                      = $(this).closest("tr").find(".e_tds9").text();
+            var e_tds_amount9               = $(this).closest("tr").find(".e_tds_amount9").text();
+            var e_tds_igst9                 = $(this).closest("tr").find(".e_tds_igst9").text();
+            var e_tds_igst_amt9             = $(this).closest("tr").find(".e_tds_igst_amt9").text();
+            var e_principle_tds_ded9        = $(this).closest("tr").find(".e_principle_tds_ded9").text();
+            var e_remitt9                   = $(this).closest("tr").find(".e_remitt9").text();
+            var e_remitt_amount10           = $(this).closest("tr").find(".e_remitt_amount10").text();
+            var e_invoice_no10              = $(this).closest("tr").find(".e_invoice_no10").text();
+            var e_client_name10             = $(this).closest("tr").find(".e_client_name10").text();
+            var e_principle10               = $(this).closest("tr").find(".e_principle10").text();
+            var e_igst10                    = $(this).closest("tr").find(".e_igst10").text();
+            var e_igst_value10              = $(this).closest("tr").find(".e_igst_value10").text();
+            var e_tds10                     = $(this).closest("tr").find(".e_tds10").text();
+            var e_tds_amount10              = $(this).closest("tr").find(".e_tds_amount10").text();
+            var e_tds_igst10                = $(this).closest("tr").find(".e_tds_igst10").text();
+            var e_tds_igst_amt10            = $(this).closest("tr").find(".e_tds_igst_amt10").text();
+            var e_principle_tds_ded10       = $(this).closest("tr").find(".e_principle_tds_ded10").text();
+            var e_remitt10                  = $(this).closest("tr").find(".e_remitt10").text();
+            var e_remarks                   = $(this).closest("tr").find(".e_remarks").text();
+
+            $('#get_approve_ids').html(e_get_id);
+
+            get_inr_update(e_remittance_date,e_reference_no,e_amount_received,e_status,e_total_remitt,e_charges_any,e_remitt_amount1,e_invoice_no1,e_client_name1,e_principle1,e_igst1,e_igst_value1,e_tds1,e_tds_amount1,e_tds_igst1,e_tds_igst_amt1,e_principle_tds_ded1,e_remitt1,e_remitt_amount2,e_invoice_no2,e_client_name2,e_principle2,e_igst2,e_igst_value2,e_tds2,e_tds_amount2,e_tds_igst2,e_tds_igst_amt2,e_principle_tds_ded2,e_remitt2,e_remitt_amount3,e_invoice_no3,e_client_name3,e_principle3,e_igst3,e_igst_value3,e_tds3,e_tds_amount3,e_tds_igst3,e_tds_igst_amt3,e_principle_tds_ded3,e_remitt3,e_remitt_amount4,e_invoice_no4,e_client_name4,e_principle4,e_igst4,e_igst_value4,e_tds4,e_tds_amount4,e_tds_igst4,e_tds_igst_amt4,e_principle_tds_ded4,e_remitt4,e_remitt_amount5,e_invoice_no5,e_client_name5,e_principle5,e_igst5,e_igst_value5,e_tds5,e_tds_amount5,e_tds_igst5,e_tds_igst_amt5,e_principle_tds_ded5,e_remitt5,e_remitt_amount6,e_invoice_no6,e_client_name6,e_principle6,e_igst6,e_igst_value6,e_tds6,e_tds_amount6,e_tds_igst6,e_tds_igst_amt6,e_principle_tds_ded6,e_remitt6,e_remitt_amount7,e_invoice_no7,e_client_name7,e_principle7,e_igst7,e_igst_value7,e_tds7,e_tds_amount7,e_tds_igst7,e_tds_igst_amt7,e_principle_tds_ded7,e_remitt7,e_remitt_amount8,e_invoice_no8,e_client_name8,e_principle8,e_igst8,e_igst_value8,e_tds8,e_tds_amount8,e_tds_igst8,e_tds_igst_amt8,e_principle_tds_ded8,e_remitt8,e_remitt_amount9,e_invoice_no9,e_client_name9,e_principle9,e_igst9,e_igst_value9,e_tds9,e_tds_amount9,e_tds_igst9,e_tds_igst_amt9,e_principle_tds_ded9,e_remitt9,e_remitt_amount10,e_invoice_no10,e_client_name10,e_principle10,e_igst10,e_igst_value10,e_tds10,e_tds_amount10,e_tds_igst10,e_tds_igst_amt10,e_principle_tds_ded10,e_remitt10,e_remarks,e_get_id);
+
+
+        })
+
+
+
+      },
+      error : function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    });
+})
+
+
+function get_inr_update(e_remittance_date,e_reference_no,e_amount_received,e_status,e_total_remitt,e_charges_any,e_remitt_amount1,e_invoice_no1,e_client_name1,e_principle1,e_igst1,e_igst_value1,e_tds1,e_tds_amount1,e_tds_igst1,e_tds_igst_amt1,e_principle_tds_ded1,e_remitt1,e_remitt_amount2,e_invoice_no2,e_client_name2,e_principle2,e_igst2,e_igst_value2,e_tds2,e_tds_amount2,e_tds_igst2,e_tds_igst_amt2,e_principle_tds_ded2,e_remitt2,e_remitt_amount3,e_invoice_no3,e_client_name3,e_principle3,e_igst3,e_igst_value3,e_tds3,e_tds_amount3,e_tds_igst3,e_tds_igst_amt3,e_principle_tds_ded3,e_remitt3,e_remitt_amount4,e_invoice_no4,e_client_name4,e_principle4,e_igst4,e_igst_value4,e_tds4,e_tds_amount4,e_tds_igst4,e_tds_igst_amt4,e_principle_tds_ded4,e_remitt4,e_remitt_amount5,e_invoice_no5,e_client_name5,e_principle5,e_igst5,e_igst_value5,e_tds5,e_tds_amount5,e_tds_igst5,e_tds_igst_amt5,e_principle_tds_ded5,e_remitt5,e_remitt_amount6,e_invoice_no6,e_client_name6,e_principle6,e_igst6,e_igst_value6,e_tds6,e_tds_amount6,e_tds_igst6,e_tds_igst_amt6,e_principle_tds_ded6,e_remitt6,e_remitt_amount7,e_invoice_no7,e_client_name7,e_principle7,e_igst7,e_igst_value7,e_tds7,e_tds_amount7,e_tds_igst7,e_tds_igst_amt7,e_principle_tds_ded7,e_remitt7,e_remitt_amount8,e_invoice_no8,e_client_name8,e_principle8,e_igst8,e_igst_value8,e_tds8,e_tds_amount8,e_tds_igst8,e_tds_igst_amt8,e_principle_tds_ded8,e_remitt8,e_remitt_amount9,e_invoice_no9,e_client_name9,e_principle9,e_igst9,e_igst_value9,e_tds9,e_tds_amount9,e_tds_igst9,e_tds_igst_amt9,e_principle_tds_ded9,e_remitt9,e_remitt_amount10,e_invoice_no10,e_client_name10,e_principle10,e_igst10,e_igst_value10,e_tds10,e_tds_amount10,e_tds_igst10,e_tds_igst_amt10,e_principle_tds_ded10,e_remitt10,e_remarks,e_get_id){
+
+/*var arr = [];
+arr     = [e_remittance_date,e_reference_no,e_amount_received,e_status,e_total_remitt,e_charges_any,e_remitt_amount1,e_invoice_no1,e_client_name1,e_principle1,e_igst1,e_igst_value1,e_tds1,e_tds_amount1,e_tds_igst1,e_tds_igst_amt1,e_principle_tds_ded1,e_remitt1,e_remitt_amount2,e_invoice_no2,e_client_name2,e_principle2,e_igst2,e_igst_value2,e_tds2,e_tds_amount2,e_tds_igst2,e_tds_igst_amt2,e_principle_tds_ded2,e_remitt2,e_remitt_amount3,e_invoice_no3,e_client_name3,e_principle3,e_igst3,e_igst_value3,e_tds3,e_tds_amount3,e_tds_igst3,e_tds_igst_amt3,e_principle_tds_ded3,e_remitt3,e_remitt_amount4,e_invoice_no4,e_client_name4,e_principle4,e_igst4,e_igst_value4,e_tds4,e_tds_amount4,e_tds_igst4,e_tds_igst_amt4,e_principle_tds_ded4,e_remitt4,e_remitt_amount5,e_invoice_no5,e_client_name5,e_principle5,e_igst5,e_igst_value5,e_tds5,e_tds_amount5,e_tds_igst5,e_tds_igst_amt5,e_principle_tds_ded5,e_remitt5,e_remitt_amount6,e_invoice_no6,e_client_name6,e_principle6,e_igst6,e_igst_value6,e_tds6,e_tds_amount6,e_tds_igst6,e_tds_igst_amt6,e_principle_tds_ded6,e_remitt6,e_remitt_amount7,e_invoice_no7,e_client_name7,e_principle7,e_igst7,e_igst_value7,e_tds7,e_tds_amount7,e_tds_igst7,e_tds_igst_amt7,e_principle_tds_ded7,e_remitt7,e_remitt_amount8,e_invoice_no8,e_client_name8,e_principle8,e_igst8,e_igst_value8,e_tds8,e_tds_amount8,e_tds_igst8,e_tds_igst_amt8,e_principle_tds_ded8,e_remitt8,e_remitt_amount9,e_invoice_no9,e_client_name9,e_principle9,e_igst9,e_igst_value9,e_tds9,e_tds_amount9,e_tds_igst9,e_tds_igst_amt9,e_principle_tds_ded9,e_remitt9,e_remitt_amount10,e_invoice_no10,e_client_name10,e_principle10,e_igst10,e_igst_value10,e_tds10,e_tds_amount10,e_tds_igst10,e_tds_igst_amt10,e_principle_tds_ded10,e_remitt10,e_remarks]*/
+
+$('.input_1').val(e_remittance_date);
+$('.input_2').val(e_reference_no);
+$('.input_3').val(e_amount_received);
+$('.input_4').val(e_status);
+$('.input_5').val(e_total_remitt);
+$('.input_6').val(e_charges_any);
+$('.input_7').val(e_remitt_amount1);
+$('.input_8').val(e_invoice_no1);
+$('.input_9').val(e_client_name1);
+$('.input_10').val(e_principle1);
+$('.input_11').val(e_igst1);
+$('.input_12').val(e_igst_value1);
+$('.input_13').val(e_tds1);
+$('.input_14').val(e_tds_amount1);
+$('.input_15').val(e_tds_igst1);
+$('.input_16').val(e_tds_igst_amt1);
+$('.input_17').val(e_principle_tds_ded1);
+$('.input_18').val(e_remitt1);
+$('.input_19').val(e_remitt_amount2);
+$('.input_20').val(e_invoice_no2);
+$('.input_21').val(e_client_name2);
+$('.input_22').val(e_principle2);
+$('.input_23').val(e_igst2);
+$('.input_24').val(e_igst_value2);
+$('.input_25').val(e_tds2);
+$('.input_26').val(e_tds_amount2);
+$('.input_27').val(e_tds_igst2);
+$('.input_28').val(e_tds_igst_amt2);
+$('.input_29').val(e_principle_tds_ded2);
+$('.input_30').val(e_remitt2);
+$('.input_31').val(e_remitt_amount3);
+$('.input_32').val(e_invoice_no3);
+$('.input_33').val(e_client_name3);
+$('.input_34').val(e_principle3);
+$('.input_35').val(e_igst3);
+$('.input_36').val(e_igst_value3);
+$('.input_37').val(e_tds3);
+$('.input_38').val(e_tds_amount3);
+$('.input_39').val(e_tds_igst3);
+$('.input_40').val(e_tds_igst_amt3);
+$('.input_41').val(e_principle_tds_ded3);
+$('.input_42').val(e_remitt3);
+$('.input_43').val(e_remitt_amount4);
+$('.input_44').val(e_invoice_no4);
+$('.input_45').val(e_client_name4);
+$('.input_46').val(e_principle4);
+$('.input_47').val(e_igst4);
+$('.input_48').val(e_igst_value4);
+$('.input_49').val(e_tds4);
+$('.input_50').val(e_tds_amount4);
+$('.input_51').val(e_tds_igst4);
+$('.input_52').val(e_tds_igst_amt4);
+$('.input_53').val(e_principle_tds_ded4);
+$('.input_54').val(e_remitt4);
+$('.input_55').val(e_remitt_amount5);
+$('.input_56').val(e_invoice_no5);
+$('.input_57').val(e_client_name5);
+$('.input_58').val(e_principle5);
+$('.input_59').val(e_igst5);
+$('.input_60').val(e_igst_value5);
+$('.input_61').val(e_tds5);
+$('.input_62').val(e_tds_amount5);
+$('.input_63').val(e_tds_igst5);
+$('.input_64').val(e_tds_igst_amt5);
+$('.input_65').val(e_principle_tds_ded5);
+$('.input_66').val(e_remitt5);
+$('.input_67').val(e_remitt_amount6);
+$('.input_68').val(e_invoice_no6);
+$('.input_69').val(e_client_name6);
+$('.input_70').val(e_principle6);
+$('.input_71').val(e_igst6);
+$('.input_72').val(e_igst_value6);
+$('.input_73').val(e_tds6);
+$('.input_74').val(e_tds_amount6);
+$('.input_75').val(e_tds_igst6);
+$('.input_76').val(e_tds_igst_amt6);
+$('.input_77').val(e_principle_tds_ded6);
+$('.input_78').val(e_remitt6);
+$('.input_79').val(e_remitt_amount7);
+$('.input_80').val(e_invoice_no7);
+$('.input_81').val(e_client_name7);
+$('.input_82').val(e_principle7);
+$('.input_83').val(e_igst7);
+$('.input_84').val(e_igst_value7);
+$('.input_85').val(e_tds7);
+$('.input_86').val(e_tds_amount7);
+$('.input_87').val(e_tds_igst7);
+$('.input_88').val(e_tds_igst_amt7);
+$('.input_89').val(e_principle_tds_ded7);
+$('.input_90').val(e_remitt7);
+$('.input_91').val(e_remitt_amount8);
+$('.input_92').val(e_invoice_no8);
+$('.input_93').val(e_client_name8);
+$('.input_94').val(e_principle8);
+$('.input_95').val(e_igst8);
+$('.input_96').val(e_igst_value8);
+$('.input_97').val(e_tds8);
+$('.input_98').val(e_tds_amount8);
+$('.input_99').val(e_tds_igst8);
+$('.input_100').val(e_tds_igst_amt8);
+$('.input_101').val(e_principle_tds_ded8);
+$('.input_102').val(e_remitt8);
+$('.input_103').val(e_remitt_amount9);
+$('.input_104').val(e_invoice_no9);
+$('.input_105').val(e_client_name9);
+$('.input_106').val(e_principle9);
+$('.input_107').val(e_igst9);
+$('.input_108').val(e_igst_value9);
+$('.input_109').val(e_tds9);
+$('.input_110').val(e_tds_amount9);
+$('.input_111').val(e_tds_igst9);
+$('.input_112').val(e_tds_igst_amt9);
+$('.input_113').val(e_principle_tds_ded9);
+$('.input_114').val(e_remitt9);
+$('.input_115').val(e_remitt_amount10);
+$('.input_116').val(e_invoice_no10);
+$('.input_117').val(e_client_name10);
+$('.input_118').val(e_principle10);
+$('.input_119').val(e_igst10);
+$('.input_120').val(e_igst_value10);
+$('.input_121').val(e_tds10);
+$('.input_122').val(e_tds_amount10);
+$('.input_123').val(e_tds_igst10);
+$('.input_124').val(e_tds_igst_amt10);
+$('.input_125').val(e_principle_tds_ded10);
+$('.input_126').val(e_remitt10);
+$('.input_127').val(e_remarks);
+
+}
+
+
+
+$('#e_btn_update').click(function(){
+var e_get_id                = $('#get_approve_ids').html();
+var remittance_date         = $('.input_1').val();
+var reference_no            = $('.input_2').val();
+var amount_received         = $('.input_3').val();
+var status                  = $('.input_4').val();
+var total_remitt            = $('.input_5').val();
+var charges_any             = $('.input_6').val();
+var remitt_amount1          = $('.input_7').val();
+var invoice_no1             = $('.input_8').val();
+var client_name1            = $('.input_9').val();
+var e_principle1            = $('.input_10').val();
+var e_igst1                 = $('.input_11').val();
+var e_igst_value1           = $('.input_12').val();
+var e_tds1                  = $('.input_13').val();
+var e_tds_amount1           = $('.input_14').val();
+var e_tds_igst1             = $('.input_15').val();
+var e_tds_igst_amt1         = $('.input_16').val();
+var e_principle_tds_ded1    = $('.input_17').val();
+var e_remitt1               = $('.input_18').val();
+var e_remitt_amount2        = $('.input_19').val();
+var e_invoice_no2           = $('.input_20').val();
+var e_client_name2          = $('.input_21').val();
+var e_principle2            = $('.input_22').val();
+var e_igst2                 = $('.input_23').val();
+var e_igst_value2           = $('.input_24').val();
+var e_tds2                  = $('.input_25').val();
+var e_tds_amount2           = $('.input_26').val();
+var e_tds_igst2             = $('.input_27').val();
+var e_tds_igst_amt2         = $('.input_28').val();
+var e_principle_tds_ded2    = $('.input_29').val();
+var e_remitt2               = $('.input_30').val();
+var e_remitt_amount3        = $('.input_31').val();
+var e_invoice_no3           = $('.input_32').val();
+var e_client_name3          = $('.input_33').val();
+var e_principle3            = $('.input_34').val();
+var e_igst3                 = $('.input_35').val();
+var e_igst_value3           = $('.input_36').val();
+var e_tds3                  = $('.input_37').val();
+var e_tds_amount3           = $('.input_38').val();
+var e_tds_igst3             = $('.input_39').val();
+var e_tds_igst_amt3         = $('.input_40').val();
+var e_principle_tds_ded3    = $('.input_41').val();
+var e_remitt3               = $('.input_42').val();
+var e_remitt_amount4        = $('.input_43').val();
+var e_invoice_no4           = $('.input_44').val();
+var e_client_name4          = $('.input_45').val();
+var e_principle4            = $('.input_46').val();
+var e_igst4                 = $('.input_47').val();
+var e_igst_value4           = $('.input_48').val();
+var e_tds4                  = $('.input_49').val();
+var e_tds_amount4           = $('.input_50').val();
+var e_tds_igst4             = $('.input_51').val();
+var e_tds_igst_amt4         = $('.input_52').val();
+var e_principle_tds_ded4    = $('.input_53').val();
+var e_remitt4               = $('.input_54').val();
+var e_remitt_amount5        = $('.input_55').val();
+var e_invoice_no5           = $('.input_56').val();
+var e_client_name5          = $('.input_57').val();
+var e_principle5            = $('.input_58').val();
+var e_igst5                 = $('.input_59').val();
+var e_igst_value5           = $('.input_60').val();
+var e_tds5                  = $('.input_61').val();
+var e_tds_amount5           = $('.input_62').val();
+var e_tds_igst5             = $('.input_63').val();
+var e_tds_igst_amt5         = $('.input_64').val();
+var e_principle_tds_ded5    = $('.input_65').val();
+var e_remitt5               = $('.input_66').val();
+var e_remitt_amount6        = $('.input_67').val();
+var e_invoice_no6           = $('.input_68').val();
+var e_client_name6          = $('.input_69').val();
+var e_principle6            = $('.input_70').val();
+var e_igst6                 = $('.input_71').val();
+var e_igst_value6           = $('.input_72').val();
+var e_tds6                  = $('.input_73').val();
+var e_tds_amount6           = $('.input_74').val();
+var e_tds_igst6             = $('.input_75').val();
+var e_tds_igst_amt6         = $('.input_76').val();
+var e_principle_tds_ded6    = $('.input_77').val();
+var e_remitt6               = $('.input_78').val();
+var e_remitt_amount7        = $('.input_79').val();
+var e_invoice_no7           = $('.input_80').val();
+var e_client_name7          = $('.input_81').val();
+var e_principle7            = $('.input_82').val();
+var e_igst7                 = $('.input_83').val();
+var e_igst_value7           = $('.input_84').val();
+var e_tds7                  = $('.input_85').val();
+var e_tds_amount7           = $('.input_86').val();
+var e_tds_igst7             = $('.input_87').val();
+var e_tds_igst_amt7         = $('.input_88').val();
+var e_principle_tds_ded7    = $('.input_89').val();
+var e_remitt7               = $('.input_90').val();
+var e_remitt_amount8        = $('.input_91').val();
+var e_invoice_no8           = $('.input_92').val();
+var e_client_name8          = $('.input_93').val();
+var e_principle8            = $('.input_94').val();
+var e_igst8                 = $('.input_95').val();
+var e_igst_value8           = $('.input_96').val();
+var e_tds8                  = $('.input_97').val();
+var e_tds_amount8           = $('.input_98').val();
+var e_tds_igst8             = $('.input_99').val();
+var e_tds_igst_amt8         = $('.input_100').val();
+var e_principle_tds_ded8    = $('.input_101').val();
+var e_remitt8               = $('.input_102').val();
+var e_remitt_amount9        = $('.input_103').val();
+var e_invoice_no9           = $('.input_104').val();
+var e_client_name9          = $('.input_105').val();
+var e_principle9            = $('.input_106').val();
+var e_igst9                 = $('.input_107').val();
+var e_igst_value9           = $('.input_108').val();
+var e_tds9                  = $('.input_109').val();
+var e_tds_amount9           = $('.input_110').val();
+var e_tds_igst9             = $('.input_111').val();
+var e_tds_igst_amt9         = $('.input_112').val();
+var e_principle_tds_ded9    = $('.input_113').val();
+var e_remitt9               = $('.input_114').val();
+var e_remitt_amount10       = $('.input_115').val();
+var e_invoice_no10          = $('.input_116').val();
+var e_client_name10         = $('.input_117').val();
+var e_principle10           = $('.input_118').val();
+var e_igst10                = $('.input_119').val();
+var e_igst_value10          = $('.input_120').val();
+var e_tds10                 = $('.input_121').val();
+var e_tds_amount10          = $('.input_122').val();
+var e_tds_igst10            = $('.input_123').val();
+var e_tds_igst_amt10        = $('.input_124').val();
+var e_principle_tds_ded10   = $('.input_125').val();
+var e_remitt10              = $('.input_126').val();
+var e_remarks               = $('.input_127').val();
+   // $("#loader").css("display", "");
+        
+   
+
+    $.ajax({
+      url  : '/it/update_remiitance_inrs/',
+      type : 'GET',
+      dataType :'JSON',
+      data:{
+        'e_get_id'                      : JSON.stringify(e_get_id),
+        'remittance_date'               : JSON.stringify(remittance_date),
+        'reference_no'                  : JSON.stringify(reference_no),
+        'amount_received'               : JSON.stringify(amount_received),
+        'status'                        : JSON.stringify(status),
+        'total_remitt'                  : JSON.stringify(total_remitt),
+        'charges_any'                   : JSON.stringify(charges_any),
+        'remitt_amount1'                : JSON.stringify(remitt_amount1),
+        'invoice_no1'                   : JSON.stringify(invoice_no1),
+        'client_name1'                  : JSON.stringify(client_name1),
+        'e_principle1'                  : JSON.stringify(e_principle1),
+        'e_igst1'                       : JSON.stringify(e_igst1),
+        'e_igst_value1'                 : JSON.stringify(e_igst_value1),
+        'e_tds1'                        : JSON.stringify(e_tds1),
+        'e_tds_amount1'                 : JSON.stringify(e_tds_amount1),
+        'e_tds_igst1'                   : JSON.stringify(e_tds_igst1),
+        'e_tds_igst_amt1'               : JSON.stringify(e_tds_igst_amt1),
+        'e_principle_tds_ded1'          : JSON.stringify(e_principle_tds_ded1),
+        'e_remitt1'                     : JSON.stringify(e_remitt1),
+        'e_remitt_amount2'              : JSON.stringify(e_remitt_amount2),
+        'e_invoice_no2'                 : JSON.stringify(e_invoice_no2),
+        'e_client_name2'                : JSON.stringify(e_client_name2),
+        'e_principle2'                  : JSON.stringify(e_principle2),
+        'e_igst2'                       : JSON.stringify(e_igst2),
+        'e_igst_value2'                 : JSON.stringify(e_igst_value2),
+        'e_tds2'                        : JSON.stringify(e_tds2),
+        'e_tds_amount2'                 : JSON.stringify(e_tds_amount2),
+        'e_tds_igst2'                   : JSON.stringify(e_tds_igst2),
+        'e_tds_igst_amt2'               : JSON.stringify(e_tds_igst_amt2),
+        'e_principle_tds_ded2'          : JSON.stringify(e_principle_tds_ded2),
+        'e_remitt2'                     : JSON.stringify(e_remitt2),
+        'e_remitt_amount3'              : JSON.stringify(e_remitt_amount3),
+        'e_invoice_no3'                 : JSON.stringify(e_invoice_no3),
+        'e_client_name3'                : JSON.stringify(e_client_name3),
+        'e_principle3'                  : JSON.stringify(e_principle3),
+        'e_igst3'                       : JSON.stringify(e_igst3),
+        'e_igst_value3'                 : JSON.stringify(e_igst_value3),
+        'e_tds3'                        : JSON.stringify(e_tds3),
+        'e_tds_amount3'                 : JSON.stringify(e_tds_amount3),
+        'e_tds_igst3'                   : JSON.stringify(e_tds_igst3),
+        'e_tds_igst_amt3'               : JSON.stringify(e_tds_igst_amt3),
+        'e_principle_tds_ded3'          : JSON.stringify(e_principle_tds_ded3),
+        'e_remitt3'                     : JSON.stringify(e_remitt3),
+        'e_remitt_amount4'              : JSON.stringify(e_remitt_amount4),
+        'e_invoice_no4'                 : JSON.stringify(e_invoice_no4),
+        'e_client_name4'                : JSON.stringify(e_client_name4),
+        'e_principle4'                  : JSON.stringify(e_principle4),
+        'e_igst4'                       : JSON.stringify(e_igst4),
+        'e_igst_value4'                 : JSON.stringify(e_igst_value4),
+        'e_tds4'                        : JSON.stringify(e_tds4),
+        'e_tds_amount4'                 : JSON.stringify(e_tds_amount4),
+        'e_tds_igst4'                   : JSON.stringify(e_tds_igst4),
+        'e_tds_igst_amt4'               : JSON.stringify(e_tds_igst_amt4),
+        'e_principle_tds_ded4'          : JSON.stringify(e_principle_tds_ded4),
+        'e_remitt4'                     : JSON.stringify(e_remitt4),
+        'e_remitt_amount5'              : JSON.stringify(e_remitt_amount5),
+        'e_invoice_no5'                 : JSON.stringify(e_invoice_no5),
+        'e_client_name5'                : JSON.stringify(e_client_name5),
+        'e_principle5'                  : JSON.stringify(e_principle5),
+        'e_igst5'                       : JSON.stringify(e_igst5),
+        'e_igst_value5'                 : JSON.stringify(e_igst_value5),
+        'e_tds5'                        : JSON.stringify(e_tds5),
+        'e_tds_amount5'                 : JSON.stringify(e_tds_amount5),
+        'e_tds_igst5'                   : JSON.stringify(e_tds_igst5),
+        'e_tds_igst_amt5'               : JSON.stringify(e_tds_igst_amt5),
+        'e_principle_tds_ded5'          : JSON.stringify(e_principle_tds_ded5),
+        'e_remitt5'                     : JSON.stringify(e_remitt5),
+        'e_remitt_amount6'              : JSON.stringify(e_remitt_amount6),
+        'e_invoice_no6'                 : JSON.stringify(e_invoice_no6),
+        'e_client_name6'                : JSON.stringify(e_client_name6),
+        'e_principle6'                  : JSON.stringify(e_principle6),
+        'e_igst6'                       : JSON.stringify(e_igst6),
+        'e_igst_value6'                 : JSON.stringify(e_igst_value6),
+        'e_tds6'                        : JSON.stringify(e_tds6),
+        'e_tds_amount6'                 : JSON.stringify(e_tds_amount6),
+        'e_tds_igst6'                   : JSON.stringify(e_tds_igst6),
+        'e_tds_igst_amt6'               : JSON.stringify(e_tds_igst_amt6),
+        'e_principle_tds_ded6'          : JSON.stringify(e_principle_tds_ded6),
+        'e_remitt6'                     : JSON.stringify(e_remitt6),
+        'e_remitt_amount7'              : JSON.stringify(e_remitt_amount7),
+        'e_invoice_no7'                 : JSON.stringify(e_invoice_no7),
+        'e_client_name7'                : JSON.stringify(e_client_name7),
+        'e_principle7'                  : JSON.stringify(e_principle7),
+        'e_igst7'                       : JSON.stringify(e_igst7),
+        'e_igst_value7'                 : JSON.stringify(e_igst_value7),
+        'e_tds7'                        : JSON.stringify(e_tds7),
+        'e_tds_amount7'                 : JSON.stringify(e_tds_amount7),
+        'e_tds_igst7'                   : JSON.stringify(e_tds_igst7),
+        'e_tds_igst_amt7'               : JSON.stringify(e_tds_igst_amt7),
+        'e_principle_tds_ded7'          : JSON.stringify(e_principle_tds_ded7),
+        'e_remitt7'                     : JSON.stringify(e_remitt7),
+        'e_remitt_amount8'              : JSON.stringify(e_remitt_amount8),
+        'e_invoice_no8'                 : JSON.stringify(e_invoice_no8),
+        'e_client_name8'                : JSON.stringify(e_client_name8),
+        'e_principle8'                  : JSON.stringify(e_principle8),
+        'e_igst8'                       : JSON.stringify(e_igst8),
+        'e_igst_value8'                 : JSON.stringify(e_igst_value8),
+        'e_tds8'                        : JSON.stringify(e_tds8),
+        'e_tds_amount8'                 : JSON.stringify(e_tds_amount8),
+        'e_tds_igst8'                   : JSON.stringify(e_tds_igst8),
+        'e_tds_igst_amt8'               : JSON.stringify(e_tds_igst_amt8),
+        'e_principle_tds_ded8'          : JSON.stringify(e_principle_tds_ded8),
+        'e_remitt8'                     : JSON.stringify(e_remitt8),
+        'e_remitt_amount9'              : JSON.stringify(e_remitt_amount9),
+        'e_invoice_no9'                 : JSON.stringify(e_invoice_no9),
+        'e_client_name9'                : JSON.stringify(e_client_name9),
+        'e_principle9'                  : JSON.stringify(e_principle9),
+        'e_igst9'                       : JSON.stringify(e_igst9),
+        'e_igst_value9'                 : JSON.stringify(e_igst_value9),
+        'e_tds9'                        : JSON.stringify(e_tds9),
+        'e_tds_amount9'                 : JSON.stringify(e_tds_amount9),
+        'e_tds_igst9'                   : JSON.stringify(e_tds_igst9),
+        'e_tds_igst_amt9'               : JSON.stringify(e_tds_igst_amt9),
+        'e_principle_tds_ded9'          : JSON.stringify(e_principle_tds_ded9),
+        'e_remitt9'                     : JSON.stringify(e_remitt9),
+        'e_remitt_amount10'             : JSON.stringify(e_remitt_amount10),
+        'e_invoice_no10'                : JSON.stringify(e_invoice_no10),
+        'e_client_name10'               : JSON.stringify(e_client_name10),
+        'e_principle10'                 : JSON.stringify(e_principle10),
+        'e_igst10'                      : JSON.stringify(e_igst10),
+        'e_igst_value10'                : JSON.stringify(e_igst_value10),
+        'e_tds10'                       : JSON.stringify(e_tds10),
+        'e_tds_amount10'                : JSON.stringify(e_tds_amount10),
+        'e_tds_igst10'                  : JSON.stringify(e_tds_igst10),
+        'e_tds_igst_amt10'              : JSON.stringify(e_tds_igst_amt10),
+        'e_principle_tds_ded10'         : JSON.stringify(e_principle_tds_ded10),
+        'e_remitt10'                    : JSON.stringify(e_remitt10),
+      
+
+        
+      },
+      success:function(obj){
+        alert('Done')
+       
+      },
+
+      error:function(err){
+        console.log(JSON.stringify(err,null,4));
+      }
+    })
+})
+
+$('.input_8').change(function(){  
+  var e_invoice_no = $(this).val();  
+  get_call(e_invoice_no,'1'); 
+  
+})
+
+
+$('.input_20').change(function(){  
+  var e_invoice_no = $(this).val();  
+  get_call(e_invoice_no,'2'); 
+  
+})
+
+$('.input_32').change(function(){  
+  var e_invoice_no = $(this).val();  
+  get_call(e_invoice_no,'3'); 
+  
+})
+
+$('.input_44').change(function(){  
+  var e_invoice_no = $(this).val();  
+  get_call(e_invoice_no,'4'); 
+  
+})
+
+
+$('.input_56').change(function(){  
+  var e_invoice_no = $(this).val();  
+  get_call(e_invoice_no,'5'); 
+  
+})
+
+$('.input_68').change(function(){  
+  var e_invoice_no = $(this).val();  
+  get_call(e_invoice_no,'6'); 
+  
+})
+
+$('.input_80').change(function(){  
+  var e_invoice_no = $(this).val();  
+  get_call(e_invoice_no,'7'); 
+  
+})
+
+$('.input_92').change(function(){  
+  var e_invoice_no = $(this).val();  
+  get_call(e_invoice_no,'8'); 
+  
+})
+
+$('.input_104').change(function(){  
+  var e_invoice_no = $(this).val();  
+  get_call(e_invoice_no,'9'); 
+  
+})
+
+$('.input_116').change(function(){  
+  var e_invoice_no = $(this).val();  
+  get_call(e_invoice_no,'10'); 
+  
+})
+
+
+function get_call(e_invoice_no,n){    
+  $.ajax({
+    url : "/it/calculation_remittance_inr/",
+    type : "GET",
+    dataType : "json",
+    data : {
+      'n'           : JSON.stringify(n),     
+      'e_invoice'   : JSON.stringify(e_invoice_no),      
+    },
+    success : function(obj){        
+        $('#clients'+obj[0]['sno']).val(obj[0]['client_name']);
+        $('#principles'+obj[0]['sno']).val(obj[0]['amountss']);
+        var st = $('#principles'+obj[0]['sno']).val();
+        $('#principles_tdss'+obj[0]['sno']).val(st);       
+
+        $('#igsts'+obj[0]['sno']).change(function(){
+            var chk_igst = $(this).val();
+            if(chk_igst=='Yes'){
+                calcs = obj[0]['amountss']*18/100;
+                $('#igst_values'+obj[0]['sno']).val(calcs);          
+            }else{
+                calcs = 0;                
+                $('#igst_values'+obj[0]['sno']).val(calcs);                    
+            }
+        })
+
+        $('#tdss'+obj[0]['sno']).change(function(){
+            var chk_tds = $(this).val();            
+           tdss     = obj[0]['amountss']*chk_tds/100;           
+           $('#tdss_amt'+obj[0]['sno']).val(tdss);
+        })
+
+        $('#tds_igsts'+obj[0]['sno']).change(function(){
+           var chk_tds_igst     = $(this).val();            
+           tdss_igst            = obj[0]['amountss']*chk_tds_igst/100;           
+           $('#tds_igst_amts'+obj[0]['sno']).val(tdss_igst);
+           var tdssx            = $('#tdss_amt'+obj[0]['sno']).val();
+           total_principle_tds  = obj[0]['amountss']-((parseFloat(tdss_igst))+parseFloat(tdssx));          
+           $('#principles_tdss'+obj[0]['sno']).val(total_principle_tds);           
+        })
+
+        $('#remittss'+obj[0]['sno']).change(function(){
+           var chk_remitts     = $(this).val();            
+           if(chk_remitts=='Both'){
+            var igst_val       = $('#igst_values'+obj[0]['sno']).val();
+            var principles_val = $('#principles_tdss'+obj[0]['sno']).val();
+            
+            both_amt = parseFloat(igst_val)+parseFloat(principles_val);
+            $('#remitt_amts'+obj[0]['sno']).val(both_amt);
+           } 
+
+           if(chk_remitts=='IGST'){
+            var igst_val       = $('#igst_values'+obj[0]['sno']).val();           
+            $('#remitt_amts'+obj[0]['sno']).val(igst_val);
+           }   
+
+           if(chk_remitts=='Principle'){
+            var principles_val  = $('#principles'+obj[0]['sno']).val();            
+            $('#remitt_amts'+obj[0]['sno']).val(principles_val);
+           }                  
+        })
+    },
+    error: function(err){      
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+}
+
+</script>
+
+{% endblock %}

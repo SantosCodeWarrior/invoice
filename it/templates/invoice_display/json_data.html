@@ -1,0 +1,385 @@
+{% extends "base.html" %}
+{% block content %}
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="https://handsontable.com/static/css/main.css"> -->
+    <script src="https://handsontable.com/docs/6.0.1/scripts/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handsontable-pro@6.0.1/dist/handsontable.full.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable-pro@6.0.1/dist/handsontable.full.min.css">
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+
+
+
+
+<style type="text/css">
+.styled-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
+
+.hot-display-license-info{
+  display: none;
+}
+</style>
+
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="form-group">
+      <h3 style="text-align: center;font-size: 18px;font-weight: bold;">FETCH VOYAGE API (BOSS)</h3><br>
+      <!--  <button class="btn btn-success" style="float:right;cursor: pointer"><a href="/it/get_fetch_api/" target="_blank"  style="color:white;">FETCH API</a></button>&nbsp;&nbsp;&nbsp;<button class="btn btn-info" style="float:right;cursor: pointer"><a href="/it/get_client_api/" target="_blank"  style="color:white;">FETCH Client</a></button> -->
+      <input type="checkbox" name="" id="Check1" style="display:none ;"><b style="font-size: 12px;display: none;">&nbsp;Static Client</b>
+      <input type="checkbox" name="" id="Check2" checked=""><b style="font-size: 12px">&nbsp;Voyage Data</b>
+      <select class="form-control col-md-3" id="client_list" style="display: ;margin-top: -29px;margin-left: 203px;">
+         <option value="-1">Select Client Name</option>
+        {% for c in client_list %}
+          <option value="{{c.id}}" name="{{c.client_name}}">{{c.client_name}}</option>
+        {% endfor %}
+      </select>
+
+      <br><br>
+      <b style="font-size: 12px">Start Entry Date</b><b style="font-size: 12px;float: right;margin-right: 416px;">End Entry Date</b><br>
+      <div class="input-group input-daterange">
+        <input type="text" id="start_date" class="col-md-5 form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="dd/mm/yyyy" autocomplete="off" style="font-size: 15px">
+        <div class="input-group-addon"><font color="">--- To --- </font></div>
+        <input type="text" id="end_date" class="col-md-5 form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="dd/mm/yyyy" autocomplete="off" style="font-size: 15px">
+      </div>
+    </div>
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+    <button class="col-md-12 btn btn-success" id="load" style="cursor: pointer;background-color: #009879;font-size: 12px">LOAD DATA</button>   
+  </div>
+</div>
+
+
+<div class="col-md-12">
+<div class = 'handsontable' style="height: 400px; overflow: auto; margin-top : 30px;" data-originalstyle="height: 300px; overflow: auto"  id="get_voyage_data"></div>
+
+</div>
+
+
+<div class="container" style="display: none">
+  <div class="col-md-12">
+    <table  class="styled-table" style="float: right;margin-top: 72px;box-shadow: 0 0 55px gray;border-radius:0px" id="json_table">
+      <thead>
+        <th>S.No</th>
+        <th>Download Date</th>
+        <th>File name</th>
+        <th>Size</th>
+      </thead>
+      <tbody>
+        {% for c in json_data %}
+        <tr>
+          <td>{{forloop.counter}}</td>
+          <td>{{c.upload_date}}</td>
+          <td>{{c.file_name}}</td> 
+          <th>{{c.file_size}}</th>        
+        {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script type="text/javascript">
+  
+   // table = $('#json_table').DataTable({
+   //          "scrollY"         : '300px',
+   //          "bPaginate"       : false,
+   //          "scrollX"         : false,
+   //          "scrollCollapse"  : false,
+   //          "bFilter"         : true,
+   //          'paging'          : false,
+   //          'info'            : false,
+   //          "ordering"        : false
+   //        });
+</script>
+
+
+<script>
+
+var lastday = function(y,m){
+  return  new Date(y, m, 0).getDate();
+}
+  
+  var date1   = new Date();
+  var day1    = date1.getDate();  
+  var month1  = date1.getMonth()+1; 
+  var year1   = date1.getFullYear();
+  if (month1 < 10) month1 = "0" + month1;
+  if (day1 < 10) day1 = "0" + day1;
+  var today1  = year1 + "-" + month1 + "-" + day1;
+  
+  last_days          = (lastday(year1,month1))  
+  first_date         = (month1)+'/01/'+year1;
+  last_date          = (month1)+'/'+last_days+'/'+year1;    
+  var manual_date    = last_date;//'08/31/2021'; 
+  start_invoice_date = (month1)+'/01/'+year1;  
+  end_invoice_date   = (month1)+'/'+last_days+'/'+year1;
+  
+  $(function(){
+    $("#start_date").datepicker();
+    $("#end_date").datepicker();
+    $('#start_date').val(start_invoice_date);
+    $('#end_date').val(end_invoice_date);
+  });
+  
+  
+  $('input[type="checkbox"]').on('change', function() {
+    $(this).siblings('input[type="checkbox"]').prop('checked', false);
+  });
+    
+</script>
+
+
+<style type="text/css">
+  .dataTables_filter{
+    float:right;
+  }
+</style>
+
+<script type="text/javascript">
+  $('#Check2').click(function() {
+  if ($(this).is(':checked')) {
+    $('#client_list').css('display','');
+  }
+  if (!$(this).is(':checked')) {
+    $('#client_list').css('display','none');
+  }
+});
+
+
+$('#load').click(function(){
+  if($('#Check1').is(":checked"))
+  {
+    static_data=1;
+    $('#client_list').css('display','none');
+  }
+  else
+  {
+    static_data=0;
+    $('#client_list').css('display','none');
+  }
+
+  if($('#Check2').is(":checked"))
+  {
+    voyage_data=1;   
+    $('#client_list').css('display','');
+  }
+  else
+  {
+    voyage_data=0;
+    $('#client_list').css('display','');
+  }
+
+  $('#loader').css('display','')
+  var st_date1  = $('#start_date').val();
+  var et_date1  = $('#end_date').val();
+  var clientID  = $('#client_list').val();
+
+  try{
+    var client_name = $("#client_list").find('option:selected').attr("name")
+
+  }catch(err){
+    var client_name = "";
+  }
+
+  var client_name = $('#client_list').val();
+  if(client_name=='-1'){
+    alert('Please Select Client');
+    $('#loader').css('display','none')
+    $('#client_list').focus()
+    return 0;
+  }
+
+
+
+  var start_date_split  = (st_date1.split('/'))
+  get_start             = start_date_split[0]+'/'+start_date_split[1]+'/'+start_date_split[2];
+  st_date               = get_start
+  var end_date_split    = (et_date1.split('/'))
+  get_end               = end_date_split[0]+'/'+end_date_split[1]+'/'+end_date_split[2];
+  et_date               = get_end
+
+  $.ajax({
+    url: '/it/get_json_data/',
+      type: 'POST',
+      dataType: 'json',
+      data:{  
+        'start_date'  : JSON.stringify(st_date),
+        'end_date'    : JSON.stringify(et_date), 
+        'static_data' : JSON.stringify(static_data), 
+        'voyage_data' : JSON.stringify(voyage_data),  
+        'client_id'   : JSON.stringify(clientID), 
+        'client_name' : JSON.stringify(client_name),  
+      },
+      success: function(obj){
+        alert(obj)        
+        $('#loader').css('display','none')
+        location.reload();            
+    },
+    error: function(err){
+      console.log(JSON.stringify(err,null,4));
+      $('#loader').css('display','none')
+    }
+  });
+})
+
+
+
+  var data = [
+    {
+      s_no      : '',
+      ship_name : '', 
+      route     : '', 
+      report    : '', 
+      from      : '',
+      from_date : '',
+      to        : '', 
+      to_date   : '',  
+    }
+  ];
+  
+  container     = document.getElementById('get_voyage_data');
+  var tab_table = new Handsontable(container, {
+    minSpareRows  : 200,   
+    dropdownMenu  : true,
+    filters       : true,
+    columnSorting : true,    
+    stretchH      : 'all',    
+    colHeaders    : ['S.No','Ship Name','Route','Report ID','From','From (Date)','To','To (Date)'],    
+    contextMenu   : true,
+    
+   hiddenColumns: {
+      copyPasteEnabled: true,
+      indicators: true,
+      //columns: [1, 2, 5]
+    },
+   
+    columns: [
+    {
+      data: "s_no",
+      type: 'text',
+
+    },
+     {
+      data: "ship_name",
+      type: 'text',
+    },
+
+    {
+      data: "route",
+      type: 'text',
+    },
+
+    {
+      data: "report",
+      type: 'text',
+    },
+
+    {
+      data: "from",
+      type: 'text',
+    },
+
+    {
+      data: "from_date",
+      type: 'text',
+    },
+
+    {
+      data: "to",
+      type: 'text',
+    },
+
+    {
+      data: "to_date",
+      type: 'text',
+    },
+
+
+         
+    ],
+    data: data,
+  });
+
+
+
+$('#hot-display-license-info').css('display','none');
+
+$('#loader').css('display','');
+  $(document).ready(function(){
+
+  $.ajax({
+    url : "/it/voyage_data/",
+    type : "POST",
+
+    dataType : "json",
+    data : {
+  
+      
+    },
+    success : function(obj_data){  
+      
+      $('#loader').css('display','none');
+      tab_table.loadData(obj_data['voyage_array']);     
+      const hiddenColumnsPlugin = tab_table.getPlugin('hiddenColumns');
+      hiddenColumnsPlugin.hideColumn(obj_data['first_hidden_column'],obj_data['second_hidden_column']);     
+      tab_table.render();       
+    },
+    error: function(err){
+      $('#loader').css('display','none')
+      console.log(JSON.stringify(err,null,4));
+    }
+  }); 
+//}
+})
+
+</script>
+{% endblock %}

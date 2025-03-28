@@ -1,0 +1,451 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+
+
+<center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+<div class="container">
+	<div class="col-md-12">
+	    <div class="row">
+	   	<table  class="table table-bordered" style="border: 0px solid grey;font-size: 12px">
+			<thead>
+			  <tr>
+			    <th colspan="5" style="border: 0px solid grey;font-size: 12px">
+			    	<select class="form-control chosen-select" id="client_list">
+	                  <option value=0>Select Client Name</option>
+	                  {%for sh in client_list%}
+	                  <option value={{sh.client_name}}>{{sh.client_name}}</option>
+	                  {%endfor%}
+	                </select>	
+	            </th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr>
+			    <td>
+			    	<select id="proj_name" class="form-control" style="font-size: 12px;">
+			     		<option value="0">Project Name</option>
+			     		<option value="BOSS">BOSS</option>
+			     		<option value="CHM">CHM</option>
+			     	</select>
+			    </td>
+			    <td>
+			    	<select id="currency_type" class="form-control" style="font-size: 12px;">
+			     		<option value="0">Currency Type</option>
+			     		<option value="USD">USD</option>
+			     		<option value="INR">INR</option>
+			     	</select>
+			    </td>
+			    <td>
+			    	<select id="duration_type" class="form-control" style="font-size: 12px;">
+			     		<option value="0">Duration Type</option>
+			     		<option value="Monthwise">Monthwise</option>
+			     		<option value="Voyagewise">Voyagewise</option>
+			     	</select>
+			    </td>
+			    <td>
+			    	<select id="price_type" class="form-control" style="font-size: 12px;">
+			     		<option value="0">Price Type</option>
+			      		{% for x in price_array %}			      
+			     		<option value="{{x.price_type}}">{{x.price_type}}</option>			     	
+			     		{% endfor %}
+			     	</select>
+			    </td>
+			    <td><button class="btn btn-success" data-toggle="modal" data-target="#add_price_type">Add</button></td>
+			  </tr>
+			  <tr>
+			    <td><input id="price" type="text" class="form-control" placeholder="Price" style="font-size: 12px;"></td>
+			    <td><input id="rate" type="text" class="form-control" placeholder="Rate" style="font-size: 12px;"></td>
+			    <td><input id="customer_no" type="text" class="form-control" placeholder="Customer GSTIN" style="font-size: 12px;"></td>
+			    <td colspan="2"><input id="vm_name" type="text" class="form-control" placeholder="Voyage Manager" style="font-size: 12px;"></td>
+			    </tr>
+			    <tr>
+
+			     <td><button type="button" class="btn btn-primary" style="cursor: pointer" id="submit_invoice">Submit</button></td>
+			     
+			  </tr>
+			</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- <input id="e_status_c" type="number" class="form-control col-md-9"> -->
+<p></p> 
+
+<div id="add_price_type" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="inputName">Price Type</label>
+                            <input type="text" class="form-control" id="x_price_type">
+                        </div>                                              
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <!--   <button type="button" class="btn btn-default" data-dismiss="modal" style="cursor: pointer">Cancel</button> -->
+                    <button type="button" class="btn btn-primary" style="cursor: pointer" id="submit_price_type">Submit</button>
+                </div>
+            </div>
+        </div>
+</div>
+
+<script type="text/javascript">
+	$('#submit_price_type').click(function(){
+		var e_price_type = $('#x_price_type').val();
+		if(e_price_type==''){
+			swal('Error','Please fill up the Price Type','error')
+			$('#x_price_type').focus();
+			return 0;			
+		}
+		$.ajax({
+	      url: '/it/entry_for_price_type/',
+	      dataType: 'JSON',
+	      type: 'GET',
+	      data:
+	      { 
+	      	'e_price_type'  : e_price_type,
+	      },
+	      success : function(obj){	      	
+	        // if(obj=='done'){
+	        // 	swal('Success',"Price Type successfully inserted","success")	        	
+	        // 	 window.location.href=window.location.href;
+	        // }else if (obj=='no'){
+	        // 	swal('Info',"Price Type already inserted","info")
+	        // }
+	        if(obj=="done")
+	        {
+		      var btn = "button";
+		      swal({
+		        title : "<b>Price Type successfully inserted.</b>",
+		        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+		        html  : true,
+		        showConfirmButton: false
+		      });
+		      $(document).on('click', "#btnA", function(){
+		        //window.location.href=window.location.href;
+		      });
+		    }
+		    else if(obj=="no")
+	        {
+		      var btn = "button";
+		      swal({
+		        title : "<b>Price Type already inserted.</b>",
+		        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+		        html  : true,
+		        showConfirmButton: false
+		      });
+		      $(document).on('click', "#btnA", function(){
+		        //window.location.href=window.location.href;
+		      });
+		    }
+
+		  },
+		  error : function(err){
+		  	alert(JSON.stringify(err))
+		  }
+		});
+	})	
+
+</script>
+
+<div class="col-md-12">
+	<div class="container">	   
+    	<table id="address_tracker" class="table table-striped table-bordered bootstrap-datatable" style="border: 0px solid grey;font-size: 12px">
+			<thead>
+				<tr>
+					<th style="background-color: #28a745;color:white">S.No</th>
+					<th style="background-color: #28a745;color:white;display: none;"></th>
+		        	<th style="background-color: #28a745;color:white">Client Name</th>
+		        	<th style="background-color: #28a745;color:white">Project Name</th>
+		        	<th style="background-color: #28a745;color:white">Currency Type</th>
+		        	<th style="background-color: #28a745;color:white">Duration</th>
+		        	<th style="background-color: #28a745;color:white">Price</th>
+		        	<th style="background-color: #28a745;color:white">Price Type</th>
+					<th style="background-color: #28a745;color:white">Rate</th>						
+					<th style="background-color: #28a745;color:white">Customer GSTIN</th>	
+					<th style="background-color: #28a745;color:white">Voyage Manager</th>
+					<th style="background-color: #28a745;color:white;display: none;">Status</th>	
+					<th style="background-color: #28a745;color:white"></th>	
+				</tr>
+			</thead>
+			{% for x in client_array %}
+			<tr {% if x.status == 1 %} style="background-color: #d4f5bc" {% else %} {% endif %}>
+				<td>{{forloop.counter}}</td>
+				<td class="id" style="display: none">{{x.id}}</td>
+				<td class="client_name">{{x.client_name}}</td>
+				<td class="proj_name">{{x.proj_name}}</td>
+				<td class="currency_type">{{x.currency_type}}</td>
+				<td class="duration_type">{{x.duration_type}}</td>
+				<td class="price">{{x.price}}</td>
+				<td class="price_type">{{x.price_type}}</td>
+				<td class="rate">{{x.rate}}</td>
+				<td class="tin_number">{{x.tin_number}}</td>
+				<td class="vm_name">{{x.vm_name}}</td>
+				<td class="status" style="display: none;">{{x.status}}</td>
+				<td><button class="btn btn-info price_click" data-toggle="modal" data-target="#myModal" id="btn_click" style="background-color: #28a745">Edit</button></td>
+			{% endfor %}
+			</tr>
+	    </table>	              
+    </div>	
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">    
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Address</h4>
+        <button type="button" class="close" id="close_modal" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+	    <div class="form-group">
+	        <label>Client Name</label>
+	        <div id="e_id" style="display: none"></div>
+	        <input type="text" class="form-control" id="e_client_name" readonly="readonly">
+	    </div>
+	    <div class="form-group">
+	        <label>Proj Name</label>
+	        <input type="text" class="form-control" id="e_proj_name" >
+	    </div>
+
+	    <div class="form-group">
+	        <label>Currency Type</label>
+	        <!-- <input type="text" class="form-control" id="e_currency_type" > -->
+	        <select class="form-control" id="e_currency_type">	
+	        	<option value="USD">USD</option>
+	        	<option value="INR">INR</option>         	
+	        </select>
+	    </div>
+
+	    <div class="form-group">
+	        <label>Duration Type</label>
+	        <!-- <input type="text" class="form-control" id="e_duration_type"> -->
+	         <select class="form-control" id="e_duration_type">	
+	        	<option value="Monthwise">Monthwise</option>
+	        	<option value="Voyagewise">Voyagewise</option>         	
+	        </select>
+	    </div>
+
+	    <div class="form-group">
+	        <label>Price Type</label>
+	        <input type="text" class="form-control" id="e_price_type">
+	        <!-- <select class="form-control" id="e_price_type">	
+	        	<option value="1-3">1-3</option>
+	        	<option value="3-5">3-5</option> 
+	        	<option value="6-8">6-8</option>                 	
+	        </select> -->
+	    </div>
+
+	    <div class="form-group">
+	        <label>Price</label>
+	        <input type="text" class="form-control" id="e_price">
+	    </div>
+
+	    <div class="form-group">
+	        <label>Rate</label>
+	        <input type="text" class="form-control" id="e_rate">
+	    </div>
+
+	     <div class="form-group">
+	        <label>TIN Number</label>
+	        <input type="text" class="form-control" id="e_tin_number">
+	    </div>
+
+	    <div class="form-group">
+	        <label>Voyage Manager</label>
+	        <input type="text" class="form-control" id="e_vm_name_c">
+	    </div>
+
+	    <div class="form-group">
+	        <label>Status</label>
+	        <input type="number" class="form-control" id="e_status_cx">
+	    </div>
+
+
+	       <div class="form-group">	            
+	            <button type="button" class="btn btn-primary" id="update_client_price_list">Submit</button>
+	        </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		table = $('#address_tracker').DataTable({
+	    "scrollY"        : '300px',
+        "scrollCollapse": true,
+        "paging":         false,
+        "scrollX": true,
+	   });
+      
+      $('#ship_address_filter').hide();
+      $('#address_tracker').DataTable().search('').draw();
+      $(".dataTable").css("margin-bottom","0px");   
+
+
+	
+	$("#client_list").select2();	
+
+	})
+
+
+$('.price_click').click(function(){
+	var id 				= $(this).closest("tr").find(".id").text();
+	var rate 			= $(this).closest("tr").find(".rate").text();
+	var price 			= $(this).closest("tr").find(".price").text();
+	var status 			= $(this).closest("tr").find(".status").text();
+	var vm_name 		= $(this).closest("tr").find(".vm_name").text();
+	var proj_name 		= $(this).closest("tr").find(".proj_name").text();
+	var tin_number 		= $(this).closest("tr").find(".tin_number").text();
+	var price_type 		= $(this).closest("tr").find(".price_type").text();
+	var client_name 	= $(this).closest("tr").find(".client_name").text();
+	var currency_type 	= $(this).closest("tr").find(".currency_type").text();
+	var duration_type 	= $(this).closest("tr").find(".duration_type").text();
+
+	get_client_price(id,client_name,proj_name,currency_type,duration_type,price,price_type,rate,tin_number,vm_name,status);
+});
+
+
+function  get_client_price(id,client_name,proj_name,currency_type,duration_type,price,price_type,rate,tin_number,vm_name,status){
+
+	selected_id = id;	
+	$('#e_client_name').val(client_name);
+	$('#e_proj_name').val(proj_name);
+	$('#e_currency_type').val(currency_type);	
+	$('#e_duration_type').val(duration_type);
+	$('#e_price_type').val(price_type);
+	$('#e_price').val(price);
+	$('#e_rate').val(rate);
+	$('#e_tin_number').val(tin_number);
+	$('#e_vm_name_c').val(vm_name);
+	$('#e_status_cx').val(status);	
+	$('#e_id').val(selected_id);		
+}
+
+	$('#update_client_price_list').click(function(){		
+		var id 				= $('#e_id').val();		
+		var e_proj_name 	= $('#e_proj_name').val();
+		var e_currency_type = $('#e_currency_type').val();
+		var e_duration_type = $('#e_duration_type').val();
+		var e_price_type 	= $('#e_price_type').val();
+		var e_price 		= $('#e_price').val();
+		var e_rate 			= $('#e_rate').val();		
+		var e_tin_number 	= $('#e_tin_number').val();
+		var e_vm_name_c 	= $('#e_vm_name_c').val();
+		var e_client_name   = $('#e_client_name').val();
+		var e_status_xx		= $('#e_status_cx').val();
+		
+
+		$.ajax({
+	      url: '/it/update_client_chm_details/',
+	      dataType: 'JSON',
+	      type: 'GET',
+	      data:
+	      { 
+	      	'e_id'  			: JSON.stringify(id),
+			'e_proj_name'  		: JSON.stringify(e_proj_name),
+			'e_currency_type'  	: JSON.stringify(e_currency_type),
+			'e_duration_type'  	: JSON.stringify(e_duration_type),
+			'e_price_type'  	: JSON.stringify(e_price_type),
+			'e_price'  			: JSON.stringify(e_price),
+			'e_rate'  			: JSON.stringify(e_rate),
+			'e_tin_number'  	: JSON.stringify(e_tin_number),
+			'e_vm_name_c'  		: JSON.stringify(e_vm_name_c),
+			'e_client_name' 	: JSON.stringify(e_client_name),
+			'e_status_x'        : JSON.stringify(e_status_xx),
+	      },
+	      success : function(obj){	      	
+	        if(obj=="done")
+	        {
+		      var btn = "button";
+		      swal({
+		        title : "<b>Client details successfully updated.</b>",
+		        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+		        html  : true,
+		        showConfirmButton: false
+		      });
+		      $(document).on('click', "#btnA", function(){
+		        window.location.href=window.location.href;
+		      });
+		    }
+		  },
+		  error : function(err){
+		  	alert(JSON.stringify(err))
+		  }
+		});
+	})	
+//})
+</script>
+
+
+<script type="text/javascript">
+	$('#submit_invoice').click(function(){		
+		var client_name 	= $('#select2-client_list-container').html();		
+		var proj_name 		= $('#proj_name').val();
+		var currency_type 	= $('#currency_type').val();
+		var duration_type 	= $('#duration_type').val();
+		var price 			= $('#price').val();
+		var price_type 		= $('#price_type').val();
+		var rate 			= $('#rate').val();
+		var customer_no 	= $('#customer_no').val();
+		var vm_name 		= $('#vm_name').val();		
+
+		if(client_name=='Select Client Name'){
+			swal("Error","Please Select the Client","error");
+			return 0;
+		}
+		$.ajax({
+			  url: '/it/submit_boss_client_details/',
+			  dataType: 'JSON',
+			  type: 'GET',
+			  data:
+			  { 
+			  	'client_name' 	: JSON.stringify(client_name),
+				'proj_name' 	: JSON.stringify(proj_name),
+				'currency_type' : JSON.stringify(currency_type),
+				'duration_type' : JSON.stringify(duration_type),
+				'price' 		: JSON.stringify(price),
+				'price_type' 	: JSON.stringify(price_type),
+				'rate' 			: JSON.stringify(rate),
+				'customer_no' 	: JSON.stringify(customer_no),
+				'vm_name' 		: JSON.stringify(vm_name),
+			  },
+			  success : function(obj){
+			    if(obj=="done")
+		        {
+			      var btn = "button";
+			      swal({
+			        title : "<b>Client's details successfully submittedw.</b>",
+			        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+			        html  : true,
+			        showConfirmButton: false
+			      });
+			      $(document).on('click', "#btnA", function(){
+			        
+			      });
+			    }			    
+		  },
+		  error : function(err){
+		  		alert(JSON.stringify(err))
+		 }
+		});
+	})
+	
+</script>
+	
+
+
+{% endblock %}

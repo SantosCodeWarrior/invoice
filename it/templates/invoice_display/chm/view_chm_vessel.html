@@ -1,0 +1,172 @@
+{% extends "admin.html" %}
+{% block content %}
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<!-- <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script> -->
+<!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.15/datatables.min.js"></script> -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.15/datatables.min.css"> -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+ <link rel="stylesheet" type="text/css" href="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+
+<p></p>
+<center><i id="loader" class="fa fa-cog fa-spin fa-4x fa-fw" style="color:orange;display:none;"></i></center>
+<center><h3>View DSR</h3></center>
+<div class="col-md-12">
+  <div class="input-group input-daterange" style="display:none">
+      <input type="text" id="start_date" class="form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="From:">
+    
+      <div class="input-group-addon">to</div>
+      <input type="text" id="end_date" class="form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="To:">
+  </div>
+</div>
+
+<table id="vessel_details" class="table table-striped table-bordered bootstrap-datatable" style="display:none">
+    <thead>
+      <tr>        
+        <th><font color="black">S.No</font></th>
+        <th><font color="black">PV Made?</font></th>
+        <th><font color="black">Ship Name</font></th>
+        <th><font color="black">Voyage No</font></th>
+        <th><font color="black">Voyage Manager</font></th>
+        <th><font color="black">Disch.Port</font></th>
+        <th><font color="black">Disch.Date</font></th>
+        <th><font color="black">Client</font></th>  
+        <th><font color="black"></font></th>          
+      </tr>
+    </thead>
+    <tbody id="vessel_body"></tbody>
+  </table>
+</div>
+
+<script type="text/javascript">
+   $('.input-daterange input').each(function() {
+    $(this).datepicker('clearDates');
+  });
+</script>
+
+<script type="text/javascript">
+$('#loader').css('display','');  
+
+$(document).ready(function(){
+  $('#input-daterange').css('display','none');
+  $('#vessel_details').css('display','none');
+  $('.input-daterange').css('display','none');  
+
+  $.ajax({
+      url      : '/it/fetching_data_from_api/',
+      type     : 'GET',
+      dataType : 'JSON',
+      data:{
+        
+      },
+      success: function(obj){     
+        $('#input-daterange').css('display','');
+        $('#vessel_details').css('display',''); 
+        $('.input-daterange').css('display',''); 
+        $('#view_chm_data').css('display','');
+        $('#loader').css('display','none');
+        $('#vessel_body').empty();
+
+        for (var i=0;i<obj['finance_array'].length;i++){          
+          $('#vessel_body').append('<tr><td>'+obj['finance_array'][i]['s_no']+'</td><td>'+obj['finance_array'][i]['pv_made']+'</td><td><a href="'+obj['finance_array'][i]['url']+'" target="_blank">'+obj['finance_array'][i]['ship_name']+'</td><td>'+obj['finance_array'][i]['voyage_no']+'</td><td>'+obj['finance_array'][i]['vm_name']+'</td><td>'+obj['finance_array'][i]['disch_port']+'</td><td>'+obj['finance_array'][i]['disch_date']+'</td><td>'+obj['finance_array'][i]['client_name']+'</td><td><a href="'+obj['finance_array'][i]['url']+'" target="_blank"><button class="btn btn-info generate s_no_'+obj['finance_array'][i]['s_no']+'" '+obj['finance_array'][i]['button']+'>Generate</button></a></td></tr>')
+          var shipname = obj['finance_array'][i]['ship_name'];
+          var voyno    = obj['finance_array'][i]['voyage_no'];
+          var sno      = obj['finance_array'][i]['s_no'];          
+          get_invoice_details(shipname,voyno,sno);             
+        }
+
+
+            
+
+        if (!$.fn.DataTable.isDataTable('#vessel_details'))
+        {          
+          $.fn.dataTable.ext.search.push(
+              function( settings, data, dataIndex ) {
+                var min = $('#start_date').val();
+                var max = $('#end_date').val();                  
+                var createdAt = data[6] || 0;           
+                if ((min == "" || max == "") || (moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max))) 
+                {                  
+                  return true;
+                }
+                return false;
+              }
+          );
+
+          $('.date-range-filter').change(function(){            
+              table.draw();
+            });
+
+          table = $('#vessel_details').DataTable({
+             "scrollY"         : '500px',
+            "bPaginate"       : false,
+            "scrollX"         : true,
+            "scrollCollapse"  : false, 
+            "bFilter"         : true,       
+            paging: false,
+            info: false
+          });
+
+
+
+
+
+          // var table = $('#vessel_details').DataTable({
+          // "scrollY"         : '500px',
+          // "bPaginate"       : false,
+          // "scrollX"         : true,
+          // "scrollCollapse"  : false, 
+          // "bFilter"         : true,            
+          // });
+
+          $('#vessel_body_filter').hide();
+          $('#vessel_details').DataTable().search( '' ).draw();
+          $(".dataTable").css("margin-bottom","0px");  
+
+                
+        }
+      },
+      error: function(err){
+        
+    }
+  });
+
+})
+
+
+  
+  function  get_invoice_details(shipname,voyno,sno){
+      $.ajax({
+        url      : '/it/vaild_invoice_details/',
+        type     : 'POST',
+        dataType : 'JSON',
+        data:{
+          'vessel_name' : shipname,             
+          'voyage_no'   : voyno, 
+          'sno'         : sno,                     
+        },
+        success: function(obj){               
+          if(obj['display_button']=="none"){
+            //console.log(obj['display_button']);
+            $(".s_no_"+sno).css('display','none'); 
+
+
+          }
+        },
+        error: function(err){
+          //console.log(JSON.stringify(err,null,4))
+        }
+    });        
+}
+
+
+
+</script>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,1710 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.css">
+<script src="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.js"></script>
+
+
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.3.2/js/dataTables.fixedHeader.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.3.2/css/fixedHeader.dataTables.min.css">
+
+
+
+<div class = "box box-success">
+  <div class="box-header with-border">
+    <center><h5>Reconciliation (INR)</h5></center>
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center> <b style="float: right;margin-right: 31px;margin-top: -35px;font-size: 12px"><a href="/it/reconciliation_inr_entry/"><u>Reconciliation Entry</u></a></b>
+    <div class="container" style="margin-left: 33px;font-size: 12px" style="display: none;">
+      <div class="row">
+          
+            <button class="btn btn-danger" id="export_load_data" style="font-size: 9px;height: 25px;margin-top: -1px;margin-left: 12px;display: ;">EXPORT</button>
+
+        </div>
+    </div>
+  </div> 
+</div>
+<br>
+
+
+ <div class = "col-md-12" style="height:100%">        
+    <table  class="table table-bordered" style="font-size: 9px;padding: 0px" id="remittance_data">     
+    <thead style="background-color: #009879;color: white">
+      <tr>
+        <th rowspan="2"></th>
+        <th rowspan="2"></th>
+        <th rowspan="2">S.No</th>
+        <th rowspan="2">Reference No</th>
+        <th rowspan="2" style="display: none;"></th>
+        <th rowspan="2">Remittance Date</th>
+        <th rowspan="2">Client</th>
+        <th rowspan="2">Status</th>
+        <th rowspan="2">Inward Amount</th>        
+        <th rowspan="2">Difference Amount</th>        
+        <th rowspan="2">FINAL AMOUNT RECONCILE</th>
+        <th rowspan="2">LESS (TDS)</th>
+        <th rowspan="2">ADD (IGST 18%)</th>
+        <th rowspan="2">Total Bill Amount</th>
+        <th colspan="3">Invoice 1</th>
+        <th colspan="3">Invoice 2</th>
+        <th colspan="3">Invoice 3</th>
+        <th colspan="3">Invoice 4</th>
+        <th colspan="3">Invoice 5</th>
+        <th colspan="3">Invoice 6</th>
+        <th colspan="3">Invoice 7</th>
+        <th colspan="3">Invoice 8</th>
+        <th colspan="3">Invoice 9</th>
+        <th colspan="3">Invoice 10</th>
+    <!-- <th rowspan="2">Amount INR</th> -->
+    <!-- <th rowspan="2">Base Amount</th>
+        <th rowspan="2">Tax %</th>
+        <th rowspan="2">Tax Amt</th>
+        <th rowspan="2">Final</th>
+        <th rowspan="2">Variation</th> -->
+        <th rowspan="2">Remarks</th>
+        <th rowspan="2" style="display: none;"></th>
+
+        <th rowspan="2" style="display: none;"></th>
+        <th rowspan="2" style="display: none;"></th>
+        <th rowspan="2" style="display: none;"></th>
+        <th rowspan="2" style="display: none;"></th>
+        <th rowspan="2" style="display: none;"></th>
+        <th rowspan="2" style="display: none;"></th>
+        <th rowspan="2" style="display: none;"></th>
+        <th rowspan="2" style="display: none;"></th>
+        <th rowspan="2" style="display: none;"></th>
+        <th rowspan="2" style="display: none;"></th>
+
+        <th rowspan="2" style="display: none;">tax</th>
+        <th rowspan="2" style="display: none;">tax</th>
+        <th rowspan="2" style="display: none;">tax</th>
+        <th rowspan="2" style="display: none;">tax</th>
+        <th rowspan="2" style="display: none;">tax</th>
+        <th rowspan="2" style="display: none;">tax</th>
+        <th rowspan="2" style="display: none;">tax</th>
+        <th rowspan="2" style="display: none;">tax</th>
+        <th rowspan="2" style="display: none;">tax</th>
+        <th rowspan="2" style="display: none;">tax</th>
+
+
+        <th rowspan="2" style="display: none;">final</th>
+        <th rowspan="2" style="display: none;">final</th>
+        <th rowspan="2" style="display: none;">final</th>
+        <th rowspan="2" style="display: none;">final</th>
+        <th rowspan="2" style="display: none;">final</th>
+        <th rowspan="2" style="display: none;">final</th>
+        <th rowspan="2" style="display: none;">final</th>
+        <th rowspan="2" style="display: none;">final</th>
+        <th rowspan="2" style="display: none;">final</th>
+        <th rowspan="2" style="display: none;">final</th>
+        <th rowspan="2" style="display: none;">TAX</th>
+      </tr>
+      <tr>
+        <th>Service</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+        <th>Service</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+        <th>Service</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+        <th>Service</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+        <th>Service</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+        <th>Service</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+        <th>Service</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+        <th>Service</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+        <th>Service</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+        <th>Service</th>
+        <th>Invoice No</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody id="get_remittance_data"></tbody>     
+  </table>
+</div>
+
+
+<div id="edit_remittance" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 250%;margin-left: -355px;">
+      <div class="modal-header">      
+        <button class="btn btn-success" id="update_remittance">UPDATE</button>
+        <button type="button" class="close" data-dismiss="modal" style="display:;">&times;</button>
+      </div>
+      <div id="e_get_id" style="font-size: 10px;display: none;"></div>
+       <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Remittance Date</label>
+                  <input type="date"  class="form-control" id="e_remittance_date" style="font-size: 10px;;height: 27px">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Currency</label>
+                  <input type="text"  class="form-control" id="e_currency" style="font-size: 10px;;height: 27px">
+                 <!--  <select class="form-control" id="e_currency" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    {% for c in currency_list %}
+                    <option value="{{c.currency_name}}">{{c.currency_name}}</option>                   
+                    {% endfor %}
+                  </select>        -->           
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm" style="display:''">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Tax %</label>
+                  <input type="text"  class="form-control" id="e_client_tax" style="font-size: 10px;height: 27px;">
+                </div>
+              </div>
+            </div>
+
+             <div class="col-sm">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Status</label>
+                  <input type="text"  class="form-control" id="e_get_status" style="font-size: 10px;height: 27px;">
+                </div>
+              </div>
+
+            </div>
+            <div class="col-sm">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Bank Charges</label>
+                  <input type="text"  class="form-control" id="e_get_bank_deduction" style="font-size: 10px;height: 27px;">
+                </div>
+              </div>
+            </div>      
+          </div>        
+
+          <div class="row">
+            <div class="col-sm">
+              <div class="col-md-10">
+                <div class="form-group col-md-10">
+                  <label for="specificGravity" style="color: black;font-size: 10px;margin-left: -15px;">Client Name</label>
+                  <select class="form-control" id="e_get_client_name" style="font-size: 10px;height: 27px;margin-left: -15px;">
+                  <option value="0" style="font-size: 10px"></option>
+                  {% for x in cl_array %} 
+                    <option value="{{x.client_name}}" style="font-size: 10px">{{x.client_list}}</option>
+                  {% endfor %}                 
+                  </select>                  
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Total Amount</label>
+                  <input type="text"  class="form-control" id="e_get_total_amt" style="font-size: 10px;height: 27px;border-color: #9ff5a3">
+                </div>
+              </div>
+            </div>
+
+             <div class="col-sm">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Reference No</label>
+                  <input type="text"  class="form-control" id="e_reference_no" style="font-size: 10px;height: 27px;border-color:#fa8a5a">
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+      <div class="container" id="get_1">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 1</label>
+                  <select class="form-control" id="e_service_1" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.1</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_1" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 1</label>
+                  <input type="text"  class="form-control" id="e_amount_1" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 1</label>                  
+                  <input type="text"  class="form-control" id="e_igst_1" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 1</label>                  
+                  <input type="text"  class="form-control" id="e_tax_1" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 1</label>                  
+                  <input type="text"  class="form-control" id="e_final_1" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+          <div class="container" id="get_2">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 2</label>
+                  <select class="form-control" id="e_service_2" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.2</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_2" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 2</label>
+                  <input type="text"  class="form-control" id="e_amount_2" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 2</label>                  
+                  <input type="text"  class="form-control" id="e_igst_2" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 2</label>                  
+                  <input type="text"  class="form-control" id="e_tax_2" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 2</label>                  
+                  <input type="text"  class="form-control" id="e_final_2" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+      <div class="container" id="get_3">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 3</label>
+                  <select class="form-control" id="e_service_3" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.3</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_3" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 3</label>
+                  <input type="text"  class="form-control" id="e_amount_3" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 3</label>                  
+                  <input type="text"  class="form-control" id="e_igst_3" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 3</label>                  
+                  <input type="text"  class="form-control" id="e_tax_3" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 3</label>                  
+                  <input type="text"  class="form-control" id="e_final_3" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+
+        <div class="container" id="get_4">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 4</label>
+                  <select class="form-control" id="e_service_4" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.4</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_4" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 4</label>
+                  <input type="text"  class="form-control" id="e_amount_4" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 4</label>                  
+                  <input type="text"  class="form-control" id="e_igst_4" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 4</label>                  
+                  <input type="text"  class="form-control" id="e_tax_4" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 4</label>                  
+                  <input type="text"  class="form-control" id="e_final_4" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+
+
+        <div class="container" id="get_5">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 5</label>
+                  <select class="form-control" id="e_service_5" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.5</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_5" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 5</label>
+                  <input type="text"  class="form-control" id="e_amount_5" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 5</label>                  
+                  <input type="text"  class="form-control" id="e_igst_5" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 5</label>                  
+                  <input type="text"  class="form-control" id="e_tax_5" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 5</label>                  
+                  <input type="text"  class="form-control" id="e_final_5" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+      <div class="container" id="get_6">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 6</label>
+                  <select class="form-control" id="e_service_6" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.6</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_6" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 6</label>
+                  <input type="text"  class="form-control" id="e_amount_6" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 6</label>                  
+                  <input type="text"  class="form-control" id="e_igst_6" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 6</label>                  
+                  <input type="text"  class="form-control" id="e_tax_6" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 6</label>                  
+                  <input type="text"  class="form-control" id="e_final_6" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+      <div class="container" id="get_7">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 7</label>
+                  <select class="form-control" id="e_service_7" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.7</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_7" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 7</label>
+                  <input type="text"  class="form-control" id="e_amount_7" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 7</label>                  
+                  <input type="text"  class="form-control" id="e_igst_7" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 7</label>                  
+                  <input type="text"  class="form-control" id="e_tax_7" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 7</label>                  
+                  <input type="text"  class="form-control" id="e_final_7" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+      <div class="container" id="get_8">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 8</label>
+                  <select class="form-control" id="e_service_8" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.8</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_8" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 8</label>
+                  <input type="text"  class="form-control" id="e_amount_8" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 8</label>                  
+                  <input type="text"  class="form-control" id="e_igst_8" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 8</label>                  
+                  <input type="text"  class="form-control" id="e_tax_8" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 8</label>                  
+                  <input type="text"  class="form-control" id="e_final_8" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+         <div class="container" id="get_9">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 9</label>
+                  <select class="form-control" id="e_service_9" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.9</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_9" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 9</label>
+                  <input type="text"  class="form-control" id="e_amount_9" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 9</label>                  
+                  <input type="text"  class="form-control" id="e_igst_9" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 9</label>                  
+                  <input type="text"  class="form-control" id="e_tax_9" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 9</label>                  
+                  <input type="text"  class="form-control" id="e_final_9" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+         <div class="container" id="get_10">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 10</label>
+                  <select class="form-control" id="e_service_10" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.10</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_10" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 10</label>
+                  <input type="text"  class="form-control" id="e_amount_10" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 10</label>                  
+                  <input type="text"  class="form-control" id="e_igst_10" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 10</label>                  
+                  <input type="text"  class="form-control" id="e_tax_10" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 10</label>                  
+                  <input type="text"  class="form-control" id="e_final_10" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+
+         <div class="container" id="get_11">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 11</label>
+                  <select class="form-control" id="e_service_11" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.11</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_11" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 11</label>
+                  <input type="text"  class="form-control" id="e_amount_11" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 11</label>                  
+                  <input type="text"  class="form-control" id="e_igst_11" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 11</label>                  
+                  <input type="text"  class="form-control" id="e_tax_11" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 11</label>                  
+                  <input type="text"  class="form-control" id="e_final_11" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+         <div class="container" id="get_12">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 12</label>
+                  <select class="form-control" id="e_service_12" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.12</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_12" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 12</label>
+                  <input type="text"  class="form-control" id="e_amount_12" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 12</label>                  
+                  <input type="text"  class="form-control" id="e_igst_12" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 12</label>                  
+                  <input type="text"  class="form-control" id="e_tax_12" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 12</label>                  
+                  <input type="text"  class="form-control" id="e_final_12" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+
+         <div class="container" id="get_13">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 13</label>
+                  <select class="form-control" id="e_service_13" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.13</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_13" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 13</label>
+                  <input type="text"  class="form-control" id="e_amount_13" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 13</label>                  
+                  <input type="text"  class="form-control" id="e_igst_13" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 13</label>                  
+                  <input type="text"  class="form-control" id="e_tax_13" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 13</label>                  
+                  <input type="text"  class="form-control" id="e_final_13" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+         <div class="container" id="get_14">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 14</label>
+                  <select class="form-control" id="e_service_14" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.14</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_14" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 14</label>
+                  <input type="text"  class="form-control" id="e_amount_14" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 14</label>                  
+                  <input type="text"  class="form-control" id="e_igst_14" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 14</label>                  
+                  <input type="text"  class="form-control" id="e_tax_14" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 14</label>                  
+                  <input type="text"  class="form-control" id="e_final_14" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+         <div class="container" id="get_15">
+          <div class="row">
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Service 15</label>
+                  <select class="form-control" id="e_service_15" style="font-size: 10px;height: 27px;">
+                    <option value="0">SELECT</option>
+                    <option value="BOSS">BOSS</option>
+                    <option value="CHM">CHM</option>
+                  </select>     
+              </div>
+              <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Invoice No.15</label>
+                  <input type="text"  class="form-control" id="e_invoice_no_15" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">Amount 15</label>
+                  <input type="text"  class="form-control" id="e_amount_15" style="font-size: 10px;height: 27px;">  
+              </div>
+
+               <div class="col-xs-6">
+                  <label for="specificGravity" style="color: black;font-size: 10px">IGST 15</label>                  
+                  <input type="text"  class="form-control" id="e_igst_15" style="font-size: 10px;height: 27px;">
+              </div>
+
+               <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">TAX 15</label>                  
+                  <input type="text"  class="form-control" id="e_tax_15" style="font-size: 10px;height: 27px;">
+              </div>
+
+              <div class="col-xs-6">
+                   <label for="specificGravity" style="color: black;font-size: 10px">Final 15</label>                  
+                  <input type="text"  class="form-control" id="e_final_15" style="font-size: 10px;height: 27px;">
+              </div>
+          </div>
+      </div>
+
+
+          <div class="col-sm">
+                <div class="col-md-12">
+                <div class="form-group">
+                  <label for="specificGravity" style="color: black;font-size: 10px;margin-left: -17px;">Remarks</label>
+                  <textarea type="text" class="form-control" id="e_remarks" style="font-size: 10px;height: 80px;margin-left: -18px;"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+       
+
+          <div class="modal-body">
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" id="refresh" style="cursor: pointer">Close</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+
+function load_remittance(){
+  $('#loader').css('display',''); 
+  // var st      = $('#start_date').val();
+  // var et      = $('#end_date').val();
+  // var cl_name = $('#client_list').val();
+ 
+  $.ajax({
+    url  : '/it/filter_remiitance_data_inr/',
+    type : 'GET',
+    dataType :'JSON',
+    data:{
+      // 'st_date' : JSON.stringify(st),           
+      // 'et_date' : JSON.stringify(et),
+      // 'cl_name' : JSON.stringify(cl_name),
+    },
+    success:function(obj){
+      if(obj['invoice_array'].length==0){
+        swal("Info","No Data Available",'info');
+        $('#loader').css('display','none');
+        //location.reload();
+        return 0;
+        
+      }
+      $('#loader').css('display','none');
+      $('#get_remittance_data').empty(); 
+     for(var i=0;i<obj['invoice_array'].length;i++){ 
+
+      //console.log(obj['invoice_array'][i]['gt_inward_amt_inr'])      
+        
+      $('#get_remittance_data').append('<tr style="white-space: nowrap;color:'+(obj['invoice_array'][i]['bg_color'])+'"><td id="'+(obj['invoice_array'][i]['get_id'])+'"><b class="btn_edit_remittance" style="font-size: 10px;color:green;cursor: pointer;" data-toggle="modal" data-target="#edit_remittance" id="'+(obj['invoice_array'][i]['get_id'])+'"><u>EDIT</u></b></td><td><b class="btn_delete" style="font-size: 10px;color:red;cursor: pointer;" id="'+(obj['invoice_array'][i]['get_id'])+'"><u>DELETE</u></b></td><td>'+(i+1)+'</td><td class="get_id" style="display: none">'+(obj['invoice_array'][i]['get_id'])+'</td><td class="get_reference_no">'+(obj['invoice_array'][i]['gt_reference_no'])+'</td><td class="get_remittance_date" style="">'+(obj['invoice_array'][i]['format_date'])+'</td><td class="get_client_name" style="">'+(obj['invoice_array'][i]['client_name'])+'</td><td class="get_status">'+(obj['invoice_array'][i]['status'])+'</td><td style="color:#044aba"><b>'+obj['invoice_array'][i]['gt_inward_amt_inr']+'</b></td><td>'+Math.abs(obj['invoice_array'][i]['diff']).toFixed(1)+'</td><td><b>'+obj['invoice_array'][i]['final_amt'].toFixed(1)+'</b></td><td>'+(obj['invoice_array'][i]['less_tds'])+'</td><td>'+(obj['invoice_array'][i]['add_tax'])+'</td><td class="get_total_amt">'+obj['invoice_array'][i]['tot_amt']+'</td><td class="get_service1">'+(obj['invoice_array'][i]['service1'])+'</td><td class="get_invoice_no_1">'+(obj['invoice_array'][i]['invoice_no1'])+'</td><td class="get_amount1">'+(obj['invoice_array'][i]['amount1'])+'</td><td class="get_service2">'+(obj['invoice_array'][i]['service2'])+'</td><td class="get_invoice_no_2">'+(obj['invoice_array'][i]['invoice_no2'])+'</td><td class="get_amount2">'+(obj['invoice_array'][i]['amount2'])+'</td><td class="get_service3">'+(obj['invoice_array'][i]['service3'])+'</td><td class="get_invoice_no_3">'+(obj['invoice_array'][i]['invoice_no3'])+'</td><td class="get_amount3">'+(obj['invoice_array'][i]['amount3'])+'</td><td class="get_service4">'+(obj['invoice_array'][i]['service4'])+'</td><td class="get_invoice_no_4">'+(obj['invoice_array'][i]['invoice_no4'])+'</td><td class="get_amount4">'+(obj['invoice_array'][i]['amount4'])+'</td><td class="get_service5">'+(obj['invoice_array'][i]['service5'])+'</td><td class="get_invoice_no_5">'+(obj['invoice_array'][i]['invoice_no5'])+'</td><td class="get_amount5">'+(obj['invoice_array'][i]['amount5'])+'</td><td class="get_service6">'+(obj['invoice_array'][i]['service6'])+'</td><td class="get_invoice_no_6">'+(obj['invoice_array'][i]['invoice_no6'])+'</td><td class="get_amount6">'+(obj['invoice_array'][i]['amount6'])+'</td><td class="get_service7">'+(obj['invoice_array'][i]['service7'])+'</td><td class="get_invoice_no_7">'+(obj['invoice_array'][i]['invoice_no7'])+'</td><td class="get_amount7">'+(obj['invoice_array'][i]['amount7'])+'</td><td class="get_service8">'+(obj['invoice_array'][i]['service8'])+'</td><td class="get_invoice_no_8">'+(obj['invoice_array'][i]['invoice_no8'])+'</td><td class="get_amount8">'+(obj['invoice_array'][i]['amount8'])+'</td><td class="get_service9">'+(obj['invoice_array'][i]['service9'])+'</td><td class="get_invoice_no_9">'+(obj['invoice_array'][i]['invoice_no9'])+'</td><td class="get_amount9">'+(obj['invoice_array'][i]['amount9'])+'</td><td class="get_service10">'+(obj['invoice_array'][i]['service10'])+'</td><td class="get_invoice_no_10">'+(obj['invoice_array'][i]['invoice_no10'])+'</td><td class="get_amount10">'+(obj['invoice_array'][i]['amount10'])+'</td><td class="get_remarks" style="background-color:#f5f1d0">'+(obj['invoice_array'][i]['remarks'])+'</td><td class="get_currency" style="display:none">'+(obj['invoice_array'][i]['e_currency_type'])+'</td><td class="get_igst_1" style="display:none">'+(obj['invoice_array'][i]['e_igst_1'])+'</td><td class="get_igst_2" style="display:none">'+(obj['invoice_array'][i]['e_igst_2'])+'</td><td class="get_igst_3" style="display:none">'+(obj['invoice_array'][i]['e_igst_3'])+'</td><td class="get_igst_4" style="display:none">'+(obj['invoice_array'][i]['e_igst_4'])+'</td><td class="get_igst_5" style="display:none">'+(obj['invoice_array'][i]['e_igst_5'])+'</td><td class="get_igst_6" style="display:none">'+(obj['invoice_array'][i]['e_igst_6'])+'</td><td class="get_igst_7" style="display:none">'+(obj['invoice_array'][i]['e_igst_7'])+'</td><td class="get_igst_8" style="display:none">'+(obj['invoice_array'][i]['e_igst_8'])+'</td><td class="get_igst_9" style="display:none">'+(obj['invoice_array'][i]['e_igst_9'])+'</td><td class="get_igst_10" style="display:none">'+(obj['invoice_array'][i]['e_igst_10'])+'</td><td class="get_tax_1" style="display:none">'+(obj['invoice_array'][i]['e_tax_1'])+'</td><td class="get_tax_2" style="display:none">'+(obj['invoice_array'][i]['e_tax_2'])+'</td><td class="get_tax_3" style="display:none">'+(obj['invoice_array'][i]['e_tax_3'])+'</td><td class="get_tax_4" style="display:none">'+(obj['invoice_array'][i]['e_tax_4'])+'</td><td class="get_tax_5" style="display:none">'+(obj['invoice_array'][i]['e_tax_5'])+'</td><td class="get_tax_6" style="display:none">'+(obj['invoice_array'][i]['e_tax_6'])+'</td><td class="get_tax_7" style="display:none">'+(obj['invoice_array'][i]['e_tax_7'])+'</td><td class="get_tax_7" style="display:none">'+(obj['invoice_array'][i]['e_tax_7'])+'</td><td class="get_tax_8" style="display:none">'+(obj['invoice_array'][i]['e_tax_8'])+'</td><td class="get_tax_9" style="display:none">'+(obj['invoice_array'][i]['e_tax_9'])+'</td><td class="get_tax_10" style="display:none">'+(obj['invoice_array'][i]['e_tax_10'])+'</td><td class="get_final_1" style="display:none">'+(obj['invoice_array'][i]['e_final_1'])+'</td><td class="get_final_2" style="display:none">'+(obj['invoice_array'][i]['e_final_2'])+'</td><td class="get_final_3" style="display:none">'+(obj['invoice_array'][i]['e_final_3'])+'</td><td class="get_final_4" style="display:none">'+(obj['invoice_array'][i]['e_final_5'])+'</td><td class="get_final_6" style="display:none">'+(obj['invoice_array'][i]['e_final_6'])+'</td><td class="get_final_7" style="display:none">'+(obj['invoice_array'][i]['e_final_7'])+'</td><td class="get_final_8" style="display:none">'+(obj['invoice_array'][i]['e_final_8'])+'</td><td class="get_final_9" style="display:none">'+(obj['invoice_array'][i]['e_final_9'])+'</td><td class="get_final_10" style="display:none">'+(obj['invoice_array'][i]['e_final_10'])+'</td><td class="get_tax_rule" style="display:none">'+(obj['invoice_array'][i]['e_tax_rule'])+'</td></tr>')
+     } 
+
+     //<td class="">'+(obj['invoice_array'][i]['amount'])+'</td><td class="get_total_amt">'+(obj['invoice_array'][i]['total_amount'].toFixed(1))+'</td><td>'+(obj['invoice_array'][i]['igst'].toFixed(1))+'</td><td>'+(obj['invoice_array'][i]['tax_amt'].toFixed(1))+'</td><td>'+(obj['invoice_array'][i]['final'].toFixed(1))+'</td><td>'+(obj['invoice_array'][i]['variance'].toFixed(1))+'</td>
+
+      for(var ee=1;ee<2;ee++){
+        $('.get_service'+ee).css('background-color','#d7f5e7')
+        $('.get_invoice_no_'+ee).css('background-color','#d7f5e7')
+        $('.get_amount'+ee).css('background-color','#d7f5e7')
+      }
+
+      for(var ee=3;ee<4;ee++){
+        $('.get_service'+ee).css('background-color','#d7f5e7')
+        $('.get_invoice_no_'+ee).css('background-color','#d7f5e7')
+        $('.get_amount'+ee).css('background-color','#d7f5e7')
+      }
+
+       for(var ee=5;ee<6;ee++){
+        $('.get_service'+ee).css('background-color','#d7f5e7')
+        $('.get_invoice_no_'+ee).css('background-color','#d7f5e7')
+        $('.get_amount'+ee).css('background-color','#d7f5e7')
+      }
+
+       for(var ee=7;ee<8;ee++){
+        $('.get_service'+ee).css('background-color','#d7f5e7')
+        $('.get_invoice_no_'+ee).css('background-color','#d7f5e7')
+        $('.get_amount'+ee).css('background-color','#d7f5e7')
+      }
+
+      for(var ee=9;ee<10;ee++){
+        $('.get_service'+ee).css('background-color','#d7f5e7')
+        $('.get_invoice_no_'+ee).css('background-color','#d7f5e7')
+        $('.get_amount'+ee).css('background-color','#d7f5e7')
+      }
+
+
+      $('.btn_delete').click(function(){
+        var del_id = $(this).attr('id');       
+        var result = confirm("Want to Delete?");
+        if (result==true)
+        {
+            var result2 = confirm("Want to Delete?");
+            if (result2==true)
+            {
+              var get_id_for_delete = $(this).attr('id');
+              $.ajax({
+              url  : '/it/delete_remiitance_inr/',
+              type : 'GET',
+              dataType :'JSON',
+              data:{
+                'del_id' : del_id,           
+              },
+              success:function(obj){
+                if(obj=='done'){
+                  var btn = "button";
+                  swal({
+                    title : "<b><font color='red'>Successfully deleted</b>",
+                    text  : '<button type="' + btn + '" id="btnA" >OK</button>',
+                    html  : true,
+                    type  : "info",
+                    showConfirmButton: false
+                  });
+
+                  $(document).on('click', "#btnA", function(){
+                    window.location.href=window.location.href;
+                  });
+                }
+              },
+
+              error:function(err){
+                console.log(JSON.stringify(err,null,4));
+              }
+            })
+          }
+        }
+      })
+
+
+
+
+      $(".btn_edit_remittance").click(function() {  
+        var get_id                  =  $(this).closest("tr").find(".get_id").text();  
+        var get_client_name         =  $(this).closest("tr").find(".get_client_name").text();
+        var get_remittance_date     =  $(this).closest("tr").find(".get_remittance_date").text();
+        var get_certificate_no      =  $(this).closest("tr").find(".get_certificate_no").text();
+        var get_inward_amount       =  $(this).closest("tr").find(".get_inward_amount").text();
+        var get_currency            =  $(this).closest("tr").find(".get_currency").text();
+        var get_rate                =  $(this).closest("tr").find(".get_rate").text();
+        var get_amount_inr          =  $(this).closest("tr").find(".get_amount_inr").text();
+        var get_net_inward_amt_ref  =  $(this).closest("tr").find(".get_net_inward_amt_ref").text();
+        var get_total_amt           =  $(this).closest("tr").find(".get_total_amt").text();
+        var get_status              =  $(this).closest("tr").find(".get_status").text();
+        var get_bank_deduction      =  $(this).closest("tr").find(".get_bank_deduction").text();
+        var get_service1            =  $(this).closest("tr").find(".get_service1").text();
+        var get_invoice_no_1        =  $(this).closest("tr").find(".get_invoice_no_1").text();
+        var get_amount1             =  $(this).closest("tr").find(".get_amount1").text();
+        var get_service2            =  $(this).closest("tr").find(".get_service2").text();
+        var get_invoice_no_2        =  $(this).closest("tr").find(".get_invoice_no_2").text();
+        var get_amount2             =  $(this).closest("tr").find(".get_amount2").text();
+        var get_service3            =  $(this).closest("tr").find(".get_service3").text();
+        var get_invoice_no_3        =  $(this).closest("tr").find(".get_invoice_no_3").text();
+        var get_amount3             =  $(this).closest("tr").find(".get_amount3").text();
+        var get_service4            =  $(this).closest("tr").find(".get_service4").text();
+        var get_invoice_no_4        =  $(this).closest("tr").find(".get_invoice_no_4").text();
+        var get_amount4             =  $(this).closest("tr").find(".get_amount4").text();
+        var get_service5            =  $(this).closest("tr").find(".get_service5").text();
+        var get_invoice_no_5        =  $(this).closest("tr").find(".get_invoice_no_5").text();
+        var get_amount5             =  $(this).closest("tr").find(".get_amount5").text();
+        var get_service6            =  $(this).closest("tr").find(".get_service6").text();
+        var get_invoice_no_6        =  $(this).closest("tr").find(".get_invoice_no_6").text();
+        var get_amount6             =  $(this).closest("tr").find(".get_amount6").text();
+        var get_service7            =  $(this).closest("tr").find(".get_service7").text();
+        var get_invoice_no_7        =  $(this).closest("tr").find(".get_invoice_no_7").text();
+        var get_amount7             =  $(this).closest("tr").find(".get_amount7").text();
+        var get_service8            =  $(this).closest("tr").find(".get_service8").text();
+        var get_invoice_no_8        =  $(this).closest("tr").find(".get_invoice_no_8").text();
+        var get_amount8             =  $(this).closest("tr").find(".get_amount8").text();
+        var get_service9            =  $(this).closest("tr").find(".get_service9").text();
+        var get_invoice_no_9        =  $(this).closest("tr").find(".get_invoice_no_9").text();
+        var get_amount9             =  $(this).closest("tr").find(".get_amount9").text();
+        var get_service10           =  $(this).closest("tr").find(".get_service10").text();
+        var get_invoice_no_10       =  $(this).closest("tr").find(".get_invoice_no_10").text();
+        var get_amount10            =  $(this).closest("tr").find(".get_amount10").text();
+
+        var get_service11           =  $(this).closest("tr").find(".get_service11").text();
+        var get_invoice_no_11       =  $(this).closest("tr").find(".get_invoice_no_11").text();
+        var get_amount11            =  $(this).closest("tr").find(".get_amount11").text();
+
+        var get_service12           =  $(this).closest("tr").find(".get_service12").text();
+        var get_invoice_no_12       =  $(this).closest("tr").find(".get_invoice_no_12").text();
+        var get_amount12            =  $(this).closest("tr").find(".get_amount12").text();
+
+        var get_service13           =  $(this).closest("tr").find(".get_service13").text();
+        var get_invoice_no_13       =  $(this).closest("tr").find(".get_invoice_no_13").text();
+        var get_amount13            =  $(this).closest("tr").find(".get_amount13").text();
+
+        var get_service14           =  $(this).closest("tr").find(".get_service14").text();
+        var get_invoice_no_14       =  $(this).closest("tr").find(".get_invoice_no_14").text();
+        var get_amount14            =  $(this).closest("tr").find(".get_amount14").text();
+
+        var get_service15           =  $(this).closest("tr").find(".get_service15").text();
+        var get_invoice_no_15       =  $(this).closest("tr").find(".get_invoice_no_15").text();
+        var get_amount15            =  $(this).closest("tr").find(".get_amount15").text();
+
+
+        var get_reference_no        =  $(this).closest("tr").find(".get_reference_no").text();
+        var get_remarks             =  $(this).closest("tr").find(".get_remarks").text();
+
+        var get_igst_1              =  $(this).closest("tr").find(".get_igst_1").text(); 
+        var get_igst_2              =  $(this).closest("tr").find(".get_igst_2").text(); 
+        var get_igst_3              =  $(this).closest("tr").find(".get_igst_3").text(); 
+        var get_igst_4              =  $(this).closest("tr").find(".get_igst_4").text(); 
+        var get_igst_5              =  $(this).closest("tr").find(".get_igst_5").text(); 
+        var get_igst_6              =  $(this).closest("tr").find(".get_igst_6").text(); 
+        var get_igst_7              =  $(this).closest("tr").find(".get_igst_7").text();        
+        var get_igst_8              =  $(this).closest("tr").find(".get_igst_8").text(); 
+        var get_igst_9              =  $(this).closest("tr").find(".get_igst_9").text(); 
+        var get_igst_10             =  $(this).closest("tr").find(".get_igst_10").text(); 
+
+        var get_tax_1               =  $(this).closest("tr").find(".get_tax_1").text(); 
+        var get_tax_2               =  $(this).closest("tr").find(".get_tax_2").text(); 
+        var get_tax_3               =  $(this).closest("tr").find(".get_tax_3").text(); 
+        var get_tax_4               =  $(this).closest("tr").find(".get_tax_4").text(); 
+        var get_tax_5               =  $(this).closest("tr").find(".get_tax_5").text(); 
+        var get_tax_6               =  $(this).closest("tr").find(".get_tax_6").text(); 
+        var get_tax_7               =  $(this).closest("tr").find(".get_tax_7").text();        
+        var get_tax_8               =  $(this).closest("tr").find(".get_tax_8").text(); 
+        var get_tax_9               =  $(this).closest("tr").find(".get_tax_9").text(); 
+        var get_tax_10              =  $(this).closest("tr").find(".get_tax_10").text();
+
+        var get_final_1             =  $(this).closest("tr").find(".get_final_1").text(); 
+        var get_final_2             =  $(this).closest("tr").find(".get_final_2").text(); 
+        var get_final_3             =  $(this).closest("tr").find(".get_final_3").text(); 
+        var get_final_4             =  $(this).closest("tr").find(".get_final_4").text(); 
+        var get_final_5             =  $(this).closest("tr").find(".get_final_5").text(); 
+        var get_final_6             =  $(this).closest("tr").find(".get_final_6").text(); 
+        var get_final_7             =  $(this).closest("tr").find(".get_final_7").text();        
+        var get_final_8             =  $(this).closest("tr").find(".get_final_8").text(); 
+        var get_final_9             =  $(this).closest("tr").find(".get_final_9").text(); 
+        var get_final_10            =  $(this).closest("tr").find(".get_final_10").text();  
+        var get_tax_rule            =  $(this).closest("tr").find(".get_tax_rule").text();  
+
+
+        
+        get_remittance_details(get_id,get_client_name,get_remittance_date,get_certificate_no,get_inward_amount,get_currency,get_rate,get_amount_inr,get_net_inward_amt_ref,get_total_amt,get_status,get_bank_deduction,get_service1,get_invoice_no_1,get_amount1,get_service2,get_invoice_no_2,get_amount2,get_service3,get_invoice_no_3,get_amount3,get_service4,get_invoice_no_4,get_amount4,get_service5,get_invoice_no_5,get_amount5,get_service6,get_invoice_no_6,get_amount6,get_service7,get_invoice_no_7,get_amount7,get_service8,get_invoice_no_8,get_amount8,get_service9,get_invoice_no_9,get_amount9,get_service10,get_invoice_no_10,get_amount10,get_reference_no,get_remarks,get_service11,get_invoice_no_11,get_amount11,get_service12,get_invoice_no_12,get_amount12,get_service13,get_invoice_no_13,get_amount13,get_service14,get_invoice_no_14,get_amount14,get_service15,get_invoice_no_15,get_amount15,get_igst_1,get_igst_2,get_igst_3,get_igst_4,get_igst_5,get_igst_6,get_igst_7,get_igst_8,get_igst_9,get_igst_10,get_tax_1,get_tax_2,get_tax_3,get_tax_4,get_tax_5,get_tax_6,get_tax_7,get_tax_8,get_tax_9,get_tax_10,get_final_1,get_final_2,get_final_3,get_final_4,get_final_5,get_final_6,get_final_7,get_final_8,get_final_9,get_final_10,get_tax_rule);
+
+        
+      });
+
+  
+
+    if(!$.fn.DataTable.isDataTable('#remittance_data')){     
+        table = $('#remittance_data').DataTable({
+        scrollY:"600px",
+        scrollX:true,
+        scrollCollapse:true,
+        paging:false,
+        Destroy:true,   
+      });
+
+      $('#remittance_data').DataTable().search( '' ).draw();
+      $(".dataTable").css("margin-bottom","0px");   
+    }     
+  },
+
+  error:function(err){
+    console.log(JSON.stringify(err,null,4));
+    }
+  })
+}
+
+
+$(document).ready(function(){ 
+  load_remittance();
+
+})
+
+
+function get_remittance_details(get_id,get_client_name,get_remittance_date,get_certificate_no,get_inward_amount,get_currency,get_rate,get_amount_inr,get_net_inward_amt_ref,get_total_amt,get_status,get_bank_deduction,get_service1,get_invoice_no_1,get_amount1,get_service2,get_invoice_no_2,get_amount2,get_service3,get_invoice_no_3,get_amount3,get_service4,get_invoice_no_4,get_amount4,get_service5,get_invoice_no_5,get_amount5,get_service6,get_invoice_no_6,get_amount6,get_service7,get_invoice_no_7,get_amount7,get_service8,get_invoice_no_8,get_amount8,get_service9,get_invoice_no_9,get_amount9,get_service10,get_invoice_no_10,get_amount10,get_reference_no,get_remarks,get_service11,get_invoice_no_11,get_amount11,get_service12,get_invoice_no_12,get_amount12,get_service13,get_invoice_no_13,get_amount13,get_service14,get_invoice_no_14,get_amount14,get_service15,get_invoice_no_15,get_amount15,get_igst_1,get_igst_2,get_igst_3,get_igst_4,get_igst_5,get_igst_6,get_igst_7,get_igst_8,get_igst_9,get_igst_10,get_tax_1,get_tax_2,get_tax_3,get_tax_4,get_tax_5,get_tax_6,get_tax_7,get_tax_8,get_tax_9,get_tax_10,get_final_1,get_final_2,get_final_3,get_final_4,get_final_5,get_final_6,get_final_7,get_final_8,get_final_9,get_final_10,get_tax_rule){
+
+
+$('#e_get_id').html(get_id);
+$('#e_get_client_name').val(get_client_name);
+$('#e_remittance_date').val(get_remittance_date);
+
+$('#e_client_tax').val(get_tax_rule);
+
+var am1  = get_amount1;
+var am2  = get_amount2;
+var am3  = get_amount3;
+var am4  = get_amount4;
+var am5  = get_amount5;
+var am6  = get_amount6;
+var am7  = get_amount7;
+var am8  = get_amount8;
+var am9  = get_amount9;
+var am10 = get_amount10;
+
+var cl_igst1  = am1*18/100;
+var cl_igst2  = am2*18/100;
+var cl_igst3  = am3*18/100;
+var cl_igst4  = am4*18/100;
+var cl_igst5  = am5*18/100;
+var cl_igst6  = am6*18/100;
+var cl_igst7  = am7*18/100;
+var cl_igst8  = am8*18/100;
+var cl_igst9  = am9*18/100;
+var cl_igst10 = am10*18/100;
+
+
+$('#e_igst_1').val(cl_igst1);
+$('#e_igst_2').val(cl_igst2);
+$('#e_igst_3').val(cl_igst3);
+$('#e_igst_4').val(cl_igst4);
+$('#e_igst_5').val(cl_igst5);
+$('#e_igst_6').val(cl_igst6);
+$('#e_igst_7').val(cl_igst7);
+$('#e_igst_8').val(cl_igst8);
+$('#e_igst_9').val(cl_igst9);
+$('#e_igst_10').val(cl_igst10);
+
+var cl_tax1  = am1*get_tax_rule/100;
+var cl_tax2  = am2*get_tax_rule/100;
+var cl_tax3  = am3*get_tax_rule/100;
+var cl_tax4  = am4*get_tax_rule/100;
+var cl_tax5  = am5*get_tax_rule/100;
+var cl_tax6  = am6*get_tax_rule/100;
+var cl_tax7  = am7*get_tax_rule/100;
+var cl_tax8  = am8*get_tax_rule/100;
+var cl_tax9  = am9*get_tax_rule/100;
+var cl_tax10 = am10*get_tax_rule/100;
+
+$('#e_tax_1').val(cl_tax1);
+$('#e_tax_2').val(cl_tax2);
+$('#e_tax_3').val(cl_tax3);
+$('#e_tax_4').val(cl_tax4);
+$('#e_tax_5').val(cl_tax5);
+$('#e_tax_6').val(cl_tax6);
+$('#e_tax_7').val(cl_tax7);
+$('#e_tax_8').val(cl_tax8);
+$('#e_tax_9').val(cl_tax9);
+$('#e_tax_10').val(cl_tax10);
+
+
+
+$('#e_final_1').val((parseFloat(am1)+(parseFloat(am1)*18/100)-parseFloat(am1)*get_tax_rule/100).toFixed(1));
+$('#e_final_2').val((parseFloat(am2)+(parseFloat(am2)*18/100)-parseFloat(am2)*get_tax_rule/100).toFixed(1));
+$('#e_final_3').val((parseFloat(am3)+(parseFloat(am3)*18/100)-parseFloat(am3)*get_tax_rule/100).toFixed(1));
+$('#e_final_4').val((parseFloat(am4)+(parseFloat(am4)*18/100)-parseFloat(am4)*get_tax_rule/100).toFixed(1));
+$('#e_final_5').val((parseFloat(am5)+(parseFloat(am5)*18/100)-parseFloat(am5)*get_tax_rule/100).toFixed(1));
+$('#e_final_6').val((parseFloat(am6)+(parseFloat(am6)*18/100)-parseFloat(am6)*get_tax_rule/100).toFixed(1));
+$('#e_final_7').val((parseFloat(am7)+(parseFloat(am7)*18/100)-parseFloat(am7)*get_tax_rule/100).toFixed(1));
+$('#e_final_8').val((parseFloat(am8)+(parseFloat(am8)*18/100)-parseFloat(am8)*get_tax_rule/100).toFixed(1));
+$('#e_final_9').val((parseFloat(am9)+(parseFloat(am9)*18/100)-parseFloat(am9)*get_tax_rule/100).toFixed(1));
+$('#e_final_10').val((parseFloat(am10)+(parseFloat(am10)*18/100)-parseFloat(am10)*get_tax_rule/100).toFixed(1));
+
+
+
+
+
+
+$('#e_currency').val(get_currency);
+//$('#e_rate').val(get_rate);
+//var inr_amttt = parseFloat(get_inward_amount)*parseFloat(get_rate);
+//$('#e_amount_inr').val(inr_amttt.toFixed(1));//get_amount_inr
+$('#e_get_net_inward_amt_ref').val(get_net_inward_amt_ref);
+$('#e_get_status').val(get_status);
+$('#e_get_total_amt').val(get_total_amt);
+if(get_bank_deduction!='' && get_bank_deduction!='null'){
+  $('#e_get_bank_deduction').val(get_bank_deduction);  
+}else{
+  $('#e_get_bank_deduction').val(0);  
+}
+
+if(get_invoice_no_1!='null'){
+  g_invoice_1 = get_invoice_no_1;
+}else{
+  g_invoice_1 = ''
+}
+
+if(get_invoice_no_2!='null'){
+  g_invoice_2 = get_invoice_no_2;
+}else{
+  g_invoice_2 = ''
+}
+
+if(get_invoice_no_3!='null'){
+  g_invoice_3 = get_invoice_no_3;
+}else{
+  g_invoice_3 = ''
+}
+
+if(get_invoice_no_4!='null'){
+  g_invoice_4 = get_invoice_no_4;
+}else{
+  g_invoice_4 = ''
+}
+
+if(get_invoice_no_5!='null'){
+  g_invoice_5 = get_invoice_no_5;
+}else{
+  g_invoice_5 = ''
+}
+
+if(get_invoice_no_6!='null'){
+  g_invoice_6 = get_invoice_no_6;
+}else{
+  g_invoice_6 = ''
+}
+
+if(get_invoice_no_7!='null'){
+  g_invoice_7 = get_invoice_no_7;
+}else{
+  g_invoice_7 = ''
+}
+
+if(get_invoice_no_8!='null'){
+  g_invoice_8 = get_invoice_no_8;
+}else{
+  g_invoice_8 = ''
+}
+
+if(get_invoice_no_9!='null'){
+  g_invoice_9 = get_invoice_no_9;
+}else{
+  g_invoice_9 = ''
+}
+
+if(get_invoice_no_10!='null'){
+  g_invoice_10 = get_invoice_no_10;
+}else{
+  g_invoice_10 = ''
+}
+
+if(get_invoice_no_11!='null'){
+  g_invoice_11 = get_invoice_no_11;
+}else{
+  g_invoice_11 = ''
+}
+
+if(get_invoice_no_12!='null'){
+  g_invoice_12 = get_invoice_no_12;
+}else{
+  g_invoice_12 = ''
+}
+
+if(get_invoice_no_13!='null'){
+  g_invoice_13 = get_invoice_no_13;
+}else{
+  g_invoice_13 = ''
+}
+
+if(get_invoice_no_14!='null'){
+  g_invoice_14 = get_invoice_no_14;
+}else{
+  g_invoice_14 = ''
+}
+
+if(get_invoice_no_15!='null'){
+  g_invoice_15 = get_invoice_no_15;
+}else{
+  g_invoice_15 = ''
+}
+
+
+
+$('#e_service_1').val(get_service1);
+$('#e_invoice_no_1').val(g_invoice_1);
+$('#e_amount_1').val(Math.round(get_amount1));
+$('#e_service_2').val(get_service2);
+$('#e_invoice_no_2').val(g_invoice_2);
+$('#e_amount_2').val(Math.round(get_amount2));
+$('#e_service_3').val(get_service3);
+$('#e_invoice_no_3').val(g_invoice_3);
+$('#e_amount_3').val(Math.round(get_amount3));
+$('#e_service_4').val(get_service4);
+$('#e_invoice_no_4').val(g_invoice_4);
+$('#e_amount_4').val(Math.round(get_amount4));
+$('#e_service_5').val(get_service5);
+$('#e_invoice_no_5').val(g_invoice_5);
+$('#e_amount_5').val(Math.round(get_amount5));
+$('#e_service_6').val(get_service6);
+$('#e_invoice_no_6').val(g_invoice_6);
+$('#e_amount_6').val(Math.round(get_amount6));
+$('#e_service_7').val(get_service7);
+$('#e_invoice_no_7').val(g_invoice_7);
+$('#e_amount_7').val(Math.round(get_amount7));
+$('#e_service_8').val(get_service8);
+$('#e_invoice_no_8').val(g_invoice_8);
+$('#e_amount_8').val(Math.round(get_amount8));
+$('#e_service_9').val(get_service9);
+$('#e_invoice_no_9').val(g_invoice_9);
+$('#e_amount_9').val(Math.round(get_amount9));
+$('#e_service_10').val(get_service10);
+$('#e_invoice_no_10').val(g_invoice_10);
+$('#e_amount_10').val(Math.round(get_amount10));
+
+$('#e_service_11').val(get_service11);
+$('#e_invoice_no_11').val(g_invoice_11);
+$('#e_amount_11').val(Math.round(get_amount11));
+
+$('#e_service_12').val(get_service12);
+$('#e_invoice_no_12').val(g_invoice_12);
+$('#e_amount_12').val(Math.round(get_amount12));
+
+$('#e_service_13').val(get_service13);
+$('#e_invoice_no_13').val(g_invoice_13);
+$('#e_amount_13').val(Math.round(get_amount13));
+
+$('#e_service_14').val(get_service14);
+$('#e_invoice_no_14').val(g_invoice_14);
+$('#e_amount_14').val(Math.round(get_amount14));
+
+$('#e_service_15').val(get_service15);
+$('#e_invoice_no_15').val(g_invoice_15);
+$('#e_amount_15').val(Math.round(get_amount15));
+
+
+$('#e_reference_no').val(get_reference_no);
+$('#e_remarks').val(get_remarks);
+
+
+}
+
+
+
+
+$('#update_remittance').click(function(){
+  var e_get_id                  = $('#e_get_id').html();
+  var e_get_client_name         = $('#e_get_client_name').val();
+  var e_remittance_date         = $('#e_remittance_date').val();
+  var e_certificate_no          = $('#e_certificate_no').val();
+  var e_inward_amount           = $('#e_inward_amount').val();
+  var e_currency                = $('#e_currency').val();
+  var e_rate                    = $('#e_rate').val();
+  var e_amount_inr              = $('#e_amount_inr').val();
+  var e_get_net_inward_amt_ref  = $('#e_get_net_inward_amt_ref').val();
+  var e_get_status              = $('#e_get_status').val();
+  var e_get_total_amt           = $('#e_get_total_amt').val();
+  var e_get_bank_deduction      = $('#e_get_bank_deduction').val();
+  var e_service_1               = $('#e_service_1').val();
+  var e_invoice_no_1            = $('#e_invoice_no_1').val();
+  var e_amount_1                = $('#e_amount_1').val();
+  var e_service_2               = $('#e_service_2').val();
+  var e_invoice_no_2            = $('#e_invoice_no_2').val();
+  var e_amount_2                = $('#e_amount_2').val();
+  var e_service_3               = $('#e_service_3').val();
+  var e_invoice_no_3            = $('#e_invoice_no_3').val();
+  var e_amount_3                = $('#e_amount_3').val();
+  var e_service_4               = $('#e_service_4').val();
+  var e_invoice_no_4            = $('#e_invoice_no_4').val();
+  var e_amount_4                = $('#e_amount_4').val();
+  var e_service_5               = $('#e_service_5').val();
+  var e_invoice_no_5            = $('#e_invoice_no_5').val();
+  var e_amount_5                = $('#e_amount_5').val();
+  var e_service_6               = $('#e_service_6').val();
+  var e_invoice_no_6            = $('#e_invoice_no_6').val();
+  var e_amount_6                = $('#e_amount_6').val();
+  var e_service_7               = $('#e_service_7').val();
+  var e_invoice_no_7            = $('#e_invoice_no_7').val();
+  var e_amount_7                = $('#e_amount_7').val();
+  var e_service_8               = $('#e_service_8').val();
+  var e_invoice_no_8            = $('#e_invoice_no_8').val();
+  var e_amount_8                = $('#e_amount_8').val();
+  var e_service_9               = $('#e_service_9').val();
+  var e_invoice_no_9            = $('#e_invoice_no_9').val();
+  var e_amount_9                = $('#e_amount_9').val();
+  var e_service_10              = $('#e_service_10').val();
+  var e_invoice_no_10           = $('#e_invoice_no_10').val();
+  var e_amount_10               = $('#e_amount_10').val();
+
+  var e_service_11              = $('#e_service_11').val();
+  var e_invoice_no_11           = $('#e_invoice_no_11').val();
+  var e_amount_11               = $('#e_amount_11').val();
+
+  var e_service_12              = $('#e_service_12').val();
+  var e_invoice_no_12           = $('#e_invoice_no_12').val();
+  var e_amount_12               = $('#e_amount_12').val();
+
+  var e_service_13              = $('#e_service_13').val();
+  var e_invoice_no_13           = $('#e_invoice_no_13').val();
+  var e_amount_13               = $('#e_amount_13').val();
+
+  var e_service_14              = $('#e_service_14').val();
+  var e_invoice_no_14           = $('#e_invoice_no_14').val();
+  var e_amount_14               = $('#e_amount_14').val();
+
+  var e_service_15              = $('#e_service_15').val();
+  var e_invoice_no_15           = $('#e_invoice_no_15').val();
+  var e_amount_15               = $('#e_amount_15').val();
+
+  var e_reference_no            = $('#e_reference_no').val();
+  var e_remarks                 = $('#e_remarks').val();
+
+
+  var e_igst_1                  = $('#e_igst_1').val();
+  var e_igst_2                  = $('#e_igst_2').val();
+  var e_igst_3                  = $('#e_igst_3').val();
+  var e_igst_4                  = $('#e_igst_4').val();
+  var e_igst_5                  = $('#e_igst_5').val();
+  var e_igst_6                  = $('#e_igst_6').val();
+  var e_igst_7                  = $('#e_igst_7').val();
+  var e_igst_8                  = $('#e_igst_8').val();
+  var e_igst_9                  = $('#e_igst_9').val();
+  var e_igst_10                 = $('#e_igst_10').val();
+  var e_tax_1                   = $('#e_tax_1').val();
+  var e_tax_2                   = $('#e_tax_2').val();
+  var e_tax_3                   = $('#e_tax_3').val();
+  var e_tax_4                   = $('#e_tax_4').val();
+  var e_tax_5                   = $('#e_tax_5').val();
+  var e_tax_6                   = $('#e_tax_6').val();
+  var e_tax_7                   = $('#e_tax_7').val();
+  var e_tax_8                   = $('#e_tax_8').val();
+  var e_tax_9                   = $('#e_tax_9').val();
+  var e_tax_10                  = $('#e_tax_10').val();
+  var e_final_1                 = $('#e_final_1').val();
+  var e_final_2                 = $('#e_final_2').val();
+  var e_final_3                 = $('#e_final_3').val();
+  var e_final_4                 = $('#e_final_4').val();
+  var e_final_5                 = $('#e_final_5').val();
+  var e_final_6                 = $('#e_final_6').val();
+  var e_final_7                 = $('#e_final_7').val();
+  var e_final_8                 = $('#e_final_8').val();
+  var e_final_9                 = $('#e_final_9').val();
+  var e_final_10                = $('#e_final_10').val();
+  var e_client_tax              = $('#e_client_tax').val();
+
+
+  $.ajax({
+    url : "/it/update_remittance_inr/",
+    type : "POST",
+    dataType : "json",
+    data : {
+      'e_get_id'                    : JSON.stringify(e_get_id),
+      'e_get_client_name'           : JSON.stringify(e_get_client_name),
+      'e_remittance_date'           : JSON.stringify(e_remittance_date),
+      'e_certificate_no'            : JSON.stringify(e_certificate_no),
+      'e_inward_amount'             : JSON.stringify(e_inward_amount),
+      'e_currency'                  : JSON.stringify(e_currency),
+      'e_rate'                      : JSON.stringify(e_rate),
+      'e_amount_inr'                : JSON.stringify(e_amount_inr),
+      'e_get_net_inward_amt_ref'    : JSON.stringify(e_get_net_inward_amt_ref),
+      'e_get_status'                : JSON.stringify(e_get_status),
+      'e_get_total_amt'             : JSON.stringify(e_get_total_amt),
+      'e_get_bank_deduction'        : JSON.stringify(e_get_bank_deduction),
+      'e_service_1'                 : JSON.stringify(e_service_1),
+      'e_invoice_no_1'              : JSON.stringify(e_invoice_no_1),
+      'e_amount_1'                  : JSON.stringify(e_amount_1),
+      'e_service_2'                 : JSON.stringify(e_service_2),
+      'e_invoice_no_2'              : JSON.stringify(e_invoice_no_2),
+      'e_amount_2'                  : JSON.stringify(e_amount_2),
+      'e_service_3'                 : JSON.stringify(e_service_3),
+      'e_invoice_no_3'              : JSON.stringify(e_invoice_no_3),
+      'e_amount_3'                  : JSON.stringify(e_amount_3),
+      'e_service_4'                 : JSON.stringify(e_service_4),
+      'e_invoice_no_4'              : JSON.stringify(e_invoice_no_4),
+      'e_amount_4'                  : JSON.stringify(e_amount_4),
+      'e_service_5'                 : JSON.stringify(e_service_5),
+      'e_invoice_no_5'              : JSON.stringify(e_invoice_no_5),
+      'e_amount_5'                  : JSON.stringify(e_amount_5),
+      'e_service_6'                 : JSON.stringify(e_service_6),
+      'e_invoice_no_6'              : JSON.stringify(e_invoice_no_6),
+      'e_amount_6'                  : JSON.stringify(e_amount_6),
+      'e_service_7'                 : JSON.stringify(e_service_7),
+      'e_invoice_no_7'              : JSON.stringify(e_invoice_no_7),
+      'e_amount_7'                  : JSON.stringify(e_amount_7),
+      'e_service_8'                 : JSON.stringify(e_service_8),
+      'e_invoice_no_8'              : JSON.stringify(e_invoice_no_8),
+      'e_amount_8'                  : JSON.stringify(e_amount_8),
+      'e_service_9'                 : JSON.stringify(e_service_9),
+      'e_invoice_no_9'              : JSON.stringify(e_invoice_no_9),
+      'e_amount_9'                  : JSON.stringify(e_amount_9),
+      'e_service_10'                : JSON.stringify(e_service_10),
+      'e_invoice_no_10'             : JSON.stringify(e_invoice_no_10),
+      'e_amount_10'                 : JSON.stringify(e_amount_10),
+
+      'e_service_11'                : JSON.stringify(e_service_11),
+      'e_invoice_no_11'             : JSON.stringify(e_invoice_no_11),
+      'e_amount_11'                 : JSON.stringify(e_amount_11),
+      'e_service_12'                : JSON.stringify(e_service_12),
+      'e_invoice_no_12'             : JSON.stringify(e_invoice_no_12),
+      'e_amount_12'                 : JSON.stringify(e_amount_12),
+      'e_service_13'                : JSON.stringify(e_service_13),
+      'e_invoice_no_13'             : JSON.stringify(e_invoice_no_13),
+      'e_amount_13'                 : JSON.stringify(e_amount_13),
+      'e_service_14'                : JSON.stringify(e_service_14),
+      'e_invoice_no_14'             : JSON.stringify(e_invoice_no_14),
+      'e_amount_14'                 : JSON.stringify(e_amount_14),
+      'e_service_15'                : JSON.stringify(e_service_15),
+      'e_invoice_no_15'             : JSON.stringify(e_invoice_no_15),
+      'e_amount_15'                 : JSON.stringify(e_amount_15),
+      'e_reference_no'              : JSON.stringify(e_reference_no), 
+      'e_remarks'                   : JSON.stringify(e_remarks),
+
+      'e_igst_1'                    : JSON.stringify(e_igst_1),
+      'e_igst_2'                    : JSON.stringify(e_igst_2),
+      'e_igst_3'                    : JSON.stringify(e_igst_3),
+      'e_igst_4'                    : JSON.stringify(e_igst_4),
+      'e_igst_5'                    : JSON.stringify(e_igst_5),
+      'e_igst_6'                    : JSON.stringify(e_igst_6),
+      'e_igst_7'                    : JSON.stringify(e_igst_7),
+      'e_igst_8'                    : JSON.stringify(e_igst_8),
+      'e_igst_9'                    : JSON.stringify(e_igst_9),
+      'e_igst_10'                   : JSON.stringify(e_igst_10),
+      'e_tax_1'                     : JSON.stringify(e_tax_1),
+      'e_tax_2'                     : JSON.stringify(e_tax_2),
+      'e_tax_3'                     : JSON.stringify(e_tax_3),
+      'e_tax_4'                     : JSON.stringify(e_tax_4),
+      'e_tax_5'                     : JSON.stringify(e_tax_5),
+      'e_tax_6'                     : JSON.stringify(e_tax_6),
+      'e_tax_7'                     : JSON.stringify(e_tax_7),
+      'e_tax_8'                     : JSON.stringify(e_tax_8),
+      'e_tax_9'                     : JSON.stringify(e_tax_9),
+      'e_tax_10'                    : JSON.stringify(e_tax_10),
+      'e_final_1'                   : JSON.stringify(e_final_1),
+      'e_final_2'                   : JSON.stringify(e_final_2),
+      'e_final_3'                   : JSON.stringify(e_final_3),
+      'e_final_4'                   : JSON.stringify(e_final_4),
+      'e_final_5'                   : JSON.stringify(e_final_5),
+      'e_final_6'                   : JSON.stringify(e_final_6),
+      'e_final_7'                   : JSON.stringify(e_final_7),
+      'e_final_8'                   : JSON.stringify(e_final_8),
+      'e_final_9'                   : JSON.stringify(e_final_9),
+      'e_final_10'                  : JSON.stringify(e_final_10),
+
+      'e_client_tax'                : JSON.stringify(e_client_tax),
+    },
+    success : function(obj){
+
+      if(obj=='done'){
+        alert('Done')
+      }
+    },
+    error: function(err){      
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+})
+
+
+$('#get_1').change(function(){
+  e_service = $('#e_service_1').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_1').val();
+  get_call(e_service,e_invoice,'1',e_currency);
+
+  
+})
+
+$('#get_2').change(function(){
+  e_service = $('#e_service_2').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_2').val();
+  get_call(e_service,e_invoice,'2',e_currency);
+  
+})
+
+
+$('#get_3').change(function(){
+  e_service = $('#e_service_3').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_3').val();
+  get_call(e_service,e_invoice,'3',e_currency);
+})
+
+
+$('#get_4').change(function(){
+  e_service = $('#e_service_4').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_4').val();
+  get_call(e_service,e_invoice,'4',e_currency);
+})
+
+
+$('#get_5').change(function(){
+  e_service = $('#e_service_5').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_5').val();
+  get_call(e_service,e_invoice,'5',e_currency);
+})
+
+
+$('#get_6').change(function(){
+  e_service = $('#e_service_6').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_6').val();
+  get_call(e_service,e_invoice,'6',e_currency);
+})
+
+
+$('#get_7').change(function(){
+  e_service = $('#e_service_7').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_7').val();
+  get_call(e_service,e_invoice,'7',e_currency);
+})
+
+
+$('#get_8').change(function(){
+  e_service = $('#e_service_8').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_8').val();
+  get_call(e_service,e_invoice,'8',e_currency);
+})
+
+
+$('#get_9').change(function(){
+  e_service = $('#e_service_9').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_9').val();
+  get_call(e_service,e_invoice,'9',e_currency);
+})
+
+
+$('#get_10').change(function(){
+  e_service = $('#e_service_10').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_10').val();
+  get_call(e_service,e_invoice,'10',e_currency);
+  
+})
+
+
+$('#get_11').change(function(){
+  e_service = $('#e_service_11').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_11').val();
+  get_call(e_service,e_invoice,'11',e_currency);
+  
+})
+
+$('#get_12').change(function(){
+  e_service = $('#e_service_12').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_12').val();
+  get_call(e_service,e_invoice,'12',e_currency);
+  
+})
+
+
+$('#get_13').change(function(){
+  e_service = $('#e_service_13').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_13').val();
+  get_call(e_service,e_invoice,'13',e_currency);
+  
+})
+
+
+$('#get_14').change(function(){
+  e_service = $('#e_service_14').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_14').val();
+  get_call(e_service,e_invoice,'14',e_currency);
+  
+})
+
+
+$('#get_15').change(function(){
+  e_service = $('#e_service_15').val();
+  e_currency = $('#e_currency').val();
+  e_invoice = $('#e_invoice_no_15').val();
+  get_call(e_service,e_invoice,'15',e_currency);
+  
+})
+
+
+function get_call(e_service,e_invoice,n,e_currency){
+   var tx = $('#e_client_tax').val();
+
+   $.ajax({
+    url : "/it/calculation_remittance/",
+    type : "GET",
+    dataType : "json",
+    data : {
+      'n'           : JSON.stringify(n),
+      'e_service'   : JSON.stringify(e_service),
+      'e_invoice'   : JSON.stringify(e_invoice),
+      'e_currency'  : JSON.stringify(e_currency),
+    },
+    success : function(obj){ 
+    console.log(obj);   
+      $('#e_amount_'+obj['sno']).val(obj['amount']);
+      $('#e_igst_'+obj['sno']).val(obj['amount']*18/100);
+      $('#e_tax_'+obj['sno']).val(obj['amount']*parseFloat(tx)/100);
+      $('#e_final_'+obj['sno']).val(((obj['amount']*18/100+obj['amount'])-(obj['amount']*parseFloat(tx))/100).toFixed(1));      
+     
+    },
+    error: function(err){      
+      console.log(JSON.stringify(err,null,4))
+    }
+  });
+}
+  
+
+
+
+
+</script> 
+
+{% endblock %}

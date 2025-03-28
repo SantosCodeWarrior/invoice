@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="/static/js/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="/static/css/sweetalert.min.css">
+<script src="/static/js/sweetalert.min.js"></script>    
+<script type="text/javascript" src="/static/js/moment.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="/static/css/fixedColumns.dataTables.min.css"> -->
+<link rel="stylesheet" href="/static/css/jquery-ui.css">
+<script src="/static/js/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<link href="/static/css/multiple-select.css" rel="stylesheet"/>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.css">
+<script src="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.js"></script>
+
+
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.3.2/js/dataTables.fixedHeader.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.3.2/css/fixedHeader.dataTables.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="container">
+  <div class="col-md-12" >
+    <div class="box">
+    <h4 style="color: #3c8dbc">BILLING MASTER LIST</h4><button class="btn btn-primary" id="submit_data" style="font-size: 12px">LOAD</button>
+    <button id="export_data" class="btn btn-success" style="font-size: 12px">EXPORT</button><br>
+    <center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+    <table border="1" style="border-collapse: collapse;font-size: 12px;display: none" id="show_table">
+      <thead>
+        <th>S.N</th>
+        <th>Client</th>
+        <th>Vessel</th>
+        <th>Account Tab</th>
+      </thead>
+      <tbody id="load_datas"></tbody>
+        
+    </table>
+    </div>    
+  </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+$('#submit_data').click(function(){
+    $('#loader').css('display','');
+    
+    $.ajax({
+    url  : '/it/load_data/',
+    type : 'GET',
+    dataType :'JSON',
+    data:{
+       
+    },
+    success:function(obj){
+      $('#loader').css('display','none');
+      $('#show_table').css('display','');
+      for(var i=0;i<obj['boss_details'].length;i++){
+        if(obj['boss_details'][i]['account_tab']!=null){
+          acc_tab = obj['boss_details'][i]['account_tab'];
+        }else{
+          acc_tab = '';
+        }
+        $('#load_datas').append('<tr style="font-size:12px"><td>'+(i+1)+'</td><td>'+obj['boss_details'][i]['client_name']+'</td><td>'+obj['boss_details'][i]['ship_name']+'</td><td>'+acc_tab+'</td></tr>')
+      }
+    },
+
+    error:function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  })
+})
+
+
+
+
+
+
+$('#export_data').click(function(){
+  $('#loader').css('display','');
+  var show_table = $('#show_table').tableToJSON();
+  $.ajax({
+    url  : '/it/export_load_data/',
+    type : 'POST',
+    dataType :'JSON',
+    data:{
+      'show_table' : JSON.stringify(show_table),       
+    },
+    success:function(obj){
+     $('#loader').css('display','none');
+      location.href = "/it/download_load_data";
+    },
+
+    error:function(err){
+      console.log(JSON.stringify(err,null,4));
+    }
+  })
+})
+</script>
+
+
+
+
+
+
+
+
+
+{% endblock %}

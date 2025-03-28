@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+ <link rel="stylesheet" type="text/css" href="https://uxsolutions.github.io/bootstrap-datepicker/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+
+
+<center><i id="loader" class="fa fa-spinner fa-spin fa-4x" style="color:brown;display:none;"></i></center>
+<h5 id="header"><center>CHM & BOSS Address Entry</center></h5>	
+<div class="col-md-12">
+	<div class="container">
+		<table class="table table-striped table-bordered bootstrap-datatable" style="font-size: 12px">
+			<thead>
+			  
+			    <th>
+				    <select class="form-control chosen-select" id="proj_list" style="width: 100%" style="font-size: 12px">
+	                  <option value=0>Proj Name</option>
+	                  <option value='BOSS'>BOSS</option>
+	                  <option value='CHM'>CHM</option>
+	                </select>
+	            </th>
+			    <th><select class="form-control chosen-select" id="ship_list" style="width: 100%" style="font-size: 12px"></select></th>
+			  
+			</thead>
+			<tbody>
+			  <tr>
+			    <td><input id="e_mail_cc" type="email" class="form-control" placeholder="E-Mail (CC)" style="font-size: 12px"></td>
+			    <td><input id="e_mail" type="email" class="form-control" placeholder="E-Mail" style="font-size: 12px"></td>
+			  </tr>
+			  <tr>
+			    <td><input id="e_vm_name" type="email" class="form-control" placeholder="Voyage Manager" style="font-size: 12px" autocomplete="off"></td>
+			    <td><input id="e_pool_name" type="text" class="form-control" placeholder="Entity Name" style="font-size: 12px"></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2"> <textarea cols="135"  id="address" style="resize:none;font-size: 12px"></textarea></td>
+			  </tr>
+			</tbody>
+		</table>	               
+	    <p></p>
+		<button class="btn btn-success col-md-12" id="submit_invoice">Submit</button>
+    </div>	       
+</div>
+		
+
+<p></p>
+<div class="col-md-12">
+	<div class="container">
+	    <div class="row">
+	    	<table id="address_tracker" class="table table-striped table-bordered bootstrap-datatable" style="font-size: 12px">
+				<thead>
+					<tr>
+						<th style="background-color: #28a745;color:white"><font color="white">S.No</font></th>
+						<th style="background-color: #28a745;color:white"><font color="white">Proj Name</font></th>	
+						<th style="background-color: #28a745;color:white"><font color="white">Client</font></th>						
+			        	<th style="background-color: #28a745;color:white"><font color="white">Entity Name</font></th>			        	
+			        	<th style="background-color: #28a745;color:white"><font color="white">Address</font></th>
+			        	<th style="background-color: #28a745;color:white"><font color="white">Email</font></th>
+			        	<th style="background-color: #28a745;color:white"><font color="white">Email (CC)</font></th>
+			        	<th style="background-color: #28a745;color:white"><font color="white">Voyage Manager</font></th>					        	
+						<th style="background-color: #28a745;color:white"><font color="white">Edit</font></th>						
+					</tr>
+				</thead>
+					<tbody id="ship_address"></tbody>
+		    </table>	              
+	    </div>
+	</div>	
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">    
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Address</h4>
+        <button type="button" class="close" id="close_modal" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+	   
+	    <div class="form-group">
+	        <label>Entity Name</label>
+	        <div id="e_id"></div>
+	        <input type="text" class="form-control" id="e_pool_name_c">
+	    </div>
+	    <div class="form-group">
+	        <label>Address</label>
+	        <textarea type="text" class="form-control" id="e_address" ></textarea>
+	    </div>
+	    <div class="form-group">
+	        <label>E-Mail</label>
+	        <input type="text" class="form-control" id="e_mai" >
+	    </div>
+	    <div class="form-group">
+	        <label>E-Mail CC</label>
+	        <input type="text" class="form-control" id="e_mail_c" >
+	    </div>
+
+	     <div class="form-group">
+	        <label>Voyage Manager</label>
+	        <input type="text" class="form-control" id="ee_vm_name_cc" >
+	    </div>
+
+       <div class="form-group">	            
+            <button type="button" class="btn btn-primary" id="update_invoice" >Submit</button>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+	$(document).on('change','#ship_list',function(){		 
+		//select_ship();
+	});
+
+
+function select_ship(){
+	//$('#loader').css('display','');
+	$('#ship_list').css('display','none');
+	$('#invoice_tracker').css('display','none');
+	$('#header').css('display','none');
+	var ship = $('#ship_list').val();	
+	if(ship==null){
+		ship = 0;
+	}else{
+		ship = ship;
+	}
+
+	$.ajax({
+      url: '/it/chm_select_pool_address/',
+      dataType: 'json',
+      type: 'get',
+      data:
+      { 
+      	'shipID' : ship,
+      },
+      success : function(obj){
+        $('#ship_address').empty();
+        $('#loader').css('display','none');
+        $('#ship_list').css('display','');
+        $('#invoice_tracker').css('display','');
+        $('#header').css('display','');
+        for(var i=0;i<obj['select_ship'].length;i++){
+        	if(obj['select_ship'][i]['pool_name']==null){
+        		pool_name = '';
+        	}else{
+        		pool_name = obj['select_ship'][i]['pool_name'];
+        	}
+        	$('#ship_address').append('<tr><td>'+obj['select_ship'][i]['s_no']+'</td><td>'+obj['select_ship'][i]['proj_name']+'</td><td>'+obj['select_ship'][i]['client']+'</td><td>'+pool_name+'</td><td id="edit_address">'+obj['select_ship'][i]['address']+'</td><td class="edit_email">'+obj['select_ship'][i]['email']+'</td><td id="edit_email_cc">'+obj['select_ship'][i]['email_cc']+'</td><td id="edit_vm_name_cc">'+obj['select_ship'][i]['vm_name']+'</td><td><button class="btn btn-info '+obj['select_ship'][i]['email_cc']+'" id="'+obj['select_ship'][i]['id']+'" name="'+obj['select_ship'][i]['address']+'" value="'+obj['select_ship'][i]['email']+';'+obj['select_ship'][i]['pool_name']+';'+obj['select_ship'][i]['vm_name']+'" data-toggle="modal" data-target="#myModal" style="background-color: #28a745;font-size:12px">Edit</button></td></tr>')
+	        	
+	        	$('#'+obj['select_ship'][i]['id']).click(function(){
+				var pool_id   = $(this).attr('id');
+				var address   = $(this).attr('name');
+				var email     = $(this).attr('value');
+				var ship	  = email.split(';')						
+				var mail 	  = ship[0];				
+				var pool_name = ship[1];	
+				var vm_name   = ship[2];					
+				var emailc    = $(this).attr('class');
+				var email_cc  = emailc.replace('btn btn-info','');
+
+				$('#e_address').val(address);
+				$('#e_mai').val(mail);				
+				$('#e_mail_c').val(email_cc);				
+				$('#e_pool_name_c').val(pool_name);
+				$('#e_id').val(pool_id);
+				$('#ee_vm_name_cc').val(vm_name);
+
+		        $('#update_invoice').click(function(){	        		
+					var e_address 	= $('#e_address').val();
+					var e_mail    	= $('#e_mai').val();
+					var e_mail_c  	= $('#e_mail_c').val();
+					var e_id      	= $('#e_id').val();						
+					var e_pool_name = $('#e_pool_name_c').val();
+					var e_vm_name_c = $('#ee_vm_name_cc').val();
+					
+					$.ajax({
+					  url: '/it/chm_update_pool_address/',
+					  dataType: 'JSON',
+					  type: 'GET',
+					  data:
+					  { 
+					  	'address'   : e_address,
+					  	'email'     : e_mail,
+					  	'email_c'   : e_mail_c,
+					  	'id' 	    : e_id,					  	
+					  	'pool_name' : e_pool_name,
+					  	'e_vm_name' : e_vm_name_c,
+					  },
+					  success : function(obj){	      	
+					    if(obj=="done")
+				        {
+					      var btn = "button";
+					      swal({
+					        title : "<b>Pool successfully updated.</b>",
+					        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+					        html  : true,
+					        showConfirmButton: false
+					      });
+					      $(document).on('click', "#btnA", function(){
+					        //window.location.href=window.location.href;
+					      });
+					    }
+					  },
+					  error : function(err){
+					  	alert(JSON.stringify(err,null,4))
+					  }
+					});
+				})
+			})
+	     }
+
+	      table = $('#address_tracker').DataTable({
+            "scrollY"        : '500px',
+            "bPaginate"       : false,
+            "scrollX"         : true,
+            "scrollCollapse"  : false, 
+            "bFilter"         : true,
+            paging: false,
+            info: false
+          });
+          
+          $('#ship_address_filter').hide();
+          $('#address_tracker').DataTable().search( '' ).draw();
+          $(".dataTable").css("margin-bottom","0px");   
+      },
+      error : function(err){
+      	//alert(JSON.stringify(err,null,4))
+      }
+    });      
+}
+
+
+
+$(document).ready(function(){
+	select_ship();
+	$("#ship_list").select2();	
+})
+
+</script>	
+
+
+<script type="text/javascript">
+	$('#submit_invoice').click(function(){
+		var client_name = $('#select2-ship_list-container').html();		
+		var address      = $('#address').val();		
+		var e_mail       = $('#e_mail').val();
+		var e_mail_cc    = $('#e_mail_cc').val();
+		var e_pool_name  = $('#e_pool_name').val();
+		var e_proj_name  = $('#proj_list').val();
+				
+		if(client_name=='Select Client Name'){
+			swal("Error","Please Fill up the Form","error");
+			return 0;
+		}
+		$.ajax({
+			  url: '/it/submit_pool_address/',
+			  dataType: 'json',
+			  type: 'get',
+			  data:
+			  { 
+			  	'ship_list': JSON.stringify(client_name),
+			  	'address': JSON.stringify(address),
+			  	'email': JSON.stringify(e_mail),
+			  	'email_c': JSON.stringify(e_mail_cc),
+			  	'pool_name' : JSON.stringify(e_pool_name),
+			  	'e_proj_name' : JSON.stringify(e_proj_name),
+			  },
+			  success : function(obj){
+			    if(obj=="done")
+		        {
+			      var btn = "button";
+			      swal({
+			        title : "<b>Pool successfully inserted.</b>",
+			        text  : '<button type="' + btn + '" id="btnA" >OK</button> ',
+			        html  : true,
+			        showConfirmButton: false
+			      });
+			      $(document).on('click', "#btnA", function(){
+			        
+			      });
+			    }			    
+		  },
+		  error : function(){
+
+		 }
+		});
+	})
+
+$('#proj_list').change(function(){
+	var proj_list = $('#proj_list').val();
+	$.ajax({
+		  url: '/it/select_client_for_pool/',
+		  dataType: 'json',
+		  type: 'get',
+		  data:
+		  {		  	
+		  	'proj_name' : JSON.stringify(proj_list),
+		  },
+		success : function(obj){
+		$('#ship_list').empty();
+		$('#ship_list').append('<option id="0">Client Name</option>')
+	    for(var i=0;i<obj['client_array'].length;i++)
+	    {
+	  		$('#ship_list').append('<option id='+obj['client_array'][i]['client_name']+'>'+obj['client_array'][i]['client_name']+'</option>')
+		}	    
+	  },
+	  error : function(){
+
+	 }
+  });
+})
+	
+</script>
+
+{% endblock %}

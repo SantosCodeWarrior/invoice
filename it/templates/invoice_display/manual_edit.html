@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block content %}    
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/sweetalert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/sweetalert.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="/static/select2/select2.css" rel="stylesheet"/>
+<script src="/static/select2/select2.full.js"></script>
+<script src="/static/select2/select2.js"></script>
+<script src="/static/js/jquery.tabletojson.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css">
+
+<style type="text/css">
+	textarea {
+   resize: none;
+}
+
+
+.tooltip {
+  height: 30px;
+  color: orange;
+  background: #fff;
+  border: 2px solid #dedede;
+  line-height: 30px;
+  margin: 0 10px;
+  box-shadow: 2px 2px 5px #ddd;
+  z-index: 200;
+}
+</style>
+
+<section class="container">    	
+	<div class="box-body">
+	<h5 style="margin-left: -84px;">For CHM Invoice</h4>
+	<div class="col-md-6" style="margin-left:-100px">
+		<table class="table">
+			<thead style="background-color: #28a745;font-size: 12px;color:white;">
+			  <tr>
+			    <th style="font-size: 12px;white-space: nowrap;">Invoice No</th>
+			    <th style="font-size: 12px;white-space: nowrap;">Vessel</th>
+			    <th style="font-size: 12px;white-space: nowrap;">Voyage No</th>
+			    <th style="font-size: 12px;white-space: nowrap;">Disch.Port</th>
+			    <th style="font-size: 12px;white-space: nowrap;">Disch.Date</th>
+			    <th style="font-size: 12px;white-space: nowrap;">Voyage Manager</th>
+			    <th style="font-size: 12px;white-space: nowrap;">Nomination Date</th>
+			    <th style="font-size: 12px;white-space: nowrap;">Qty</th>
+			    <th style="font-size: 12px;white-space: nowrap;">Price</th>
+			    <th style="font-size: 12px;white-space: nowrap;">Amount</th>
+
+			    <th style="display: none;"></th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr style="font-size: 12px">
+			    <td><div id="get_invoice_no"></div></td>
+			    <td><input type="text" id="get_vessel_name" style="width: 150px;border:1px solid #c9c9c9"></td>
+			    <td><input type="text" id="get_voyage_no" style="width: 80px;border:1px solid #c9c9c9"></td>
+			    <td><input type="text" id="get_disch_port" style="width: 160px;border:1px solid #c9c9c9"></td>
+			    <td><input type="date" id="get_disch_date" style="width: 120px;border:1px solid #c9c9c9"></td>
+			    <td><input type="text" id="get_vm_name" style="width: 120px;border:1px solid #c9c9c9"></td>
+			    <td><input type="date" id="get_nomination_date" style="width: 120px;border:1px solid #c9c9c9"></td>
+			    <td><input type="text" id="get_qty" style="width: 60px;border:1px solid #c9c9c9"></td>
+			    <td><input type="text" id="get_price" style="width: 60px;border:1px solid #c9c9c9"></td>
+			    <td><input type="text" id="get_amount" style="width: 60px;border:1px solid #c9c9c9"></td>
+			    <td style="display: none;"><div id="get_id"></div></td>
+			  </tr>
+			</tbody>							
+		</table>
+	</div>
+	<button class="btn btn-primary" id="btn_submit" style="width: 24%;font-size: 12px;margin-left: -87px">SAVE</button>
+	</div>    
+</section>
+
+
+<script type="text/javascript">
+	function parseURLParams(url) {
+	    var queryStart = url.indexOf("?") + 1,
+        queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+        query = url.slice(queryStart, queryEnd - 1),
+        pairs = query.replace(/\+/g, " ").split("&"),
+        parms = {}, i, n, v, nv;
+
+	    if (query === url || query === "") {
+	      return;
+	    }
+
+	    for (i = 0; i < pairs.length; i++) {
+	        nv = pairs[i].split("=");
+	        n = decodeURIComponent(nv[0]);
+	        v = decodeURIComponent(nv[1]);
+	        if (!parms.hasOwnProperty(n)) {
+	            parms[n] = [];
+	        }
+	        parms[n].push(nv.length === 2 ? v : null);
+	    }
+	    return parms;
+  }
+
+
+
+var curr_ul      = window.location.href
+var invoice_no   = parseURLParams(curr_ul)['invoice_no']
+var invoice_id   = parseURLParams(curr_ul)['id']
+$('#get_invoice_no').html(invoice_no)
+$('#get_id').html(invoice_id);
+$.ajax({
+    url: '/it/invoice_details_chm/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{
+      'invoice_no' : JSON.stringify(invoice_no),
+      'invoice_id' : JSON.stringify(invoice_id),      
+    },
+    success : function(obj){    
+   		$('#get_vessel_name').val(obj['vessel_name'])
+      	$('#get_voyage_no').val(obj['voyage_no'])
+		$('#get_disch_port').val(obj['disch_port'])
+		$('#get_disch_date').val(obj['disch_date'])
+		$('#get_vm_name').val(obj['vm_name'])
+		$('#get_nomination_date').val(obj['nomination_date'])
+		$('#get_qty').val(obj['qty'])
+		$('#get_amount').val(obj['total_amount'])
+		$('#get_price').val(obj['price'])
+		//
+		//
+		//
+    },
+    error : function(err){
+      console.log(JSON.stringify(err));
+    }
+});
+
+
+$('#get_qty').change(function(){
+	var q = $(this).val();
+	var p = $('#get_price').val();
+	calc = q*p;
+	$('#get_amount').val(calc);
+
+
+})
+
+
+$('#btn_submit').click(function(){
+	var _invoice_no       	= $('#get_invoice_no').html();
+	var _vessel_name       	= $('#get_vessel_name').val();
+	var _voyage_no       	= $('#get_voyage_no').val();
+	var _disch_port       	= $('#get_disch_port').val();
+	var _disch_date       	= $('#get_disch_date').val();
+	var _nomination_date    = $('#get_nomination_date').val();
+	var _vm_name 			= $('#get_vm_name').val();	
+	var invoice_id 			= $('#get_id').html();
+	var _qty 				= $('#get_qty').val();
+	var _tot_amount 		= $('#get_amount').val();
+	var _price 				= $('#get_price').val();
+	
+	$.ajax({
+    url: '/it/update_invoice_details_chm/',
+    dataType: 'JSON',
+    type: 'GET',
+    data:{      
+      	'_invoice_no'		: JSON.stringify(_invoice_no),
+		'_vessel_name'		: JSON.stringify(_vessel_name),
+		'_voyage_no'		: JSON.stringify(_voyage_no),
+		'_disch_port'		: JSON.stringify(_disch_port),
+		'_disch_date'		: JSON.stringify(_disch_date),
+		'_vm_name'			: JSON.stringify(_vm_name),
+		'_nomination_date'	: JSON.stringify(_nomination_date),
+		'invoice_id'		: JSON.stringify(invoice_id),
+		'_qty'				: JSON.stringify(_qty),
+		'_tot_amount'		: JSON.stringify(_tot_amount),
+		'_price'			: JSON.stringify(_price),
+	},
+    
+    success : function(obj){
+    	if(obj=='done'){
+    		alert('Updated');
+    		location.reload();
+    	}
+    },
+    error : function(err){
+      console.log(JSON.stringify(err));
+    }
+});
+})
+
+
+</script>
+
+{% endblock %}
+  
